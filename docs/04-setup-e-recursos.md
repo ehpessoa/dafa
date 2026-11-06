@@ -95,6 +95,8 @@ alter role aluno_leitura with login password '<SENHA-FORTE>';
 | Schema | `treinamento` |
 | SSL | obrigatório |
 
+> 👤 **Alunos não usam o painel do Supabase** (exigiria convidá-los por e-mail para a organização). Eles consultam com um cliente SQL gratuito (DBeaver) e este usuário; o passo a passo está no template `c-conexao-banco` ("Guia: conectar ao banco"), vinculado ao Dia 6. Compartilhe host, usuário e senha por um canal da turma, nunca no repositório.
+
 > ⚠️ Os guias de comunidade divergem sobre porta/modo do pooler e citam erro de certificado no Power BI; **valide na sua conta** e, se necessário, importe o certificado raiz exibido em *Database → SSL*. Conexões diretas de BI ignoram RLS — por isso o dataset de treinamento é isolado em schema próprio e sem dados reais.
 
 ## 5 · Downloads

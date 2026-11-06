@@ -241,23 +241,24 @@ Ferramentas: Excel · Template de entrega semanal
 ### 2) Conexão com as ferramentas
 O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).
 
-Ferramentas: Supabase (SQL Editor ou cliente SQL) · Diagrama ER (Mermaid)
+Ferramentas: Cliente SQL (DBeaver) conectado ao Supabase · Diagrama ER (Mermaid)
 
 ### 3) Exercícios
 1. **Ler o diagrama ER** — Identifique PK/FK e cardinalidade de cada relacionamento.  
    _Entrega:_ Tabela PK/FK + cardinalidade
-2. **Primeiro acesso** — Conecte-se ao Supabase e rode SELECT COUNT(*) em cada tabela.  
+2. **Primeiro acesso** — Siga o guia "conectar ao banco" (DBeaver + usuário aluno_leitura) e rode SELECT COUNT(*) em cada tabela.  
    _Entrega:_ Print/ tabela de contagens
 3. **Desenhe um modelo seu** — Desenhe o ER de uma área da sua empresa com 4 tabelas.  
    _Entrega:_ Diagrama Mermaid ou imagem
 
 ### 4) Templates
+- ✅ [Guia: conectar ao banco do programa (sem conta Supabase)](../toolkit/templates/checklist/c-conexao-banco.md) — Passo a passo no DBeaver com o usuário aluno_leitura. Você NÃO faz login no painel do Supabase.
 - 🧩 [Diagrama ER do banco de análise](../toolkit/templates/diagram/d-er-modelo.md) — Estrutura de dados do schema treinamento (renderiza no GitHub/Mermaid Live).
 - 🗄️ [Consultas básicas (SELECT / WHERE / ORDER BY)](../toolkit/templates/sql/t-sql-basico.sql) — Primeiras consultas no schema treinamento.
 
 ### 5) Recursos
 - [Supabase do programa (banco de análise)]((URL do Supabase informada pelo tutor)) — Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -282,7 +283,7 @@ Ferramentas: Supabase (SQL Editor ou cliente SQL) · Diagrama ER (Mermaid)
 ### 2) Conexão com as ferramentas
 Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.
 
-Ferramentas: Supabase SQL Editor · Template t-sql-basico
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-basico
 
 ### 3) Exercícios
 1. **10 consultas de filtro** — Escreva 10 consultas com WHERE/ORDER/LIMIT sobre pedidos, clientes e financeiro.  
@@ -294,7 +295,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-basico
 - 🗄️ [Consultas básicas (SELECT / WHERE / ORDER BY)](../toolkit/templates/sql/t-sql-basico.sql) — Primeiras consultas no schema treinamento.
 
 ### 5) Recursos
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -320,7 +321,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-basico
 ### 2) Conexão com as ferramentas
 É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.
 
-Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-agregacao
 
 ### 3) Exercícios
 1. **Receita mensal em SQL** — Reproduza em SQL a dinâmica de receita por mês.  
@@ -334,7 +335,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
 - 🗄️ [Agregações (GROUP BY / HAVING)](../toolkit/templates/sql/t-sql-agregacao.sql) — Totais, médias e rankings por dimensão.
 
 ### 5) Recursos
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---

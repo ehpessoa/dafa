@@ -50,7 +50,7 @@ flowchart LR
 ### 2) Conexão com as ferramentas
 Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.
 
-Ferramentas: Supabase SQL Editor · Template t-sql-joins
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-joins
 
 ### 3) Exercícios
 1. **Margem por categoria** — Calcule receita, custo e margem % por categoria.  
@@ -64,7 +64,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-joins
 - 🗄️ [JOINs entre fatos e dimensões](../toolkit/templates/sql/t-sql-joins.sql) — INNER/LEFT JOIN para responder perguntas de negócio.
 
 ### 5) Recursos
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -90,7 +90,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-joins
 ### 2) Conexão com as ferramentas
 As mesmas ideias aparecem como medidas DAX (YTD, mês anterior) nos dias 15–16.
 
-Ferramentas: Supabase SQL Editor · Template t-sql-cte-window
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-cte-window
 
 ### 3) Exercícios
 1. **Variação mês a mês** — Calcule receita, mês anterior, var % e acumulado.  
@@ -104,7 +104,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-cte-window
 - 🗄️ [CTEs, subqueries e window functions](../toolkit/templates/sql/t-sql-cte-window.sql) — Ranking, acumulado e variação mês a mês.
 
 ### 5) Recursos
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---

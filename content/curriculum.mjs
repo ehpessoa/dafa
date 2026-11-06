@@ -96,7 +96,7 @@ export const sessions = [
     scenarios: [['Marketing', 'CTR, CPC e CPA por canal e por mês.'], ['Esporte', 'Média de gols e público por rodada.'], ['Logística', 'Frete médio por UF e transportadora.']],
     tools: ['Supabase SQL Editor', 'Template t-sql-agregacao'],
     connection: 'É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.',
-    exercises: exs(['Receita mensal em SQL', 'Reproduza em SQL a dinâmica de receita por mês.', 'Query + resultado'], ['Métricas de marketing', 'Calcule CTR, CPC, CPA e ROAS por canal.', 'Query com métricas nomeadas'], ['Faixas com CASE', 'Classifique pedidos em faixas de valor e conte por faixa.', 'Query + comentário']),
+    exercises: exs(['Receita mensal em SQL', 'Reproduza em SQL a dinâmica de receita por mês.', 'Query + resultado'], ['Métricas de marketing', 'Calcule CTR, CPC e CPA por canal.', 'Query com métricas nomeadas'], ['Faixas com CASE', 'Classifique pedidos em faixas de valor e conte por faixa.', 'Query + comentário']),
     templates: ['x-dicionario', 't-sql-agregacao'], resources: ['r-supabase-studio', 'r-pg-tutorial'] },
 
   { day: 9, level: 'iniciante', title: 'Power BI Desktop: instalação, conexão e primeiro relatório', minutes: 150, deps: [5, 8],

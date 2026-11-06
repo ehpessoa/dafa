@@ -328,7 +328,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
 ### 3) Exercícios
 1. **Receita mensal em SQL** — Reproduza em SQL a dinâmica de receita por mês.  
    _Entrega:_ Query + resultado
-2. **Métricas de marketing** — Calcule CTR, CPC, CPA e ROAS por canal.  
+2. **Métricas de marketing** — Calcule CTR, CPC e CPA por canal.  
    _Entrega:_ Query com métricas nomeadas
 3. **Faixas com CASE** — Classifique pedidos em faixas de valor e conte por faixa.  
    _Entrega:_ Query + comentário

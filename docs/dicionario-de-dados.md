@@ -147,6 +147,6 @@ Guia das 8 tabelas usadas em todos os exercícios (schema "treinamento" no Supab
 - **Conferir ao juntar tabelas:** Conte as linhas antes e depois de juntar tabelas. Se o número crescer sem motivo, houve duplicação.
 - **Atraso na entrega:** Atraso = data_entrega − data_envio maior que prazo_dias. Entregas sem data_entrega (62) ainda estão em trânsito e ficam fora do cálculo.
 - **Três 'canais' diferentes:** canal_aquisicao (como o cliente chegou), fato_pedidos.canal (onde comprou) e fato_campanhas.canal (onde se anunciou) têm listas e significados diferentes.
-- **Métricas de campanha:** CTR = cliques ÷ impressões. CPC = investimento ÷ cliques. CPA = investimento ÷ conversões. ROAS exige a receita gerada pela campanha, que não existe em fato_campanhas: use a receita informada no enunciado.
+- **Métricas de campanha:** CTR = cliques ÷ impressões. CPC = investimento ÷ cliques. CPA = investimento ÷ conversões. O retorno sobre o investimento (ROAS) não é calculado nos exercícios porque fato_campanhas não registra a receita gerada por cada campanha.
 - **Resultado financeiro:** Em fato_financeiro todos os valores são positivos. Resultado = soma das receitas − soma das despesas.
 - **Período dos dados:** Pedidos, campanhas, financeiro e jogos vão de 01/2024 a 12/2025. Os dados são fictícios, para treino.

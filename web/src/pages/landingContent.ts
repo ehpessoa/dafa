@@ -37,7 +37,7 @@ export const TRAILS: LandingTrail[] = [
           practice: 'Escreve 10 consultas, como pedidos do marketplace de uma UF no trimestre ou despesas acima de R$ 10 mil, e confere se batem com o Excel.' },
         { day: 8, title: 'SQL II: agregações e GROUP BY',
           learn: ['Totais, médias, mínimos e máximos por grupo', 'Criar faixas e categorias', 'É a versão em SQL da tabela dinâmica que você já domina'],
-          practice: 'Calcula a receita mensal e as métricas de marketing (CTR, CPC, CPA e ROAS) por canal.' },
+          practice: 'Calcula a receita mensal e as métricas de marketing (CTR, CPC e CPA) por canal.' },
         { day: 9, title: 'Power BI Desktop: instalação, conexão e primeiro relatório',
           learn: ['Instalar o Power BI e importar o Excel que você montou na Semana 1: o seu trabalho vira a base do relatório', 'Os visuais básicos: cartões, barras, linhas e filtros', 'O que o Power BI faz melhor que o Excel, como filtros que cruzam todos os gráficos'],
           practice: 'Importa o seu Painel de vendas e monta a página de "Visão executiva", com 4 indicadores, gráfico mensal, barras por categoria e 2 filtros, comparando com o painel do Excel.' },

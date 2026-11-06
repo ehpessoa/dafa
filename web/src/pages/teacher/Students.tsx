@@ -10,7 +10,7 @@ export default function Students() {
   return (
     <div className="stack">
       <h1>👥 Alunos</h1>
-      {students.length === 0 ? <Empty>Nenhum aluno ainda. Alunos aparecem após o primeiro login com Google.</Empty> : (
+      {students.length === 0 ? <Empty>Nenhum aluno ainda. Alunos aparecem assim que criam a conta.</Empty> : (
         <div className="card scroll-x"><table><thead><tr><th>Aluno</th><th style={{ minWidth: 160 }}>Progresso</th><th>Sessões</th><th>Nota média</th><th>Pendentes</th><th>Ajustes</th><th>Última entrega</th></tr></thead><tbody>
           {students.map((s) => { const x = progress.summary(s.id); return (
             <tr key={s.id} className="click" onClick={() => nav(`/tutor/alunos/${s.id}`)}>

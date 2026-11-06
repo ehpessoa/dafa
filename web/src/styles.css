@@ -69,7 +69,7 @@ code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospac
 .tabs .n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--slate-soft); font-size: .75rem; margin-right: 6px; }
 .tabs .on .n { background: var(--primary); color: var(--primary-ink); }
 label { display: block; font-weight: 600; font-size: .88rem; margin: 10px 0 4px; }
-input[type=text], input[type=url], input[type=number], textarea, select { width: 100%; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); }
+input[type=text], input[type=url], input[type=number], input[type=email], input[type=password], textarea, select { width: 100%; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); }
 textarea { min-height: 110px; resize: vertical; } input:focus, textarea:focus, select:focus { outline: 2px solid var(--primary-soft); border-color: var(--primary); }
 table { width: 100%; border-collapse: collapse; } th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; } th { font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
 tr.click:hover { background: var(--surface-2); cursor: pointer; }

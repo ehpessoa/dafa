@@ -24,6 +24,4 @@ export const resources = [
     description: 'Documentação oficial do Postgres (mesmo motor do Supabase).' },
   { slug: 'r-pbi-learn', category: 'Referência', title: 'Microsoft Learn – Power BI', url: 'https://learn.microsoft.com/power-bi/',
     description: 'Trilhas gratuitas e documentação completa do Power BI.' },
-  { slug: 'r-sup-google', category: 'Referência', title: 'Supabase – Login com Google', url: 'https://supabase.com/docs/guides/auth/social-login/auth-google',
-    description: 'Para tutores/administradores: como habilitar o login Google no projeto.' },
 ];

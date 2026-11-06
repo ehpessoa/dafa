@@ -51,5 +51,5 @@ Regras (aplicadas no banco, não só na tela):
 | [02 · Plano de 30 dias](02-plano-30-dias.md) | Gantt, mapa de dependências, programação diária com datas, entregáveis semanais, critérios |
 | Toolkits: [🌱 Iniciante](toolkit-iniciante.md) · [🚀 Intermediário](toolkit-intermediario.md) · [🏆 Avançado](toolkit-avancado.md) | As 30 sessões com os 5 blocos |
 | [03 · Pesquisa e melhorias](03-pesquisa-e-melhorias.md) | O que a pesquisa indicou e como entrou no programa |
-| [04 · Setup e recursos](04-setup-e-recursos.md) | Supabase, login Google, Power BI, Python, aluno somente-leitura |
+| [04 · Setup e recursos](04-setup-e-recursos.md) | Supabase, cadastro de tutores, Power BI, Python, aluno somente-leitura |
 | [05 · App de treinamento](05-app.md) | Arquitetura, modelo de dados, segurança, telas |

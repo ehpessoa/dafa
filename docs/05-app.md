@@ -3,7 +3,7 @@
 ![Painel do aluno](img/01-aluno-dashboard.png)
 
 ## Stack
-React 18 · TypeScript · Vite · React Router · Recharts · Mermaid (diagramas, carga sob demanda) · Supabase (Auth Google, Postgres, RLS).
+React 18 · TypeScript · Vite · React Router · Recharts · Mermaid (diagramas, carga sob demanda) · Supabase (Postgres + funções RPC; autenticação própria por e-mail e senha).
 
 ## Perfis e telas
 
@@ -24,8 +24,9 @@ React 18 · TypeScript · Vite · React Router · Recharts · Mermaid (diagramas
 
 ```mermaid
 erDiagram
-  PROFILES ||--o{ SUBMISSIONS : envia
-  PROFILES ||--o{ REVIEWS : "avalia (tutor)"
+  APP_USERS ||--o{ APP_SESSIONS : "tem sessões"
+  APP_USERS ||--o{ SUBMISSIONS : envia
+  APP_USERS ||--o{ REVIEWS : "avalia (tutor)"
   LEVELS ||--|{ SESSIONS : contém
   SESSIONS ||--o{ SESSION_DEPENDENCIES : "depende de"
   SESSIONS ||--|{ EXERCISES : tem
@@ -36,8 +37,9 @@ erDiagram
   EXERCISES ||--o{ SUBMISSIONS : recebe
   SUBMISSIONS ||--o| REVIEWS : "é avaliada"
   SESSIONS ||--o| WEEKLY_DELIVERABLES : "fecha semana"
-  PROFILES { uuid id PK
+  APP_USERS { uuid id PK
     text email
+    text password_hash "bcrypt"
     text role "student | teacher" }
   SUBMISSIONS { uuid id PK
     text exercise_id FK
@@ -55,13 +57,15 @@ erDiagram
 
 | Regra | Implementação |
 |---|---|
-| Só autenticados leem o currículo; só tutor edita | RLS por tabela |
-| Aluno só vê as próprias entregas/avaliações; tutor vê todas | RLS em `submissions`, `reviews`, `profiles` |
-| Sessão bloqueada não aceita entrega | trigger `before_submission_insert` + `session_unlocked()` |
-| Tentativa numerada no servidor; status inicial forçado | mesmo trigger (o aluno não forja `approved`) |
-| Só tutor avalia; avaliação atualiza o status da entrega | triggers em `reviews` |
-| Aluno não vira tutor | sem `UPDATE` em `profiles` para alunos; tutor via allowlist |
-| `anon` sem acesso | `revoke all` + RLS |
+| Cadastro e login próprios | `app_register`, `app_login`, `app_logout`, `app_me` (tabela `app_users`, bcrypt, sessões com token) |
+| Nenhuma tabela é lida/escrita direto pela API | RLS ativo sem policies + `revoke` para `anon`/`authenticated` |
+| Aluno só vê as próprias entregas/avaliações; tutor vê a turma | `app_bootstrap` filtra por perfil |
+| Sessão bloqueada não aceita entrega | `app_submit` verifica as dependências no servidor |
+| Tentativa numerada no servidor; status inicial forçado | `app_submit` (o aluno não forja `approved`) |
+| Só tutor avalia; avaliação atualiza o status da entrega | `app_review` |
+| Links de entrega só `http(s)` | validação em `app_submit` + `check` na tabela |
+| Aluno não vira tutor | papel definido no cadastro (allowlist) ou por SQL do administrador |
+| Funções internas não expostas | `_app_*` e `_session_*` sem `execute` para a API |
 
 ## Rodar localmente
 
@@ -80,7 +84,7 @@ Deploy estático (Vercel/Netlify/Cloudflare Pages): `web/vercel.json` e `web/pub
 | Teste | Comando | Cobre |
 |---|---|---|
 | SQL | `npm run validate:sql` | 3 migrations num Postgres embutido (PGlite) |
-| Regras/RLS | `node scripts/test-rls.mjs` | bloqueio por dependência, tentativas, avaliação, isolamento entre alunos, anon |
+| Autenticação e regras | `node scripts/test-auth.mjs` | cadastro/login, bloqueio por tentativas, sessões, isolamento entre alunos, dependências, avaliação, acesso direto negado |
 | UI (E2E) | `node scripts/e2e-mock.mjs` | Playwright com API Supabase **simulada**: aluno, tutor, bloqueio, refazer, mobile, redirecionamento |
 
-> O login Google real e a conexão a um projeto Supabase real dependem das suas credenciais e **não foram exercitados** aqui.
+> O banco real do projeto recebeu um teste de fumaça (cadastro, login, carga de dados e bloqueios) e o usuário de teste foi removido; o fluxo completo na interface publicada deve ser conferido por você após o deploy.

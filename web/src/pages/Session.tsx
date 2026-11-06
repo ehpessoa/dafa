@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { api } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { useData } from '../lib/data';
 import { fmtDate, weekday, type ExState } from '../lib/progress';
@@ -15,6 +15,7 @@ const TABS = [
 
 function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: string; canSubmit: boolean }) {
   const { progress, reload } = useData();
+  const { token } = useAuth();
   const [content, setContent] = useState('');
   const [link, setLink] = useState('');
   const [busy, setBusy] = useState(false);
@@ -25,8 +26,10 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
 
   const submit = async () => {
     setBusy(true); setErr('');
-    const { error } = await supabase.from('submissions').insert({ exercise_id: ex.id, content: content.trim() || null, link_url: link.trim() || null });
-    if (error) setErr(error.message); else { setContent(''); setLink(''); await reload(); }
+    try {
+      await api('app_submit', { p_token: token, p_exercise_id: ex.id, p_content: content.trim() || null, p_link: link.trim() || null });
+      setContent(''); setLink(''); await reload();
+    } catch (e) { setErr(e instanceof Error ? e.message : String(e)); }
     setBusy(false);
   };
 

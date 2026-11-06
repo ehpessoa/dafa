@@ -3,8 +3,8 @@
 ```mermaid
 flowchart TD
   A[1 · Criar projeto Supabase] --> B[2 · Aplicar migrations 001–003]
-  B --> C[3 · Habilitar login Google]
-  C --> D[4 · Cadastrar tutores na allowlist]
+  B --> C[3 · Conferir cadastro e login do app]
+  C --> D[4 · Cadastrar e-mails de tutores]
   D --> E[5 · Criar senha do aluno_leitura]
   E --> F[6 · Configurar web/.env.local e publicar o app]
 ```
@@ -16,35 +16,65 @@ flowchart TD
 
 | Arquivo | O que faz |
 |---|---|
-| `supabase/migrations/20261106000001_app_schema.sql` | Tabelas do e-learning, regras de dependência, RLS, triggers |
+| `supabase/migrations/20261106000001_app_schema.sql` | Schema inicial do e-learning (a parte de login Google foi substituída pela migration 004) |
 | `supabase/migrations/20261106000002_training_dataset.sql` | Schema `treinamento` com dados fictícios (≈ 6.900 pedidos, 15 mil itens) + role `aluno_leitura` |
 | `supabase/migrations/20261106000003_seed_curriculum.sql` | As 30 sessões, 67 exercícios, templates, recursos (gerado de `content/`) |
+| `supabase/migrations/20261106000004_custom_auth.sql` | **Autenticação própria**: `app_users`, sessões, funções RPC e bloqueio de acesso direto às tabelas |
 
 > Atalho: `supabase/apply_all.sql` contém as 3 migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
 3. **URL do projeto:** *Project Settings → API* (`https://<ref>.supabase.co`). É o valor de `VITE_SUPABASE_URL` e o que aparece em *Recursos → Supabase do programa* no app.
 
-## 2 · Login com Google (Gmail)
+## 2 · Cadastro e login (gerenciados pelo app)
 
-1. Google Cloud Console → *APIs e serviços → Credenciais* → **ID do cliente OAuth** (tipo *Aplicativo da Web*).
-   - Origem JS autorizada: URL do app (ex.: `http://localhost:5173` e a de produção).
-   - URI de redirecionamento: `https://<ref>.supabase.co/auth/v1/callback`.
-2. Supabase → *Authentication → Providers → Google*: cole Client ID e Secret.
-3. Supabase → *Authentication → URL Configuration*: **Site URL** e **Redirect URLs** com a URL do app.
-   Guia oficial: <https://supabase.com/docs/guides/auth/social-login/auth-google>.
+Não há login Google nem Supabase Auth. Os usuários ficam na tabela `public.app_users` (alunos e tutores):
+
+```mermaid
+sequenceDiagram
+  participant A as Navegador (app)
+  participant R as Supabase (funções RPC)
+  participant T as Tabelas (fechadas)
+  A->>R: app_register(nome, e-mail, senha)
+  R->>T: grava app_users (senha em bcrypt) + sessão (hash do token)
+  R-->>A: token + perfil (student ou teacher)
+  A->>R: app_bootstrap(token)
+  R->>T: valida sessão e perfil
+  R-->>A: currículo + dados permitidos ao perfil
+  A->>R: app_submit / app_review (token)
+```
+
+| Item | Como funciona |
+|---|---|
+| Cadastro | Qualquer pessoa cria conta (nome, e-mail, senha ≥ 8 caracteres) e **já começa o Dia 1** |
+| Senha | Guardada com **bcrypt** (pgcrypto); nunca retorna à interface |
+| Sessão | Token aleatório de 256 bits; só o hash SHA-256 é gravado; validade de 30 dias; "Sair" invalida |
+| Tentativas | Após 5 senhas erradas, a conta fica bloqueada por 10 minutos |
+| Acesso aos dados | As tabelas não são acessíveis pela API; só as funções `app_*` (que checam o perfil) |
+| Perfis | `student` (vê só os próprios dados) e `teacher` (vê a turma e avalia) |
+
+> ⚠️ **Limites conhecidos:** não há recuperação de senha por e-mail nem verificação de e-mail (qualquer pessoa com a URL do app pode criar conta de aluno). Para turmas fechadas, considere um código de convite ou desativar o cadastro após a matrícula (backlog em `docs/03`).
 
 ## 3 · Tutores (perfil professor)
 
-Todo novo login vira **aluno**. Para um e-mail virar **tutor no primeiro login**:
+Todo cadastro vira **aluno**, exceto e-mails da lista de tutores. Cadastre o e-mail **antes** de a pessoa criar a conta:
 
 ```sql
 insert into public.teacher_allowlist (email) values ('tutor@empresa.com');
 ```
 
-Quem já logou e precisa virar tutor:
+Quem já se cadastrou como aluno e precisa virar tutor:
 
 ```sql
-update public.profiles set role = 'teacher' where email = 'tutor@empresa.com';
+update public.app_users set role = 'teacher' where email = 'tutor@empresa.com';
+```
+
+Redefinir a senha de um usuário (como administrador, no SQL Editor):
+
+```sql
+update public.app_users
+   set password_hash = extensions.crypt('NOVA-SENHA-FORTE', extensions.gen_salt('bf', 10)), failed_attempts = 0, locked_until = null
+ where email = 'pessoa@empresa.com';
+delete from public.app_sessions where user_id = (select id from public.app_users where email = 'pessoa@empresa.com');
 ```
 
 ## 4 · Acesso dos alunos aos dados (Power BI, Python, SQL)
@@ -95,5 +125,5 @@ O currículo é escrito em `content/*.mjs` (fonte única). Depois de editar:
 npm install
 npm run build:content      # seed SQL + docs + templates
 npm run validate:sql       # aplica as 3 migrations num Postgres embutido
-node scripts/test-rls.mjs  # testa RLS, dependências e tentativas
+node scripts/test-auth.mjs # testa cadastro/login, sessões, acesso por perfil, dependências e avaliação
 ```

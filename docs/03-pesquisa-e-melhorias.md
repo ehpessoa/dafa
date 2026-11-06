@@ -10,7 +10,7 @@
 | Engajamento | **Coortes** (todos juntos) criam responsabilidade e cultura de aprendizado. | idem |
 | Impacto | Piloto pequeno + acompanhar o comportamento semanas depois. | idem |
 | Material oficial | A Microsoft publica `.pbix` e `.xlsx` de exemplo e o Desktop tem "Aprender com dados de exemplo". | [Microsoft Learn – sample datasets](https://learn.microsoft.com/power-bi/create-reports/sample-datasets) · [powerbi-desktop-samples](https://github.com/microsoft/powerbi-desktop-samples) |
-| Login | Supabase Auth suporta Google via `signInWithOAuth` com `redirectTo` na lista de permitidos. | [Supabase – Login with Google](https://supabase.com/docs/guides/auth/social-login/auth-google) |
+| Login | A primeira versão usava Google (Supabase Auth); foi substituída por cadastro e login próprios (e-mail e senha) para que os alunos comecem sem depender de conta Google. | decisão de projeto |
 | Power BI ↔ Supabase | Guias recomendam pooler de conexão (IPv4), role dedicada **somente leitura** e alertam para erro de certificado SSL; conexões de BI **ignoram RLS** da API. | guias da comunidade (ex.: [DEV – Supabase com Power BI](https://dev.to/jenniekibiri/how-to-connect-supabase-to-microsoft-power-bi-50p8)) – *não oficiais, validar na sua conta* |
 
 > A busca não trouxe fontes rigorosas sobre *mastery learning* e feedback; essas escolhas seguem o consenso geral da área (ver "Decisões de projeto").
@@ -36,7 +36,7 @@ flowchart LR
 5. **Mastery learning**: aprovação ≥ 7, refação ilimitada com feedback, histórico de tentativas.
 6. **Rubrica do tutor** com pesos (números 35%, negócio 25%, técnica 20%, visual 10%, reprodutibilidade 10%).
 7. **Acessibilidade e mobile**: contraste, navegação por teclado, layout responsivo, modo escuro automático.
-8. **Segurança**: RLS em todas as tabelas, aluno não altera currículo, nota ou perfil; tutor definido por allowlist.
+8. **Segurança**: tabelas fechadas para acesso direto, tudo via funções que validam sessão e perfil; senha em bcrypt, sessão com token aleatório, bloqueio após 5 erros; tutor definido por allowlist de e-mails.
 
 ## Backlog sugerido (próximas melhorias)
 

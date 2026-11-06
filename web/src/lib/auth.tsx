@@ -1,56 +1,52 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { Session as AuthSession } from '@supabase/supabase-js';
-import { supabase } from './supabase';
+import { api } from './supabase';
 import type { Profile } from './types';
 
+const TOKEN_KEY = 'dafa.token';
+const readToken = () => { try { return localStorage.getItem(TOKEN_KEY); } catch { return null; } };
+const writeToken = (t: string | null) => { try { if (t) localStorage.setItem(TOKEN_KEY, t); else localStorage.removeItem(TOKEN_KEY); } catch { /* storage indisponível */ } };
+
 interface Ctx {
-  session: AuthSession | null; profile: Profile | null; loading: boolean; error: string | null;
-  isTeacher: boolean; signInWithGoogle: () => Promise<void>; signOut: () => Promise<void>;
+  token: string | null; profile: Profile | null; loading: boolean; isTeacher: boolean;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 const AuthCtx = createContext<Ctx | null>(null);
 
+interface AuthResult { token?: string; user?: Profile; error?: string }
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<AuthSession | null>(null);
+  const [token, setToken] = useState<string | null>(readToken);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(Boolean(readToken()));
 
-  const loadProfile = useCallback(async (s: AuthSession | null) => {
-    if (!s) { setProfile(null); return; }
-    // O perfil é criado por trigger no primeiro login; tenta algumas vezes por segurança.
-    for (let i = 0; i < 4; i++) {
-      const { data, error: e } = await supabase.from('profiles').select('*').eq('id', s.user.id).maybeSingle();
-      if (e) { setError(e.message); return; }
-      if (data) { setProfile(data as Profile); setError(null); return; }
-      await new Promise((r) => setTimeout(r, 500));
-    }
-    setError('Perfil não encontrado. Tente sair e entrar novamente.');
-  }, []);
+  const clear = useCallback(() => { writeToken(null); setToken(null); setProfile(null); }, []);
 
+  // Restaura a sessão salva no navegador.
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => { setSession(data.session); return loadProfile(data.session); }).finally(() => setLoading(false));
-    const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
-      setSession(s);
-      // fora do callback para evitar deadlock do cliente de auth
-      setTimeout(() => { void loadProfile(s); }, 0);
-    });
-    return () => sub.subscription.unsubscribe();
-  }, [loadProfile]);
+    const t = readToken();
+    if (!t) { setLoading(false); return; }
+    api<Profile | null>('app_me', { p_token: t })
+      .then((me) => { if (me) { setToken(t); setProfile(me); } else clear(); })
+      .catch(() => clear())
+      .finally(() => setLoading(false));
+  }, [clear]);
 
-  const signInWithGoogle = async () => {
-    const { error: e } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: window.location.origin, queryParams: { prompt: 'select_account' } },
-    });
-    if (e) setError(e.message);
+  const accept = (r: AuthResult) => {
+    if (r.error || !r.token || !r.user) throw new Error(r.error ?? 'Não foi possível entrar.');
+    writeToken(r.token); setToken(r.token); setProfile(r.user);
   };
-  const signOut = async () => { await supabase.auth.signOut(); setProfile(null); };
+  const signIn = async (email: string, password: string) => accept(await api<AuthResult>('app_login', { p_email: email, p_password: password }));
+  const signUp = async (name: string, email: string, password: string) =>
+    accept(await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password }));
+  const signOut = async () => {
+    const t = token;
+    clear();
+    if (t) { try { await api('app_logout', { p_token: t }); } catch { /* sessão já removida localmente */ } }
+  };
 
-  return (
-    <AuthCtx.Provider value={{ session, profile, loading, error, isTeacher: profile?.role === 'teacher', signInWithGoogle, signOut }}>
-      {children}
-    </AuthCtx.Provider>
-  );
+  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, signOut }}>{children}</AuthCtx.Provider>;
 }
 export function useAuth() {
   const c = useContext(AuthCtx);

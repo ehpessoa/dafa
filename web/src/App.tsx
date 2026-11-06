@@ -16,10 +16,9 @@ import Students from './pages/teacher/Students';
 import StudentDetail from './pages/teacher/StudentDetail';
 
 function Gate() {
-  const { session, profile, loading, isTeacher, error, signOut } = useAuth();
+  const { profile, loading, isTeacher } = useAuth();
   if (loading) return <Spinner />;
-  if (!session) return <Login />;
-  if (!profile) return error ? <div className="main"><div className="alert err">{error} <button className="btn sm" onClick={signOut}>Sair</button></div></div> : <Spinner />;
+  if (!profile) return <Login />;
   const teacherOnly = (el: JSX.Element) => (isTeacher ? el : <Navigate to="/" replace />);
   return (
     <DataProvider>

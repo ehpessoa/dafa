@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { api } from '../../lib/supabase';
+import { useAuth } from '../../lib/auth';
 import { useData } from '../../lib/data';
 import { fmtDate } from '../../lib/progress';
 import { Empty } from '../../components/ui';
@@ -9,6 +10,7 @@ export default function Review() {
   const { id } = useParams();
   const nav = useNavigate();
   const { data, progress, reload } = useData();
+  const { token } = useAuth();
   const sub = data.submissions.find((s) => s.id === id);
   const existing = sub ? progress.reviewOf(sub.id) : undefined;
   const [score, setScore] = useState<number>(existing?.score ?? 8);
@@ -23,12 +25,11 @@ export default function Review() {
   const save = async (verdict: 'approved' | 'revision_requested') => {
     if (!feedback.trim()) { setErr('Escreva um feedback para o aluno.'); return; }
     setBusy(true); setErr('');
-    const payload = { score, verdict, feedback: feedback.trim() };
-    const { error } = existing
-      ? await supabase.from('reviews').update(payload).eq('id', existing.id)
-      : await supabase.from('reviews').insert({ submission_id: sub.id, ...payload });
-    if (error) { setErr(error.message); setBusy(false); return; }
-    await reload(); setBusy(false); nav('/tutor/fila');
+    try {
+      await api('app_review', { p_token: token, p_submission_id: sub.id, p_score: score, p_verdict: verdict, p_feedback: feedback.trim() });
+      await reload(); nav('/tutor/fila');
+    } catch (e) { setErr(e instanceof Error ? e.message : String(e)); }
+    setBusy(false);
   };
 
   return (

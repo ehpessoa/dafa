@@ -106,19 +106,3 @@ pre.code { background: #0b1220; color: #dbe6ff; padding: 14px; border-radius: 10
 .diagram { background: #fff; border-radius: 10px; padding: 12px; overflow: auto; border: 1px solid var(--border); }
 .spinner { width: 28px; height: 28px; border: 3px solid var(--slate-soft); border-top-color: var(--primary); border-radius: 50%; animation: spin .8s linear infinite; margin: 60px auto; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-/* Editor SQL */
-.sqlgrid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 16px; align-items: start; }
-@media (max-width: 900px) { .sqlgrid { grid-template-columns: 1fr; } }
-.sqlside { position: sticky; top: 12px; max-height: calc(100vh - 40px); overflow: auto; }
-@media (max-width: 900px) { .sqlside { position: static; max-height: 260px; } }
-.sqltables, .sqlcols { list-style: none; padding: 0; margin: 8px 0 0; }
-.sqlcols { padding-left: 22px; margin: 2px 0 6px; } .sqlcols li, .sqltables > li { margin: 3px 0; }
-.sqltables code, .sqlcols code { font-size: .82rem; }
-.linklike { background: none; border: 0; padding: 0 2px; cursor: pointer; color: var(--text); text-align: left; }
-.linklike:hover { color: var(--primary); } .linklike.name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-.sqlarea { width: 100%; min-height: 220px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .9rem; line-height: 1.5; tab-size: 2; white-space: pre; overflow: auto; resize: vertical; }
-.sqlresult { overflow: auto; max-height: 520px; border: 1px solid var(--border); border-radius: 10px; }
-.sqlresult table { font-size: .86rem; } .sqlresult th { position: sticky; top: 0; background: var(--surface-2); z-index: 1; white-space: nowrap; }
-.sqlresult td { padding: 6px 12px; white-space: nowrap; max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
-.sqlresult th.num, .sqlresult td.num { text-align: right; font-variant-numeric: tabular-nums; }

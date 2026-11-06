@@ -25,7 +25,6 @@ export default function Layout() {
           {link('/trilha', '🗺️', 'Trilha & dependências')}
           {link('/calendario', '📅', 'Calendário 30 dias')}
           {link('/biblioteca', '🧰', 'Biblioteca de recursos')}
-          {link('/sql', '🧮', 'Editor SQL')}
           {isTeacher && (<>
             <div className="group">Tutor</div>
             {link('/tutor', '📈', 'Visão da turma', true)}

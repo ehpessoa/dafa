@@ -5,8 +5,7 @@
   "scripts": {
     "build:content": "node scripts/build-content.mjs",
     "validate:sql": "node scripts/validate-sql.mjs",
-    "export:dataset": "node scripts/export-dataset.mjs",
-    "test": "node scripts/test-auth.mjs && node scripts/test-sql-runner.mjs && node scripts/test-sql-split.mjs"
+    "export:dataset": "node scripts/export-dataset.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.15"

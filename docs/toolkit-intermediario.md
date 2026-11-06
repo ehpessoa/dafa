@@ -50,7 +50,7 @@ flowchart LR
 ### 2) Conexão com as ferramentas
 Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.
 
-Ferramentas: Editor SQL do app (menu lateral) · Template t-sql-joins
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-joins
 
 ### 3) Exercícios
 1. **Margem por categoria** — Calcule receita, custo e margem % por categoria.  
@@ -64,7 +64,7 @@ Ferramentas: Editor SQL do app (menu lateral) · Template t-sql-joins
 - 🗄️ [JOINs entre fatos e dimensões](../toolkit/templates/sql/t-sql-joins.sql) — INNER/LEFT JOIN para responder perguntas de negócio.
 
 ### 5) Recursos
-- [Editor SQL do app](../web/public/sql) — Escreva e execute consultas SQL no schema treinamento direto no navegador (somente leitura, até 500 linhas, exporta CSV). Não precisa de instalação nem de conta no Supabase.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -90,7 +90,7 @@ Ferramentas: Editor SQL do app (menu lateral) · Template t-sql-joins
 ### 2) Conexão com as ferramentas
 As mesmas ideias aparecem como medidas DAX (YTD, mês anterior) nos dias 15–16.
 
-Ferramentas: Editor SQL do app (menu lateral) · Template t-sql-cte-window
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-cte-window
 
 ### 3) Exercícios
 1. **Variação mês a mês** — Calcule receita, mês anterior, var % e acumulado.  
@@ -104,7 +104,7 @@ Ferramentas: Editor SQL do app (menu lateral) · Template t-sql-cte-window
 - 🗄️ [CTEs, subqueries e window functions](../toolkit/templates/sql/t-sql-cte-window.sql) — Ranking, acumulado e variação mês a mês.
 
 ### 5) Recursos
-- [Editor SQL do app](../web/public/sql) — Escreva e execute consultas SQL no schema treinamento direto no navegador (somente leitura, até 500 linhas, exporta CSV). Não precisa de instalação nem de conta no Supabase.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -403,7 +403,6 @@ Ferramentas: Python · Supabase (usuário aluno_leitura) · Prompt p-supabase-co
    _Entrega:_ Notebook .ipynb
 
 ### 4) Templates
-- ✅ [Guia: conectar Power BI, Python ou DBeaver ao banco](../toolkit/templates/checklist/c-conexao-banco.md) — Dados de conexão do usuário aluno_leitura e passo a passo. Para consultar em SQL use o Editor SQL do app: não precisa deste guia nem de conta Supabase.
 - 🤖 [Prompt: conectar Python ao Supabase (Postgres)](../toolkit/templates/prompt/p-supabase-conexao.md) — Código seguro de conexão somente leitura + leitura para pandas.
 - 🤖 [Prompt: análise exploratória com pandas](../toolkit/templates/prompt/p-pandas-analise.md) — Gera EDA guiada por perguntas de negócio.
 - 🤖 [Prompt: gráficos com matplotlib/seaborn](../toolkit/templates/prompt/p-viz.md) — Gráficos claros, com título-conclusão e acessibilidade.

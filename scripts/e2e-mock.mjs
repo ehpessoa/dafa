@@ -52,23 +52,6 @@ async function rpc(fn, b) {
       return { token: newToken(u), user: pub(u) };
     }
     case 'app_logout': tokens.delete(b.p_token); return true;
-    // Editor SQL: usa a validação e o executor reais das migrations (no PGlite).
-    case 'app_sql_schema': {
-      user();
-      return (await db.query(`select t.table_name "table", (select json_agg(json_build_object('name', c.column_name, 'type', c.data_type) order by c.ordinal_position)
-        from information_schema.columns c where c.table_schema = 'treinamento' and c.table_name = t.table_name) columns
-        from information_schema.tables t where t.table_schema = 'treinamento' and t.table_type = 'BASE TABLE' order by 1`)).rows;
-    }
-    case 'app_run_sql': {
-      user();
-      const err = (await db.query('select public._app_sql_check($1) e', [b.p_sql])).rows[0].e;
-      if (err) return { error: err };
-      const t0 = Date.now();
-      try {
-        const all = (await db.query('select app_runner.run($1, 500) r', [b.p_sql.replace(/[\s;]+$/, '')])).rows[0].r;
-        return { columns: Object.keys(all[0] ?? {}), rows: all.slice(0, 500), truncated: all.length > 500, limit: 500, ms: Date.now() - t0 };
-      } catch (e) { return { error: e.message }; }
-    }
     case 'app_submit': {
       const u = user(); const last = T.submissions.filter((s) => s.exercise_id === b.p_exercise_id && s.student_id === u.id).at(-1);
       if (last?.status === 'submitted') throw new Error('Você já tem uma entrega aguardando avaliação do tutor neste exercício.');
@@ -146,63 +129,6 @@ const shot = async (page, name, full = true) => { await page.waitForTimeout(1300
   await page.goto(BASE + '/tutor'); await page.waitForURL(BASE + '/');
   assert.equal(await page.locator('text=Visão da turma').count(), 0, 'aluno não deve ver menu do tutor');
   assert.deepEqual(errors, []);
-}
-// ───────── Editor SQL ─────────
-{
-  const { page, errors } = await open('ana');
-  await page.goto(BASE + '/'); await page.waitForSelector('text=Olá, Ana');
-  await page.click('nav >> text=Editor SQL'); await page.waitForSelector('h1:has-text("Editor SQL")');
-  await page.waitForSelector('.sqltables >> text=fato_pedidos');                                        // catálogo carregado
-  const ed = page.locator('textarea.sqlarea');
-  await ed.focus(); await page.keyboard.press('Control+Enter');                                          // consulta de exemplo
-  await page.waitForSelector('text=Resultado'); await page.waitForSelector('.sqlresult th:has-text("pedidos")');
-  assert.ok((await page.locator('.sqlresult tbody tr').count()) >= 2);
-  assert.equal((await page.locator('.sqlresult th.num').count()), 1, 'coluna numérica alinhada à direita');
-  await shot(page, '15-editor-sql');
-  // só leitura: o servidor recusa e a tela mostra a mensagem
-  await ed.fill('DELETE FROM treinamento.fato_pedidos'); await page.click('text=▶ Executar');
-  await page.waitForSelector('text=Apenas consultas de leitura');
-  await ed.fill('SELECT * FROM public.app_users'); await page.click('text=▶ Executar'); await page.waitForSelector('text=permission denied');
-  await ed.fill('SELECT nome_errado FROM treinamento.dim_clientes'); await page.click('text=▶ Executar'); await page.waitForSelector('text=does not exist');
-  // vários comandos: executa o que está sob o cursor
-  await ed.fill('SELECT 1 AS primeira;\nSELECT 2 AS segunda;\n');
-  await ed.evaluate((el) => { el.focus(); const i = el.value.indexOf('SELECT 2') + 3; el.selectionStart = el.selectionEnd = i; });
-  await page.keyboard.press('Control+Enter'); await page.waitForSelector('.sqlresult th:has-text("segunda")');
-  assert.equal(await page.locator('.sqlresult th:has-text("primeira")').count(), 0);
-  // seleção manda
-  await ed.evaluate((el) => { el.focus(); el.selectionStart = 0; el.selectionEnd = 'SELECT 1 AS primeira'.length; });
-  await page.keyboard.press('Control+Enter'); await page.waitForSelector('.sqlresult th:has-text("primeira")');
-  // truncamento em 500 linhas e CSV
-  await ed.fill('SELECT g FROM generate_series(1, 800) g'); await page.click('text=▶ Executar');
-  await page.waitForSelector('text=mostrando as primeiras 500'); assert.equal(await page.locator('.sqlresult tbody tr').count(), 500);
-  const [dl] = await Promise.all([page.waitForEvent('download'), page.click('text=⬇ CSV')]);
-  assert.equal(dl.suggestedFilename(), 'resultado.csv');
-  // sem linhas
-  await ed.fill('SELECT * FROM treinamento.dim_clientes WHERE false'); await page.click('text=▶ Executar'); await page.waitForSelector('text=não retornou linhas');
-  // painel lateral: 👁 acrescenta um SELECT e roda com Ctrl+Enter
-  await ed.fill(''); await page.locator('.sqltables li', { hasText: 'dim_clientes' }).first().locator('button[title^="Adicionar"]').click();
-  assert.match(await ed.inputValue(), /SELECT \* FROM treinamento\.dim_clientes LIMIT 20;/);
-  await ed.focus(); await page.keyboard.press('Control+Enter'); await page.waitForSelector('text=20 linhas');
-  // template SQL da biblioteca
-  page.once('dialog', (d) => d.accept());
-  await page.selectOption('select[aria-label="Carregar template SQL"]', 't-sql-basico');
-  assert.match(await ed.inputValue(), /Conhecer a tabela/);
-  await ed.evaluate((el) => { el.focus(); el.selectionStart = el.selectionEnd = 0; });
-  await page.keyboard.press('Control+Enter');                                                              // 1ª instrução do template
-  await page.waitForSelector('text=20 linhas');
-  // rascunho persiste ao recarregar
-  await ed.fill('SELECT 42 AS resposta'); await page.waitForTimeout(700); await page.reload();
-  await page.waitForSelector('textarea.sqlarea'); assert.equal(await page.locator('textarea.sqlarea').inputValue(), 'SELECT 42 AS resposta');
-  // recurso "Editor SQL do app" abre a página dentro do app
-  await page.goto(BASE + '/sessao/6?tab=recursos'); await page.locator('.card', { hasText: 'Editor SQL do app' }).locator('a:has-text("Abrir")').first().click();
-  await page.waitForSelector('h1:has-text("Editor SQL")');
-  assert.deepEqual(errors, []);
-}
-{
-  const { page } = await open('ana', 390, 800);
-  await page.goto(BASE + '/sql'); await page.waitForSelector('textarea.sqlarea');
-  await page.locator('textarea.sqlarea').focus(); await page.keyboard.press('Control+Enter'); await page.waitForSelector('text=Resultado'); await shot(page, '16-mobile-editor-sql', false);
-  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), 'editor SQL sem rolagem horizontal no mobile');
 }
 // ───────── Mobile ─────────
 {

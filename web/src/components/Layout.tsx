@@ -30,6 +30,7 @@ export default function Layout() {
             {link('/tutor', '📈', 'Visão da turma', true)}
             {link('/tutor/fila', '📝', 'Fila de avaliação')}
             {link('/tutor/alunos', '👥', 'Alunos')}
+            {link('/tutor/convites', '✉️', 'Convites')}
           </>)}
         </nav>
         <div className="userbox">

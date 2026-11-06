@@ -240,4 +240,51 @@ await db.exec('set role anon');
 await assert.rejects(() => db.query('select * from public.password_resets'), /permission denied/);
 await db.exec('reset role');
 console.log('✅ Limite de convite e redefinição de senha: ok');
+// ── Convites personalizados (tutor → WhatsApp → aluno define a senha) ──
+await db.exec(`select public.admin_set_signup('closed')`);   // convite personalizado vale mesmo com cadastro fechado
+const tutTok = (await rpc('app_login', 'tutor@x.com', 'outra-senha-9')).token;
+const alunoTok = (await rpc('app_login', 'ana@gmail.com', 'nova-senha-123')).token;
+await fails(() => rpc('app_invite_issue', tutTok, 'Lia', 'lia@x.com', '11999990000'), /permission denied/);   // só service_role
+await fails(() => svc('app_invite_issue', alunoTok, 'Lia Costa', 'lia@x.com', '11999990000'), /Apenas tutores/);
+await fails(() => svc('app_invite_issue', 'x'.repeat(64), 'Lia Costa', 'lia@x.com', '11999990000'), /Sessão expirada/);
+await fails(() => svc('app_invite_issue', tutTok, 'Lia Costa', 'invalido', '11999990000'), /e-mail válido/);
+await fails(() => svc('app_invite_issue', tutTok, 'Lia Costa', 'lia@x.com', '123'), /WhatsApp válido/);
+await fails(() => svc('app_invite_issue', tutTok, 'Lia Costa', 'ana@gmail.com', '11999990000'), /já tem conta/);
+const inv = await svc('app_invite_issue', tutTok, 'Lia Costa', 'LIA@x.com', '(11) 99999-0000');
+assert.equal(inv.invite.length, 64); assert.equal(inv.phone, '5511999990000');
+assert.ok(!(await db.query(`select token_hash from public.student_invites`)).rows[0].token_hash.includes(inv.invite), 'só o hash é guardado');
+assert.deepEqual(await rpc('app_invite_info', inv.invite), { name: 'Lia Costa', email: 'lia@x.com', phone_hint: '0000' });
+assert.match((await rpc('app_invite_info', 'x'.repeat(64))).error, /inválido ou expirado/);
+// reenvio substitui o convite anterior
+const inv2 = await svc('app_invite_issue', tutTok, 'Lia Costa', 'lia@x.com', '11999990000');
+assert.match((await rpc('app_invite_info', inv.invite)).error, /inválido ou expirado/);
+let list = await rpc('app_invite_list', tutTok); assert.equal(list.length, 1); assert.equal(list[0].status, 'pending');
+await fails(() => rpc('app_invite_list', alunoTok), /Apenas tutores/);
+await fails(() => rpc('app_invite_revoke', alunoTok, list[0].id), /Apenas tutores/);
+await fails(() => rpc('app_invite_accept', inv2.invite, 'curta'), /pelo menos 8/);
+const lia = await rpc('app_invite_accept', inv2.invite, 'senha-da-lia-1');
+assert.equal(lia.user.role, 'student'); assert.equal(lia.user.email, 'lia@x.com'); assert.equal(lia.user.phone_verified, true);
+assert.equal((await rpc('app_bootstrap', lia.token)).sessions.length, 30, 'conta já liberada (sem nova verificação)');
+assert.ok((await rpc('app_login', 'lia@x.com', 'senha-da-lia-1')).token);
+await fails(() => rpc('app_invite_accept', inv2.invite, 'senha-da-lia-1'), /inválido ou expirado/);   // uso único
+assert.equal((await rpc('app_invite_list', tutTok))[0].status, 'used');
+// revogar e expirar
+const inv3 = await svc('app_invite_issue', tutTok, 'Beto Dias', 'beto@x.com', '21977776666');
+await rpc('app_invite_revoke', tutTok, (await rpc('app_invite_list', tutTok)).find((x) => x.email === 'beto@x.com').id);
+await fails(() => rpc('app_invite_accept', inv3.invite, 'senha-do-beto-1'), /inválido ou expirado/);
+const inv4 = await svc('app_invite_issue', tutTok, 'Beto Dias', 'beto@x.com', '21977776666');
+await db.exec(`update public.student_invites set expires_at = now() - interval '1 second' where email='beto@x.com'`);
+await fails(() => rpc('app_invite_accept', inv4.invite, 'senha-do-beto-1'), /inválido ou expirado/);
+assert.equal((await rpc('app_invite_list', tutTok)).find((x) => x.email === 'beto@x.com').status, 'expired');
+// rollback quando o WhatsApp falha
+const inv5 = await svc('app_invite_issue', tutTok, 'Caco Reis', 'caco@x.com', '21977776666');
+await fails(() => rpc('app_invite_revoke_by_id', inv5.id), /permission denied/);
+await svc('app_invite_revoke_by_id', inv5.id);
+await fails(() => rpc('app_invite_accept', inv5.invite, 'senha-do-caco-1'), /inválido ou expirado/);
+// limite por hora
+await db.exec(`insert into public.student_invites (token_hash, email, full_name, phone, created_by, expires_at)
+  select 'h'||g, 'l'||g||'@x.com', 'Lote '||g, '5511999990000', (select id from public.app_users where email='tutor@x.com'), now()+interval '1 day' from generate_series(1,30) g`);
+await fails(() => svc('app_invite_issue', tutTok, 'Mais Um', 'mais@x.com', '11999990000'), /Limite de 30/);
+await db.exec(`delete from public.student_invites where token_hash like 'h%'`);
+await db.exec(`select public.admin_set_signup('open')`);
 console.log('✅ Autenticação própria e regras de progressão: todos os testes passaram');

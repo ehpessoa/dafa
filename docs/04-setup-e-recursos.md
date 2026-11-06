@@ -25,6 +25,7 @@ flowchart TD
 | `supabase/migrations/20261106000007_password_reset_and_throttle.sql` | **Redefinição de senha assistida pelo tutor** (código de uso único, 1 h) e **limite de tentativas** do código de convite |
 | `supabase/migrations/20261106000008_data_dictionary.sql` | Dicionário de dados: novo template, diagrama ER completo e vínculo aos dias 1, 6, 7, 8 e 11 |
 | `supabase/migrations/20261106000015_whatsapp_verification.sql` | **WhatsApp**: telefone obrigatório no cadastro, **verificação do número por código** e **recuperação de senha por WhatsApp** (somam-se ao convite e ao reset do tutor) |
+| `supabase/migrations/20261106000016_student_invites.sql` | **Convites personalizados**: o tutor informa nome, e-mail e WhatsApp; o aluno recebe um link por WhatsApp e só define a senha |
 
 > Atalho para **banco novo**: `supabase/apply_all.sql` contém todas as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`). **Só funciona em banco vazio**: num banco já configurado falha com `relation "app_users" already exists`. Para **atualizar** currículo/recursos num banco existente, cole apenas `supabase/migrations/20261106000003_seed_curriculum.sql` (pode ser reaplicado). **Nunca** reaplique a migration 004 num banco com alunos. — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
@@ -96,6 +97,14 @@ select public.admin_set_signup('open');                        -- reabre sem có
 ```
 
 O código fica salvo apenas como hash SHA-256 em `public.app_settings` (sem acesso pela API). Contas já criadas não são afetadas. Para invalidar um código vazado, troque-o. Distribua o código só pelos canais da coordenação.
+
+### Convites personalizados (Tutor → Convites)
+
+Em **Tutor → Convites**, o tutor informa **nome, e-mail e WhatsApp** do aluno e clica em *Enviar convite por WhatsApp*. O servidor (`web/api/invite-send.ts`) cria o convite e manda ao aluno uma mensagem com o link do app (`https://<seu-app>/?convite=<token>`). Ao abrir o link, o aluno vê os dados já preenchidos, escolhe a **senha**, confirma e a conta é criada — já com o WhatsApp verificado (receber o link comprova o número) e a mensagem de boas-vindas é enviada.
+
+- O link é pessoal, vale **7 dias** e é de **uso único**; só o hash do token fica no banco e o token nunca passa pelo navegador do tutor. *Reenviar* gera um novo link e invalida o anterior; *Cancelar* revoga um convite pendente.
+- Vale mesmo com o cadastro **fechado** ou por código geral: o convite personalizado dispensa o código.
+- Limite de 30 convites por tutor por hora. Opcional: defina `APP_URL` (ex.: `https://dafa-ehpessoa.vercel.app`) na Vercel para fixar o domínio usado no link; sem ela, usa o domínio da requisição.
 
 ### Esqueci minha senha (redefinição assistida pelo tutor)
 

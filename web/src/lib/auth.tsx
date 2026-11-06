@@ -13,6 +13,7 @@ interface Ctx {
   sendVerificationCode: () => Promise<void>;
   confirmVerification: (code: string) => Promise<void>;
   changePhone: (phone: string) => Promise<void>;
+  acceptInvite: (invite: string, password: string) => Promise<void>;
   requestWhatsAppReset: (email: string) => Promise<void>;
   confirmWhatsAppReset: (email: string, code: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -56,6 +57,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Envia o código de verificação do WhatsApp; se falhar, a tela de verificação oferece "Reenviar código".
     post('/api/verify-send', { token: r.token }).catch(() => undefined);
   };
+  /** Aluno abre o link do convite, define a senha e a conta é criada já verificada. */
+  const acceptInvite = async (invite: string, password: string) => {
+    const r = await api<AuthResult>('app_invite_accept', { p_invite: invite, p_password: password });
+    accept(r);
+    post('/api/welcome', { token: r.token }).catch(() => undefined);
+  };
   const sendVerificationCode = async () => { await post('/api/verify-send', { token }); };
   const confirmVerification = async (code: string) => {
     const r = await api<{ ok?: boolean; error?: string; user?: Profile }>('app_verify_confirm', { p_token: token, p_code: code });
@@ -77,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (t) { try { await api('app_logout', { p_token: t }); } catch { /* sessão já removida localmente */ } }
   };
 
-  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, sendVerificationCode, confirmVerification, changePhone, requestWhatsAppReset, confirmWhatsAppReset, signOut }}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, acceptInvite, sendVerificationCode, confirmVerification, changePhone, requestWhatsAppReset, confirmWhatsAppReset, signOut }}>{children}</AuthCtx.Provider>;
 }
 export function useAuth() {
   const c = useContext(AuthCtx);

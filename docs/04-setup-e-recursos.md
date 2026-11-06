@@ -21,6 +21,7 @@ flowchart TD
 | `supabase/migrations/20261106000003_seed_curriculum.sql` | As 30 sessões, 68 exercícios, templates, recursos (gerado de `content/`) |
 | `supabase/migrations/20261106000004_custom_auth.sql` | **Autenticação própria**: `app_users`, sessões, funções RPC e bloqueio de acesso direto às tabelas |
 | `supabase/migrations/20261106000005_day9_day10_excel_first.sql` | Atualização idempotente dos dias 9 e 10 (Excel primeiro, Supabase no dia 10). Já incluída no seed para instalações novas |
+| `supabase/migrations/20261106000006_signup_invite.sql` | **Cadastro controlado**: modos `open`/`invite`/`closed`, código de convite (guardado só como hash) e função `admin_set_signup` |
 
 > Atalho: `supabase/apply_all.sql` contém as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
@@ -46,14 +47,32 @@ sequenceDiagram
 
 | Item | Como funciona |
 |---|---|
-| Cadastro | Qualquer pessoa cria conta (nome, e-mail, senha ≥ 8 caracteres) e **já começa o Dia 1** |
+| Cadastro | Controlado por modo (ver seção *Controle de cadastro*): por padrão exige **código de convite**; tutores da lista autorizada sempre podem se cadastrar |
 | Senha | Guardada com **bcrypt** (pgcrypto); nunca retorna à interface |
 | Sessão | Token aleatório de 256 bits; só o hash SHA-256 é gravado; validade de 30 dias; "Sair" invalida |
 | Tentativas | Após 5 senhas erradas, a conta fica bloqueada por 10 minutos |
 | Acesso aos dados | As tabelas não são acessíveis pela API; só as funções `app_*` (que checam o perfil) |
 | Perfis | `student` (vê só os próprios dados) e `teacher` (vê a turma e avalia) |
 
-> ⚠️ **Limites conhecidos:** não há recuperação de senha por e-mail nem verificação de e-mail (qualquer pessoa com a URL do app pode criar conta de aluno). Para turmas fechadas, considere um código de convite ou desativar o cadastro após a matrícula (backlog em `docs/03`).
+> ⚠️ **Limite conhecido:** não há recuperação de senha por e-mail nem verificação de e-mail. A redefinição é feita pelo administrador (SQL abaixo).
+
+### Controle de cadastro (turma fechada)
+
+O cadastro tem três modos, definidos no SQL Editor com a função `admin_set_signup` (inacessível pela API pública):
+
+| Modo | Quem consegue criar conta |
+|---|---|
+| `invite` (padrão) | Quem informar o **código de convite**; tutores da lista autorizada dispensam o código |
+| `closed` | Somente e-mails da lista de tutores |
+| `open` | Qualquer pessoa (como antes) |
+
+```sql
+select public.admin_set_signup('invite', 'NOVO-CODIGO-2026');  -- define/troca o código (mín. 8 caracteres; ignora maiúsculas, espaços e hífens)
+select public.admin_set_signup('closed');                      -- fecha o cadastro após a matrícula
+select public.admin_set_signup('open');                        -- reabre sem código
+```
+
+O código fica salvo apenas como hash SHA-256 em `public.app_settings` (sem acesso pela API). Contas já criadas não são afetadas. Para invalidar um código vazado, troque-o. Distribua o código só pelos canais da coordenação.
 
 ## 3 · Tutores (perfil professor)
 

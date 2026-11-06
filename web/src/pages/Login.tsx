@@ -1,5 +1,5 @@
-import { useState, type FormEvent } from 'react';
-import { isConfigured } from '../lib/supabase';
+import { useEffect, useState, type FormEvent } from 'react';
+import { api, isConfigured } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { TRAILS, HIGHLIGHTS } from './landingContent';
 
@@ -9,16 +9,24 @@ export default function Login() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [invite, setInvite] = useState('');
+  const [signupMode, setSignupMode] = useState<'open' | 'invite' | 'closed'>('open');
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const signup = mode === 'cadastrar';
 
+  // Pergunta ao banco se o cadastro é aberto, por convite ou fechado (em caso de falha, o servidor valida de qualquer forma).
+  useEffect(() => {
+    if (!isConfigured) return;
+    api<{ mode?: 'open' | 'invite' | 'closed' }>('app_signup_status').then((r) => { if (r?.mode) setSignupMode(r.mode); }).catch(() => { /* mantém o padrão */ });
+  }, []);
+
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setErr(''); setBusy(true);
     try {
-      if (signup) await signUp(name.trim(), email.trim(), password);
+      if (signup) await signUp(name.trim(), email.trim(), password, invite.trim());
       else await signIn(email.trim(), password);
     } catch (e2) {
       setErr(e2 instanceof Error ? e2.message : String(e2));
@@ -48,7 +56,7 @@ export default function Login() {
             <button type="button" role="tab" aria-selected={!signup} className={!signup ? 'on' : ''} onClick={() => { setMode('entrar'); setErr(''); }}>Entrar</button>
           </div>
           <p className="muted" style={{ margin: 0 }}>
-            {signup ? 'Cadastre-se e já comece o treinamento agora mesmo — é grátis e leva 30 segundos.' : 'Entre com seu e-mail e senha para continuar de onde parou.'}
+            {signup ? (signupMode === 'invite' ? 'Use o código de convite que a coordenação enviou para criar sua conta e começar o treinamento.' : 'Cadastre-se e já comece o treinamento agora mesmo — é grátis e leva 30 segundos.') : 'Entre com seu e-mail e senha para continuar de onde parou.'}
           </p>
           {!isConfigured && <div className="alert">⚠️ Supabase não configurado. Defina <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_ANON_KEY</code>.</div>}
 
@@ -62,6 +70,10 @@ export default function Login() {
                 value={password} onChange={(e) => setPassword(e.target.value)} />
               <button type="button" className="btn sm" onClick={() => setShow(!show)} aria-label={show ? 'Ocultar senha' : 'Mostrar senha'}>{show ? '🙈' : '👁️'}</button>
             </div></div>
+
+          {signup && signupMode === 'invite' && (<div><label htmlFor="invite">Código de convite</label>
+            <input id="invite" type="text" autoComplete="off" required maxLength={64} value={invite} onChange={(e) => setInvite(e.target.value)} placeholder="Informado pela coordenação" /></div>)}
+          {signup && signupMode === 'closed' && <div className="alert">O cadastro de alunos está fechado. Se você é tutor, use o e-mail autorizado pela coordenação.</div>}
 
           {err && <div className="alert err" role="alert">{err}</div>}
           <button className="btn primary" style={{ justifyContent: 'center', width: '100%' }} disabled={!isConfigured || busy} type="submit">

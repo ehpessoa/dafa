@@ -46,6 +46,7 @@ async function rpc(fn, b) {
     case 'app_me': { const u = tokens.get(b.p_token); return u ? pub(u) : null; }
     case 'app_bootstrap': return bootstrap(user());
     case 'app_login': { const u = U.find((x) => x.email === b.p_email.toLowerCase()); return u && u.password === b.p_password ? { token: newToken(u), user: pub(u) } : { error: 'E-mail ou senha inválidos.' }; }
+    case 'app_signup_status': return { mode: 'open' };
     case 'app_register': {
       if (U.some((x) => x.email === b.p_email.toLowerCase())) throw new Error('Este e-mail já está cadastrado. Use "Entrar".');
       const u = { ...mkUser(randomUUID(), b.p_email.toLowerCase(), b.p_name, 'student'), password: b.p_password }; U.push(u);

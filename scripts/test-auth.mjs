@@ -4,6 +4,7 @@ import { bootDb } from './validate-sql.mjs';
 
 const db = await bootDb();
 await db.exec(`insert into public.teacher_allowlist values ('tutor@x.com')`);
+await db.exec(`select public.admin_set_signup('open')`);   // os testes abaixo cobrem cadastro aberto; convite/fechado são testados no fim
 
 // Chama uma RPC como o papel anon (como a API REST faz com a chave publishable).
 const rpc = async (fn, ...args) => {
@@ -94,4 +95,28 @@ await rpc('app_submit', T.ana, 'd02-e1', 'liberado', null);
 await fails(() => rpc('app_submit', T.bia, 'd02-e1', 'x', null), /bloqueada/);
 // Bia (aluna nova) já pode começar o dia 1
 assert.equal((await rpc('app_submit', T.bia, 'd01-e1', 'comecei', null)).attempt, 1);
+// ── Cadastro por convite / fechado ──
+assert.equal((await rpc('app_signup_status')).mode, 'open');
+await db.exec(`select public.admin_set_signup('invite')`);   // convite, mas sem código definido: ninguém entra
+assert.equal((await rpc('app_signup_status')).mode, 'invite');
+await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', 'QUALQUER'), /convite inválido/);
+await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio'), /convite inválido/);
+await db.exec(`select public.admin_set_signup('invite', 'Turma-2026')`);
+await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', 'errado123'), /convite inválido/);
+await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', ''), /convite inválido/);
+const caio = await rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', ' turma 2026 ');   // tolera caixa, espaços e hífen
+assert.equal(caio.user.role, 'student');
+await db.exec(`insert into public.teacher_allowlist values ('tutor3@x.com')`);
+assert.equal((await rpc('app_register', 'tutor3@x.com', 'senha-forte-3', 'Tutor Três')).user.role, 'teacher'); // tutor autorizado dispensa o código
+await db.exec(`select public.admin_set_signup('closed')`);
+await fails(() => rpc('app_register', 'c2@x.com', 'senha-forte-3', 'Duda', 'TURMA2026'), /cadastro está fechado/);
+await db.exec(`insert into public.teacher_allowlist values ('tutor4@x.com')`);
+assert.equal((await rpc('app_register', 'tutor4@x.com', 'senha-forte-3', 'Tutor Quatro')).user.role, 'teacher');
+// o código e as configurações não vazam, e ninguém de fora administra
+await db.exec('set role anon');
+await assert.rejects(() => db.query('select * from public.app_settings'), /permission denied/);
+await assert.rejects(() => db.query(`select public.admin_set_signup('open')`), /permission denied/);
+await db.exec('reset role');
+await db.exec(`select public.admin_set_signup('invite')`);
+console.log('✅ Cadastro por convite e modo fechado: ok');
 console.log('✅ Autenticação própria e regras de progressão: todos os testes passaram');

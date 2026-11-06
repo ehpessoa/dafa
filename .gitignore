@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.env.local
+web/node_modules/
+web/dist/
+.tmp/
+__pycache__/

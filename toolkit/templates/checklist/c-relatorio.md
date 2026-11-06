@@ -1,0 +1,8 @@
+- [ ] A pergunta de negócio está no topo da página?
+- [ ] Cada gráfico tem título-conclusão (não só "Vendas por mês")?
+- [ ] Números têm unidade e formato (R$, %, mil/mi)?
+- [ ] Máximo de 5–7 visuais por página; alinhados em grade?
+- [ ] Paleta limitada (≤ 4 cores) e consistente entre páginas?
+- [ ] Filtros funcionam e há botão de limpar?
+- [ ] Totais batem com a consulta SQL de referência?
+- [ ] Alguém fora da área entendeu em 30 segundos?

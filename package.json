@@ -1,0 +1,13 @@
+{
+  "name": "dafa-toolkit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:content": "node scripts/build-content.mjs",
+    "validate:sql": "node scripts/validate-sql.mjs",
+    "export:dataset": "node scripts/export-dataset.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.2.17"
+  }
+}

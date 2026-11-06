@@ -20,6 +20,8 @@ flowchart TD
 | `supabase/migrations/20261106000002_training_dataset.sql` | Schema `treinamento` com dados fictícios (≈ 6.900 pedidos, 15 mil itens) + role `aluno_leitura` |
 | `supabase/migrations/20261106000003_seed_curriculum.sql` | As 30 sessões, 67 exercícios, templates, recursos (gerado de `content/`) |
 
+> Atalho: `supabase/apply_all.sql` contém as 3 migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
+
 3. **URL do projeto:** *Project Settings → API* (`https://<ref>.supabase.co`). É o valor de `VITE_SUPABASE_URL` e o que aparece em *Recursos → Supabase do programa* no app.
 
 ## 2 · Login com Google (Gmail)

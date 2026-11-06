@@ -150,6 +150,17 @@ const shot = async (page, name, full = true) => { await page.waitForTimeout(1300
   await page.goto(BASE + '/sessao/4'); await page.waitForSelector('text=Por que isso importa');
   assert.deepEqual(errors, []);
 }
+// ───────── "Sair" sempre acessível (tutor em tela baixa e celular) ─────────
+{
+  const { page } = await open('tutor', 1280, 520);
+  await page.goto(BASE + '/tutor'); await page.waitForSelector('text=Visão da turma');
+  const b = await page.locator('.userbox >> text=Sair').boundingBox();
+  assert.ok(b && b.y >= 0 && b.y + b.height <= 520, 'Sair do tutor visível em tela baixa');
+  const m = await open('tutor', 390, 700);
+  await m.page.goto(BASE + '/tutor'); await m.page.waitForSelector('text=Visão da turma');
+  assert.ok(await m.page.locator('.topbar >> text=Sair').isVisible(), 'Sair visível na barra superior do celular');
+  await m.page.click('.topbar >> text=Sair'); await m.page.waitForSelector('text=Criar conta e começar');
+}
 await browser.close();
 console.log('✅ E2E: cadastro, login/logout, treinamento, bloqueio, refazer, tutor e mobile OK');
 process.exit(0);

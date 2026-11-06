@@ -42,7 +42,7 @@ export default function Layout() {
         </div>
       </aside>
       <div>
-        <div className="topbar"><button className="btn sm" onClick={() => setOpen(true)} aria-label="Abrir menu">☰</button><b>DAFA</b></div>
+        <div className="topbar"><button className="btn sm" onClick={() => setOpen(true)} aria-label="Abrir menu">☰</button><b>DAFA</b><button className="btn sm" style={{ marginLeft: 'auto' }} onClick={signOut}>Sair</button></div>
         <main className="main">
           {error && <ErrorBox msg={`Erro ao carregar dados: ${error}. Verifique se as migrations do Supabase foram aplicadas.`} />}
           {loading ? <Spinner /> : <Outlet />}

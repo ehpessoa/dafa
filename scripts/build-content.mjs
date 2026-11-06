@@ -51,6 +51,9 @@ for (const t of templates) {
 }
 for (const r of resources) L.push(`insert into public.resources (slug, category, title, url, description) values (${q(r.slug)}, ${q(r.category)}, ${q(r.title)}, ${q(r.url)}, ${q(r.description)}) on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;`);
 L.push('delete from public.session_templates; delete from public.session_resources;');
+// Remove recursos/templates que saíram de content/*.mjs (as junções acima já foram esvaziadas, então não há FK pendente).
+L.push(`delete from public.resources where slug <> all (array[${resources.map((r) => q(r.slug)).join(', ')}]);`);
+L.push(`delete from public.templates where slug <> all (array[${templates.map((t) => q(t.slug)).join(', ')}]);`);
 for (const s of sessions) {
   s.templates.forEach((t, i) => L.push(`insert into public.session_templates (session_day, template_slug, position) values (${s.day}, ${q(t)}, ${i});`));
   s.resources.forEach((r, i) => L.push(`insert into public.session_resources (session_day, resource_slug, position) values (${s.day}, ${q(r)}, ${i});`));

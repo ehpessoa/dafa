@@ -33,7 +33,7 @@ docs/         documentação com diagramas Mermaid
 ## Início rápido
 
 ```bash
-# 1) Banco: aplique as 3 migrations em supabase/migrations (ver docs/04)
+# 1) Banco: aplique as migrations de supabase/migrations em ordem, ou cole supabase/apply_all.sql (ver docs/04)
 # 2) App
 cd web && cp .env.example .env.local   # preencha URL e chave do Supabase
 npm install && npm run dev

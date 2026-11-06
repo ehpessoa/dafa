@@ -20,8 +20,9 @@ flowchart TD
 | `supabase/migrations/20261106000002_training_dataset.sql` | Schema `treinamento` com dados fictícios (≈ 6.900 pedidos, 15 mil itens) + role `aluno_leitura` |
 | `supabase/migrations/20261106000003_seed_curriculum.sql` | As 30 sessões, 67 exercícios, templates, recursos (gerado de `content/`) |
 | `supabase/migrations/20261106000004_custom_auth.sql` | **Autenticação própria**: `app_users`, sessões, funções RPC e bloqueio de acesso direto às tabelas |
+| `supabase/migrations/20261106000005_sql_editor.sql` | **Editor SQL do app**: `app_run_sql`, `app_sql_schema` e o executor `app_runner.run` (dono: `aluno_leitura`). Exige a migration 002 (role) |
 
-> Atalho: `supabase/apply_all.sql` contém as 3 migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
+> Atalho: `supabase/apply_all.sql` contém todas as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
 3. **URL do projeto:** *Project Settings → API* (`https://<ref>.supabase.co`). É o valor de `VITE_SUPABASE_URL` e o que aparece em *Recursos → Supabase do programa* no app.
 
@@ -95,7 +96,7 @@ alter role aluno_leitura with login password '<SENHA-FORTE>';
 | Schema | `treinamento` |
 | SSL | obrigatório |
 
-> 👤 **Alunos não usam o painel do Supabase** (exigiria convidá-los por e-mail para a organização). Eles consultam com um cliente SQL gratuito (DBeaver) e este usuário; o passo a passo está no template `c-conexao-banco` ("Guia: conectar ao banco"), vinculado ao Dia 6. Compartilhe host, usuário e senha por um canal da turma, nunca no repositório.
+> 👤 **Alunos não usam o painel do Supabase** (exigiria convidá-los por e-mail para a organização). Para escrever SQL eles usam o **Editor SQL do app** (menu lateral, ver `docs/05-app.md`), que não pede nenhuma credencial do banco. As credenciais acima só são necessárias para **Power BI** (dia 9) e **Python** (dia 20) e, opcionalmente, para um cliente SQL como o DBeaver; o passo a passo está no template `c-conexao-banco`. Compartilhe host, usuário e senha por um canal da turma, nunca no repositório.
 
 > ⚠️ Os guias de comunidade divergem sobre porta/modo do pooler e citam erro de certificado no Power BI; **valide na sua conta** e, se necessário, importe o certificado raiz exibido em *Database → SSL*. Conexões diretas de BI ignoram RLS — por isso o dataset de treinamento é isolado em schema próprio e sem dados reais.
 

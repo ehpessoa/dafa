@@ -521,13 +521,13 @@ insert into public.sessions (day, level_slug, title, why, learn, scenarios, tool
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (3, 'iniciante', 'Excel: fórmulas essenciais para análise', 'Fórmulas permitem responder perguntas de forma repetível e auditável. Dominar condicionais, busca e agregação cobre a maior parte das análises do dia a dia administrativo.', '["SOMASES, CONT.SES, MÉDIASES","SE, E, OU, SEERRO","PROCV / PROCX / ÍNDICE+CORRESP para trazer atributos de outra tabela","Referências absolutas vs. relativas; nomes de intervalo"]'::jsonb, '[{"area":"Comercial","text":"Receita por vendedor e meta atingida (SE) para bonificação."},{"area":"Logística","text":"Percentual de entregas com atraso por transportadora com CONT.SES."},{"area":"Financeiro","text":"Trazer o centro de custo de uma tabela de de-para com PROCX."}]'::jsonb, '["Excel","Planilha do dia 2 (dados limpos)"]'::jsonb, 'PROCX equivale a um JOIN em SQL; SOMASES equivale a SUM + WHERE + GROUP BY. Guarde essa tradução: no dia 7 você fará os mesmos cálculos em SQL.', 120, '2026-11-11', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (4, 'iniciante', 'Excel: tabelas dinâmicas e segmentações', 'Tabelas dinâmicas são o "GROUP BY visual": respondem em segundos perguntas de resumo e preparam o terreno para entender o modelo de dados do Power BI.', '["Linhas, colunas, valores e filtros","Agrupar datas (mês/trimestre/ano)","Campos calculados e % do total","Segmentação de dados e linha do tempo"]'::jsonb, '[{"area":"E-commerce","text":"Ranking de categorias por receita e participação % no total."},{"area":"Marketing","text":"ROI por canal de campanha e por mês."},{"area":"Esporte","text":"Público médio e bilheteria por mandante na temporada."}]'::jsonb, '["Excel – Tabela Dinâmica","Dataset"]'::jsonb, 'Cada arrasto de campo equivale a um GROUP BY. No Power BI, a matriz e os visuais funcionam da mesma forma.', 120, '2026-11-12', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (5, 'iniciante', 'Excel: gráficos, storytelling e entrega da Semana 1', 'Um bom gráfico encurta a decisão. Hoje você aprende a escolher o gráfico certo e a escrever o título como conclusão, fechando a semana com seu primeiro entregável.', '["Escolha do gráfico (comparação, evolução, composição, relação)","Remover ruído: grades, 3D, legendas desnecessárias","Título-conclusão e destaque de cor","Estrutura do relatório de entrega"]'::jsonb, '[{"area":"Financeiro","text":"Evolução do resultado mensal com destaque nos meses negativos."},{"area":"Comercial","text":"Participação de cada canal na receita (barras, não pizza com 8 fatias)."}]'::jsonb, '["Excel","Template de entrega semanal"]'::jsonb, 'As regras de design valem igualmente no Power BI e no matplotlib. Você reutilizará o checklist de qualidade até o dia 30.', 150, '2026-11-13', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (6, 'iniciante', 'Bancos de dados, Supabase e modelo relacional', 'Dados reais vivem em bancos, não em planilhas soltas. Entender tabelas, chaves e relacionamentos permite pedir, consultar e cruzar dados com segurança e escala.', '["Tabela, linha, coluna, tipo de dado","Chave primária e chave estrangeira","Fato vs. dimensão","Supabase = Postgres na nuvem; schema treinamento; usuário somente-leitura"]'::jsonb, '[{"area":"Logística","text":"Pedidos ligados a entregas por pedido_id: onde ficam transportadora e prazo?"},{"area":"E-commerce","text":"Um cliente com muitos pedidos, um pedido com muitos itens (1:N)."}]'::jsonb, '["Cliente SQL (DBeaver) conectado ao Supabase","Diagrama ER (Mermaid)"]'::jsonb, 'O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).', 120, '2026-11-16', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (7, 'iniciante', 'SQL I: SELECT, WHERE, ORDER BY', 'SQL é a língua franca dos dados. Saber extrair exatamente o que precisa reduz a dependência de TI e evita planilhas gigantes.', '["SELECT, FROM, WHERE, AND/OR/IN/BETWEEN/LIKE","ORDER BY, LIMIT, DISTINCT","Operadores, datas e NULL","Boas práticas: nomear colunas, comentar, evitar SELECT * em produção"]'::jsonb, '[{"area":"Comercial","text":"Pedidos do canal marketplace de uma UF no último trimestre."},{"area":"Financeiro","text":"Lançamentos de despesa acima de R$ 10 mil em um centro de custo."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-basico"]'::jsonb, 'Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.', 120, '2026-11-17', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (8, 'iniciante', 'SQL II: agregações e GROUP BY', 'Decisões raramente usam linhas individuais; usam totais, médias e comparações por grupo. GROUP BY é o coração da análise de negócio.', '["COUNT, SUM, AVG, MIN, MAX","GROUP BY e HAVING","date_trunc para agrupar por mês","CASE WHEN para criar categorias"]'::jsonb, '[{"area":"Marketing","text":"CTR, CPC e CPA por canal e por mês."},{"area":"Esporte","text":"Média de gols e público por rodada."},{"area":"Logística","text":"Frete médio por UF e transportadora."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-agregacao"]'::jsonb, 'É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.', 120, '2026-11-18', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (6, 'iniciante', 'Bancos de dados, Supabase e modelo relacional', 'Dados reais vivem em bancos, não em planilhas soltas. Entender tabelas, chaves e relacionamentos permite pedir, consultar e cruzar dados com segurança e escala.', '["Tabela, linha, coluna, tipo de dado","Chave primária e chave estrangeira","Fato vs. dimensão","Supabase = Postgres na nuvem; schema treinamento; usuário somente-leitura"]'::jsonb, '[{"area":"Logística","text":"Pedidos ligados a entregas por pedido_id: onde ficam transportadora e prazo?"},{"area":"E-commerce","text":"Um cliente com muitos pedidos, um pedido com muitos itens (1:N)."}]'::jsonb, '["Editor SQL do app (menu lateral)","Diagrama ER (Mermaid)"]'::jsonb, 'O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).', 120, '2026-11-16', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (7, 'iniciante', 'SQL I: SELECT, WHERE, ORDER BY', 'SQL é a língua franca dos dados. Saber extrair exatamente o que precisa reduz a dependência de TI e evita planilhas gigantes.', '["SELECT, FROM, WHERE, AND/OR/IN/BETWEEN/LIKE","ORDER BY, LIMIT, DISTINCT","Operadores, datas e NULL","Boas práticas: nomear colunas, comentar, evitar SELECT * em produção"]'::jsonb, '[{"area":"Comercial","text":"Pedidos do canal marketplace de uma UF no último trimestre."},{"area":"Financeiro","text":"Lançamentos de despesa acima de R$ 10 mil em um centro de custo."}]'::jsonb, '["Editor SQL do app (menu lateral)","Template t-sql-basico"]'::jsonb, 'Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.', 120, '2026-11-17', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (8, 'iniciante', 'SQL II: agregações e GROUP BY', 'Decisões raramente usam linhas individuais; usam totais, médias e comparações por grupo. GROUP BY é o coração da análise de negócio.', '["COUNT, SUM, AVG, MIN, MAX","GROUP BY e HAVING","date_trunc para agrupar por mês","CASE WHEN para criar categorias"]'::jsonb, '[{"area":"Marketing","text":"CTR, CPC e CPA por canal e por mês."},{"area":"Esporte","text":"Média de gols e público por rodada."},{"area":"Logística","text":"Frete médio por UF e transportadora."}]'::jsonb, '["Editor SQL do app (menu lateral)","Template t-sql-agregacao"]'::jsonb, 'É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.', 120, '2026-11-18', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (9, 'iniciante', 'Power BI Desktop: instalação, conexão e primeiro relatório', 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.', '["Instalar o Power BI Desktop","Obter dados: PostgreSQL (Supabase) e Excel","Importar vs. DirectQuery","Visuais básicos: cartão, barras, linhas, segmentações"]'::jsonb, '[{"area":"Comercial","text":"Dashboard de receita por canal com filtro de ano para a reunião de segunda."},{"area":"E-commerce","text":"Funil de pedidos por status (pendente → entregue)."}]'::jsonb, '["Power BI Desktop (Windows)","Supabase (Postgres)","Excel"]'::jsonb, 'As tabelas do Supabase viram o modelo do Power BI. O que você fez em SQL (agregar) o Power BI faz de forma visual e interativa.', 150, '2026-11-19', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (10, 'iniciante', 'Design de relatórios e entrega da Semana 2', 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.', '["Hierarquia visual e grade","Cores com propósito e acessibilidade","Interações: filtros cruzados, tooltips, bookmarks","Validar números contra o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Painel com receitas x despesas x resultado e alerta de mês negativo."},{"area":"Marketing","text":"Painel de campanhas: investimento, conversões e CPA por canal."}]'::jsonb, '["Power BI Desktop","Checklist de qualidade"]'::jsonb, 'Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles.', 150, '2026-11-20', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (11, 'intermediario', 'SQL III: JOINs e combinação de tabelas', 'Quase toda pergunta relevante cruza tabelas (quem comprou o quê, quando, entregue por quem). JOINs corretos evitam o erro mais comum: duplicar linhas e inflar números.', '["INNER, LEFT, RIGHT, FULL JOIN","Cardinalidade e o risco de duplicação","Anti-join (LEFT + IS NULL)","Conferência de totais antes e depois do JOIN"]'::jsonb, '[{"area":"E-commerce","text":"Clientes cadastrados que nunca compraram (campanha de ativação)."},{"area":"Logística","text":"Atraso por transportadora cruzando pedidos e entregas."},{"area":"Comercial","text":"Margem por categoria cruzando itens e produtos."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-joins"]'::jsonb, 'Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.', 120, '2026-11-23', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (12, 'intermediario', 'SQL IV: CTEs, subqueries e window functions', 'Rankings, acumulados e variações período a período são perguntas diárias de gestão. Window functions resolvem sem planilhas auxiliares.', '["WITH (CTE) para organizar consultas","ROW_NUMBER, RANK, NTILE","LAG/LEAD e acumulados (SUM OVER)","FILTER e CASE em agregações"]'::jsonb, '[{"area":"Financeiro","text":"Caixa acumulado e variação mês a mês."},{"area":"Comercial","text":"Top 3 produtos por categoria."},{"area":"Esporte","text":"Classificação da temporada com pontos acumulados por rodada."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-cte-window"]'::jsonb, 'As mesmas ideias aparecem como medidas DAX (YTD, mês anterior) nos dias 15–16.', 150, '2026-11-24', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (11, 'intermediario', 'SQL III: JOINs e combinação de tabelas', 'Quase toda pergunta relevante cruza tabelas (quem comprou o quê, quando, entregue por quem). JOINs corretos evitam o erro mais comum: duplicar linhas e inflar números.', '["INNER, LEFT, RIGHT, FULL JOIN","Cardinalidade e o risco de duplicação","Anti-join (LEFT + IS NULL)","Conferência de totais antes e depois do JOIN"]'::jsonb, '[{"area":"E-commerce","text":"Clientes cadastrados que nunca compraram (campanha de ativação)."},{"area":"Logística","text":"Atraso por transportadora cruzando pedidos e entregas."},{"area":"Comercial","text":"Margem por categoria cruzando itens e produtos."}]'::jsonb, '["Editor SQL do app (menu lateral)","Template t-sql-joins"]'::jsonb, 'Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.', 120, '2026-11-23', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (12, 'intermediario', 'SQL IV: CTEs, subqueries e window functions', 'Rankings, acumulados e variações período a período são perguntas diárias de gestão. Window functions resolvem sem planilhas auxiliares.', '["WITH (CTE) para organizar consultas","ROW_NUMBER, RANK, NTILE","LAG/LEAD e acumulados (SUM OVER)","FILTER e CASE em agregações"]'::jsonb, '[{"area":"Financeiro","text":"Caixa acumulado e variação mês a mês."},{"area":"Comercial","text":"Top 3 produtos por categoria."},{"area":"Esporte","text":"Classificação da temporada com pontos acumulados por rodada."}]'::jsonb, '["Editor SQL do app (menu lateral)","Template t-sql-cte-window"]'::jsonb, 'As mesmas ideias aparecem como medidas DAX (YTD, mês anterior) nos dias 15–16.', 150, '2026-11-24', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (13, 'intermediario', 'Modelagem dimensional: modelo estrela', 'Um bom modelo torna as medidas simples, rápidas e corretas. Um modelo ruim gera números diferentes em cada tela.', '["Fato vs. dimensão e granularidade","Esquema estrela vs. flocos de neve","Tabela de datas (calendário) obrigatória","Direção de filtro e relacionamentos 1:N"]'::jsonb, '[{"area":"E-commerce","text":"Fato vendas com dimensões Data, Cliente, Produto e Canal."},{"area":"Marketing","text":"Fato campanhas com dimensão Canal compartilhada com vendas (dimensão conforme)."}]'::jsonb, '["Power BI – Modo Modelo","Mermaid (desenho do modelo)"]'::jsonb, 'Você aplica o que viu em JOINs: cada relacionamento do modelo é um JOIN que o Power BI executa para você.', 120, '2026-11-25', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (14, 'intermediario', 'Power Query: ETL sem código', 'Transformações feitas no Power Query ficam registradas e se repetem a cada atualização, eliminando a "limpeza manual" mensal.', '["Etapas aplicadas e linguagem M (visão geral)","Tipagem, divisão, mesclagem e acréscimo de consultas","Colunas personalizadas e condicionais","Parâmetros e boas práticas de desempenho"]'::jsonb, '[{"area":"Financeiro","text":"Consolidar 12 arquivos mensais de lançamentos numa só tabela."},{"area":"Logística","text":"Criar a coluna no_prazo e dias_atraso na tabela de entregas."}]'::jsonb, '["Power Query (Power BI/Excel)","Fluxo ETL (diagrama)"]'::jsonb, 'Power Query faz o papel do SQL de preparação e do pandas de limpeza. Decidir onde transformar (banco, Power Query ou Python) é uma habilidade-chave.', 120, '2026-11-26', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CPA e ROAS por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
@@ -598,7 +598,7 @@ insert into public.exercises (id, session_day, position, title, instructions, de
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d05-e1', 5, 1, '4 gráficos que respondem a 3 perguntas', 'Crie 4 gráficos com título-conclusão no painel.', 'Aba Painel') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d05-e2', 5, 2, 'Relatório de entrega', 'Escreva o relatório seguindo o modelo (pergunta, método, 3 achados, recomendação).', 'PDF/Doc do relatório') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e1', 6, 1, 'Ler o diagrama ER', 'Identifique PK/FK e cardinalidade de cada relacionamento.', 'Tabela PK/FK + cardinalidade') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e2', 6, 2, 'Primeiro acesso', 'Siga o guia "conectar ao banco" (DBeaver + usuário aluno_leitura) e rode SELECT COUNT(*) em cada tabela.', 'Print/ tabela de contagens') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e2', 6, 2, 'Primeiro acesso', 'Abra o Editor SQL do app (menu lateral) e rode SELECT COUNT(*) em cada tabela do schema treinamento.', 'Print/ tabela de contagens') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e3', 6, 3, 'Desenhe um modelo seu', 'Desenhe o ER de uma área da sua empresa com 4 tabelas.', 'Diagrama Mermaid ou imagem') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d07-e1', 7, 1, '10 consultas de filtro', 'Escreva 10 consultas com WHERE/ORDER/LIMIT sobre pedidos, clientes e financeiro.', 'Arquivo .sql comentado') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d07-e2', 7, 2, 'Bate com o Excel?', 'Compare 2 resultados SQL com a planilha e explique diferenças.', 'Nota de conferência') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
@@ -667,10 +667,11 @@ SELECT DISTINCT segmento FROM treinamento.dim_clientes;
 SELECT COUNT(*) AS total_clientes FROM treinamento.dim_clientes;
 
 -- TODO (exercício): clientes do segmento ''premium'' cadastrados após 2024-06-01, ordenados por data.', null, 't-sql-basico.sql') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
-insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-conexao-banco', 'checklist', 'Guia: conectar ao banco do programa (sem conta Supabase)', 'Passo a passo no DBeaver com o usuário aluno_leitura. Você NÃO faz login no painel do Supabase.', '# Conectar ao banco do programa
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-conexao-banco', 'checklist', 'Guia: conectar Power BI, Python ou DBeaver ao banco', 'Dados de conexão do usuário aluno_leitura e passo a passo. Para consultar em SQL use o Editor SQL do app: não precisa deste guia nem de conta Supabase.', '# Conectar uma ferramenta ao banco do programa
 
-> Você **não** precisa de conta nem de e-mail no Supabase. O login do painel do Supabase é só do tutor.
-> Para consultar os dados você usa um programa de SQL e o usuário somente leitura **aluno_leitura**.
+> Para **escrever SQL** use o **Editor SQL do app** (menu lateral): funciona no navegador, sem instalar nada.
+> Este guia é para quando outra ferramenta precisa ler o banco: **Power BI** (dia 9), **Python** (dia 20) ou um cliente SQL como o **DBeaver**.
+> Você **não** precisa de conta nem de e-mail no Supabase: o login do painel do Supabase é só do tutor.
 
 ## O que o tutor vai te passar
 | Campo | Valor |
@@ -679,16 +680,26 @@ insert into public.templates (slug, kind, title, description, content, url, file
 | Porta | 5432 |
 | Banco | postgres |
 | Usuário | aluno_leitura.<código-do-projeto> (informado pelo tutor) |
-| Senha | (informada pelo tutor, não compartilhe nem salve em arquivos do projeto) |
+| Senha | (informada pelo tutor; não compartilhe nem salve em arquivos do projeto) |
+| Schema | treinamento |
+| SSL | obrigatório |
 
-## Passo a passo (DBeaver Community, Windows/Mac/Linux)
-1. Instale o **DBeaver Community** (dbeaver.io/download).
-2. Menu **Banco de dados > Nova conexão** e escolha **PostgreSQL**.
-3. Na aba **Principal**, preencha Host, Porta, Banco, Usuário e Senha com os dados do tutor.
-4. Na aba **SSL**, ative SSL e use o modo **require**. Na primeira vez, o DBeaver baixa o driver PostgreSQL: aceite.
-5. Clique em **Testar conexão**. Se aparecer "Conectado", clique em **Concluir**.
-6. Clique com o botão direito na conexão > **Editor SQL > Novo script** (atalho Ctrl+]).
-7. Rode o teste:
+## Power BI Desktop
+1. **Obter dados > Banco de dados PostgreSQL**.
+2. Servidor: `host:5432`; Banco de dados: `postgres`; modo **Importar**.
+3. Na janela de credenciais, aba **Banco de dados**: usuário e senha acima.
+4. No navegador, marque as tabelas do schema `treinamento` e carregue.
+5. Se aparecer erro de certificado/SSL, avise o tutor (veja a observação no guia de setup).
+
+## Python
+Use variáveis de ambiente (SUPABASE_DB_HOST, SUPABASE_DB_USER, SUPABASE_DB_PASSWORD, SUPABASE_DB_NAME, SUPABASE_DB_PORT) e nunca escreva a senha no código. Use o template "Prompt: conectar Python ao Supabase".
+
+## DBeaver Community (opcional)
+1. Instale em dbeaver.io/download.
+2. **Banco de dados > Nova conexão > PostgreSQL**; preencha Host, Porta, Banco, Usuário e Senha.
+3. Na aba **SSL**, ative SSL e use o modo **require**.
+4. **Testar conexão** (o DBeaver baixa o driver na primeira vez) e **Concluir**.
+5. Botão direito na conexão > **Editor SQL > Novo script** e rode:
 
 ```sql
 SELECT COUNT(*) FROM treinamento.fato_pedidos;
@@ -697,11 +708,10 @@ SELECT COUNT(*) FROM treinamento.fato_pedidos;
 ## Se der erro
 - **Senha/usuário inválidos**: confira o usuário completo (com o ponto e o código do projeto) e peça a senha de novo ao tutor.
 - **Timeout/host não encontrado**: use o host do Session pooler informado pelo tutor (não o host "db.").
-- **Erro de certificado/SSL**: confirme o modo require e peça orientação ao tutor.
 - Você só consegue **ler** (SELECT) as tabelas do schema treinamento; comandos que alteram dados são bloqueados de propósito.
 
 ## Sem acesso ao banco?
-Use o dataset em Excel (recurso "Dataset de treinamento") e faça os mesmos exercícios com tabelas dinâmicas e fórmulas; avise o tutor.', null, 'c-conexao-banco.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+Use o dataset em Excel (recurso "Dataset de treinamento") para o Power BI e o Python, e avise o tutor.', null, 'c-conexao-banco.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('t-sql-agregacao', 'sql', 'Agregações (GROUP BY / HAVING)', 'Totais, médias e rankings por dimensão.', '-- Pedidos e frete médio por canal
 SELECT canal, COUNT(*) AS pedidos, ROUND(AVG(frete),2) AS frete_medio
 FROM treinamento.fato_pedidos
@@ -987,7 +997,8 @@ insert into public.templates (slug, kind, title, description, content, url, file
 Regra: 1 mensagem por slide, título = conclusão, máximo 30 palavras no corpo.', null, 'c-storytelling.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.resources (slug, category, title, url, description) values ('r-dataset-xlsx', 'Dados', 'Dataset de treinamento (Excel)', '/data/dataset_treinamento.xlsx', 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-supabase-url', 'Dados', 'Supabase do programa (banco de análise)', '{{SUPABASE_URL}}', 'Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
-insert into public.resources (slug, category, title, url, description) values ('r-dbeaver', 'Ferramentas', 'DBeaver Community (cliente SQL gratuito)', 'https://dbeaver.io/download/', 'Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
+insert into public.resources (slug, category, title, url, description) values ('r-sql-editor', 'Ferramentas', 'Editor SQL do app', '/sql', 'Escreva e execute consultas SQL no schema treinamento direto no navegador (somente leitura, até 500 linhas, exporta CSV). Não precisa de instalação nem de conta no Supabase.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
+insert into public.resources (slug, category, title, url, description) values ('r-dbeaver', 'Ferramentas', 'DBeaver Community (cliente SQL opcional)', 'https://dbeaver.io/download/', 'Opcional: cliente SQL gratuito para quem prefere um programa instalado. Conecta com o usuário aluno_leitura (host e senha informados pelo tutor); veja o guia "conectar ao banco".') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-desktop', 'Ferramentas', 'Download do Power BI Desktop', 'https://www.microsoft.com/en-us/download/details.aspx?id=58494', 'Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-samples', 'Ferramentas', 'Exemplos .pbix oficiais da Microsoft', 'https://github.com/microsoft/powerbi-desktop-samples', 'Repositório oficial com relatórios .pbix de exemplo para abrir, estudar o modelo e os visuais.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-sample-docs', 'Referência', 'Power BI – Sample datasets (Microsoft Learn)', 'https://learn.microsoft.com/power-bi/create-reports/sample-datasets', 'Guia oficial para baixar e abrir os exemplos; no Desktop também há Início > "Aprender com dados de exemplo".') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
@@ -1011,20 +1022,20 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_templates (session_day, template_slug, position) values (5, 'c-relatorio', 1);
 insert into public.session_templates (session_day, template_slug, position) values (5, 'c-entrega-semanal', 2);
 insert into public.session_resources (session_day, resource_slug, position) values (5, 'r-dataset-xlsx', 0);
-insert into public.session_templates (session_day, template_slug, position) values (6, 'c-conexao-banco', 0);
-insert into public.session_templates (session_day, template_slug, position) values (6, 'd-er-modelo', 1);
-insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 2);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'd-er-modelo', 0);
+insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-supabase-url', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-dbeaver', 1);
+insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-sql-editor', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-pg-tutorial', 2);
 insert into public.session_templates (session_day, template_slug, position) values (7, 't-sql-basico', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-dbeaver', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-sql-editor', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (8, 't-sql-agregacao', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-dbeaver', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-sql-editor', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-pg-tutorial', 1);
-insert into public.session_templates (session_day, template_slug, position) values (9, 'b-pbix-guia', 0);
-insert into public.session_templates (session_day, template_slug, position) values (9, 'c-relatorio', 1);
+insert into public.session_templates (session_day, template_slug, position) values (9, 'c-conexao-banco', 0);
+insert into public.session_templates (session_day, template_slug, position) values (9, 'b-pbix-guia', 1);
+insert into public.session_templates (session_day, template_slug, position) values (9, 'c-relatorio', 2);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-desktop', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-samples', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-sample-docs', 2);
@@ -1036,10 +1047,10 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-pbi-desktop', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-pbi-learn', 1);
 insert into public.session_templates (session_day, template_slug, position) values (11, 't-sql-joins', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-dbeaver', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-sql-editor', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (12, 't-sql-cte-window', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (12, 'r-dbeaver', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (12, 'r-sql-editor', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (12, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (13, 'd-star-schema', 0);
 insert into public.session_templates (session_day, template_slug, position) values (13, 'd-er-modelo', 1);
@@ -1065,10 +1076,11 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (18, 'r-pandas', 0);
 insert into public.session_templates (session_day, template_slug, position) values (19, 'p-viz', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (19, 'r-pandas', 0);
-insert into public.session_templates (session_day, template_slug, position) values (20, 'p-supabase-conexao', 0);
-insert into public.session_templates (session_day, template_slug, position) values (20, 'p-pandas-analise', 1);
-insert into public.session_templates (session_day, template_slug, position) values (20, 'p-viz', 2);
-insert into public.session_templates (session_day, template_slug, position) values (20, 'c-entrega-semanal', 3);
+insert into public.session_templates (session_day, template_slug, position) values (20, 'c-conexao-banco', 0);
+insert into public.session_templates (session_day, template_slug, position) values (20, 'p-supabase-conexao', 1);
+insert into public.session_templates (session_day, template_slug, position) values (20, 'p-pandas-analise', 2);
+insert into public.session_templates (session_day, template_slug, position) values (20, 'p-viz', 3);
+insert into public.session_templates (session_day, template_slug, position) values (20, 'c-entrega-semanal', 4);
 insert into public.session_resources (session_day, resource_slug, position) values (20, 'r-python', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (20, 'r-vscode', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (20, 'r-supabase-url', 2);
@@ -1076,7 +1088,7 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_templates (session_day, template_slug, position) values (21, 't-sql-agregacao', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (21, 'r-pbi-learn', 0);
 insert into public.session_templates (session_day, template_slug, position) values (22, 't-sql-rfm', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (22, 'r-dbeaver', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (22, 'r-sql-editor', 0);
 insert into public.session_templates (session_day, template_slug, position) values (23, 'p-forecast', 0);
 insert into public.session_templates (session_day, template_slug, position) values (23, 't-sql-cte-window', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (23, 'r-python', 0);
@@ -1086,7 +1098,7 @@ insert into public.session_resources (session_day, resource_slug, position) valu
 insert into public.session_templates (session_day, template_slug, position) values (25, 't-sql-financeiro', 0);
 insert into public.session_templates (session_day, template_slug, position) values (25, 'x-dre-fluxo', 1);
 insert into public.session_templates (session_day, template_slug, position) values (25, 'c-entrega-semanal', 2);
-insert into public.session_resources (session_day, resource_slug, position) values (25, 'r-dbeaver', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (25, 'r-sql-editor', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (25, 'r-pbi-learn', 1);
 insert into public.session_templates (session_day, template_slug, position) values (26, 'p-revisao-codigo', 0);
 insert into public.session_templates (session_day, template_slug, position) values (26, 'p-pandas-analise', 1);
@@ -1450,3 +1462,165 @@ begin
     execute format('grant execute on function %s to anon', f.sig);   -- o app usa a chave anon; Supabase Auth não é usado
   end loop;
 end $$;
+-- ============================================================================
+-- Editor SQL do app: o aluno digita uma consulta no navegador e o banco a executa
+-- com os privilégios da role somente-leitura `aluno_leitura` (schema `treinamento`).
+--
+-- Camadas de proteção (nenhuma depende só da outra):
+--   1. app_run_sql exige sessão válida do app (token) e valida o texto da consulta:
+--      uma única instrução SELECT/WITH/VALUES/TABLE, sem ';' no meio, parênteses balanceados,
+--      sem aspas abertas, sem $$ e sem funções que executam SQL dinâmico ou alteram a sessão.
+--   2. A consulta roda em app_runner.run, função cujo DONO é `aluno_leitura`
+--      (SECURITY DEFINER): o Postgres aplica os privilégios dessa role, que só tem SELECT em
+--      `treinamento` e nenhum acesso às tabelas do app (app_users, app_sessions, ...).
+--   3. O schema app_runner é fechado para anon/authenticated (a API não o alcança).
+--   4. Limite de 500 linhas e de tamanho da resposta.
+-- ============================================================================
+
+do $$ begin
+  if not exists (select 1 from pg_roles where rolname = 'aluno_leitura') then
+    create role aluno_leitura nologin;
+  end if;
+end $$;
+
+-- Para transferir a propriedade da função, quem executa a migration precisa poder assumir a role.
+-- (Em superusuário não é necessário; em Supabase, `postgres` precisa ser membro.)
+do $$ begin
+  begin
+    execute 'grant aluno_leitura to current_user';
+  exception when others then
+    raise notice 'grant aluno_leitura to current_user ignorado: %', sqlerrm;
+  end;
+end $$;
+
+-- Garantia: a role não enxerga nada do schema public (tabelas do app).
+revoke all on all tables in schema public from aluno_leitura;
+revoke all on all functions in schema public from aluno_leitura;
+
+create schema if not exists app_runner;
+revoke all on schema app_runner from public, anon, authenticated;
+
+-- ───────────── Executor (dono: aluno_leitura) ─────────────
+create or replace function app_runner.run(p_sql text, p_limit int)
+returns json language plpgsql security definer set search_path = treinamento, pg_catalog as $$
+declare v json;
+begin
+  -- A quebra de linha antes do ")" evita que um comentário "--" no fim da consulta engula o fechamento.
+  execute format('select coalesce(json_agg(r), ''[]''::json) from (select * from (%s
+) r limit %s) r', p_sql, p_limit + 1) into v;
+  return v;
+end;
+$$;
+
+grant create on schema app_runner to aluno_leitura;
+alter function app_runner.run(text, int) owner to aluno_leitura;
+revoke create on schema app_runner from aluno_leitura;
+
+-- ───────────── Validação do texto (retorna a mensagem de erro, ou null se estiver ok) ─────────────
+create or replace function public._app_sql_check(p_sql text)
+returns text language plpgsql immutable set search_path = pg_catalog as $$
+declare
+  v_skel text;   -- sem textos entre aspas, identificadores entre aspas e comentários
+  v_ids  text;   -- como v_skel, mas mantendo o conteúdo dos identificadores "entre aspas"
+  v_depth int := 0;
+  ch text;
+begin
+  if p_sql is null or length(btrim(p_sql)) = 0 then return 'Escreva uma consulta.'; end if;
+  if length(p_sql) > 20000 then return 'Consulta muito longa (máximo 20.000 caracteres).'; end if;
+
+  -- (O regex do Postgres usa uma só preferência gulosa/preguiçosa para tudo; por isso o comentário
+  -- de bloco é escrito sem quantificador preguiçoso.)
+  -- Passagem única: o primeiro "token" que começa vence (texto, identificador ou comentário).
+  v_skel := regexp_replace(p_sql, '''(?:[^'']|'''')*''|"(?:[^"]|"")*"|--[^\n]*|/\*(?:[^*]|\*+[^*/])*\*+/', ' ', 'g');
+  v_ids  := regexp_replace(p_sql, '''(?:[^'']|'''')*''|"((?:[^"]|"")*)"|--[^\n]*|/\*(?:[^*]|\*+[^*/])*\*+/', ' \1 ', 'g');
+
+  if v_skel ~ '[''"]' or position('/*' in v_skel) > 0 then
+    return 'Há aspas ou comentário /* */ sem fechar.';
+  end if;
+  if position('$' in v_skel) > 0 then return 'O caractere $ não é permitido.'; end if;
+
+  v_skel := regexp_replace(v_skel, '[\s;]+$', '');           -- um ";" no fim é tolerado
+  if position(';' in v_skel) > 0 then
+    return 'Execute uma consulta por vez (sem ";" no meio). Selecione o trecho e use Ctrl+Enter.';
+  end if;
+  if btrim(v_skel) = '' then return 'Escreva uma consulta (só há comentários).'; end if;
+  if v_skel !~* '^\s*(select|with|values|table)\M' then
+    return 'Apenas consultas de leitura (SELECT, WITH, VALUES ou TABLE) são permitidas.';
+  end if;
+
+  for i in 1 .. length(v_skel) loop
+    ch := substr(v_skel, i, 1);
+    if ch = '(' then v_depth := v_depth + 1;
+    elsif ch = ')' then
+      v_depth := v_depth - 1;
+      if v_depth < 0 then return 'Parênteses desbalanceados.'; end if;
+    end if;
+  end loop;
+  if v_depth <> 0 then return 'Parênteses desbalanceados.'; end if;
+
+  if v_ids ~* '\m(into|set_config|current_setting|query_to_xml\w*|cursor_to_xml\w*|table_to_xml\w*|schema_to_xml\w*|database_to_xml\w*|ts_stat|dblink\w*|pg_read_\w+|pg_ls_\w+|pg_stat_file|pg_sleep\w*|pg_notify|pg_terminate_backend|pg_cancel_backend|pg_advisory\w*|lo_\w+|lowrite|loread|nextval|setval|currval)\M' then
+    return 'Esta consulta usa um recurso que não é permitido no editor (INTO, SET_CONFIG, QUERY_TO_XML, etc.).';
+  end if;
+  return null;
+end;
+$$;
+
+-- ───────────── API (RPC) ─────────────
+create or replace function public.app_run_sql(p_token text, p_sql text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  c_limit constant int := 500;
+  u public.app_users := public._app_user(p_token);       -- exige sessão válida (erro 28000 se não)
+  v_err text;
+  v_sql text;
+  v_rows json;
+  v_n int;
+  t0 timestamptz := clock_timestamp();
+  v_ms int;
+begin
+  v_err := public._app_sql_check(p_sql);
+  if v_err is not null then return json_build_object('error', v_err); end if;
+  v_sql := regexp_replace(p_sql, '[\s;]+$', '');
+
+  begin
+    v_rows := app_runner.run(v_sql, c_limit);
+  exception
+    when query_canceled then
+      return json_build_object('error', 'A consulta demorou demais e foi interrompida. Filtre mais ou use LIMIT.');
+    when others then
+      return json_build_object('error', sqlerrm, 'code', sqlstate);
+  end;
+
+  v_ms := (extract(epoch from clock_timestamp() - t0) * 1000)::int;
+  v_n := json_array_length(v_rows);
+  if v_n > c_limit then
+    select json_agg(e order by ord) into v_rows from json_array_elements(v_rows) with ordinality t(e, ord) where ord <= c_limit;
+  end if;
+  if length(v_rows::text) > 4000000 then
+    return json_build_object('error', 'Resultado muito grande. Selecione menos colunas ou use LIMIT.');
+  end if;
+  return json_build_object(
+    'columns', (select coalesce(json_agg(k), '[]'::json) from json_object_keys(coalesce(v_rows -> 0, '{}'::json)) k),
+    'rows', v_rows, 'truncated', v_n > c_limit, 'limit', c_limit, 'ms', v_ms);
+end;
+$$;
+
+-- Tabelas e colunas do schema treinamento (para o painel lateral do editor).
+create or replace function public.app_sql_schema(p_token text)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_user(p_token);
+begin
+  return (select coalesce(json_agg(json_build_object(
+            'table', t.table_name,
+            'columns', (select json_agg(json_build_object('name', c.column_name, 'type', c.data_type) order by c.ordinal_position)
+                          from information_schema.columns c where c.table_schema = 'treinamento' and c.table_name = t.table_name))
+          order by t.table_name), '[]'::json)
+          from information_schema.tables t where t.table_schema = 'treinamento' and t.table_type = 'BASE TABLE');
+end;
+$$;
+
+revoke all on function public._app_sql_check(text) from public, anon, authenticated;
+revoke all on function public.app_run_sql(text, text) from public;
+revoke all on function public.app_sql_schema(text) from public;
+grant execute on function public.app_run_sql(text, text) to anon;     -- o app usa a chave anon (sem Supabase Auth)
+grant execute on function public.app_sql_schema(text) to anon;

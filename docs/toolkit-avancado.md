@@ -98,7 +98,7 @@ Ferramentas: SQL · Python · Power BI
 - 🗄️ [RFM e coortes de clientes](../toolkit/templates/sql/t-sql-rfm.sql) — Recência, Frequência, Valor e retenção por coorte.
 
 ### 5) Recursos
-- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
+- [Editor SQL do app](../web/public/sql) — Escreva e execute consultas SQL no schema treinamento direto no navegador (somente leitura, até 500 linhas, exporta CSV). Não precisa de instalação nem de conta no Supabase.
 
 ---
 
@@ -211,7 +211,7 @@ Ferramentas: SQL · Excel DRE · Power BI
 - 📦 [Modelo de relatório de entrega semanal](../toolkit/templates/entrega/c-entrega-semanal.md) — Estrutura para o documento que acompanha cada entrega semanal.
 
 ### 5) Recursos
-- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
+- [Editor SQL do app](../web/public/sql) — Escreva e execute consultas SQL no schema treinamento direto no navegador (somente leitura, até 500 linhas, exporta CSV). Não precisa de instalação nem de conta no Supabase.
 - [Microsoft Learn – Power BI](https://learn.microsoft.com/power-bi/) — Trilhas gratuitas e documentação completa do Power BI.
 
 > 📦 **Entregável semanal 5:** Segmentação e previsão — Relatório com RFM de clientes, previsão de receita de 6 meses e análise financeira (DRE + caixa), com recomendação por área.

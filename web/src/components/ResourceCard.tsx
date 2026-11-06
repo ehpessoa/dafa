@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { SUPABASE_URL } from '../lib/supabase';
 import type { Resource } from '../lib/types';
 
@@ -6,7 +7,8 @@ export default function ResourceCard({ r }: { r: Resource }) {
   const [copied, setCopied] = useState(false);
   const isEnv = r.url.startsWith('{{');
   const url = isEnv ? SUPABASE_URL || '(configure VITE_SUPABASE_URL)' : r.url;
-  const internal = r.url.startsWith('/');
+  const internal = r.url.startsWith('/') && /\.\w+$/.test(r.url);     // arquivo do app (download)
+  const route = r.url.startsWith('/') && !internal;                    // página do app (ex.: /sql)
   return (
     <div className="card flat">
       <div className="row between">
@@ -17,7 +19,8 @@ export default function ResourceCard({ r }: { r: Resource }) {
           {isEnv && <div className="row small" style={{ marginTop: 8 }}><code>{url}</code>
             <button className="btn sm" onClick={async () => { try { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* ignore */ } }}>{copied ? '✔' : '📋 Copiar'}</button></div>}
         </div>
-        {!isEnv && <a className="btn primary sm" href={r.url} {...(internal ? { download: true } : { target: '_blank', rel: 'noreferrer noopener' })}>{internal ? '⬇ Baixar' : 'Abrir ↗'}</a>}
+        {route && <Link className="btn primary sm" to={r.url}>Abrir ↗</Link>}
+        {!isEnv && !route && <a className="btn primary sm" href={r.url} {...(internal ? { download: true } : { target: '_blank', rel: 'noreferrer noopener' })}>{internal ? '⬇ Baixar' : 'Abrir ↗'}</a>}
       </div>
     </div>
   );

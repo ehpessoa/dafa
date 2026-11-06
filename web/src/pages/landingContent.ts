@@ -67,8 +67,8 @@ export const TRAILS: LandingTrail[] = [
           learn: ['Registrar cada transformação para que se repita a cada atualização', 'Acabar com a "limpeza manual" de todo mês, como juntar 12 arquivos mensais em uma só tabela'],
           practice: 'Cria as colunas "no prazo" e "dias de atraso" nas entregas e desenha o fluxo da fonte ao relatório.' },
         { day: 15, title: 'DAX I: medidas e contexto',
-          learn: ['Criar cálculos que ficam corretos em qualquer filtro', 'A diferença entre quem só arrasta campos e quem constrói análises confiáveis'],
-          practice: 'Cria 8 medidas (Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, CTR e % do Total) e prova que 3 delas batem com o SQL.',
+          learn: ['Criar cálculos que ficam corretos em qualquer filtro', 'A diferença entre quem só arrasta campos e quem constrói análises confiáveis', 'Calcular CPA e CTR de campanhas, que vêm de uma tabela sem ligação com as vendas'],
+          practice: 'Importa a tabela de campanhas, cria 8 medidas (Receita, Custo, Margem %, Pedidos, Ticket Médio, % do Total, CPA e CTR) e prova que 3 delas batem com o SQL.',
           delivery: 'Relatório Power BI com modelo estrela, Power Query documentado e 8 medidas.' },
       ] },
       { title: 'Semana 4 · Comparar períodos e automatizar com Python e IA', days: [

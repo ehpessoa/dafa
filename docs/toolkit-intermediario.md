@@ -196,18 +196,19 @@ Ferramentas: Power Query (Power BI/Excel) · Fluxo ETL (diagrama)
 - Contexto de linha e de filtro
 - CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT
 - ALL / REMOVEFILTERS para % do total
+- Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR
 
 **Cenários de uso**
 - **Comercial:** Ticket médio e % da receita por canal.
 - **Marketing:** CTR e CPA por campanha.
 
 ### 2) Conexão com as ferramentas
-Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.
+Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas.
 
 Ferramentas: Power BI Desktop · DAX Guide · Pacote de medidas DAX
 
 ### 3) Exercícios
-1. **8 medidas base** — Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, CTR e % do Total.  
+1. **8 medidas base** — Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais). Crie Receita, Custo, Margem %, Pedidos, Ticket Médio e % do Total e, a partir de fato_campanhas, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões).  
    _Entrega:_ Lista de medidas + prints
 2. **Validação cruzada** — Prove que 3 medidas batem com SQL.  
    _Entrega:_ Tabela de conferência

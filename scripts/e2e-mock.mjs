@@ -148,6 +148,9 @@ const shot = async (page, name, full = true) => { await page.waitForTimeout(1300
   await page.waitForSelector('text=Fila de avaliação');
   await page.goto(BASE + '/tutor/alunos'); await page.waitForSelector('text=Ana Souza'); await shot(page, '15-tutor-alunos');
   await page.click('text=Ana Souza'); await page.waitForSelector('text=Mapa de progresso'); await shot(page, '16-tutor-aluno');
+  await page.goto(BASE + '/sessao/15'); await page.waitForSelector('text=1) ESPECIFICAR'); await shot(page, '17-guia-ia-dia15');   // guia aberto no 1º uso
+  await page.goto(BASE + '/sessao/16'); await page.waitForSelector('text=Guia rápido: como usar a IA'); assert.equal(await page.locator('text=1) ESPECIFICAR').isVisible(), false, 'guia recolhido a partir do 2º uso');
+  await page.goto(BASE + '/sessao/15?tab=exercicios'); await page.waitForSelector('text=Vai usar IA para gerar código');
   await page.goto(BASE + '/sessao/4'); await page.waitForSelector('text=Por que isso importa');
   assert.deepEqual(errors, []);
 }

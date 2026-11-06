@@ -67,7 +67,7 @@ export const TRAILS: LandingTrail[] = [
           learn: ['Registrar cada transformação para que se repita a cada atualização', 'Acabar com a "limpeza manual" de todo mês, como juntar 12 arquivos mensais em uma só tabela'],
           practice: 'Cria as colunas "no prazo" e "dias de atraso" nas entregas e desenha o fluxo da fonte ao relatório.' },
         { day: 15, title: 'DAX I: medidas e contexto',
-          learn: ['Criar cálculos que ficam corretos em qualquer filtro, sem precisar decorar a sintaxe do DAX', 'Pedir a medida certa à IA: informar o modelo, a regra de negócio e o resultado esperado', 'Revisar o que a IA entregou e conferir com o SQL, para não confiar às cegas', 'Calcular CPA e CTR de campanhas, que vêm de uma tabela sem ligação com as vendas'],
+          learn: ['Criar cálculos que ficam corretos em qualquer filtro, sem precisar decorar a sintaxe do DAX', 'Um guia rápido de 5 passos para usar a IA em código, valendo para DAX e Python: especificar, gerar, revisar, testar e registrar', 'Revisar o que a IA entregou e conferir com o SQL, para não confiar às cegas', 'Calcular CPA e CTR de campanhas, que vêm de uma tabela sem ligação com as vendas'],
           practice: 'Escreve à mão Receita e % do Total, pede à IA as outras seis medidas (incluindo CPA e CTR), registra os pedidos e prova que 3 medidas batem com o SQL, listando o que precisou corrigir.',
           delivery: 'Relatório Power BI com modelo estrela, Power Query documentado e 8 medidas, com os pedidos feitos à IA registrados.' },
       ] },

@@ -194,7 +194,7 @@ Ferramentas: Power Query (Power BI/Excel) · Fluxo ETL (diagrama)
 **O que você vai aprender**
 - Coluna calculada vs. medida
 - Contexto de linha e de filtro: o que faz o número mudar
-- Como pedir uma medida à IA: modelo, regra de negócio e resultado esperado
+- O ciclo para usar IA em código (especificar, gerar, revisar, testar, registrar), o mesmo para DAX e Python: veja o Guia rápido
 - Revisar a medida da IA: filtros, relacionamentos e conferência com SQL
 - Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros
 - Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR
@@ -215,6 +215,7 @@ Ferramentas: Power BI Desktop · Assistente de IA (Claude) · Prompt p-dax · Pa
    _Entrega:_ Tabela de conferência + checklist
 
 ### 4) Templates
+- ✅ [Guia rápido: como usar a IA para gerar Python e DAX](../toolkit/templates/checklist/c-ia-guia.md) — Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.
 - 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.
 - 🤖 [Prompt: medida DAX com IA](../toolkit/templates/prompt/p-dax.md) — Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.
 - ✅ [Checklist: revisar uma medida DAX gerada por IA](../toolkit/templates/checklist/c-dax-revisao.md) — Seis conferências antes de confiar em uma medida que a IA escreveu.
@@ -259,6 +260,7 @@ Ferramentas: Power BI Desktop · Assistente de IA (Claude) · Prompt p-dax · Pa
    _Entrega:_ Nota de validação
 
 ### 4) Templates
+- ✅ [Guia rápido: como usar a IA para gerar Python e DAX](../toolkit/templates/checklist/c-ia-guia.md) — Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.
 - 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.
 - 🤖 [Prompt: medida DAX com IA](../toolkit/templates/prompt/p-dax.md) — Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.
 - ✅ [Checklist: revisar uma medida DAX gerada por IA](../toolkit/templates/checklist/c-dax-revisao.md) — Seis conferências antes de confiar em uma medida que a IA escreveu.
@@ -325,7 +327,7 @@ Ferramentas: Python 3.12+ · VS Code · pandas
 - **Marketing:** CPA por canal com groupby e formatação em R$.
 
 ### 2) Conexão com as ferramentas
-O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código.
+O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código. Releia o Guia rápido de IA, o mesmo que você usou no DAX (dias 15 e 16).
 
 Ferramentas: Assistente de IA (Claude) · Python + pandas · Templates de prompt
 
@@ -336,6 +338,7 @@ Ferramentas: Assistente de IA (Claude) · Python + pandas · Templates de prompt
    _Entrega:_ Script + conferência
 
 ### 4) Templates
+- ✅ [Guia rápido: como usar a IA para gerar Python e DAX](../toolkit/templates/checklist/c-ia-guia.md) — Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.
 - 🤖 [Prompt: limpeza de dados com pandas](../toolkit/templates/prompt/p-pandas-limpeza.md) — Gera código Python para inspecionar e limpar um DataFrame.
 - 🤖 [Prompt: análise exploratória com pandas](../toolkit/templates/prompt/p-pandas-analise.md) — Gera EDA guiada por perguntas de negócio.
 - 🤖 [Prompt: revisar código gerado por IA](../toolkit/templates/prompt/p-revisao-codigo.md) — Checklist de revisão antes de confiar no resultado.

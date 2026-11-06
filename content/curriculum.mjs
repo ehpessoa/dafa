@@ -157,13 +157,13 @@ export const sessions = [
 
   { day: 15, level: 'intermediario', title: 'DAX I: medidas e contexto – entrega da Semana 3', minutes: 150, deps: [14],
     why: 'Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.',
-    learn: ['Coluna calculada vs. medida', 'Contexto de linha e de filtro: o que faz o número mudar', 'Como pedir uma medida à IA: modelo, regra de negócio e resultado esperado', 'Revisar a medida da IA: filtros, relacionamentos e conferência com SQL', 'Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros', 'Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR'],
+    learn: ['Coluna calculada vs. medida', 'Contexto de linha e de filtro: o que faz o número mudar', 'O ciclo para usar IA em código (especificar, gerar, revisar, testar, registrar), o mesmo para DAX e Python: veja o Guia rápido', 'Revisar a medida da IA: filtros, relacionamentos e conferência com SQL', 'Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros', 'Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR'],
     scenarios: [['Comercial', 'Ticket médio e % da receita por canal.'], ['Marketing', 'CTR e CPA por campanha.']],
     tools: ['Power BI Desktop', 'Assistente de IA (Claude)', 'Prompt p-dax', 'Pacote de medidas DAX (gabarito)', 'DAX Guide'],
     connection: 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.',
     exercises: exs(['8 medidas base, com IA', 'Escreva você mesmo Receita e % do Total. Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais) e peça à IA, com o prompt p-dax, as outras seis: Custo, Margem %, Pedidos, Ticket Médio, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões). Registre cada pedido feito à IA.', 'Lista de medidas + pedidos à IA registrados'], ['Validação cruzada', 'Prove que 3 medidas batem com SQL e aplique o checklist de revisão: liste pelo menos 1 correção ou ponto de atenção que você encontrou numa medida da IA.', 'Tabela de conferência + checklist']),
     weekly: 3,
-    templates: ['b-dax-pack', 'p-dax', 'c-dax-revisao', 'd-star-schema', 'c-entrega-semanal'], resources: ['r-dax', 'r-pbi-learn'] },
+    templates: ['c-ia-guia', 'b-dax-pack', 'p-dax', 'c-dax-revisao', 'd-star-schema', 'c-entrega-semanal'], resources: ['r-dax', 'r-pbi-learn'] },
 
   { day: 16, level: 'intermediario', title: 'DAX II: inteligência de tempo', minutes: 120, deps: [15],
     why: 'Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.',
@@ -172,7 +172,7 @@ export const sessions = [
     tools: ['Power BI Desktop', 'Assistente de IA (Claude)', 'Prompt p-dax', 'Pacote DAX (gabarito)'],
     connection: 'Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito. A IA erra fácil em tempo (tabela de datas, período anterior): por isso cada medida precisa ser conferida com o SQL.',
     exercises: exs(['Painel de variação, com IA', 'Peça à IA, com o prompt p-dax, as medidas YTD, Mês Ant., Var % e 12M, aplique-as no modelo e exiba em linha + cartões. Registre os pedidos e as correções que fez.', 'Página .pbix + pedidos à IA registrados'], ['Caso de teste', 'Escolha um mês e confirme os valores com SQL.', 'Nota de validação']),
-    templates: ['b-dax-pack', 'p-dax', 'c-dax-revisao', 't-sql-cte-window'], resources: ['r-dax'] },
+    templates: ['c-ia-guia', 'b-dax-pack', 'p-dax', 'c-dax-revisao', 't-sql-cte-window'], resources: ['r-dax'] },
 
   { day: 17, level: 'intermediario', title: 'Python: instalação, VS Code e pandas básico', minutes: 150, deps: [10],
     why: 'Python automatiza análises repetidas e abre portas para estatística, previsão e IA. Para o administrativo, o objetivo não é programar tudo, e sim saber pedir, ler e validar código.',
@@ -188,9 +188,9 @@ export const sessions = [
     learn: ['Como escrever um bom prompt analítico (contexto, dados, restrições, saída)', 'groupby, merge, pivot_table', 'Revisar código da IA (joins, filtros, nulos)', 'Registrar prompts e versões'],
     scenarios: [['Financeiro', 'Conciliar lançamentos com merge e achar divergências.'], ['Marketing', 'CPA por canal com groupby e formatação em R$.']],
     tools: ['Assistente de IA (Claude)', 'Python + pandas', 'Templates de prompt'],
-    connection: 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código.',
+    connection: 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código. Releia o Guia rápido de IA, o mesmo que você usou no DAX (dias 15 e 16).',
     exercises: exs(['Limpeza guiada por IA', 'Use o prompt de limpeza, execute o código e liste 2 correções que você precisou fazer.', 'Código + log de revisão'], ['Análise de margem', 'Gere e valide análise de margem por categoria e compare com a SQL do dia 11.', 'Script + conferência']),
-    templates: ['p-pandas-limpeza', 'p-pandas-analise', 'p-revisao-codigo'], resources: ['r-pandas'] },
+    templates: ['c-ia-guia', 'p-pandas-limpeza', 'p-pandas-analise', 'p-revisao-codigo'], resources: ['r-pandas'] },
 
   { day: 19, level: 'intermediario', title: 'Visualização em Python e estatística descritiva', minutes: 120, deps: [18],
     why: 'Média engana. Distribuição, mediana e outliers mostram o que realmente acontece, e gráficos programáticos garantem reprodutibilidade.',

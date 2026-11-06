@@ -165,6 +165,19 @@ Contexto de negócio: [DESCREVA A ÁREA E O QUE AS COLUNAS SIGNIFICAM].
 Regras: use funções pequenas, não use bibliotecas além de pandas, imprima um resumo "antes x depois".
 Depois do código, liste 3 riscos/pegadinhas de qualidade de dados que eu devo verificar manualmente.` },
 
+  { slug: 'p-dax', kind: 'prompt', file: 'md', title: 'Prompt: medida DAX com IA',
+    description: 'Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.',
+    content: `Atue como especialista em Power BI e DAX e explique para um profissional administrativo, sem jargão.
+Meu modelo (tabelas, colunas e relacionamentos): [EX.: fato_itens_pedido[pedido_id, produto_id, quantidade, preco_unitario] -> dim_produtos[produto_id, custo]; dim_data[data] marcada como tabela de datas e ligada a fato_pedidos[data_pedido]].
+Regra de negócio: [EX.: "Receita = quantidade x preço unitário; pedidos cancelados ficam de fora"].
+Escreva a medida DAX chamada [NOME DA MEDIDA] que mostra [O QUE ELA DEVE MOSTRAR].
+Entregue:
+1. a medida, pronta para colar no Power BI;
+2. uma explicação em 3 linhas, em português simples, do que ela calcula e de como reage aos filtros (ex.: ano, canal, categoria);
+3. um caso de teste: como conferir o resultado com uma consulta SQL;
+4. o que pode dar errado (ex.: filtro ignorado, relacionamento inativo, tabela de datas).
+Use apenas as tabelas e colunas que informei. Se faltar informação, pergunte antes de escrever.` },
+
   { slug: 'p-pandas-analise', kind: 'prompt', file: 'md', title: 'Prompt: análise exploratória com pandas',
     description: 'Gera EDA guiada por perguntas de negócio.',
     content: `Atue como analista de dados. Tenho o DataFrame df com as colunas: [LISTA DE COLUNAS E TIPOS].
@@ -360,6 +373,15 @@ Receita 12M := CALCULATE([Receita], DATESINPERIOD(dim_data[data], MAX(dim_data[d
 % Entregas no Prazo := DIVIDE(CALCULATE(COUNTROWS(fato_entregas), fato_entregas[no_prazo] = TRUE()), COUNTROWS(fato_entregas))` },
 
   // ───────────── Checklists / entregas ─────────────
+  { slug: 'c-dax-revisao', kind: 'checklist', file: 'md', title: 'Checklist: revisar uma medida DAX gerada por IA',
+    description: 'Seis conferências antes de confiar em uma medida que a IA escreveu.',
+    content: `- [ ] A medida usa só tabelas e colunas que existem no meu modelo (a IA não inventou nada)?
+- [ ] Ao mudar o filtro (ano, canal, categoria), o número muda como eu espero?
+- [ ] Os filtros que deveriam valer (ex.: sem cancelados) estão sendo aplicados?
+- [ ] O total bate com a consulta SQL de referência, para pelo menos um mês?
+- [ ] Divisões usam DIVIDE (sem erro quando o denominador é zero)?
+- [ ] Sei explicar em uma frase o que a medida calcula e registrei o pedido e a correção que fiz?` },
+
   { slug: 'c-relatorio', kind: 'checklist', file: 'md', title: 'Checklist de qualidade de relatório/dashboard',
     description: 'Use antes de enviar qualquer entrega visual.',
     content: `- [ ] A pergunta de negócio está no topo da página?

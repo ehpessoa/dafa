@@ -173,7 +173,7 @@ flowchart LR
 | 14 | qui 26/11 | **Power Query: ETL sem código** | Transformações feitas no Power Query ficam registradas e se repetem a cada atualização, eliminando a "limpeza manual" mensal.. | D13 |
 | 15 | sex 27/11 | **DAX I: medidas e contexto – entrega da Semana 3** 📦 | Medidas DAX calculam números corretos em qualquer filtro. | D14 |
 
-> 📦 **Entregável da semana 3:** Modelo estrela com medidas DAX — Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX. _(prazo: sex 27/11)_
+> 📦 **Entregável da semana 3:** Modelo estrela com medidas DAX — Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX, com os pedidos feitos à IA registrados. _(prazo: sex 27/11)_
 
 ### 🚀 Semana 4 · Intermediário (30/11 – 04/12)
 

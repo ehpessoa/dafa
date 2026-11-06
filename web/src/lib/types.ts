@@ -1,5 +1,5 @@
 export type Role = 'student' | 'teacher';
-export interface Profile { id: string; email: string; full_name: string | null; avatar_url: string | null; role: Role; created_at: string }
+export interface Profile { id: string; email: string; full_name: string | null; avatar_url: string | null; role: Role; created_at: string; phone_verified?: boolean; phone_hint?: string | null }
 export interface Level { slug: string; position: number; title: string; emoji: string | null; color: string | null; objective: string | null; description: string | null }
 export interface Scenario { area: string; text: string }
 export interface Session {

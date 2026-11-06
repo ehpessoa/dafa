@@ -21,6 +21,7 @@ flowchart TD
 | `supabase/migrations/20261106000003_seed_curriculum.sql` | As 30 sessões, 67 exercícios, templates, recursos (gerado de `content/`) |
 | `supabase/migrations/20261106000004_custom_auth.sql` | **Autenticação própria**: `app_users`, sessões, funções RPC e bloqueio de acesso direto às tabelas |
 | `supabase/migrations/20261106000005_whatsapp_phone.sql` | **WhatsApp**: telefone no cadastro, confirmação de cadastro e recuperação de senha por código |
+| `supabase/migrations/20261106000006_phone_verification.sql` | **Verificação do WhatsApp** no cadastro (conta só é liberada após confirmar o código) |
 
 > Atalho: `supabase/apply_all.sql` contém todas as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
@@ -65,13 +66,14 @@ O cadastro pede o WhatsApp no formato `(99) 99999-9999`. O envio usa a Evolution
 | `SUPABASE_SERVICE_ROLE_KEY` | *Project Settings → API → service_role* (secreta) |
 | `VITE_SUPABASE_URL` | já usada pelo app (o servidor a reaproveita) |
 
-- **Cadastro:** após criar a conta, o app chama `/api/welcome` com o token de sessão; o servidor valida o token e envia a mensagem de boas-vindas **uma única vez** por conta.
+- **Verificação no cadastro:** ao criar a conta, `/api/verify-send` envia um código de 6 dígitos ao número informado. Enquanto o código não for confirmado (`app_verify_confirm`), a conta fica **não verificada** e o servidor recusa currículo, entregas e avaliações (`app_bootstrap`, `app_submit`, `app_review`); o app mostra a tela "Confirme seu WhatsApp" (reenviar código, corrigir número errado, sair). Código: validade 15 min, 5 tentativas, guardado só como hash, 1 envio por minuto. Contas anteriores à migration 006 ficam como verificadas.
+- **Boas-vindas:** depois de verificar, o app chama `/api/welcome` com o token; o servidor envia a confirmação de cadastro **uma única vez** por conta.
 - **Esqueci minha senha:** `/api/reset-request` gera um código de 6 dígitos (validade 15 min, 5 tentativas, guardado só como hash, 1 pedido por minuto) e envia ao WhatsApp cadastrado. O aluno informa código + nova senha (`app_reset_confirm`); as sessões antigas são encerradas. A resposta é igual exista a conta ou não (não revela e-mails cadastrados).
 - As funções que veem telefone/código (`app_welcome_claim`, `app_reset_issue`) só são executáveis pela `service_role`.
 - Contas criadas antes desta migration não têm WhatsApp e, por isso, não conseguem recuperar a senha pelo app (use o SQL abaixo). Para cadastrar o número: `update public.app_users set phone = '5511999998888' where email = '...';`
 - Em desenvolvimento local, as rotas `/api/*` exigem `vercel dev` (o `vite` sozinho não as executa).
 
-> ⚠️ **Limites conhecidos:** não há verificação de e-mail nem do número de WhatsApp (qualquer pessoa com a URL do app pode criar conta de aluno). Para turmas fechadas, considere um código de convite ou desativar o cadastro após a matrícula (backlog em `docs/03`).
+> ⚠️ **Limites conhecidos:** não há verificação de e-mail (o WhatsApp é verificado por código); qualquer pessoa com a URL do app pode criar conta de aluno, mas precisa receber o código no WhatsApp informado. Para turmas fechadas, considere um código de convite ou desativar o cadastro após a matrícula (backlog em `docs/03`).
 
 ## 3 · Tutores (perfil professor)
 

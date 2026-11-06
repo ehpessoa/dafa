@@ -4,6 +4,7 @@ import { DataProvider } from './lib/data';
 import Layout from './components/Layout';
 import { Spinner } from './components/ui';
 import Login from './pages/Login';
+import VerifyPhone from './pages/VerifyPhone';
 import Dashboard from './pages/Dashboard';
 import Trail from './pages/Trail';
 import SessionPage from './pages/Session';
@@ -19,6 +20,7 @@ function Gate() {
   const { profile, loading, isTeacher } = useAuth();
   if (loading) return <Spinner />;
   if (!profile) return <Login />;
+  if (profile.phone_verified === false) return <VerifyPhone />;
   const teacherOnly = (el: JSX.Element) => (isTeacher ? el : <Navigate to="/" replace />);
   return (
     <DataProvider>

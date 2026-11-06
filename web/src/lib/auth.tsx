@@ -10,11 +10,21 @@ interface Ctx {
   token: string | null; profile: Profile | null; loading: boolean; isTeacher: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (name: string, email: string, phone: string, password: string) => Promise<void>;
+  sendVerificationCode: () => Promise<void>;
+  confirmVerification: (code: string) => Promise<void>;
+  changePhone: (phone: string) => Promise<void>;
   requestPasswordReset: (email: string) => Promise<void>;
   confirmPasswordReset: (email: string, code: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 const AuthCtx = createContext<Ctx | null>(null);
+
+/** POST JSON para as funções do servidor (/api/*); lança Error com a mensagem devolvida. */
+async function post(url: string, body: unknown) {
+  const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const data = (await res.json().catch(() => ({}))) as { error?: string };
+  if (!res.ok) throw new Error(data.error ?? 'Não foi possível concluir agora. Tente novamente.');
+}
 
 interface AuthResult { token?: string; user?: Profile; error?: string }
 
@@ -43,14 +53,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = async (name: string, email: string, phone: string, password: string) => {
     const r = await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password, p_phone: phone });
     accept(r);
-    // Confirmação do cadastro por WhatsApp (feita pelo backend; falha aqui não impede o uso do app).
-    fetch('/api/welcome', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token: r.token }) }).catch(() => undefined);
+    // Envia o código de verificação do WhatsApp; se falhar, a tela de verificação oferece "Reenviar código".
+    post('/api/verify-send', { token: r.token }).catch(() => undefined);
   };
+  const sendVerificationCode = async () => { await post('/api/verify-send', { token }); };
+  const confirmVerification = async (code: string) => {
+    const r = await api<{ ok?: boolean; error?: string; user?: Profile }>('app_verify_confirm', { p_token: token, p_code: code });
+    if (!r.ok || !r.user) throw new Error(r.error ?? 'Não foi possível verificar o código.');
+    setProfile(r.user);
+    // Confirmação do cadastro por WhatsApp (uma única vez; falha aqui não impede o uso do app).
+    post('/api/welcome', { token }).catch(() => undefined);
+  };
+  const changePhone = async (phone: string) => { setProfile(await api<Profile>('app_change_phone', { p_token: token, p_phone: phone })); };
   /** Pede o código de redefinição; o backend envia por WhatsApp (resposta igual exista a conta ou não). */
   const requestPasswordReset = async (email: string) => {
-    const res = await fetch('/api/reset-request', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) });
-    const data = await res.json().catch(() => ({} as { error?: string }));
-    if (!res.ok) throw new Error(data.error ?? 'Não foi possível enviar o código agora.');
+    await post('/api/reset-request', { email });
   };
   const confirmPasswordReset = async (email: string, code: string, password: string) => {
     const r = await api<{ ok?: boolean; error?: string }>('app_reset_confirm', { p_email: email, p_code: code, p_password: password });
@@ -62,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (t) { try { await api('app_logout', { p_token: t }); } catch { /* sessão já removida localmente */ } }
   };
 
-  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, requestPasswordReset, confirmPasswordReset, signOut }}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, sendVerificationCode, confirmVerification, changePhone, requestPasswordReset, confirmPasswordReset, signOut }}>{children}</AuthCtx.Provider>;
 }
 export function useAuth() {
   const c = useContext(AuthCtx);

@@ -62,6 +62,7 @@ for (const t of ['app_users', 'app_sessions', 'submissions', 'reviews', 'session
 await fails(() => rpc('_app_user', ana.token), /permission denied/);       // internas não expostas
 
 
+await db.exec(`update public.app_users set phone_verified_at = now() where email in ('ana@gmail.com','tutor@x.com','bia@x.com')`);   // (a verificação em si é testada mais abaixo)
 // ── WhatsApp: telefone normalizado e funções restritas à service_role ──
 assert.equal((await db.query(`select phone from public.app_users where email='ana@gmail.com'`)).rows[0].phone, '5511999998888');
 assert.ok(!JSON.stringify(ana).includes('5511999998888'), 'telefone não vaza no perfil');
@@ -103,6 +104,46 @@ const r3 = await svc('app_reset_issue', 'bia@x.com');
 await db.exec(`update public.password_resets set expires_at = now() - interval '1 second'`);
 assert.match((await rpc('app_reset_confirm', 'bia@x.com', r3.code, 'nova-senha-123')).error, /inválido ou expirado/, 'código expirado');
 
+
+// ── Verificação do WhatsApp no cadastro ──
+const carla = await rpc('app_register', 'carla@x.com', 'senha-forte-3', 'Carla Dias', '(41) 97777-6666');
+assert.equal(carla.user.phone_verified, false); assert.equal(carla.user.phone_hint, '6666');
+await fails(() => rpc('app_bootstrap', carla.token), /Confirme seu WhatsApp/);
+await fails(() => rpc('app_submit', carla.token, 'd01-e1', 'x', null), /Confirme seu WhatsApp/);
+assert.equal((await rpc('app_me', carla.token)).phone_verified, false, 'app_me funciona para exibir a tela de verificação');
+await fails(() => rpc('app_verify_issue', carla.token), /permission denied/);
+assert.equal(await svc('app_verify_issue', 'x'.repeat(64)), null);
+assert.equal(await svc('app_welcome_claim', carla.token), null, 'sem boas-vindas antes de verificar');
+const v1 = await svc('app_verify_issue', carla.token);
+assert.match(v1.code, /^\d{6}$/); assert.equal(v1.phone, '5541977776666');
+assert.equal((await svc('app_verify_issue', carla.token)).throttled, true);
+assert.ok(!(await db.query(`select code_hash from public.phone_verifications`)).rows[0].code_hash.includes(v1.code));
+const bad = v1.code === '111111' ? '222222' : '111111';
+assert.match((await rpc('app_verify_confirm', carla.token, bad)).error, /inválido ou expirado/);
+// corrige o número → código anterior deixa de valer
+assert.equal((await rpc('app_change_phone', carla.token, '(41) 96666-5555')).phone_hint, '5555');
+await fails(() => rpc('app_change_phone', carla.token, '123'), /WhatsApp válido/);
+assert.match((await rpc('app_verify_confirm', carla.token, v1.code)).error, /inválido ou expirado/);
+await db.exec(`update public.phone_verifications set created_at = now() - interval '2 minutes'`);
+const v2 = await svc('app_verify_issue', carla.token);
+assert.equal(v2.phone, '5541966665555');
+const ok = await rpc('app_verify_confirm', carla.token, v2.code);
+assert.equal(ok.ok, true); assert.equal(ok.user.phone_verified, true);
+assert.equal((await rpc('app_bootstrap', carla.token)).sessions.length, 30, 'liberado após verificar');
+assert.ok(await svc('app_welcome_claim', carla.token), 'boas-vindas após verificar');
+await fails(() => rpc('app_change_phone', carla.token, '11999998888'), /já foi verificado/);
+assert.equal(await svc('app_verify_issue', carla.token), null, 'já verificada não recebe novo código');
+// 5 erros invalidam o código
+const dani = await rpc('app_register', 'dani@x.com', 'senha-forte-4', 'Dani Reis', '11955554444');
+const v3 = await svc('app_verify_issue', dani.token);
+for (let i = 0; i < 5; i++) await rpc('app_verify_confirm', dani.token, v3.code === '111111' ? '222222' : '111111');
+assert.match((await rpc('app_verify_confirm', dani.token, v3.code)).error, /inválido ou expirado/);
+// expirado
+await db.exec(`update public.phone_verifications set created_at = now() - interval '2 minutes', attempts = 0`);
+const v4 = await svc('app_verify_issue', dani.token);
+await db.exec(`update public.phone_verifications set expires_at = now() - interval '1 second'`);
+assert.match((await rpc('app_verify_confirm', dani.token, v4.code)).error, /inválido ou expirado/);
+
 // ── Bootstrap: escopo por perfil ──
 const T = { ana: (await rpc('app_login', 'ana@gmail.com', 'nova-senha-123')).token, tutor: (await rpc('app_login', 'tutor@x.com', 'outra-senha-9')).token, bia: (await rpc('app_login', 'bia@x.com', 'senha-forte-2')).token };
 const bs = await rpc('app_bootstrap', T.ana);
@@ -121,7 +162,7 @@ await fails(() => rpc('app_submit', T.ana, 'nao-existe', 'x', null), /inexistent
 // aluno não avalia; não vê entregas de outros
 await fails(() => rpc('app_review', T.ana, s1.id, 10, 'approved', 'ok'), /Apenas tutores/);
 assert.equal((await rpc('app_bootstrap', T.bia)).submissions.length, 0);
-let tb = await rpc('app_bootstrap', T.tutor); assert.equal(tb.submissions.length, 1); assert.equal(tb.profiles.length, 4);
+let tb = await rpc('app_bootstrap', T.tutor); assert.equal(tb.submissions.length, 1); assert.equal(tb.profiles.length, 6);
 // tutor pede ajustes → aluno refaz
 await fails(() => rpc('app_review', T.tutor, s1.id, 11, 'approved', 'ok'), /entre 0 e 10/);
 await fails(() => rpc('app_review', T.tutor, s1.id, 5, 'approved', ' '), /feedback/);

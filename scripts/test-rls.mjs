@@ -39,7 +39,8 @@ assert.equal((await as(bia, () => db.query('select count(*)::int n from public.r
 await review(tutor, r.id, 'approved', 8.5);
 // 7) Conclui todos os exercícios do dia 1 → dia 2 libera
 for (const e of ['d01-e2', 'd01-e3']) { const s = (await sub(ana, e)).rows[0]; await review(tutor, s.id, 'approved', 9); }
-assert.equal((await as(ana, () => db.query(`select public.session_done($1,1) d, public.session_unlocked($1,2) u`, [ana]))).rows[0].u, true);
+assert.equal((await db.query(`select public.session_unlocked($1,2) u`, [ana])).rows[0].u, true); // consulta como dono (sem RLS)
+await fails(() => as(ana, () => db.query(`select public.session_done($1,1)`, [bia])), /permission denied/); // não exposta via RPC
 await sub(ana, 'd02-e1');
 // 8) Bia continua bloqueada
 await fails(() => sub(bia, 'd02-e1'), /bloqueada/);

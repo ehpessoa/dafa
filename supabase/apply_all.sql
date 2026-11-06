@@ -177,10 +177,9 @@ returns boolean language sql stable security definer set search_path = public as
   );
 $$;
 
-revoke execute on function public.session_done(uuid, int) from public, anon;
-revoke execute on function public.session_unlocked(uuid, int) from public, anon;
-grant execute on function public.session_done(uuid, int) to authenticated;
-grant execute on function public.session_unlocked(uuid, int) to authenticated;
+-- Usadas só por triggers (security definer): não expor via RPC.
+revoke execute on function public.session_done(uuid, int) from public, anon, authenticated;
+revoke execute on function public.session_unlocked(uuid, int) from public, anon, authenticated;
 
 -- Antes de inserir uma entrega: força aluno, tentativa e status; valida bloqueios.
 create or replace function public.before_submission_insert()
@@ -295,6 +294,14 @@ create policy reviews_update on public.reviews
 
 -- Nenhum acesso para anon.
 revoke all on all tables in schema public from anon;
+
+-- Funções de trigger não devem ser chamáveis via API (RPC); is_teacher é usada pelas policies (só autenticados).
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
+revoke execute on function public.before_submission_insert() from public, anon, authenticated;
+revoke execute on function public.before_review_write() from public, anon, authenticated;
+revoke execute on function public.after_review_write() from public, anon, authenticated;
+revoke execute on function public.is_teacher() from public, anon;
+grant execute on function public.is_teacher() to authenticated;
 -- ============================================================================
 -- Banco de análise do treinamento: schema "treinamento" (dados 100% fictícios).
 -- Gerado de forma determinística (setseed) para que todos os alunos vejam os mesmos números.
@@ -498,6 +505,10 @@ grant select on all tables in schema treinamento to aluno_leitura;
 alter default privileges in schema treinamento grant select on tables to aluno_leitura;
 alter role aluno_leitura set statement_timeout = '30s';
 alter role aluno_leitura set search_path = treinamento, public;
+
+-- Defesa em profundidade: o schema não é exposto pela API e fica fechado para anon/authenticated.
+revoke all on all tables in schema treinamento from anon, authenticated;
+revoke usage on schema treinamento from anon, authenticated;
 
 comment on schema treinamento is 'Dados fictícios do programa DAFA. Somente leitura para alunos.';
 -- GERADO por scripts/build-content.mjs a partir de content/*.mjs. Não edite à mão.

@@ -202,4 +202,8 @@ alter default privileges in schema treinamento grant select on tables to aluno_l
 alter role aluno_leitura set statement_timeout = '30s';
 alter role aluno_leitura set search_path = treinamento, public;
 
+-- Defesa em profundidade: o schema não é exposto pela API e fica fechado para anon/authenticated.
+revoke all on all tables in schema treinamento from anon, authenticated;
+revoke usage on schema treinamento from anon, authenticated;
+
 comment on schema treinamento is 'Dados fictícios do programa DAFA. Somente leitura para alunos.';

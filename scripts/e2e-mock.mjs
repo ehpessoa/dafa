@@ -48,6 +48,7 @@ async function rpc(fn, b) {
     case 'app_login': { const u = U.find((x) => x.email === b.p_email.toLowerCase()); return u && u.password === b.p_password ? { token: newToken(u), user: pub(u) } : { error: 'E-mail ou senha inválidos.' }; }
     case 'app_register': {
       if (U.some((x) => x.email === b.p_email.toLowerCase())) throw new Error('Este e-mail já está cadastrado. Use "Entrar".');
+      if (!/^\d{10,13}$/.test(String(b.p_phone ?? '').replace(/\D/g, ''))) throw new Error('Informe um WhatsApp válido no formato (99) 99999-9999.');
       const u = { ...mkUser(randomUUID(), b.p_email.toLowerCase(), b.p_name, 'student'), password: b.p_password }; U.push(u);
       return { token: newToken(u), user: pub(u) };
     }

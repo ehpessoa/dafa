@@ -20,8 +20,9 @@ flowchart TD
 | `supabase/migrations/20261106000002_training_dataset.sql` | Schema `treinamento` com dados fictícios (≈ 6.900 pedidos, 15 mil itens) + role `aluno_leitura` |
 | `supabase/migrations/20261106000003_seed_curriculum.sql` | As 30 sessões, 67 exercícios, templates, recursos (gerado de `content/`) |
 | `supabase/migrations/20261106000004_custom_auth.sql` | **Autenticação própria**: `app_users`, sessões, funções RPC e bloqueio de acesso direto às tabelas |
+| `supabase/migrations/20261106000005_whatsapp_phone.sql` | **WhatsApp**: telefone no cadastro, confirmação de cadastro e recuperação de senha por código |
 
-> Atalho: `supabase/apply_all.sql` contém as 3 migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
+> Atalho: `supabase/apply_all.sql` contém todas as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
 3. **URL do projeto:** *Project Settings → API* (`https://<ref>.supabase.co`). É o valor de `VITE_SUPABASE_URL` e o que aparece em *Recursos → Supabase do programa* no app.
 
@@ -34,7 +35,7 @@ sequenceDiagram
   participant A as Navegador (app)
   participant R as Supabase (funções RPC)
   participant T as Tabelas (fechadas)
-  A->>R: app_register(nome, e-mail, senha)
+  A->>R: app_register(nome, e-mail, WhatsApp, senha)
   R->>T: grava app_users (senha em bcrypt) + sessão (hash do token)
   R-->>A: token + perfil (student ou teacher)
   A->>R: app_bootstrap(token)
@@ -52,7 +53,25 @@ sequenceDiagram
 | Acesso aos dados | As tabelas não são acessíveis pela API; só as funções `app_*` (que checam o perfil) |
 | Perfis | `student` (vê só os próprios dados) e `teacher` (vê a turma e avalia) |
 
-> ⚠️ **Limites conhecidos:** não há recuperação de senha por e-mail nem verificação de e-mail (qualquer pessoa com a URL do app pode criar conta de aluno). Para turmas fechadas, considere um código de convite ou desativar o cadastro após a matrícula (backlog em `docs/03`).
+### WhatsApp: confirmação de cadastro e recuperação de senha
+
+O cadastro pede o WhatsApp no formato `(99) 99999-9999`. O envio usa a Evolution API (`https://zap.senszia.com`) **pelo servidor** — as funções `web/api/welcome.ts` e `web/api/reset-request.ts` (Vercel) — para que a apikey nunca vá ao navegador.
+
+| Variável (Vercel → Settings → Environment Variables, **sem** prefixo `VITE_`) | Valor |
+|---|---|
+| `EVOLUTION_API_URL` | `https://zap.senszia.com` |
+| `EVOLUTION_API_KEY` | apikey da instância |
+| `EVOLUTION_INSTANCE` | nome da instância já conectada (QR) |
+| `SUPABASE_SERVICE_ROLE_KEY` | *Project Settings → API → service_role* (secreta) |
+| `VITE_SUPABASE_URL` | já usada pelo app (o servidor a reaproveita) |
+
+- **Cadastro:** após criar a conta, o app chama `/api/welcome` com o token de sessão; o servidor valida o token e envia a mensagem de boas-vindas **uma única vez** por conta.
+- **Esqueci minha senha:** `/api/reset-request` gera um código de 6 dígitos (validade 15 min, 5 tentativas, guardado só como hash, 1 pedido por minuto) e envia ao WhatsApp cadastrado. O aluno informa código + nova senha (`app_reset_confirm`); as sessões antigas são encerradas. A resposta é igual exista a conta ou não (não revela e-mails cadastrados).
+- As funções que veem telefone/código (`app_welcome_claim`, `app_reset_issue`) só são executáveis pela `service_role`.
+- Contas criadas antes desta migration não têm WhatsApp e, por isso, não conseguem recuperar a senha pelo app (use o SQL abaixo). Para cadastrar o número: `update public.app_users set phone = '5511999998888' where email = '...';`
+- Em desenvolvimento local, as rotas `/api/*` exigem `vercel dev` (o `vite` sozinho não as executa).
+
+> ⚠️ **Limites conhecidos:** não há verificação de e-mail nem do número de WhatsApp (qualquer pessoa com a URL do app pode criar conta de aluno). Para turmas fechadas, considere um código de convite ou desativar o cadastro após a matrícula (backlog em `docs/03`).
 
 ## 3 · Tutores (perfil professor)
 

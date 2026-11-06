@@ -57,7 +57,7 @@ erDiagram
 
 | Regra | Implementação |
 |---|---|
-| Cadastro e login próprios | `app_register`, `app_login`, `app_logout`, `app_me` (tabela `app_users`, bcrypt, sessões com token) |
+| Cadastro e login próprios | `app_register` (com WhatsApp), `app_login`, `app_logout`, `app_me`, `app_reset_confirm` (código por WhatsApp) (tabela `app_users`, bcrypt, sessões com token) |
 | Nenhuma tabela é lida/escrita direto pela API | RLS ativo sem policies + `revoke` para `anon`/`authenticated` |
 | Aluno só vê as próprias entregas/avaliações; tutor vê a turma | `app_bootstrap` filtra por perfil |
 | Sessão bloqueada não aceita entrega | `app_submit` verifica as dependências no servidor |

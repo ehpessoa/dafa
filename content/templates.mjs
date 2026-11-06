@@ -346,10 +346,13 @@ Ticket Médio = DIVIDE([Receita], [Pedidos])
 Checklist de entrega: nome de abas claro, título-conclusão, cores consistentes, sem poluição, tooltip, bookmark de reset.
 Exporte o .pbix e anexe o link (OneDrive/Drive) na submissão.` },
   { slug: 'b-dax-pack', kind: 'pbix', file: 'dax', title: 'Pacote de medidas DAX',
-    description: 'Medidas básicas e de inteligência de tempo.',
+    description: 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.',
     content: `Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
 Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
 Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
 Receita YTD := TOTALYTD([Receita], dim_data[data])
 Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
 Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])

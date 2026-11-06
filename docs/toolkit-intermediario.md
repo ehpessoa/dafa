@@ -214,7 +214,7 @@ Ferramentas: Power BI Desktop · DAX Guide · Pacote de medidas DAX
    _Entrega:_ Tabela de conferência
 
 ### 4) Templates
-- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas e de inteligência de tempo.
+- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.
 - 🧩 [Modelo estrela para Power BI](../toolkit/templates/diagram/d-star-schema.md) — Fato Vendas no centro, dimensões Data, Cliente, Produto, Canal.
 - 📦 [Modelo de relatório de entrega semanal](../toolkit/templates/entrega/c-entrega-semanal.md) — Estrutura para o documento que acompanha cada entrega semanal.
 
@@ -255,7 +255,7 @@ Ferramentas: Power BI Desktop · Pacote DAX
    _Entrega:_ Nota de validação
 
 ### 4) Templates
-- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas e de inteligência de tempo.
+- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.
 - 🗄️ [CTEs, subqueries e window functions](../toolkit/templates/sql/t-sql-cte-window.sql) — Ranking, acumulado e variação mês a mês.
 
 ### 5) Recursos

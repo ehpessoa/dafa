@@ -928,9 +928,12 @@ Ticket Médio = DIVIDE([Receita], [Pedidos])
 
 Checklist de entrega: nome de abas claro, título-conclusão, cores consistentes, sem poluição, tooltip, bookmark de reset.
 Exporte o .pbix e anexe o link (OneDrive/Drive) na submissão.', null, 'b-pbix-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
-insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
 Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
 Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
 Receita YTD := TOTALYTD([Receita], dim_data[data])
 Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
 Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])
@@ -1789,3 +1792,15 @@ insert into public.exercises (id, session_day, position, title, instructions, de
 -- Dia 15: orienta importar fato_campanhas (sem relacionamento) para CPA e CTR (idempotente).
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base', 'Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais). Crie Receita, Custo, Margem %, Pedidos, Ticket Médio e % do Total e, a partir de fato_campanhas, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões).', 'Lista de medidas + prints') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+-- Pacote DAX: inclui CPA e CTR (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
+Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
+Receita YTD := TOTALYTD([Receita], dim_data[data])
+Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
+Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])
+Receita 12M := CALCULATE([Receita], DATESINPERIOD(dim_data[data], MAX(dim_data[data]), -12, MONTH))
+% Entregas no Prazo := DIVIDE(CALCULATE(COUNTROWS(fato_entregas), fato_entregas[no_prazo] = TRUE()), COUNTROWS(fato_entregas))', null, 'b-dax-pack.dax') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;

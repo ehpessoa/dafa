@@ -22,7 +22,10 @@ flowchart TD
 | `supabase/migrations/20261106000004_custom_auth.sql` | **Autenticação própria**: `app_users`, sessões, funções RPC e bloqueio de acesso direto às tabelas |
 | `supabase/migrations/20261106000005_sql_editor.sql` | **Editor SQL do app**: `app_run_sql`, `app_sql_schema` e o executor `app_runner.run` (dono: `aluno_leitura`). Exige a migration 002 (role) |
 
-> Atalho: `supabase/apply_all.sql` contém todas as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
+> Atalhos (cole no SQL Editor e execute):
+> - **Banco novo**: `supabase/apply_all.sql` (todas as migrations; **só funciona uma vez**, em banco vazio — num banco já configurado falha com `relation "app_users" already exists`).
+> - **Banco já configurado** (atualizar currículo/recursos e o Editor SQL): `supabase/apply_update.sql` (migrations 003 + 005, podem ser reaplicadas). Regenere com `cat supabase/migrations/*0003_seed_curriculum.sql supabase/migrations/*0005_sql_editor.sql > supabase/apply_update.sql`.
+> - **Nunca** reaplique a migration 004 num banco com alunos: ela recria as tabelas de entregas.
 
 3. **URL do projeto:** *Project Settings → API* (`https://<ref>.supabase.co`). É o valor de `VITE_SUPABASE_URL` e o que aparece em *Recursos → Supabase do programa* no app.
 

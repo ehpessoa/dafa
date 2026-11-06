@@ -6,6 +6,7 @@ import { Spinner } from './components/ui';
 import Login from './pages/Login';
 import VerifyPhone from './pages/VerifyPhone';
 import AcceptInvite from './pages/AcceptInvite';
+import Profile from './pages/Profile';
 import Invites from './pages/teacher/Invites';
 import Dashboard from './pages/Dashboard';
 import Trail from './pages/Trail';
@@ -32,6 +33,7 @@ function Gate() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path="perfil" element={<Profile />} />
           <Route path="trilha" element={<Trail />} />
           <Route path="sessao/:day" element={<SessionPage />} />
           <Route path="calendario" element={<CalendarPage />} />

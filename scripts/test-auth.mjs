@@ -253,7 +253,7 @@ await fails(() => svc('app_invite_issue', tutTok, 'Lia Costa', 'ana@gmail.com', 
 const inv = await svc('app_invite_issue', tutTok, 'Lia Costa', 'LIA@x.com', '(11) 99999-0000');
 assert.equal(inv.invite.length, 64); assert.equal(inv.phone, '5511999990000');
 assert.ok(!(await db.query(`select token_hash from public.student_invites`)).rows[0].token_hash.includes(inv.invite), 'só o hash é guardado');
-assert.deepEqual(await rpc('app_invite_info', inv.invite), { name: 'Lia Costa', email: 'lia@x.com', phone_hint: '0000' });
+assert.deepEqual(await rpc('app_invite_info', inv.invite), { name: 'Lia Costa', email: 'lia@x.com', phone_hint: '0000', role: 'student' });
 assert.match((await rpc('app_invite_info', 'x'.repeat(64))).error, /inválido ou expirado/);
 // reenvio substitui o convite anterior
 const inv2 = await svc('app_invite_issue', tutTok, 'Lia Costa', 'lia@x.com', '11999990000');
@@ -287,4 +287,64 @@ await db.exec(`insert into public.student_invites (token_hash, email, full_name,
 await fails(() => svc('app_invite_issue', tutTok, 'Mais Um', 'mais@x.com', '11999990000'), /Limite de 30/);
 await db.exec(`delete from public.student_invites where token_hash like 'h%'`);
 await db.exec(`select public.admin_set_signup('open')`);
+// ── Perfil, troca de WhatsApp, convite de tutor e troca de perfil ──
+await db.exec(`select public.admin_set_signup('open')`);
+const pAna = (await rpc('app_login', 'ana@gmail.com', 'nova-senha-123')).token;
+const pTut = (await rpc('app_login', 'tutor@x.com', 'outra-senha-9')).token;
+// nome sem senha; e-mail exige a senha atual
+assert.equal((await rpc('app_profile_update', pAna, 'Ana S. Souza', 'ana@gmail.com', null)).user.full_name, 'Ana S. Souza');
+await fails(() => rpc('app_profile_update', pAna, 'A', 'ana@gmail.com', null), /nome/);
+await fails(() => rpc('app_profile_update', pAna, 'Ana', 'ruim', null), /e-mail válido/);
+assert.match((await rpc('app_profile_update', pAna, 'Ana S. Souza', 'ana2@gmail.com', 'errada!!')).error, /Senha atual incorreta/);
+await fails(() => rpc('app_profile_update', pAna, 'Ana S. Souza', 'bia@x.com', 'nova-senha-123'), /já está em uso/);
+assert.equal((await rpc('app_profile_update', pAna, 'Ana S. Souza', 'Ana2@gmail.com', 'nova-senha-123')).user.email, 'ana2@gmail.com');
+assert.ok((await rpc('app_login', 'ana2@gmail.com', 'nova-senha-123')).token);
+// senha: valida a atual, encerra os outros dispositivos, mantém o atual
+const outro = (await rpc('app_login', 'ana2@gmail.com', 'nova-senha-123')).token;
+assert.match((await rpc('app_change_password', pAna, 'errada!!', 'senha-nova-456')).error, /Senha atual incorreta/);
+assert.match((await rpc('app_change_password', pAna, 'nova-senha-123', 'curta')).error, /pelo menos 8/);
+assert.deepEqual(await rpc('app_change_password', pAna, 'nova-senha-123', 'senha-nova-456'), { ok: true });
+assert.equal(await rpc('app_me', outro), null, 'outros dispositivos saem');
+assert.ok(await rpc('app_me', pAna), 'sessão atual continua');
+assert.equal((await rpc('app_login', 'ana2@gmail.com', 'nova-senha-123')).error, 'E-mail ou senha inválidos.');
+// bloqueio após 5 senhas atuais erradas
+for (let i = 0; i < 5; i++) await rpc('app_change_password', pAna, 'errada!!', 'senha-nova-789');
+assert.match((await rpc('app_change_password', pAna, 'senha-nova-456', 'senha-nova-789')).error, /Muitas tentativas/);
+await db.exec(`update public.app_users set locked_until = null, failed_attempts = 0 where email='ana2@gmail.com'`);
+// troca de WhatsApp
+await fails(() => rpc('app_phone_change_issue', pAna, 'senha-nova-456', '11988887777'), /permission denied/);
+await fails(() => svc('app_phone_change_issue', pAna, 'senha-nova-456', '123'), /WhatsApp válido/);
+await fails(() => svc('app_phone_change_issue', pAna, 'senha-nova-456', '(11) 99999-8888'), /já é o seu/);
+assert.match((await svc('app_phone_change_issue', pAna, 'errada!!', '11988887777')).error, /Senha atual incorreta/);
+const pc = await svc('app_phone_change_issue', pAna, 'senha-nova-456', '(11) 98888-7777');
+assert.equal(pc.phone, '5511988887777'); assert.match(pc.code, /^\d{6}$/);
+assert.equal((await svc('app_phone_change_issue', pAna, 'senha-nova-456', '11988887777')).throttled, true);
+assert.equal((await db.query(`select phone from public.app_users where email='ana2@gmail.com'`)).rows[0].phone, '5511999998888', 'número só muda após confirmar');
+assert.match((await rpc('app_phone_change_confirm', pAna, pc.code === '111111' ? '222222' : '111111')).error, /inválido ou expirado/);
+const done = await rpc('app_phone_change_confirm', pAna, pc.code);
+assert.equal(done.ok, true); assert.equal(done.user.phone_hint, '7777');
+assert.equal((await db.query(`select phone from public.app_users where email='ana2@gmail.com'`)).rows[0].phone, '5511988887777');
+assert.match((await rpc('app_phone_change_confirm', pAna, pc.code)).error, /inválido ou expirado/, 'código de uso único');
+// convite de tutor
+const ti = await svc('app_invite_issue', pTut, 'Tiago Tutor', 'tiago@x.com', '31977775555', 'teacher');
+assert.equal(ti.role, 'teacher');
+assert.equal((await rpc('app_invite_info', ti.invite)).role, 'teacher');
+await fails(() => svc('app_invite_issue', pTut, 'X Y', 'xy@x.com', '31977775555', 'admin'), /Perfil inválido/);
+await fails(() => svc('app_invite_issue', pAna, 'X Y', 'xy@x.com', '31977775555', 'teacher'), /Apenas tutores/);   // aluno não convida
+const tiago = await rpc('app_invite_accept', ti.invite, 'senha-do-tiago-1');
+assert.equal(tiago.user.role, 'teacher');
+assert.equal((await rpc('app_invite_list', pTut)).find((x) => x.email === 'tiago@x.com').role, 'teacher');
+assert.equal((await rpc('app_bootstrap', tiago.token)).profiles.length > 3, true, 'novo tutor enxerga a turma');
+// troca de perfil
+const anaId = (await db.query(`select id from public.app_users where email='ana2@gmail.com'`)).rows[0].id;
+const tutId = (await db.query(`select id from public.app_users where email='tutor@x.com'`)).rows[0].id;
+await fails(() => rpc('app_set_role', pAna, anaId, 'teacher'), /Apenas tutores/);          // aluno não se promove
+await fails(() => rpc('app_set_role', pTut, tutId, 'student'), /próprio perfil/);           // ninguém muda o próprio
+await fails(() => rpc('app_set_role', pTut, anaId, 'admin'), /Perfil inválido/);
+await fails(() => rpc('app_set_role', pTut, '00000000-0000-0000-0000-000000000000', 'teacher'), /não encontrado/);
+assert.equal((await rpc('app_set_role', pTut, anaId, 'teacher')).role, 'teacher');
+assert.equal((await rpc('app_bootstrap', pAna)).profiles.length > 3, true, 'promovida vê a turma');
+await fails(() => rpc('app_submit', pAna, 'd05-e1', 'x', null), /Apenas alunos/);
+assert.equal((await rpc('app_set_role', tiago.token, anaId, 'student')).role, 'student');   // outro tutor rebaixa
+assert.equal((await rpc('app_bootstrap', pAna)).profiles.length, 1, 'rebaixada volta a ver só o próprio perfil');
 console.log('✅ Autenticação própria e regras de progressão: todos os testes passaram');

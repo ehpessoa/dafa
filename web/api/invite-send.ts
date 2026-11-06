@@ -1,8 +1,8 @@
-// POST /api/invite-send  { token, name, email, phone }  (token = sessão do TUTOR)
+// POST /api/invite-send  { token, name, email, phone, role? }  (token = sessão do TUTOR)
 // Cria o convite personalizado e envia por WhatsApp o link do app com o token do convite.
 import { firstName, json, rpc, sendWhatsAppText } from './_lib/server';
 
-interface Issued { id: string; invite: string; name: string; phone: string }
+interface Issued { id: string; invite: string; name: string; phone: string; role: 'student' | 'teacher' }
 
 export default {
   async fetch(request: Request): Promise<Response> {
@@ -13,7 +13,7 @@ export default {
 
     let issued: Issued;
     try {
-      issued = await rpc<Issued>('app_invite_issue', { p_token: str(b.token), p_name: str(b.name), p_email: str(b.email), p_phone: str(b.phone) });
+      issued = await rpc<Issued>('app_invite_issue', { p_token: str(b.token), p_name: str(b.name), p_email: str(b.email), p_phone: str(b.phone), p_role: b.role === 'teacher' ? 'teacher' : 'student' });
     } catch (e) {
       // Erros de validação do banco (e-mail inválido, aluno já cadastrado, limite...) são mensagens para o tutor.
       return json({ error: e instanceof Error ? e.message : 'Não foi possível criar o convite.' }, 400);
@@ -25,7 +25,7 @@ export default {
       await sendWhatsAppText(issued.phone, [
         `Olá, ${firstName(issued.name)}! 👋`,
         '',
-        'Você foi convidado(a) para o treinamento de *Análise de Dados da DAFA* 📊',
+        issued.role === 'teacher' ? 'Você foi convidado(a) para ser *tutor(a)* no treinamento de Análise de Dados da *DAFA* 🎓' : 'Você foi convidado(a) para o treinamento de *Análise de Dados da DAFA* 📊',
         '',
         'Toque no link abaixo, escolha sua senha e confirme para criar sua conta:',
         link,

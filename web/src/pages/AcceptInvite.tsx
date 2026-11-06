@@ -3,7 +3,7 @@ import { api, isConfigured } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { Spinner } from '../components/ui';
 
-interface Info { name?: string; email?: string; phone_hint?: string; error?: string }
+interface Info { role?: 'student' | 'teacher'; name?: string; email?: string; phone_hint?: string; error?: string }
 
 /** Tela aberta pelo link do convite (?convite=TOKEN): dados já definidos pelo tutor; o aluno só escolhe a senha. */
 export default function AcceptInvite({ invite }: { invite: string }) {
@@ -50,7 +50,7 @@ export default function AcceptInvite({ invite }: { invite: string }) {
           ) : (
             <form className="stack" onSubmit={submit}>
               <h2 style={{ margin: 0 }}>🎉 Olá, {info.name?.split(' ')[0]}!</h2>
-              <p className="muted" style={{ margin: 0 }}>Você foi convidado(a) para o treinamento de Análise de Dados. Confira seus dados e escolha uma senha para criar a conta.</p>
+              <p className="muted" style={{ margin: 0 }}>{info.role === 'teacher' ? 'Você foi convidado(a) para ser tutor(a) do treinamento de Análise de Dados.' : 'Você foi convidado(a) para o treinamento de Análise de Dados.'} Confira seus dados e escolha uma senha para criar a conta.</p>
               <div><label htmlFor="n">Nome</label><input id="n" value={info.name ?? ''} readOnly /></div>
               <div><label htmlFor="e">E-mail</label><input id="e" value={info.email ?? ''} readOnly /></div>
               <div><label htmlFor="w">WhatsApp</label><input id="w" value={`(••) •••••-${info.phone_hint?.slice(-4) ?? '••••'}`} readOnly /></div>

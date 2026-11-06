@@ -1,10 +1,22 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { api } from '../../lib/supabase';
+import { useAuth } from '../../lib/auth';
 import { useData } from '../../lib/data';
 import { fmtDate } from '../../lib/progress';
 import { Avatar, Empty, Progress } from '../../components/ui';
 
 export default function Students() {
-  const { data, progress } = useData();
+  const { data, progress, reload } = useData();
+  const { token, profile } = useAuth();
+  const [err, setErr] = useState('');
+  const tutors = data.profiles.filter((p) => p.role === 'teacher');
+  const demote = async (id: string, name: string | null) => {
+    if (!window.confirm(`Tornar ${name ?? 'este usuário'} aluno(a)? Ele(a) perde o acesso às áreas de tutor.`)) return;
+    setErr('');
+    try { await api('app_set_role', { p_token: token, p_user_id: id, p_role: 'student' }); await reload(); }
+    catch (e) { setErr(e instanceof Error ? e.message : String(e)); }
+  };
   const nav = useNavigate();
   const students = data.profiles.filter((p) => p.role === 'student');
   return (
@@ -19,6 +31,16 @@ export default function Students() {
             </tr>); })}
         </tbody></table></div>
       )}
+      <h2>🎓 Tutores</h2>
+      {err && <div className="alert err" role="alert">{err}</div>}
+      <div className="card scroll-x"><table><thead><tr><th>Tutor</th><th></th></tr></thead><tbody>
+        {tutors.map((t) => (
+          <tr key={t.id}>
+            <td><div className="row" style={{ flexWrap: 'nowrap' }}><Avatar name={t.full_name} url={t.avatar_url} size={30} /><div><b>{t.full_name}</b>{t.id === profile?.id && ' (você)'}<div className="small muted">{t.email}</div></div></div></td>
+            <td style={{ textAlign: 'right' }}>{t.id !== profile?.id && <button className="btn sm" type="button" onClick={() => void demote(t.id, t.full_name)}>Tornar aluno</button>}</td>
+          </tr>))}
+      </tbody></table></div>
+      <p className="small muted" style={{ margin: 0 }}>Para adicionar um tutor: convide-o em <Link to="/tutor/convites">Convites</Link> (perfil Tutor) ou abra um aluno e use "Promover a tutor".</p>
       <Link to="/tutor">← Visão da turma</Link>
     </div>
   );

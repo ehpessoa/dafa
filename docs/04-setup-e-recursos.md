@@ -26,6 +26,7 @@ flowchart TD
 | `supabase/migrations/20261106000008_data_dictionary.sql` | Dicionário de dados: novo template, diagrama ER completo e vínculo aos dias 1, 6, 7, 8 e 11 |
 | `supabase/migrations/20261106000015_whatsapp_verification.sql` | **WhatsApp**: telefone obrigatório no cadastro, **verificação do número por código** e **recuperação de senha por WhatsApp** (somam-se ao convite e ao reset do tutor) |
 | `supabase/migrations/20261106000016_student_invites.sql` | **Convites personalizados**: o tutor informa nome, e-mail e WhatsApp; o aluno recebe um link por WhatsApp e só define a senha |
+| `supabase/migrations/20261106000017_profile_and_roles.sql` | **Perfil editável** (nome, e-mail, WhatsApp, senha), **convite de tutor** e **troca de perfil** aluno ⇄ tutor |
 
 > Atalho para **banco novo**: `supabase/apply_all.sql` contém todas as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`). **Só funciona em banco vazio**: num banco já configurado falha com `relation "app_users" already exists`. Para **atualizar** currículo/recursos num banco existente, cole apenas `supabase/migrations/20261106000003_seed_curriculum.sql` (pode ser reaplicado). **Nunca** reaplique a migration 004 num banco com alunos. — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
@@ -105,6 +106,12 @@ Em **Tutor → Convites**, o tutor informa **nome, e-mail e WhatsApp** do aluno 
 - O link é pessoal, vale **7 dias** e é de **uso único**; só o hash do token fica no banco e o token nunca passa pelo navegador do tutor. *Reenviar* gera um novo link e invalida o anterior; *Cancelar* revoga um convite pendente.
 - Vale mesmo com o cadastro **fechado** ou por código geral: o convite personalizado dispensa o código.
 - Limite de 30 convites por tutor por hora. Opcional: defina `APP_URL` (ex.: `https://dafa-ehpessoa.vercel.app`) na Vercel para fixar o domínio usado no link; sem ela, usa o domínio da requisição.
+
+### Editar perfil, convidar tutores e trocar perfis
+
+- **Meu perfil:** clicar na foto/nome no menu (ou na foto no topo, no celular) abre a página de edição, para alunos e tutores. Nome é livre; **e-mail e senha exigem a senha atual**; trocar a **senha** desconecta os outros dispositivos. Para trocar o **WhatsApp** é preciso a senha atual e digitar o código enviado ao **novo** número (`/api/phone-change-send`); o número antigo vale até a confirmação.
+- **Convidar tutor:** em *Tutor → Convites*, escolha o perfil **Tutor** no formulário. O fluxo é o mesmo do convite de aluno (link no WhatsApp, a pessoa só define a senha).
+- **Trocar perfil:** em *Tutor → Alunos → (aluno)* use **Promover a tutor**; na lista **Tutores** (página Alunos) use **Tornar aluno**. Ninguém altera o próprio perfil, então sempre resta ao menos um tutor.
 
 ### Esqueci minha senha (redefinição assistida pelo tutor)
 

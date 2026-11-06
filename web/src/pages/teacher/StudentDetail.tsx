@@ -9,13 +9,20 @@ import { Avatar, Empty, ExBadge, Ring, SessBadge } from '../../components/ui';
 
 export default function StudentDetail() {
   const { id } = useParams();
-  const { data, progress } = useData();
+  const { data, progress, reload } = useData();
   const { token } = useAuth();
   const [reset, setReset] = useState<{ code: string; expires_at: string } | null>(null);
   const [resetErr, setResetErr] = useState('');
   const [busy, setBusy] = useState(false);
   const st = data.profiles.find((p) => p.id === id);
   if (!st) return <Empty>Aluno não encontrado.</Empty>;
+  const promote = async () => {
+    if (!window.confirm(`Promover ${st.full_name} a tutor? Ele(a) passará a ver a turma inteira e avaliar entregas.`)) return;
+    setBusy(true); setResetErr('');
+    try { await api('app_set_role', { p_token: token, p_user_id: st.id, p_role: 'teacher' }); await reload(); }
+    catch (e) { setResetErr(e instanceof Error ? e.message : String(e)); }
+    setBusy(false);
+  };
   const sum = progress.summary(st.id);
   const genReset = async () => {
     setBusy(true); setResetErr(''); setReset(null);
@@ -32,6 +39,11 @@ export default function StudentDetail() {
           <Ring pct={sum.pct} size={96} />
           <div className="small"><div>Sessões: <b>{sum.doneSessions}/{sum.totalSessions}</b></div><div>Nota média: <b>{sum.avgScore?.toFixed(1) ?? '—'}</b></div><div>Pendentes: <b>{sum.pending}</b> · Ajustes: <b>{sum.revisions}</b></div></div>
         </div>
+      </div>
+      <div className="card stack">
+        <h2 style={{ margin: 0 }}>Perfil de acesso</h2>
+        <p className="muted small" style={{ margin: 0 }}>{st.role === 'teacher' ? 'Esta pessoa é tutor(a). Para rebaixar, use a lista de tutores em Alunos.' : 'Promova este aluno a tutor para que ele veja a turma e avalie entregas.'}</p>
+        {st.role !== 'teacher' && <div><button className="btn sm" disabled={busy} onClick={promote}>🎓 Promover a tutor</button></div>}
       </div>
       <div className="card stack">
         <h2 style={{ margin: 0 }}>Redefinição de senha</h2>

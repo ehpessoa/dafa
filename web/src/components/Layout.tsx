@@ -34,16 +34,18 @@ export default function Layout() {
           </>)}
         </nav>
         <div className="userbox">
-          <Avatar name={profile?.full_name ?? profile?.email} url={profile?.avatar_url} />
-          <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name}</div>
-            <div className="small muted">{isTeacher ? '🎓 Tutor' : '🧑‍🎓 Aluno'}{onTeacherArea ? ' · modo tutor' : ''}</div>
-          </div>
+          <NavLink to="/perfil" className="row" style={{ flexWrap: 'nowrap', flex: 1, minWidth: 0, gap: 10, color: 'inherit', textDecoration: 'none' }} title="Editar meu perfil">
+            <Avatar name={profile?.full_name ?? profile?.email} url={profile?.avatar_url} />
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name}</div>
+              <div className="small muted">{isTeacher ? '🎓 Tutor' : '🧑‍🎓 Aluno'}{onTeacherArea ? ' · modo tutor' : ''} · ✏️ Editar perfil</div>
+            </div>
+          </NavLink>
           <button className="btn sm" onClick={signOut} title="Sair">Sair</button>
         </div>
       </aside>
       <div>
-        <div className="topbar"><button className="btn sm" onClick={() => setOpen(true)} aria-label="Abrir menu">☰</button><b>DAFA</b><button className="btn sm" style={{ marginLeft: 'auto' }} onClick={signOut}>Sair</button></div>
+        <div className="topbar"><button className="btn sm" onClick={() => setOpen(true)} aria-label="Abrir menu">☰</button><b>DAFA</b><NavLink to="/perfil" aria-label="Editar meu perfil" style={{ marginLeft: 'auto' }}><Avatar name={profile?.full_name ?? profile?.email} url={profile?.avatar_url} size={30} /></NavLink><button className="btn sm" style={{ marginLeft: 8 }} onClick={signOut}>Sair</button></div>
         <main className="main">
           {error && <ErrorBox msg={`Erro ao carregar dados: ${error}. Verifique se as migrations do Supabase foram aplicadas.`} />}
           {loading ? <Spinner /> : <Outlet />}

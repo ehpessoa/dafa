@@ -22,6 +22,7 @@ flowchart TD
 | `supabase/migrations/20261106000004_custom_auth.sql` | **Autenticação própria**: `app_users`, sessões, funções RPC e bloqueio de acesso direto às tabelas |
 | `supabase/migrations/20261106000005_day9_day10_excel_first.sql` | Atualização idempotente dos dias 9 e 10 (Excel primeiro, Supabase no dia 10). Já incluída no seed para instalações novas |
 | `supabase/migrations/20261106000006_signup_invite.sql` | **Cadastro controlado**: modos `open`/`invite`/`closed`, código de convite (guardado só como hash) e função `admin_set_signup` |
+| `supabase/migrations/20261106000007_password_reset_and_throttle.sql` | **Redefinição de senha assistida pelo tutor** (código de uso único, 1 h) e **limite de tentativas** do código de convite |
 
 > Atalho: `supabase/apply_all.sql` contém as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
@@ -50,11 +51,11 @@ sequenceDiagram
 | Cadastro | Controlado por modo (ver seção *Controle de cadastro*): por padrão exige **código de convite**; tutores da lista autorizada sempre podem se cadastrar |
 | Senha | Guardada com **bcrypt** (pgcrypto); nunca retorna à interface |
 | Sessão | Token aleatório de 256 bits; só o hash SHA-256 é gravado; validade de 30 dias; "Sair" invalida |
-| Tentativas | Após 5 senhas erradas, a conta fica bloqueada por 10 minutos |
+| Tentativas | Após 5 senhas erradas, a conta fica bloqueada por 10 minutos. No cadastro por convite, após 20 códigos errados em 15 minutos o cadastro de alunos pausa por 15 minutos (limite global: protege contra adivinhação, mas um abusador pode atrasar matrículas; se acontecer, troque o código ou use `closed`) |
 | Acesso aos dados | As tabelas não são acessíveis pela API; só as funções `app_*` (que checam o perfil) |
 | Perfis | `student` (vê só os próprios dados) e `teacher` (vê a turma e avalia) |
 
-> ⚠️ **Limite conhecido:** não há recuperação de senha por e-mail nem verificação de e-mail. A redefinição é feita pelo administrador (SQL abaixo).
+> ⚠️ **Limite conhecido:** não há verificação de e-mail nem recuperação automática por e-mail. A redefinição é assistida pelo tutor (seção abaixo).
 
 ### Controle de cadastro (turma fechada)
 
@@ -73,6 +74,16 @@ select public.admin_set_signup('open');                        -- reabre sem có
 ```
 
 O código fica salvo apenas como hash SHA-256 em `public.app_settings` (sem acesso pela API). Contas já criadas não são afetadas. Para invalidar um código vazado, troque-o. Distribua o código só pelos canais da coordenação.
+
+### Esqueci minha senha (redefinição assistida pelo tutor)
+
+Sem e-mail, a redefinição passa pelo tutor:
+
+1. Em **Tutor → Alunos → (aluno)**, o tutor clica em **Gerar código de redefinição**. O código (ex.: `ABCD-2345`) vale **1 hora** e é de **uso único**; gerar outro invalida o anterior. Tutores só geram código para alunos, nunca para outros tutores.
+2. O tutor envia o código ao aluno por um canal seguro.
+3. Na tela de login, o aluno usa **Esqueci minha senha**, informa e-mail, código e a nova senha. As sessões antigas são encerradas.
+
+Após 5 códigos errados, o código é descartado e é preciso gerar outro. O SQL manual da seção seguinte continua valendo para o caso de um tutor esquecer a própria senha.
 
 ## 3 · Tutores (perfil professor)
 

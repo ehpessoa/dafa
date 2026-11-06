@@ -99,11 +99,11 @@ assert.equal((await rpc('app_submit', T.bia, 'd01-e1', 'comecei', null)).attempt
 assert.equal((await rpc('app_signup_status')).mode, 'open');
 await db.exec(`select public.admin_set_signup('invite')`);   // convite, mas sem código definido: ninguém entra
 assert.equal((await rpc('app_signup_status')).mode, 'invite');
-await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', 'QUALQUER'), /convite inválido/);
-await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio'), /convite inválido/);
+assert.match((await rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', 'QUALQUER')).error, /convite inválido/);
+assert.match((await rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio')).error, /convite inválido/);
 await db.exec(`select public.admin_set_signup('invite', 'Turma-2026')`);
-await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', 'errado123'), /convite inválido/);
-await fails(() => rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', ''), /convite inválido/);
+assert.match((await rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', 'errado123')).error, /convite inválido/);
+assert.match((await rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', '')).error, /convite inválido/);
 const caio = await rpc('app_register', 'c1@x.com', 'senha-forte-3', 'Caio', ' turma 2026 ');   // tolera caixa, espaços e hífen
 assert.equal(caio.user.role, 'student');
 await db.exec(`insert into public.teacher_allowlist values ('tutor3@x.com')`);
@@ -119,4 +119,39 @@ await assert.rejects(() => db.query(`select public.admin_set_signup('open')`), /
 await db.exec('reset role');
 await db.exec(`select public.admin_set_signup('invite')`);
 console.log('✅ Cadastro por convite e modo fechado: ok');
+// ── Limite de tentativas de convite ──
+await db.exec(`delete from public.signup_failures`);
+for (let i = 0; i < 20; i++) await rpc('app_register', `x${i}@x.com`, 'senha-forte-3', 'Xis', 'ERRADO' + i);
+assert.match((await rpc('app_register', 'c9@x.com', 'senha-forte-3', 'Caio', 'TURMA2026')).error, /Muitas tentativas/);   // até o código certo fica bloqueado na janela
+await db.exec(`update public.signup_failures set at = now() - interval '20 minutes'`);
+assert.equal((await rpc('app_register', 'c9@x.com', 'senha-forte-3', 'Caio', 'TURMA2026')).user.role, 'student');         // passada a janela, volta ao normal
+
+// ── Redefinição de senha assistida pelo tutor ──
+const tutorTok = (await rpc('app_login', 'tutor@x.com', 'outra-senha-9')).token;
+const alunaId = (await db.query(`select id from public.app_users where email='bia@x.com'`)).rows[0].id;
+const tutorId = (await db.query(`select id from public.app_users where email='tutor@x.com'`)).rows[0].id;
+await fails(() => rpc('app_teacher_reset_code', T.bia, alunaId), /Apenas tutores/);                 // aluno não gera código
+await fails(() => rpc('app_teacher_reset_code', tutorTok, tutorId), /Aluno não encontrado/);        // nem para tutor
+const rc = await rpc('app_teacher_reset_code', tutorTok, alunaId);
+assert.match(rc.code, /^[A-Z2-9]{4}-[A-Z2-9]{4}$/);
+assert.match((await rpc('app_reset_password', 'bia@x.com', 'ERRADO-1234', 'nova-senha-77')).error, /inválido ou expirado/);
+assert.match((await rpc('app_reset_password', 'bia@x.com', rc.code, 'curta')).error, /pelo menos 8/);
+assert.match((await rpc('app_reset_password', 'naoexiste@x.com', rc.code, 'nova-senha-77')).error, /inválido ou expirado/);   // mesma mensagem: sem enumeração
+assert.equal((await rpc('app_reset_password', 'bia@x.com', rc.code.toLowerCase().replace('-', ' '), 'nova-senha-77')).ok, true);
+assert.match((await rpc('app_reset_password', 'bia@x.com', rc.code, 'outra-senha-88')).error, /inválido ou expirado/);        // uso único
+assert.match((await rpc('app_login', 'bia@x.com', 'senha-forte-2')).error, /inválidos/);          // senha antiga não vale
+assert.ok((await rpc('app_login', 'bia@x.com', 'nova-senha-77')).token);
+assert.equal(await rpc('app_me', T.bia), null);                                                   // sessões antigas encerradas
+// queima após 5 erros
+const rc2 = await rpc('app_teacher_reset_code', tutorTok, alunaId);
+for (let i = 0; i < 5; i++) await rpc('app_reset_password', 'bia@x.com', 'ERRADO-' + i, 'nova-senha-77');
+assert.match((await rpc('app_reset_password', 'bia@x.com', rc2.code, 'outra-senha-88')).error, /inválido ou expirado/);
+// expirado
+const rc3 = await rpc('app_teacher_reset_code', tutorTok, alunaId);
+await db.exec(`update public.password_resets set expires_at = now() - interval '1 minute'`);
+assert.match((await rpc('app_reset_password', 'bia@x.com', rc3.code, 'outra-senha-88')).error, /inválido ou expirado/);
+await db.exec('set role anon');
+await assert.rejects(() => db.query('select * from public.password_resets'), /permission denied/);
+await db.exec('reset role');
+console.log('✅ Limite de convite e redefinição de senha: ok');
 console.log('✅ Autenticação própria e regras de progressão: todos os testes passaram');

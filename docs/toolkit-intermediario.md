@@ -61,6 +61,7 @@ Ferramentas: Cliente SQL (DBeaver) · Template t-sql-joins
    _Entrega:_ Nota com conferência
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [JOINs entre fatos e dimensões](../toolkit/templates/sql/t-sql-joins.sql) — INNER/LEFT JOIN para responder perguntas de negócio.
 
 ### 5) Recursos
@@ -188,31 +189,36 @@ Ferramentas: Power Query (Power BI/Excel) · Fluxo ETL (diagrama)
 ⏱️ 150 min · Depende de: Dia 14
 
 ### 1) Conceitual
-**Por quê?** Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.
+**Por quê?** Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.
 
 **O que você vai aprender**
 - Coluna calculada vs. medida
-- Contexto de linha e de filtro
-- CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT
-- ALL / REMOVEFILTERS para % do total
+- Contexto de linha e de filtro: o que faz o número mudar
+- O ciclo para usar IA em código (especificar, gerar, revisar, testar, registrar), o mesmo para DAX e Python: veja o Guia rápido
+- Revisar a medida da IA: filtros, relacionamentos e conferência com SQL
+- Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros
+- Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR
 
 **Cenários de uso**
 - **Comercial:** Ticket médio e % da receita por canal.
-- **Marketing:** CPA e ROAS por campanha.
+- **Marketing:** CTR e CPA por campanha.
 
 ### 2) Conexão com as ferramentas
-Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.
+Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.
 
-Ferramentas: Power BI Desktop · DAX Guide · Pacote de medidas DAX
+Ferramentas: Power BI Desktop · Assistente de IA (Claude) · Prompt p-dax · Pacote de medidas DAX (gabarito) · DAX Guide
 
 ### 3) Exercícios
-1. **8 medidas base** — Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, ROAS e % do Total.  
-   _Entrega:_ Lista de medidas + prints
-2. **Validação cruzada** — Prove que 3 medidas batem com SQL.  
-   _Entrega:_ Tabela de conferência
+1. **8 medidas base, com IA** — Escreva você mesmo Receita e % do Total. Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais) e peça à IA, com o prompt p-dax, as outras seis: Custo, Margem %, Pedidos, Ticket Médio, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões). Registre cada pedido feito à IA.  
+   _Entrega:_ Lista de medidas + pedidos à IA registrados
+2. **Validação cruzada** — Prove que 3 medidas batem com SQL e aplique o checklist de revisão: liste pelo menos 1 correção ou ponto de atenção que você encontrou numa medida da IA.  
+   _Entrega:_ Tabela de conferência + checklist
 
 ### 4) Templates
-- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas e de inteligência de tempo.
+- ✅ [Guia rápido: como usar a IA para gerar Python e DAX](../toolkit/templates/checklist/c-ia-guia.md) — Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.
+- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.
+- 🤖 [Prompt: medida DAX com IA](../toolkit/templates/prompt/p-dax.md) — Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.
+- ✅ [Checklist: revisar uma medida DAX gerada por IA](../toolkit/templates/checklist/c-dax-revisao.md) — Seis conferências antes de confiar em uma medida que a IA escreveu.
 - 🧩 [Modelo estrela para Power BI](../toolkit/templates/diagram/d-star-schema.md) — Fato Vendas no centro, dimensões Data, Cliente, Produto, Canal.
 - 📦 [Modelo de relatório de entrega semanal](../toolkit/templates/entrega/c-entrega-semanal.md) — Estrutura para o documento que acompanha cada entrega semanal.
 
@@ -220,7 +226,7 @@ Ferramentas: Power BI Desktop · DAX Guide · Pacote de medidas DAX
 - [DAX Guide](https://dax.guide/) — Referência de todas as funções DAX com exemplos.
 - [Microsoft Learn – Power BI](https://learn.microsoft.com/power-bi/) — Trilhas gratuitas e documentação completa do Power BI.
 
-> 📦 **Entregável semanal 3:** Modelo estrela com medidas DAX — Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX.
+> 📦 **Entregável semanal 3:** Modelo estrela com medidas DAX — Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX, com os pedidos feitos à IA registrados.
 
 ---
 
@@ -232,28 +238,32 @@ Ferramentas: Power BI Desktop · DAX Guide · Pacote de medidas DAX
 **Por quê?** Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.
 
 **O que você vai aprender**
-- Tabela de datas marcada como tal
-- TOTALYTD, DATEADD, SAMEPERIODLASTYEAR
+- Tabela de datas marcada como tal (as medidas de tempo dependem dela)
+- TOTALYTD, DATEADD, SAMEPERIODLASTYEAR: o que cada uma faz, sem precisar decorar a sintaxe
 - Médias móveis (DATESINPERIOD)
 - Variações absolutas e percentuais
+- Pedir medidas de tempo à IA e conferir os valores com o SQL
 
 **Cenários de uso**
 - **Financeiro:** Resultado acumulado no ano vs. ano anterior.
 - **E-commerce:** Receita dos últimos 12 meses e crescimento mensal.
 
 ### 2) Conexão com as ferramentas
-Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito.
+Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito. A IA erra fácil em tempo (tabela de datas, período anterior): por isso cada medida precisa ser conferida com o SQL.
 
-Ferramentas: Power BI Desktop · Pacote DAX
+Ferramentas: Power BI Desktop · Assistente de IA (Claude) · Prompt p-dax · Pacote DAX (gabarito)
 
 ### 3) Exercícios
-1. **Painel de variação** — Crie YTD, Mês Ant., Var % e 12M e exiba em linha + cartões.  
-   _Entrega:_ Página .pbix
+1. **Painel de variação, com IA** — Peça à IA, com o prompt p-dax, as medidas YTD, Mês Ant., Var % e 12M, aplique-as no modelo e exiba em linha + cartões. Registre os pedidos e as correções que fez.  
+   _Entrega:_ Página .pbix + pedidos à IA registrados
 2. **Caso de teste** — Escolha um mês e confirme os valores com SQL.  
    _Entrega:_ Nota de validação
 
 ### 4) Templates
-- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas e de inteligência de tempo.
+- ✅ [Guia rápido: como usar a IA para gerar Python e DAX](../toolkit/templates/checklist/c-ia-guia.md) — Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.
+- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.
+- 🤖 [Prompt: medida DAX com IA](../toolkit/templates/prompt/p-dax.md) — Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.
+- ✅ [Checklist: revisar uma medida DAX gerada por IA](../toolkit/templates/checklist/c-dax-revisao.md) — Seis conferências antes de confiar em uma medida que a IA escreveu.
 - 🗄️ [CTEs, subqueries e window functions](../toolkit/templates/sql/t-sql-cte-window.sql) — Ranking, acumulado e variação mês a mês.
 
 ### 5) Recursos
@@ -317,7 +327,7 @@ Ferramentas: Python 3.12+ · VS Code · pandas
 - **Marketing:** CPA por canal com groupby e formatação em R$.
 
 ### 2) Conexão com as ferramentas
-O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código.
+O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código. Releia o Guia rápido de IA, o mesmo que você usou no DAX (dias 15 e 16).
 
 Ferramentas: Assistente de IA (Claude) · Python + pandas · Templates de prompt
 
@@ -328,6 +338,7 @@ Ferramentas: Assistente de IA (Claude) · Python + pandas · Templates de prompt
    _Entrega:_ Script + conferência
 
 ### 4) Templates
+- ✅ [Guia rápido: como usar a IA para gerar Python e DAX](../toolkit/templates/checklist/c-ia-guia.md) — Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.
 - 🤖 [Prompt: limpeza de dados com pandas](../toolkit/templates/prompt/p-pandas-limpeza.md) — Gera código Python para inspecionar e limpar um DataFrame.
 - 🤖 [Prompt: análise exploratória com pandas](../toolkit/templates/prompt/p-pandas-analise.md) — Gera EDA guiada por perguntas de negócio.
 - 🤖 [Prompt: revisar código gerado por IA](../toolkit/templates/prompt/p-revisao-codigo.md) — Checklist de revisão antes de confiar no resultado.

@@ -323,7 +323,7 @@ Ferramentas: Power BI Desktop · Checklist de qualidade
 
 ### 4) Templates
 - 📊 [Roteiro .pbix: relatório de vendas (3 páginas)](../toolkit/templates/pbix/b-pbix-guia.md) — Especificação para construir seu arquivo .pbix no Power BI Desktop (e modelo de correção do tutor).
-- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas e de inteligência de tempo.
+- 📊 [Pacote de medidas DAX](../toolkit/templates/pbix/b-dax-pack.dax) — Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.
 - ✅ [Checklist de qualidade de relatório/dashboard](../toolkit/templates/checklist/c-relatorio.md) — Use antes de enviar qualquer entrega visual.
 
 ### 5) Recursos

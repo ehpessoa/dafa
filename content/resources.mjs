@@ -1,7 +1,7 @@
 // Recursos de download/acesso usados no programa. `{{SUPABASE_URL}}` é substituído em runtime pelo app.
 export const resources = [
   { slug: 'r-dataset-xlsx', category: 'Dados', title: 'Dataset de treinamento (Excel)', url: '/data/dataset_treinamento.xlsx',
-    description: 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.' },
+    description: 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.' },
   { slug: 'r-supabase-url', category: 'Dados', title: 'Supabase do programa (banco de análise)', url: '{{SUPABASE_URL}}',
     description: 'Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.' },
   { slug: 'r-dbeaver', category: 'Ferramentas', title: 'DBeaver Community (cliente SQL gratuito)', url: 'https://dbeaver.io/download/',

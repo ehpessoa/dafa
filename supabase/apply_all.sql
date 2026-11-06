@@ -516,7 +516,7 @@ begin;
 insert into public.levels (slug, position, title, emoji, color, objective, description) values ('iniciante', 1, 'Iniciante', '🌱', '#16a34a', 'Pensar como analista: formular perguntas, organizar dados, dominar Excel, SQL básico e o primeiro relatório no Power BI.', 'Semanas 1–2 · Dias 1–10 · Excel, SQL I–II, Supabase e Power BI Desktop.') on conflict (slug) do update set position=excluded.position, title=excluded.title, emoji=excluded.emoji, color=excluded.color, objective=excluded.objective, description=excluded.description;
 insert into public.levels (slug, position, title, emoji, color, objective, description) values ('intermediario', 2, 'Intermediário', '🚀', '#2563eb', 'Modelar dados, combinar tabelas, transformar com Power Query, calcular com DAX e automatizar análises com Python e IA.', 'Semanas 3–4 · Dias 11–20 · SQL III–IV, modelo estrela, DAX, Python/pandas.') on conflict (slug) do update set position=excluded.position, title=excluded.title, emoji=excluded.emoji, color=excluded.color, objective=excluded.objective, description=excluded.description;
 insert into public.levels (slug, position, title, emoji, color, objective, description) values ('avancado', 3, 'Avançado', '🏆', '#9333ea', 'Gerar decisões: segmentação, previsão, testes A/B, análise financeira, IA aplicada, dashboards executivos e projeto final.', 'Semanas 5–6 · Dias 21–30 · RFM, forecast, A/B, automação, storytelling e capstone.') on conflict (slug) do update set position=excluded.position, title=excluded.title, emoji=excluded.emoji, color=excluded.color, objective=excluded.objective, description=excluded.description;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (1, 'iniciante', 'Mentalidade analítica e perguntas de negócio', 'Análise sem pergunta vira relatório que ninguém usa. Antes de qualquer ferramenta, você precisa saber transformar um problema vago ("vendas caíram") em uma pergunta mensurável, com métrica, recorte e decisão associada.', '["O ciclo da análise: Pergunta → Dados → Análise → Insight → Decisão","Diferença entre dado, métrica, KPI e indicador","Como escrever uma pergunta SMART de negócio","Tipos de análise: descritiva, diagnóstica, preditiva e prescritiva"]'::jsonb, '[{"area":"Comercial","text":"O diretor diz \"as vendas do app estão estranhas\". Qual métrica, período e comparação transformam isso em pergunta?"},{"area":"Marketing","text":"\"Qual canal traz clientes que mais compram em 90 dias?\" – métrica, recorte e decisão (onde investir)."},{"area":"Esporte","text":"Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo."}]'::jsonb, '["Papel/Miro/Excel para mapear perguntas","Dataset de treinamento (Excel)"]'::jsonb, 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder.', 120, '2026-11-09', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (1, 'iniciante', 'Mentalidade analítica e perguntas de negócio', 'Análise sem pergunta vira relatório que ninguém usa. Antes de qualquer ferramenta, você precisa saber transformar um problema vago ("vendas caíram") em uma pergunta mensurável, com métrica, recorte e decisão associada.', '["O ciclo da análise: Pergunta → Dados → Análise → Insight → Decisão","Diferença entre dado, métrica, KPI e indicador","Como escrever uma pergunta SMART de negócio","Tipos de análise: descritiva, diagnóstica, preditiva e prescritiva"]'::jsonb, '[{"area":"Comercial","text":"O diretor diz \"as vendas do app estão estranhas\". Qual métrica, período e comparação transformam isso em pergunta?"},{"area":"Marketing","text":"\"Qual canal traz clientes que mais compram em 90 dias?\" – métrica, recorte e decisão (onde investir)."},{"area":"Esporte","text":"Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo."}]'::jsonb, '["Papel/Miro/Excel para mapear perguntas","Dataset de treinamento (Excel)"]'::jsonb, 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder. O Dicionário de dados é o seu guia: ele explica cada coluna, os valores possíveis e os cuidados de cálculo.', 120, '2026-11-09', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (2, 'iniciante', 'Excel: organização e qualidade dos dados', 'Cerca de 80% do tempo de uma análise vai para preparar dados. Dados bem estruturados (uma linha por registro, uma coluna por atributo) evitam erros e permitem automação.', '["Princípios de dados \"tidy\": 1 linha = 1 registro","Formatar como Tabela (Ctrl+T) e referências estruturadas","Remover duplicados, tratar vazios, padronizar texto (ARRUMAR, MAIÚSCULA)","Validação de dados e tipos (data vs. texto vs. número)"]'::jsonb, '[{"area":"Financeiro","text":"Lançamentos com datas em texto e valores com vírgula/ponto misturados quebram o fechamento mensal."},{"area":"E-commerce","text":"Cadastro com o mesmo cliente digitado de 3 formas distorce a contagem de clientes únicos."}]'::jsonb, '["Microsoft Excel (365 ou 2019+)","Dataset de treinamento (Excel)"]'::jsonb, 'Os conceitos de tipos, chaves e duplicidade são os mesmos que você usará em SQL (tipos de coluna, PRIMARY KEY) e Power Query (tipagem). Excel é o laboratório mais rápido para vê-los.', 120, '2026-11-10', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (3, 'iniciante', 'Excel: fórmulas essenciais para análise', 'Fórmulas permitem responder perguntas de forma repetível e auditável. Dominar condicionais, busca e agregação cobre a maior parte das análises do dia a dia administrativo.', '["SOMASES, CONT.SES, MÉDIASES","SE, E, OU, SEERRO","PROCV / PROCX / ÍNDICE+CORRESP para trazer atributos de outra tabela","Referências absolutas vs. relativas; nomes de intervalo"]'::jsonb, '[{"area":"Comercial","text":"Receita por vendedor e meta atingida (SE) para bonificação."},{"area":"Logística","text":"Percentual de entregas com atraso por transportadora com CONT.SES."},{"area":"Financeiro","text":"Trazer o centro de custo de uma tabela de de-para com PROCX."}]'::jsonb, '["Excel","Planilha do dia 2 (dados limpos)"]'::jsonb, 'PROCX equivale a um JOIN em SQL; SOMASES equivale a SUM + WHERE + GROUP BY. Guarde essa tradução: no dia 7 você fará os mesmos cálculos em SQL.', 120, '2026-11-11', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (4, 'iniciante', 'Excel: tabelas dinâmicas e segmentações', 'Tabelas dinâmicas são o "GROUP BY visual": respondem em segundos perguntas de resumo e preparam o terreno para entender o modelo de dados do Power BI.', '["Linhas, colunas, valores e filtros","Agrupar datas (mês/trimestre/ano)","Campos calculados e % do total","Segmentação de dados e linha do tempo"]'::jsonb, '[{"area":"E-commerce","text":"Ranking de categorias por receita e participação % no total."},{"area":"Marketing","text":"ROI por canal de campanha e por mês."},{"area":"Esporte","text":"Público médio e bilheteria por mandante na temporada."}]'::jsonb, '["Excel – Tabela Dinâmica","Dataset"]'::jsonb, 'Cada arrasto de campo equivale a um GROUP BY. No Power BI, a matriz e os visuais funcionam da mesma forma.', 120, '2026-11-12', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
@@ -524,16 +524,16 @@ insert into public.sessions (day, level_slug, title, why, learn, scenarios, tool
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (6, 'iniciante', 'Bancos de dados, Supabase e modelo relacional', 'Dados reais vivem em bancos, não em planilhas soltas. Entender tabelas, chaves e relacionamentos permite pedir, consultar e cruzar dados com segurança e escala.', '["Tabela, linha, coluna, tipo de dado","Chave primária e chave estrangeira","Fato vs. dimensão","Supabase = Postgres na nuvem; schema treinamento; usuário somente-leitura"]'::jsonb, '[{"area":"Logística","text":"Pedidos ligados a entregas por pedido_id: onde ficam transportadora e prazo?"},{"area":"E-commerce","text":"Um cliente com muitos pedidos, um pedido com muitos itens (1:N)."}]'::jsonb, '["Cliente SQL (DBeaver) conectado ao Supabase","Diagrama ER (Mermaid)"]'::jsonb, 'O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).', 120, '2026-11-16', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (7, 'iniciante', 'SQL I: SELECT, WHERE, ORDER BY', 'SQL é a língua franca dos dados. Saber extrair exatamente o que precisa reduz a dependência de TI e evita planilhas gigantes.', '["SELECT, FROM, WHERE, AND/OR/IN/BETWEEN/LIKE","ORDER BY, LIMIT, DISTINCT","Operadores, datas e NULL","Boas práticas: nomear colunas, comentar, evitar SELECT * em produção"]'::jsonb, '[{"area":"Comercial","text":"Pedidos do canal marketplace de uma UF no último trimestre."},{"area":"Financeiro","text":"Lançamentos de despesa acima de R$ 10 mil em um centro de custo."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-basico"]'::jsonb, 'Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.', 120, '2026-11-17', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (8, 'iniciante', 'SQL II: agregações e GROUP BY', 'Decisões raramente usam linhas individuais; usam totais, médias e comparações por grupo. GROUP BY é o coração da análise de negócio.', '["COUNT, SUM, AVG, MIN, MAX","GROUP BY e HAVING","date_trunc para agrupar por mês","CASE WHEN para criar categorias"]'::jsonb, '[{"area":"Marketing","text":"CTR, CPC e CPA por canal e por mês."},{"area":"Esporte","text":"Média de gols e público por rodada."},{"area":"Logística","text":"Frete médio por UF e transportadora."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-agregacao"]'::jsonb, 'É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.', 120, '2026-11-18', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (9, 'iniciante', 'Power BI Desktop: instalação, conexão e primeiro relatório', 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.', '["Instalar o Power BI Desktop","Obter dados: PostgreSQL (Supabase) e Excel","Importar vs. DirectQuery","Visuais básicos: cartão, barras, linhas, segmentações"]'::jsonb, '[{"area":"Comercial","text":"Dashboard de receita por canal com filtro de ano para a reunião de segunda."},{"area":"E-commerce","text":"Funil de pedidos por status (pendente → entregue)."}]'::jsonb, '["Power BI Desktop (Windows)","Supabase (Postgres)","Excel"]'::jsonb, 'As tabelas do Supabase viram o modelo do Power BI. O que você fez em SQL (agregar) o Power BI faz de forma visual e interativa.', 150, '2026-11-19', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (10, 'iniciante', 'Design de relatórios e entrega da Semana 2', 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.', '["Hierarquia visual e grade","Cores com propósito e acessibilidade","Interações: filtros cruzados, tooltips, bookmarks","Validar números contra o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Painel com receitas x despesas x resultado e alerta de mês negativo."},{"area":"Marketing","text":"Painel de campanhas: investimento, conversões e CPA por canal."}]'::jsonb, '["Power BI Desktop","Checklist de qualidade"]'::jsonb, 'Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles.', 150, '2026-11-20', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (9, 'iniciante', 'Power BI Desktop: instalação, conexão e primeiro relatório', 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.', '["Instalar o Power BI Desktop","Obter dados: importar o Excel que você montou na Semana 1 (Painel de vendas)","Do Excel ao Power BI: o que cada ferramenta faz melhor","Visuais básicos: cartão, barras, linhas, segmentações"]'::jsonb, '[{"area":"Comercial","text":"Dashboard de receita por canal com filtro de ano para a reunião de segunda."},{"area":"E-commerce","text":"Funil de pedidos por status (pendente → entregue)."}]'::jsonb, '["Power BI Desktop (Windows)","Excel (seu Painel de vendas da Semana 1)"]'::jsonb, 'Você parte da planilha que já limpou e analisou na Semana 1: as abas viram tabelas do Power BI e os gráficos que você fez no Excel são recriados de forma interativa. No dia 10, o mesmo relatório passa a ler do Supabase.', 150, '2026-11-19', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (10, 'iniciante', 'Design de relatórios e entrega da Semana 2', 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.', '["Hierarquia visual e grade","Cores com propósito e acessibilidade","Interações: filtros cruzados, tooltips, bookmarks","Trocar a fonte do Excel pelo Supabase e validar os números contra o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Painel com receitas x despesas x resultado e alerta de mês negativo."},{"area":"Marketing","text":"Painel de campanhas: investimento, conversões e CPA por canal."}]'::jsonb, '["Power BI Desktop","Supabase (Postgres)","Checklist de qualidade"]'::jsonb, 'Hoje o relatório troca a fonte: sai o Excel e entra o Supabase. Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles e com o Excel.', 150, '2026-11-20', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (11, 'intermediario', 'SQL III: JOINs e combinação de tabelas', 'Quase toda pergunta relevante cruza tabelas (quem comprou o quê, quando, entregue por quem). JOINs corretos evitam o erro mais comum: duplicar linhas e inflar números.', '["INNER, LEFT, RIGHT, FULL JOIN","Cardinalidade e o risco de duplicação","Anti-join (LEFT + IS NULL)","Conferência de totais antes e depois do JOIN"]'::jsonb, '[{"area":"E-commerce","text":"Clientes cadastrados que nunca compraram (campanha de ativação)."},{"area":"Logística","text":"Atraso por transportadora cruzando pedidos e entregas."},{"area":"Comercial","text":"Margem por categoria cruzando itens e produtos."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-joins"]'::jsonb, 'Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.', 120, '2026-11-23', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (12, 'intermediario', 'SQL IV: CTEs, subqueries e window functions', 'Rankings, acumulados e variações período a período são perguntas diárias de gestão. Window functions resolvem sem planilhas auxiliares.', '["WITH (CTE) para organizar consultas","ROW_NUMBER, RANK, NTILE","LAG/LEAD e acumulados (SUM OVER)","FILTER e CASE em agregações"]'::jsonb, '[{"area":"Financeiro","text":"Caixa acumulado e variação mês a mês."},{"area":"Comercial","text":"Top 3 produtos por categoria."},{"area":"Esporte","text":"Classificação da temporada com pontos acumulados por rodada."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-cte-window"]'::jsonb, 'As mesmas ideias aparecem como medidas DAX (YTD, mês anterior) nos dias 15–16.', 150, '2026-11-24', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (13, 'intermediario', 'Modelagem dimensional: modelo estrela', 'Um bom modelo torna as medidas simples, rápidas e corretas. Um modelo ruim gera números diferentes em cada tela.', '["Fato vs. dimensão e granularidade","Esquema estrela vs. flocos de neve","Tabela de datas (calendário) obrigatória","Direção de filtro e relacionamentos 1:N"]'::jsonb, '[{"area":"E-commerce","text":"Fato vendas com dimensões Data, Cliente, Produto e Canal."},{"area":"Marketing","text":"Fato campanhas com dimensão Canal compartilhada com vendas (dimensão conforme)."}]'::jsonb, '["Power BI – Modo Modelo","Mermaid (desenho do modelo)"]'::jsonb, 'Você aplica o que viu em JOINs: cada relacionamento do modelo é um JOIN que o Power BI executa para você.', 120, '2026-11-25', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (14, 'intermediario', 'Power Query: ETL sem código', 'Transformações feitas no Power Query ficam registradas e se repetem a cada atualização, eliminando a "limpeza manual" mensal.', '["Etapas aplicadas e linguagem M (visão geral)","Tipagem, divisão, mesclagem e acréscimo de consultas","Colunas personalizadas e condicionais","Parâmetros e boas práticas de desempenho"]'::jsonb, '[{"area":"Financeiro","text":"Consolidar 12 arquivos mensais de lançamentos numa só tabela."},{"area":"Logística","text":"Criar a coluna no_prazo e dias_atraso na tabela de entregas."}]'::jsonb, '["Power Query (Power BI/Excel)","Fluxo ETL (diagrama)"]'::jsonb, 'Power Query faz o papel do SQL de preparação e do pandas de limpeza. Decidir onde transformar (banco, Power Query ou Python) é uma habilidade-chave.', 120, '2026-11-26', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CPA e ROAS por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (16, 'intermediario', 'DAX II: inteligência de tempo', 'Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.', '["Tabela de datas marcada como tal","TOTALYTD, DATEADD, SAMEPERIODLASTYEAR","Médias móveis (DATESINPERIOD)","Variações absolutas e percentuais"]'::jsonb, '[{"area":"Financeiro","text":"Resultado acumulado no ano vs. ano anterior."},{"area":"E-commerce","text":"Receita dos últimos 12 meses e crescimento mensal."}]'::jsonb, '["Power BI Desktop","Pacote DAX"]'::jsonb, 'Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito.', 120, '2026-11-30', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.', '["Coluna calculada vs. medida","Contexto de linha e de filtro: o que faz o número mudar","O ciclo para usar IA em código (especificar, gerar, revisar, testar, registrar), o mesmo para DAX e Python: veja o Guia rápido","Revisar a medida da IA: filtros, relacionamentos e conferência com SQL","Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote de medidas DAX (gabarito)","DAX Guide"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (16, 'intermediario', 'DAX II: inteligência de tempo', 'Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.', '["Tabela de datas marcada como tal (as medidas de tempo dependem dela)","TOTALYTD, DATEADD, SAMEPERIODLASTYEAR: o que cada uma faz, sem precisar decorar a sintaxe","Médias móveis (DATESINPERIOD)","Variações absolutas e percentuais","Pedir medidas de tempo à IA e conferir os valores com o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Resultado acumulado no ano vs. ano anterior."},{"area":"E-commerce","text":"Receita dos últimos 12 meses e crescimento mensal."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote DAX (gabarito)"]'::jsonb, 'Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito. A IA erra fácil em tempo (tabela de datas, período anterior): por isso cada medida precisa ser conferida com o SQL.', 120, '2026-11-30', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (17, 'intermediario', 'Python: instalação, VS Code e pandas básico', 'Python automatiza análises repetidas e abre portas para estatística, previsão e IA. Para o administrativo, o objetivo não é programar tudo, e sim saber pedir, ler e validar código.', '["Instalar Python e VS Code","Ambiente virtual e pip","DataFrame: ler CSV/Excel, head, info, describe","Selecionar, filtrar e ordenar com pandas"]'::jsonb, '[{"area":"Comercial","text":"Ler a planilha de pedidos e filtrar o canal app em segundos."},{"area":"Logística","text":"Calcular dias de atraso e listar os piores casos."}]'::jsonb, '["Python 3.12+","VS Code","pandas"]'::jsonb, 'Cada operação pandas tem equivalente em SQL (query, groupby) e Excel (filtro, dinâmica). Veja a tabela de tradução no template de prompt.', 150, '2026-12-01', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (18, 'intermediario', 'Python com IA: limpeza e análise com pandas', 'Assistentes de IA aceleram a escrita de código, mas só quem sabe especificar e revisar evita erros silenciosos. Hoje você treina o ciclo especificar → gerar → revisar → testar.', '["Como escrever um bom prompt analítico (contexto, dados, restrições, saída)","groupby, merge, pivot_table","Revisar código da IA (joins, filtros, nulos)","Registrar prompts e versões"]'::jsonb, '[{"area":"Financeiro","text":"Conciliar lançamentos com merge e achar divergências."},{"area":"Marketing","text":"CPA por canal com groupby e formatação em R$."}]'::jsonb, '["Assistente de IA (Claude)","Python + pandas","Templates de prompt"]'::jsonb, 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código.', 150, '2026-12-02', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (18, 'intermediario', 'Python com IA: limpeza e análise com pandas', 'Assistentes de IA aceleram a escrita de código, mas só quem sabe especificar e revisar evita erros silenciosos. Hoje você treina o ciclo especificar → gerar → revisar → testar.', '["Como escrever um bom prompt analítico (contexto, dados, restrições, saída)","groupby, merge, pivot_table","Revisar código da IA (joins, filtros, nulos)","Registrar prompts e versões"]'::jsonb, '[{"area":"Financeiro","text":"Conciliar lançamentos com merge e achar divergências."},{"area":"Marketing","text":"CPA por canal com groupby e formatação em R$."}]'::jsonb, '["Assistente de IA (Claude)","Python + pandas","Templates de prompt"]'::jsonb, 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código. Releia o Guia rápido de IA, o mesmo que você usou no DAX (dias 15 e 16).', 150, '2026-12-02', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (19, 'intermediario', 'Visualização em Python e estatística descritiva', 'Média engana. Distribuição, mediana e outliers mostram o que realmente acontece, e gráficos programáticos garantem reprodutibilidade.', '["Média, mediana, desvio, percentis","Histograma, boxplot, dispersão, heatmap","Correlação ≠ causalidade","Gráficos com título-conclusão em matplotlib/seaborn"]'::jsonb, '[{"area":"Esporte","text":"Distribuição de público: a média esconde jogos lotados e vazios?"},{"area":"Logística","text":"Distribuição do tempo de entrega por transportadora (boxplot)."},{"area":"E-commerce","text":"Relação entre desconto e quantidade por pedido."}]'::jsonb, '["Python (pandas, matplotlib, seaborn)","Template p-viz"]'::jsonb, 'Aplica o checklist de qualidade visual do Excel/Power BI em código.', 120, '2026-12-03', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (20, 'intermediario', 'Python + Supabase e entrega da Semana 4', 'Conectar Python direto ao banco elimina exportações manuais e garante que todos analisam a mesma versão dos dados.', '["Conexão segura (variáveis de ambiente, .env, SSL)","pandas.read_sql com SQLAlchemy","Parametrizar consultas","Estruturar um notebook reprodutível"]'::jsonb, '[{"area":"Comercial","text":"Relatório diário de vendas consultando o banco ao vivo."},{"area":"Financeiro","text":"Conferência automática do fechamento mensal."}]'::jsonb, '["Python","Supabase (usuário aluno_leitura)","Prompt p-supabase-conexao"]'::jsonb, 'Une SQL (dias 7–12) + pandas (17–19): o SQL traz o dado agregado; o Python refina, visualiza e interpreta.', 150, '2026-12-04', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (21, 'avancado', 'KPIs por área e árvore de métricas', 'Métricas soltas confundem; árvores de métricas mostram o que move o resultado e onde agir.', '["Árvore de métricas (North Star → drivers)","KPIs de Comercial, Financeiro, Logística, E-commerce, Marketing e Esporte","Leading vs. lagging indicators","Metas, limites e alertas"]'::jsonb, '[{"area":"E-commerce","text":"Receita = visitantes × conversão × ticket médio; qual driver caiu?"},{"area":"Esporte","text":"Receita de bilheteria = público × preço médio; o que muda com a posição na tabela?"}]'::jsonb, '["Excel x-kpis","Power BI","SQL"]'::jsonb, 'Conecta tudo: cada folha da árvore vira uma consulta SQL ou medida DAX.', 120, '2026-12-07', 5) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
@@ -586,7 +586,7 @@ insert into public.session_dependencies (day, requires_day) values (30, 24);
 insert into public.session_dependencies (day, requires_day) values (30, 27);
 insert into public.session_dependencies (day, requires_day) values (30, 29);
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e1', 1, 1, 'Dissecando 5 pedidos vagos', 'Reescreva 5 pedidos vagos (ex.: "melhorar a logística") como perguntas com métrica, recorte, período e decisão.', 'Documento com 5 perguntas SMART') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e2', 1, 2, 'Reconhecimento do dataset', 'Abra o Excel do treinamento, descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e2', 1, 2, 'Reconhecimento do dataset', 'Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e3', 1, 3, 'Catálogo de KPIs', 'Escolha 2 áreas (ex.: Comercial e Logística) e liste 4 KPIs de cada com fórmula e fonte.', 'Planilha x-kpis preenchida') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d02-e1', 2, 1, 'Diagnóstico de qualidade', 'Na aba fato_pedidos, conte nulos, duplicados e tipos por coluna. Registre o que encontrou.', 'Aba "Diagnostico" com tabela de achados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d02-e2', 2, 2, 'Limpeza com tabela', 'Converta para Tabela, padronize textos e crie coluna calculada "ano_mes".', 'Planilha com dados limpos + coluna ano_mes') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
@@ -603,13 +603,14 @@ insert into public.exercises (id, session_day, position, title, instructions, de
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d07-e1', 7, 1, '10 consultas de filtro', 'Escreva 10 consultas com WHERE/ORDER/LIMIT sobre pedidos, clientes e financeiro.', 'Arquivo .sql comentado') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d07-e2', 7, 2, 'Bate com o Excel?', 'Compare 2 resultados SQL com a planilha e explique diferenças.', 'Nota de conferência') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e1', 8, 1, 'Receita mensal em SQL', 'Reproduza em SQL a dinâmica de receita por mês.', 'Query + resultado') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e2', 8, 2, 'Métricas de marketing', 'Calcule CTR, CPC, CPA e ROAS por canal.', 'Query com métricas nomeadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e2', 8, 2, 'Métricas de marketing', 'Calcule CTR, CPC e CPA por canal.', 'Query com métricas nomeadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e3', 8, 3, 'Faixas com CASE', 'Classifique pedidos em faixas de valor e conte por faixa.', 'Query + comentário') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e1', 9, 1, 'Instalar e conectar', 'Instale o Power BI Desktop e conecte ao Supabase (ou ao Excel se o acesso ao banco não estiver liberado).', 'Print da lista de tabelas carregadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e2', 9, 2, 'Página 1: Visão executiva', 'Crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações.', 'Arquivo .pbix v1') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e1', 10, 1, 'Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e2', 10, 2, '10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e3', 10, 3, 'Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e1', 9, 1, 'Instalar e conectar', 'Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.', 'Print da lista de tabelas carregadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e2', 9, 2, 'Página 1: Visão executiva', 'A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.', 'Arquivo .pbix v1') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e1', 10, 1, 'Trocar a fonte para o Supabase', 'Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.', 'Print dos totais antes e depois') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e2', 10, 2, 'Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e3', 10, 3, '10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e4', 10, 4, 'Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d11-e1', 11, 1, 'Margem por categoria', 'Calcule receita, custo e margem % por categoria.', 'Query validada') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d11-e2', 11, 2, 'Anti-join', 'Liste clientes sem compras por canal de aquisição.', 'Query + contagem') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d11-e3', 11, 3, 'Teste de duplicação', 'Demonstre com contagens que o JOIN não duplicou linhas.', 'Nota com conferência') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
@@ -620,9 +621,9 @@ insert into public.exercises (id, session_day, position, title, instructions, de
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d13-e2', 13, 2, 'Montar no Power BI', 'Importe as tabelas, crie dim_data e os relacionamentos corretos.', 'Print do modelo') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d14-e1', 14, 1, 'Colunas de logística', 'Crie no_prazo (booleano) e dias_atraso em fato_entregas.', 'Etapas aplicadas documentadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d14-e2', 14, 2, 'Mapa do fluxo ETL', 'Desenhe o fluxo fonte → transformação → modelo → relatório.', 'Diagrama') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base', 'Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, ROAS e % do Total.', 'Lista de medidas + prints') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e2', 15, 2, 'Validação cruzada', 'Prove que 3 medidas batem com SQL.', 'Tabela de conferência') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e1', 16, 1, 'Painel de variação', 'Crie YTD, Mês Ant., Var % e 12M e exiba em linha + cartões.', 'Página .pbix') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base, com IA', 'Escreva você mesmo Receita e % do Total. Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais) e peça à IA, com o prompt p-dax, as outras seis: Custo, Margem %, Pedidos, Ticket Médio, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões). Registre cada pedido feito à IA.', 'Lista de medidas + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e2', 15, 2, 'Validação cruzada', 'Prove que 3 medidas batem com SQL e aplique o checklist de revisão: liste pelo menos 1 correção ou ponto de atenção que você encontrou numa medida da IA.', 'Tabela de conferência + checklist') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e1', 16, 1, 'Painel de variação, com IA', 'Peça à IA, com o prompt p-dax, as medidas YTD, Mês Ant., Var % e 12M, aplique-as no modelo e exiba em linha + cartões. Registre os pedidos e as correções que fez.', 'Página .pbix + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e2', 16, 2, 'Caso de teste', 'Escolha um mês e confirme os valores com SQL.', 'Nota de validação') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d17-e1', 17, 1, 'Ambiente funcionando', 'Instale Python, crie venv e rode um script que imprime a versão e o shape do dataset.', 'Print do terminal') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d17-e2', 17, 2, 'Exploração inicial', 'Carregue o Excel e responda 5 perguntas simples com pandas.', 'Script .py comentado') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
@@ -826,6 +827,16 @@ insert into public.templates (slug, kind, title, description, content, url, file
 Contexto de negócio: [DESCREVA A ÁREA E O QUE AS COLUNAS SIGNIFICAM].
 Regras: use funções pequenas, não use bibliotecas além de pandas, imprima um resumo "antes x depois".
 Depois do código, liste 3 riscos/pegadinhas de qualidade de dados que eu devo verificar manualmente.', null, 'p-pandas-limpeza.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('p-dax', 'prompt', 'Prompt: medida DAX com IA', 'Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.', 'Atue como especialista em Power BI e DAX e explique para um profissional administrativo, sem jargão.
+Meu modelo (tabelas, colunas e relacionamentos): [EX.: fato_itens_pedido[pedido_id, produto_id, quantidade, preco_unitario] -> dim_produtos[produto_id, custo]; dim_data[data] marcada como tabela de datas e ligada a fato_pedidos[data_pedido]].
+Regra de negócio: [EX.: "Receita = quantidade x preço unitário; pedidos cancelados ficam de fora"].
+Escreva a medida DAX chamada [NOME DA MEDIDA] que mostra [O QUE ELA DEVE MOSTRAR].
+Entregue:
+1. a medida, pronta para colar no Power BI;
+2. uma explicação em 3 linhas, em português simples, do que ela calcula e de como reage aos filtros (ex.: ano, canal, categoria);
+3. um caso de teste: como conferir o resultado com uma consulta SQL;
+4. o que pode dar errado (ex.: filtro ignorado, relacionamento inativo, tabela de datas).
+Use apenas as tabelas e colunas que informei. Se faltar informação, pergunte antes de escrever.', null, 'p-dax.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('p-pandas-analise', 'prompt', 'Prompt: análise exploratória com pandas', 'Gera EDA guiada por perguntas de negócio.', 'Atue como analista de dados. Tenho o DataFrame df com as colunas: [LISTA DE COLUNAS E TIPOS].
 Pergunta de negócio: [EX.: "Quais categorias têm maior margem e crescem mais rápido?"].
 Escreva código pandas que:
@@ -873,6 +884,7 @@ insert into public.templates (slug, kind, title, description, content, url, file
   FATO_PEDIDOS ||--o| FATO_ENTREGAS : "gera"
   DIM_CLIENTES { int cliente_id PK
     text nome
+    text cidade
     text uf
     text segmento
     text canal_aquisicao
@@ -888,7 +900,8 @@ insert into public.templates (slug, kind, title, description, content, url, file
     text status
     text canal
     text uf_entrega
-    numeric frete }
+    numeric frete
+    numeric desconto_pct }
   FATO_ITENS_PEDIDO { int item_id PK
     int pedido_id FK
     int produto_id FK
@@ -903,6 +916,7 @@ insert into public.templates (slug, kind, title, description, content, url, file
     text canal
     date mes
     numeric investimento
+    int impressoes
     int cliques
     int conversoes }
   FATO_FINANCEIRO { int lancamento_id PK
@@ -912,10 +926,13 @@ insert into public.templates (slug, kind, title, description, content, url, file
     text centro_custo
     numeric valor }
   ESPORTE_PARTIDAS { int partida_id PK
-    text temporada
+    int temporada
+    int rodada
     date data_jogo
     text mandante
     text visitante
+    int gols_mandante
+    int gols_visitante
     int publico
     numeric receita_bilheteria }', null, 'd-er-modelo.mmd') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('d-star-schema', 'diagram', 'Modelo estrela para Power BI', 'Fato Vendas no centro, dimensões Data, Cliente, Produto, Canal.', 'flowchart LR
@@ -932,10 +949,11 @@ insert into public.templates (slug, kind, title, description, content, url, file
   D -->|PNG / insights| E[Apresentação<br/>executiva]
   C --> E', null, 'd-fluxo-etl.mmd') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-painel-vendas', 'excel', 'Planilha: painel de vendas (Excel)', 'Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.', 'Abas: LEIAME · Dados (cole a aba fato_pedidos) · Calculos (SOMASES/PROCV de exemplo) · Painel (KPIs + espaço para gráficos).', '/templates/painel-vendas.xlsx', 'painel-vendas.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dicionario', 'excel', 'Dicionário de dados (Excel)', 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.', 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, métricas de campanha...).', '/templates/dicionario-dados.xlsx', 'dicionario-dados.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-kpis', 'excel', 'Planilha: catálogo de KPIs por área', 'KPI, fórmula, fonte, frequência e dono para Comercial, Financeiro, Logística, E-commerce, Esporte e Marketing.', 'Abas por área com colunas: KPI, definição, fórmula, fonte (tabela/coluna), frequência, meta, dono.', '/templates/kpis-areas.xlsx', 'kpis-areas.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dre-fluxo', 'excel', 'Planilha: DRE e fluxo de caixa', 'Modelo com receitas, despesas, resultado e caixa acumulado com fórmulas.', 'Abas: DRE_Mensal (fórmulas SOMA/ SOMASES) · Fluxo_Caixa (acumulado) · Orcado_vs_Realizado.', '/templates/dre-fluxo-caixa.xlsx', 'dre-fluxo-caixa.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-pbix-guia', 'pbix', 'Roteiro .pbix: relatório de vendas (3 páginas)', 'Especificação para construir seu arquivo .pbix no Power BI Desktop (e modelo de correção do tutor).', '# Roteiro do arquivo vendas.pbix
-Fonte: PostgreSQL (Supabase) → schema treinamento (modo Importar).
+Fonte: no dia 9, o seu Excel do Painel de vendas (Semana 1). No dia 10, troque a fonte para PostgreSQL (Supabase) → schema treinamento (modo Importar) e confira se os totais continuam iguais.
 
 Página 1 – Visão Executiva
 - Cartões: Receita, Margem %, Pedidos, Ticket Médio
@@ -955,14 +973,51 @@ Ticket Médio = DIVIDE([Receita], [Pedidos])
 
 Checklist de entrega: nome de abas claro, título-conclusão, cores consistentes, sem poluição, tooltip, bookmark de reset.
 Exporte o .pbix e anexe o link (OneDrive/Drive) na submissão.', null, 'b-pbix-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
-insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
 Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
 Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
 Receita YTD := TOTALYTD([Receita], dim_data[data])
 Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
 Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])
 Receita 12M := CALCULATE([Receita], DATESINPERIOD(dim_data[data], MAX(dim_data[data]), -12, MONTH))
 % Entregas no Prazo := DIVIDE(CALCULATE(COUNTROWS(fato_entregas), fato_entregas[no_prazo] = TRUE()), COUNTROWS(fato_entregas))', null, 'b-dax-pack.dax') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-ia-guia', 'checklist', 'Guia rápido: como usar a IA para gerar Python e DAX', 'Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.', 'A IA escreve rápido, mas erra com confiança. Seu papel é dirigir: dizer o que quer, conferir e registrar. Siga os 5 passos.
+
+1) ESPECIFICAR (você, antes de pedir)
+- Escreva a pergunta de negócio em uma frase (ex.: "Qual a margem por categoria?").
+- Descreva os dados: nomes das tabelas e colunas, o que cada linha representa e como as tabelas se ligam (use o Dicionário de dados).
+- Informe as regras: o que entra e o que sai (ex.: sem pedidos cancelados; o preço já vem com desconto).
+- Peça o formato: código pronto para colar, explicação em 3 linhas e como testar.
+- Use os modelos de pedido: p-pandas-limpeza e p-pandas-analise (Python) e p-dax (DAX).
+
+2) GERAR
+- Cole o pedido. Se a IA fizer perguntas, responda. Se ela inventar uma coluna que não existe, avise e peça de novo.
+
+3) REVISAR (antes de rodar ou colar)
+- Todas as tabelas e colunas existem de verdade?
+- Os filtros combinam com a regra de negócio (ex.: cancelados)?
+- Python: juntou tabelas (merge) sem duplicar linhas? Tratou campos vazios? As datas estão como data?
+- DAX: o número muda como esperado ao filtrar por ano ou canal? A divisão usa DIVIDE? A tabela de datas está marcada?
+
+4) TESTAR
+- Compare com um número que você já conhece: uma consulta SQL, a tabela dinâmica do Excel ou um total de controle.
+- Se não bater, volte ao passo 1 e conte o erro à IA (ex.: "o total deu X, o esperado é Y").
+
+5) REGISTRAR
+- Guarde o pedido (v1, v2...), o que a IA devolveu, o que você corrigiu e como validou. Isso faz parte das suas entregas.
+
+CUIDADOS
+- Nunca envie dados pessoais reais (nome, CPF, e-mail de clientes) a uma IA que a empresa não aprovou. Nos exercícios, use o dataset fictício.
+- Não use um código que você não consegue explicar em uma frase.', null, 'c-ia-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-dax-revisao', 'checklist', 'Checklist: revisar uma medida DAX gerada por IA', 'Seis conferências antes de confiar em uma medida que a IA escreveu.', '- [ ] A medida usa só tabelas e colunas que existem no meu modelo (a IA não inventou nada)?
+- [ ] Ao mudar o filtro (ano, canal, categoria), o número muda como eu espero?
+- [ ] Os filtros que deveriam valer (ex.: sem cancelados) estão sendo aplicados?
+- [ ] O total bate com a consulta SQL de referência, para pelo menos um mês?
+- [ ] Divisões usam DIVIDE (sem erro quando o denominador é zero)?
+- [ ] Sei explicar em uma frase o que a medida calcula e registrei o pedido e a correção que fiz?', null, 'c-dax-revisao.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-relatorio', 'checklist', 'Checklist de qualidade de relatório/dashboard', 'Use antes de enviar qualquer entrega visual.', '- [ ] A pergunta de negócio está no topo da página?
 - [ ] Cada gráfico tem título-conclusão (não só "Vendas por mês")?
 - [ ] Números têm unidade e formato (R$, %, mil/mi)?
@@ -985,7 +1040,7 @@ insert into public.templates (slug, kind, title, description, content, url, file
 4. Recomendação (ação, responsável, prazo, impacto esperado)
 5. Riscos e próximos passos
 Regra: 1 mensagem por slide, título = conclusão, máximo 30 palavras no corpo.', null, 'c-storytelling.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
-insert into public.resources (slug, category, title, url, description) values ('r-dataset-xlsx', 'Dados', 'Dataset de treinamento (Excel)', '/data/dataset_treinamento.xlsx', 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
+insert into public.resources (slug, category, title, url, description) values ('r-dataset-xlsx', 'Dados', 'Dataset de treinamento (Excel)', '/data/dataset_treinamento.xlsx', 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-supabase-url', 'Dados', 'Supabase do programa (banco de análise)', '{{SUPABASE_URL}}', 'Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-dbeaver', 'Ferramentas', 'DBeaver Community (cliente SQL gratuito)', 'https://dbeaver.io/download/', 'Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-desktop', 'Ferramentas', 'Download do Power BI Desktop', 'https://www.microsoft.com/en-us/download/details.aspx?id=58494', 'Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
@@ -999,9 +1054,10 @@ insert into public.resources (slug, category, title, url, description) values ('
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-learn', 'Referência', 'Microsoft Learn – Power BI', 'https://learn.microsoft.com/power-bi/', 'Trilhas gratuitas e documentação completa do Power BI.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 delete from public.session_templates; delete from public.session_resources;
 delete from public.resources where slug <> all (array['r-dataset-xlsx', 'r-supabase-url', 'r-dbeaver', 'r-pbi-desktop', 'r-pbi-samples', 'r-pbi-sample-docs', 'r-python', 'r-vscode', 'r-pandas', 'r-dax', 'r-pg-tutorial', 'r-pbi-learn']);
-delete from public.templates where slug <> all (array['t-sql-basico', 'c-conexao-banco', 't-sql-agregacao', 't-sql-joins', 't-sql-cte-window', 't-sql-rfm', 't-sql-financeiro', 'p-pandas-limpeza', 'p-pandas-analise', 'p-viz', 'p-supabase-conexao', 'p-forecast', 'p-abtest', 'p-automacao', 'p-revisao-codigo', 'd-er-modelo', 'd-star-schema', 'd-fluxo-etl', 'x-painel-vendas', 'x-kpis', 'x-dre-fluxo', 'b-pbix-guia', 'b-dax-pack', 'c-relatorio', 'c-entrega-semanal', 'c-storytelling']);
-insert into public.session_templates (session_day, template_slug, position) values (1, 'x-kpis', 0);
-insert into public.session_templates (session_day, template_slug, position) values (1, 'c-entrega-semanal', 1);
+delete from public.templates where slug <> all (array['t-sql-basico', 'c-conexao-banco', 't-sql-agregacao', 't-sql-joins', 't-sql-cte-window', 't-sql-rfm', 't-sql-financeiro', 'p-pandas-limpeza', 'p-dax', 'p-pandas-analise', 'p-viz', 'p-supabase-conexao', 'p-forecast', 'p-abtest', 'p-automacao', 'p-revisao-codigo', 'd-er-modelo', 'd-star-schema', 'd-fluxo-etl', 'x-painel-vendas', 'x-dicionario', 'x-kpis', 'x-dre-fluxo', 'b-pbix-guia', 'b-dax-pack', 'c-ia-guia', 'c-dax-revisao', 'c-relatorio', 'c-entrega-semanal', 'c-storytelling']);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-kpis', 1);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'c-entrega-semanal', 2);
 insert into public.session_resources (session_day, resource_slug, position) values (1, 'r-dataset-xlsx', 0);
 insert into public.session_templates (session_day, template_slug, position) values (2, 'x-painel-vendas', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (2, 'r-dataset-xlsx', 0);
@@ -1015,14 +1071,17 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (5, 'r-dataset-xlsx', 0);
 insert into public.session_templates (session_day, template_slug, position) values (6, 'c-conexao-banco', 0);
 insert into public.session_templates (session_day, template_slug, position) values (6, 'd-er-modelo', 1);
-insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 2);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'x-dicionario', 2);
+insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 3);
 insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-supabase-url', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-dbeaver', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-pg-tutorial', 2);
-insert into public.session_templates (session_day, template_slug, position) values (7, 't-sql-basico', 0);
+insert into public.session_templates (session_day, template_slug, position) values (7, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (7, 't-sql-basico', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-pg-tutorial', 1);
-insert into public.session_templates (session_day, template_slug, position) values (8, 't-sql-agregacao', 0);
+insert into public.session_templates (session_day, template_slug, position) values (8, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (8, 't-sql-agregacao', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (9, 'b-pbix-guia', 0);
@@ -1030,14 +1089,15 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-desktop', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-samples', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-sample-docs', 2);
-insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-supabase-url', 3);
 insert into public.session_templates (session_day, template_slug, position) values (10, 'b-pbix-guia', 0);
 insert into public.session_templates (session_day, template_slug, position) values (10, 'c-relatorio', 1);
 insert into public.session_templates (session_day, template_slug, position) values (10, 'c-entrega-semanal', 2);
 insert into public.session_templates (session_day, template_slug, position) values (10, 't-sql-agregacao', 3);
 insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-pbi-desktop', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-pbi-learn', 1);
-insert into public.session_templates (session_day, template_slug, position) values (11, 't-sql-joins', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-supabase-url', 2);
+insert into public.session_templates (session_day, template_slug, position) values (11, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (11, 't-sql-joins', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (12, 't-sql-cte-window', 0);
@@ -1049,21 +1109,28 @@ insert into public.session_resources (session_day, resource_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (13, 'r-dax', 1);
 insert into public.session_templates (session_day, template_slug, position) values (14, 'd-fluxo-etl', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (14, 'r-pbi-learn', 0);
-insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 0);
-insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 1);
-insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 4);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 5);
 insert into public.session_resources (session_day, resource_slug, position) values (15, 'r-dax', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (15, 'r-pbi-learn', 1);
-insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 0);
-insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 4);
 insert into public.session_resources (session_day, resource_slug, position) values (16, 'r-dax', 0);
 insert into public.session_templates (session_day, template_slug, position) values (17, 'p-pandas-analise', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (17, 'r-python', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (17, 'r-vscode', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (17, 'r-pandas', 2);
-insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-limpeza', 0);
-insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-analise', 1);
-insert into public.session_templates (session_day, template_slug, position) values (18, 'p-revisao-codigo', 2);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-limpeza', 1);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-analise', 2);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-revisao-codigo', 3);
 insert into public.session_resources (session_day, resource_slug, position) values (18, 'r-pandas', 0);
 insert into public.session_templates (session_day, template_slug, position) values (19, 'p-viz', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (19, 'r-pandas', 0);
@@ -1114,8 +1181,8 @@ insert into public.session_resources (session_day, resource_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (30, 'r-pbi-desktop', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (30, 'r-python', 2);
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (1, 'Painel de vendas em Excel', 'Planilha com dados limpos, fórmulas, tabela dinâmica e 4 gráficos respondendo a 3 perguntas de negócio, mais o relatório de entrega.', '2026-11-09', '2026-11-13', 5) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
-insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (2, 'Primeiro relatório Power BI + 10 consultas SQL', 'Arquivo .pbix de 2 páginas conectado ao Supabase e um .sql com 10 consultas comentadas.', '2026-11-16', '2026-11-20', 10) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
-insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (3, 'Modelo estrela com medidas DAX', 'Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX.', '2026-11-23', '2026-11-27', 15) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (2, 'Primeiro relatório Power BI + 10 consultas SQL', 'Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas.', '2026-11-16', '2026-11-20', 10) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (3, 'Modelo estrela com medidas DAX', 'Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX, com os pedidos feitos à IA registrados.', '2026-11-23', '2026-11-27', 15) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (4, 'Notebook Python de análise', 'Notebook .ipynb (ou .py) que lê o Supabase, limpa, analisa e gera 3 gráficos, com prompts de IA registrados e revisados.', '2026-11-30', '2026-12-04', 20) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (5, 'Segmentação e previsão', 'Relatório com RFM de clientes, previsão de receita de 6 meses e análise financeira (DRE + caixa), com recomendação por área.', '2026-12-07', '2026-12-11', 25) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (6, 'Projeto final (capstone)', 'Dashboard executivo + apresentação de 5 slides + repositório/pasta com SQL, Python e documentação, apresentado ao tutor.', '2026-12-14', '2026-12-18', 30) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
@@ -1452,3 +1519,457 @@ begin
     execute format('grant execute on function %s to anon', f.sig);   -- o app usa a chave anon; Supabase Auth não é usado
   end loop;
 end $$;
+-- Dia 9 parte do Excel da Semana 1; Dia 10 troca a fonte para o Supabase (idempotente).
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (9, 'iniciante', 'Power BI Desktop: instalação, conexão e primeiro relatório', 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.', '["Instalar o Power BI Desktop","Obter dados: importar o Excel que você montou na Semana 1 (Painel de vendas)","Do Excel ao Power BI: o que cada ferramenta faz melhor","Visuais básicos: cartão, barras, linhas, segmentações"]'::jsonb, '[{"area":"Comercial","text":"Dashboard de receita por canal com filtro de ano para a reunião de segunda."},{"area":"E-commerce","text":"Funil de pedidos por status (pendente → entregue)."}]'::jsonb, '["Power BI Desktop (Windows)","Excel (seu Painel de vendas da Semana 1)"]'::jsonb, 'Você parte da planilha que já limpou e analisou na Semana 1: as abas viram tabelas do Power BI e os gráficos que você fez no Excel são recriados de forma interativa. No dia 10, o mesmo relatório passa a ler do Supabase.', 150, '2026-11-19', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (10, 'iniciante', 'Design de relatórios e entrega da Semana 2', 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.', '["Hierarquia visual e grade","Cores com propósito e acessibilidade","Interações: filtros cruzados, tooltips, bookmarks","Trocar a fonte do Excel pelo Supabase e validar os números contra o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Painel com receitas x despesas x resultado e alerta de mês negativo."},{"area":"Marketing","text":"Painel de campanhas: investimento, conversões e CPA por canal."}]'::jsonb, '["Power BI Desktop","Supabase (Postgres)","Checklist de qualidade"]'::jsonb, 'Hoje o relatório troca a fonte: sai o Excel e entra o Supabase. Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles e com o Excel.', 150, '2026-11-20', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e1', 9, 1, 'Instalar e conectar', 'Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.', 'Print da lista de tabelas carregadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e2', 9, 2, 'Página 1: Visão executiva', 'A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.', 'Arquivo .pbix v1') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e1', 10, 1, 'Trocar a fonte para o Supabase', 'Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.', 'Print dos totais antes e depois') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e2', 10, 2, 'Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e3', 10, 3, '10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e4', 10, 4, 'Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-pbix-guia', 'pbix', 'Roteiro .pbix: relatório de vendas (3 páginas)', 'Especificação para construir seu arquivo .pbix no Power BI Desktop (e modelo de correção do tutor).', '# Roteiro do arquivo vendas.pbix
+Fonte: no dia 9, o seu Excel do Painel de vendas (Semana 1). No dia 10, troque a fonte para PostgreSQL (Supabase) → schema treinamento (modo Importar) e confira se os totais continuam iguais.
+
+Página 1 – Visão Executiva
+- Cartões: Receita, Margem %, Pedidos, Ticket Médio
+- Linha: Receita por mês | Barras: Receita por categoria | Mapa/barras: Receita por UF
+- Segmentações: Ano, Canal
+
+Página 2 – Clientes
+- Matriz Segmento x Canal, Top 10 clientes, RFM (se já existir)
+
+Página 3 – Logística
+- % Entregas no prazo por transportadora, atraso médio (dias)
+
+Medidas mínimas (DAX):
+Receita = SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+Pedidos = DISTINCTCOUNT(fato_pedidos[pedido_id])
+Ticket Médio = DIVIDE([Receita], [Pedidos])
+
+Checklist de entrega: nome de abas claro, título-conclusão, cores consistentes, sem poluição, tooltip, bookmark de reset.
+Exporte o .pbix e anexe o link (OneDrive/Drive) na submissão.', null, 'b-pbix-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (2, 'Primeiro relatório Power BI + 10 consultas SQL', 'Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas.', '2026-11-16', '2026-11-20', 10) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+delete from public.session_resources where session_day = 9 and resource_slug = 'r-supabase-url';
+insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-supabase-url', 2) on conflict (session_day, resource_slug) do update set position = excluded.position;
+-- Cadastro controlado: modo 'open' (qualquer pessoa), 'invite' (exige código de convite) ou 'closed' (só tutores da lista).
+-- E-mails da teacher_allowlist sempre podem se cadastrar (tutores autorizados pela coordenação).
+-- Padrão seguro: 'invite' sem código definido = ninguém (exceto tutores) se cadastra até a coordenação definir o código.
+create table if not exists public.app_settings (
+  key text primary key,
+  value text not null,
+  updated_at timestamptz not null default now()
+);
+alter table public.app_settings enable row level security;   -- sem políticas: inacessível pela API
+revoke all on public.app_settings from public, anon, authenticated;
+comment on table public.app_settings is 'Configurações do app (modo de cadastro, hash do código de convite). Acesso somente via funções.';
+insert into public.app_settings (key, value) values ('signup_mode', 'invite') on conflict (key) do nothing;
+
+-- Informa à tela de cadastro se deve pedir o código (não revela o código nem seu hash).
+create or replace function public.app_signup_status()
+returns json language sql stable security definer set search_path = public as $$
+  select json_build_object('mode', coalesce((select value from public.app_settings where key = 'signup_mode'), 'invite'));
+$$;
+
+-- Normaliza o código (maiúsculas, sem espaços/hífens) para tolerar digitação.
+create or replace function public._invite_hash(p_code text)
+returns text language sql immutable set search_path = public, extensions as $$
+  select encode(digest(upper(regexp_replace(coalesce(p_code, ''), '[\s-]', '', 'g')), 'sha256'), 'hex');
+$$;
+
+-- Administração (SQL Editor): define o modo e, opcionalmente, o código de convite.
+create or replace function public.admin_set_signup(p_mode text, p_code text default null)
+returns text language plpgsql security definer set search_path = public, extensions as $$
+begin
+  if p_mode not in ('open', 'invite', 'closed') then raise exception 'Modo inválido: use open, invite ou closed.'; end if;
+  if p_code is not null and length(regexp_replace(p_code, '[\s-]', '', 'g')) < 8 then raise exception 'O código deve ter pelo menos 8 caracteres.'; end if;
+  insert into public.app_settings (key, value) values ('signup_mode', p_mode)
+    on conflict (key) do update set value = excluded.value, updated_at = now();
+  if p_code is not null then
+    insert into public.app_settings (key, value) values ('invite_code_hash', public._invite_hash(p_code))
+      on conflict (key) do update set value = excluded.value, updated_at = now();
+  end if;
+  return 'cadastro: ' || p_mode;
+end;
+$$;
+revoke all on function public.admin_set_signup(text, text) from public, anon, authenticated;
+revoke all on function public._invite_hash(text) from public, anon, authenticated;
+
+-- app_register passa a validar o convite (4º parâmetro opcional).
+drop function if exists public.app_register(text, text, text);
+create function public.app_register(p_email text, p_password text, p_name text, p_invite text default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_name text := trim(coalesce(p_name, ''));
+  v_mode text := coalesce((select value from public.app_settings where key = 'signup_mode'), 'invite');
+  v_hash text := (select value from public.app_settings where key = 'invite_code_hash');
+  v_tutor boolean;
+  u public.app_users;
+begin
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then
+    raise exception 'Informe um e-mail válido.';
+  end if;
+  if length(v_name) < 2 or length(v_name) > 100 then
+    raise exception 'Informe seu nome (2 a 100 caracteres).';
+  end if;
+  if p_password is null or length(p_password) < 8 then
+    raise exception 'A senha deve ter pelo menos 8 caracteres.';
+  end if;
+  if octet_length(p_password) > 72 then
+    raise exception 'A senha deve ter no máximo 72 caracteres.';
+  end if;
+
+  v_tutor := exists (select 1 from public.teacher_allowlist t where lower(t.email) = v_email);
+  if not v_tutor then
+    if v_mode = 'closed' then
+      raise exception 'O cadastro está fechado. Fale com a coordenação do programa.';
+    elsif v_mode = 'invite' and (v_hash is null or public._invite_hash(p_invite) <> v_hash) then
+      raise exception 'Código de convite inválido. Peça o código à coordenação do programa.';
+    end if;
+  end if;
+
+  if exists (select 1 from public.app_users where email = v_email) then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end if;
+
+  begin
+    insert into public.app_users (email, full_name, password_hash, role)
+    values (v_email, v_name, crypt(p_password, gen_salt('bf', 10)), case when v_tutor then 'teacher' else 'student' end)
+    returning * into u;
+  exception when unique_violation then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end;
+
+  return json_build_object('token', public._app_new_session(u.id), 'user', public._app_user_json(u));
+end;
+$$;
+
+revoke all on function public.app_register(text, text, text, text) from public;
+revoke all on function public.app_signup_status() from public;
+grant execute on function public.app_register(text, text, text, text) to anon;
+grant execute on function public.app_signup_status() to anon;
+-- 1) Redefinição de senha assistida pelo tutor (sem e-mail): o tutor gera um código de uso único e o aluno define a nova senha.
+-- 2) Limite de tentativas de código de convite (proteção contra adivinhação).
+
+-- ── Redefinição de senha ──
+create table if not exists public.password_resets (
+  user_id uuid primary key references public.app_users(id) on delete cascade,
+  code_hash text not null,
+  expires_at timestamptz not null,
+  failed_attempts int not null default 0,
+  created_by uuid references public.app_users(id) on delete set null,
+  created_at timestamptz not null default now()
+);
+alter table public.password_resets enable row level security;
+revoke all on public.password_resets from public, anon, authenticated;
+
+create or replace function public._reset_hash(p_code text)
+returns text language sql immutable set search_path = public, extensions as $$
+  select encode(digest(upper(regexp_replace(coalesce(p_code, ''), '[\s-]', '', 'g')), 'sha256'), 'hex');
+$$;
+revoke all on function public._reset_hash(text) from public, anon, authenticated;
+
+-- Tutor gera o código (válido por 1 hora) para um ALUNO. Tutores não redefinem senha de outros tutores.
+create or replace function public.app_teacher_reset_code(p_token text, p_student_id uuid)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  me public.app_users := public._app_user(p_token);
+  s public.app_users;
+  alphabet constant text := 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  raw text := '';
+  i int;
+  v_exp timestamptz := now() + interval '1 hour';
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores podem gerar códigos de redefinição.'; end if;
+  select * into s from public.app_users where id = p_student_id;
+  if not found or s.role <> 'student' then raise exception 'Aluno não encontrado.'; end if;
+  for i in 1..8 loop
+    raw := raw || substr(alphabet, 1 + (get_byte(gen_random_bytes(1), 0) % length(alphabet)), 1);
+  end loop;
+  insert into public.password_resets (user_id, code_hash, expires_at, failed_attempts, created_by)
+  values (s.id, public._reset_hash(raw), v_exp, 0, me.id)
+  on conflict (user_id) do update
+    set code_hash = excluded.code_hash, expires_at = excluded.expires_at, failed_attempts = 0, created_by = excluded.created_by, created_at = now();
+  return json_build_object('code', substr(raw, 1, 4) || '-' || substr(raw, 5, 4), 'expires_at', v_exp, 'student', s.full_name);
+end;
+$$;
+
+-- Aluno informa e-mail + código + nova senha. Erros voltam como {error} para que o contador de tentativas seja gravado.
+create or replace function public.app_reset_password(p_email text, p_code text, p_new_password text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  u public.app_users;
+  r public.password_resets;
+  v_msg constant text := 'Código inválido ou expirado. Peça um novo código ao tutor.';
+begin
+  if p_new_password is null or length(p_new_password) < 8 then
+    return json_build_object('error', 'A senha deve ter pelo menos 8 caracteres.');
+  end if;
+  if octet_length(p_new_password) > 72 then
+    return json_build_object('error', 'A senha deve ter no máximo 72 caracteres.');
+  end if;
+  select * into u from public.app_users where email = v_email and role = 'student';
+  if not found then return json_build_object('error', v_msg); end if;
+  select * into r from public.password_resets where user_id = u.id;
+  if not found or r.expires_at < now() then
+    delete from public.password_resets where user_id = u.id;
+    return json_build_object('error', v_msg);
+  end if;
+  if r.code_hash <> public._reset_hash(p_code) then
+    if r.failed_attempts + 1 >= 5 then delete from public.password_resets where user_id = u.id;   -- queima o código após 5 erros
+    else update public.password_resets set failed_attempts = failed_attempts + 1 where user_id = u.id; end if;
+    return json_build_object('error', v_msg);
+  end if;
+  update public.app_users
+     set password_hash = crypt(p_new_password, gen_salt('bf', 10)), failed_attempts = 0, locked_until = null
+   where id = u.id;
+  delete from public.password_resets where user_id = u.id;
+  delete from public.app_sessions where user_id = u.id;   -- encerra sessões antigas
+  return json_build_object('ok', true);
+end;
+$$;
+
+-- ── Limite de tentativas de convite ──
+create table if not exists public.signup_failures (id bigserial primary key, at timestamptz not null default now());
+alter table public.signup_failures enable row level security;
+revoke all on public.signup_failures from public, anon, authenticated;
+
+-- app_register: convite inválido/limite excedido voltam como {error} (para gravar a tentativa); demais erros seguem como exceção.
+create or replace function public.app_register(p_email text, p_password text, p_name text, p_invite text default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_name text := trim(coalesce(p_name, ''));
+  v_mode text := coalesce((select value from public.app_settings where key = 'signup_mode'), 'invite');
+  v_hash text := (select value from public.app_settings where key = 'invite_code_hash');
+  v_tutor boolean;
+  u public.app_users;
+begin
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then
+    raise exception 'Informe um e-mail válido.';
+  end if;
+  if length(v_name) < 2 or length(v_name) > 100 then
+    raise exception 'Informe seu nome (2 a 100 caracteres).';
+  end if;
+  if p_password is null or length(p_password) < 8 then
+    raise exception 'A senha deve ter pelo menos 8 caracteres.';
+  end if;
+  if octet_length(p_password) > 72 then
+    raise exception 'A senha deve ter no máximo 72 caracteres.';
+  end if;
+
+  v_tutor := exists (select 1 from public.teacher_allowlist t where lower(t.email) = v_email);
+  if not v_tutor then
+    if v_mode = 'closed' then
+      raise exception 'O cadastro está fechado. Fale com a coordenação do programa.';
+    elsif v_mode = 'invite' then
+      delete from public.signup_failures where at < now() - interval '1 day';
+      if (select count(*) from public.signup_failures where at > now() - interval '15 minutes') >= 20 then
+        return json_build_object('error', 'Muitas tentativas de código incorretas. Aguarde alguns minutos e tente de novo.');
+      end if;
+      if v_hash is null or public._invite_hash(p_invite) <> v_hash then
+        insert into public.signup_failures default values;
+        return json_build_object('error', 'Código de convite inválido. Peça o código à coordenação do programa.');
+      end if;
+    end if;
+  end if;
+
+  if exists (select 1 from public.app_users where email = v_email) then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end if;
+
+  begin
+    insert into public.app_users (email, full_name, password_hash, role)
+    values (v_email, v_name, crypt(p_password, gen_salt('bf', 10)), case when v_tutor then 'teacher' else 'student' end)
+    returning * into u;
+  exception when unique_violation then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end;
+
+  return json_build_object('token', public._app_new_session(u.id), 'user', public._app_user_json(u));
+end;
+$$;
+
+revoke all on function public.app_teacher_reset_code(text, uuid) from public;
+revoke all on function public.app_reset_password(text, text, text) from public;
+grant execute on function public.app_teacher_reset_code(text, uuid) to anon;   -- o app usa a chave anon; a função valida o token e o perfil
+grant execute on function public.app_reset_password(text, text, text) to anon;
+-- Dicionário de dados: novo template, ER completo, e vínculo aos dias 1, 6, 7, 8 e 11 (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dicionario', 'excel', 'Dicionário de dados (Excel)', 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.', 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, ROAS...).', '/templates/dicionario-dados.xlsx', 'dicionario-dados.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('d-er-modelo', 'diagram', 'Diagrama ER do banco de análise', 'Estrutura de dados do schema treinamento (renderiza no GitHub/Mermaid Live).', 'erDiagram
+  DIM_CLIENTES ||--o{ FATO_PEDIDOS : "faz"
+  FATO_PEDIDOS ||--|{ FATO_ITENS_PEDIDO : "contém"
+  DIM_PRODUTOS ||--o{ FATO_ITENS_PEDIDO : "vendido em"
+  FATO_PEDIDOS ||--o| FATO_ENTREGAS : "gera"
+  DIM_CLIENTES { int cliente_id PK
+    text nome
+    text cidade
+    text uf
+    text segmento
+    text canal_aquisicao
+    date data_cadastro }
+  DIM_PRODUTOS { int produto_id PK
+    text nome
+    text categoria
+    numeric preco
+    numeric custo }
+  FATO_PEDIDOS { int pedido_id PK
+    int cliente_id FK
+    date data_pedido
+    text status
+    text canal
+    text uf_entrega
+    numeric frete
+    numeric desconto_pct }
+  FATO_ITENS_PEDIDO { int item_id PK
+    int pedido_id FK
+    int produto_id FK
+    int quantidade
+    numeric preco_unitario }
+  FATO_ENTREGAS { int pedido_id PK
+    text transportadora
+    date data_envio
+    int prazo_dias
+    date data_entrega }
+  FATO_CAMPANHAS { int campanha_id PK
+    text canal
+    date mes
+    numeric investimento
+    int impressoes
+    int cliques
+    int conversoes }
+  FATO_FINANCEIRO { int lancamento_id PK
+    date data
+    text tipo
+    text categoria
+    text centro_custo
+    numeric valor }
+  ESPORTE_PARTIDAS { int partida_id PK
+    int temporada
+    int rodada
+    date data_jogo
+    text mandante
+    text visitante
+    int gols_mandante
+    int gols_visitante
+    int publico
+    numeric receita_bilheteria }', null, 'd-er-modelo.mmd') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.resources (slug, category, title, url, description) values ('r-dataset-xlsx', 'Dados', 'Dataset de treinamento (Excel)', '/data/dataset_treinamento.xlsx', 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (1, 'iniciante', 'Mentalidade analítica e perguntas de negócio', 'Análise sem pergunta vira relatório que ninguém usa. Antes de qualquer ferramenta, você precisa saber transformar um problema vago ("vendas caíram") em uma pergunta mensurável, com métrica, recorte e decisão associada.', '["O ciclo da análise: Pergunta → Dados → Análise → Insight → Decisão","Diferença entre dado, métrica, KPI e indicador","Como escrever uma pergunta SMART de negócio","Tipos de análise: descritiva, diagnóstica, preditiva e prescritiva"]'::jsonb, '[{"area":"Comercial","text":"O diretor diz \"as vendas do app estão estranhas\". Qual métrica, período e comparação transformam isso em pergunta?"},{"area":"Marketing","text":"\"Qual canal traz clientes que mais compram em 90 dias?\" – métrica, recorte e decisão (onde investir)."},{"area":"Esporte","text":"Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo."}]'::jsonb, '["Papel/Miro/Excel para mapear perguntas","Dataset de treinamento (Excel)"]'::jsonb, 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder. O Dicionário de dados é o seu guia: ele explica cada coluna, os valores possíveis e os cuidados de cálculo.', 120, '2026-11-09', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e2', 1, 2, 'Reconhecimento do dataset', 'Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+delete from public.session_templates where session_day in (1,6,7,8,11);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-kpis', 1);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'c-entrega-semanal', 2);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'd-er-modelo', 0);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'x-dicionario', 1);
+insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 2);
+insert into public.session_templates (session_day, template_slug, position) values (7, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (7, 't-sql-basico', 1);
+insert into public.session_templates (session_day, template_slug, position) values (8, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (8, 't-sql-agregacao', 1);
+insert into public.session_templates (session_day, template_slug, position) values (11, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (11, 't-sql-joins', 1);
+-- Remove o ROAS do exercício do Dia 8 (fato_campanhas não tem receita por campanha) e ajusta o dicionário (idempotente).
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e2', 8, 2, 'Métricas de marketing', 'Calcule CTR, CPC e CPA por canal.', 'Query com métricas nomeadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dicionario', 'excel', 'Dicionário de dados (Excel)', 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.', 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, métricas de campanha...).', '/templates/dicionario-dados.xlsx', 'dicionario-dados.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+-- Dia 15: troca ROAS por CTR (fato_campanhas não tem receita por campanha) (idempotente).
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base', 'Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, CTR e % do Total.', 'Lista de medidas + prints') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+-- Dia 15: orienta importar fato_campanhas (sem relacionamento) para CPA e CTR (idempotente).
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base', 'Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais). Crie Receita, Custo, Margem %, Pedidos, Ticket Médio e % do Total e, a partir de fato_campanhas, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões).', 'Lista de medidas + prints') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+-- Pacote DAX: inclui CPA e CTR (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
+Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
+Receita YTD := TOTALYTD([Receita], dim_data[data])
+Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
+Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])
+Receita 12M := CALCULATE([Receita], DATESINPERIOD(dim_data[data], MAX(dim_data[data]), -12, MONTH))
+% Entregas no Prazo := DIVIDE(CALCULATE(COUNTROWS(fato_entregas), fato_entregas[no_prazo] = TRUE()), COUNTROWS(fato_entregas))', null, 'b-dax-pack.dax') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+-- DAX com IA: modelo de pedido (p-dax), checklist de revisão e ajuste dos dias 15 e 16 (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('p-dax', 'prompt', 'Prompt: medida DAX com IA', 'Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.', 'Atue como especialista em Power BI e DAX e explique para um profissional administrativo, sem jargão.
+Meu modelo (tabelas, colunas e relacionamentos): [EX.: fato_itens_pedido[pedido_id, produto_id, quantidade, preco_unitario] -> dim_produtos[produto_id, custo]; dim_data[data] marcada como tabela de datas e ligada a fato_pedidos[data_pedido]].
+Regra de negócio: [EX.: "Receita = quantidade x preço unitário; pedidos cancelados ficam de fora"].
+Escreva a medida DAX chamada [NOME DA MEDIDA] que mostra [O QUE ELA DEVE MOSTRAR].
+Entregue:
+1. a medida, pronta para colar no Power BI;
+2. uma explicação em 3 linhas, em português simples, do que ela calcula e de como reage aos filtros (ex.: ano, canal, categoria);
+3. um caso de teste: como conferir o resultado com uma consulta SQL;
+4. o que pode dar errado (ex.: filtro ignorado, relacionamento inativo, tabela de datas).
+Use apenas as tabelas e colunas que informei. Se faltar informação, pergunte antes de escrever.', null, 'p-dax.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-dax-revisao', 'checklist', 'Checklist: revisar uma medida DAX gerada por IA', 'Seis conferências antes de confiar em uma medida que a IA escreveu.', '- [ ] A medida usa só tabelas e colunas que existem no meu modelo (a IA não inventou nada)?
+- [ ] Ao mudar o filtro (ano, canal, categoria), o número muda como eu espero?
+- [ ] Os filtros que deveriam valer (ex.: sem cancelados) estão sendo aplicados?
+- [ ] O total bate com a consulta SQL de referência, para pelo menos um mês?
+- [ ] Divisões usam DIVIDE (sem erro quando o denominador é zero)?
+- [ ] Sei explicar em uma frase o que a medida calcula e registrei o pedido e a correção que fiz?', null, 'c-dax-revisao.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.', '["Coluna calculada vs. medida","Contexto de linha e de filtro: o que faz o número mudar","Como pedir uma medida à IA: modelo, regra de negócio e resultado esperado","Revisar a medida da IA: filtros, relacionamentos e conferência com SQL","Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote de medidas DAX (gabarito)","DAX Guide"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (16, 'intermediario', 'DAX II: inteligência de tempo', 'Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.', '["Tabela de datas marcada como tal (as medidas de tempo dependem dela)","TOTALYTD, DATEADD, SAMEPERIODLASTYEAR: o que cada uma faz, sem precisar decorar a sintaxe","Médias móveis (DATESINPERIOD)","Variações absolutas e percentuais","Pedir medidas de tempo à IA e conferir os valores com o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Resultado acumulado no ano vs. ano anterior."},{"area":"E-commerce","text":"Receita dos últimos 12 meses e crescimento mensal."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote DAX (gabarito)"]'::jsonb, 'Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito. A IA erra fácil em tempo (tabela de datas, período anterior): por isso cada medida precisa ser conferida com o SQL.', 120, '2026-11-30', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base, com IA', 'Escreva você mesmo Receita e % do Total. Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais) e peça à IA, com o prompt p-dax, as outras seis: Custo, Margem %, Pedidos, Ticket Médio, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões). Registre cada pedido feito à IA.', 'Lista de medidas + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e2', 15, 2, 'Validação cruzada', 'Prove que 3 medidas batem com SQL e aplique o checklist de revisão: liste pelo menos 1 correção ou ponto de atenção que você encontrou numa medida da IA.', 'Tabela de conferência + checklist') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e1', 16, 1, 'Painel de variação, com IA', 'Peça à IA, com o prompt p-dax, as medidas YTD, Mês Ant., Var % e 12M, aplique-as no modelo e exiba em linha + cartões. Registre os pedidos e as correções que fez.', 'Página .pbix + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (3, 'Modelo estrela com medidas DAX', 'Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX, com os pedidos feitos à IA registrados.', '2026-11-23', '2026-11-27', 15) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+delete from public.session_templates where session_day in (15,16);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 0);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'p-dax', 1);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-dax-revisao', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 3);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 4);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 0);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'p-dax', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-dax-revisao', 2);
+insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 3);
+-- Guia rápido de IA (c-ia-guia) nos dias 15, 16 e 18 (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-ia-guia', 'checklist', 'Guia rápido: como usar a IA para gerar Python e DAX', 'Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.', 'A IA escreve rápido, mas erra com confiança. Seu papel é dirigir: dizer o que quer, conferir e registrar. Siga os 5 passos.
+
+1) ESPECIFICAR (você, antes de pedir)
+- Escreva a pergunta de negócio em uma frase (ex.: "Qual a margem por categoria?").
+- Descreva os dados: nomes das tabelas e colunas, o que cada linha representa e como as tabelas se ligam (use o Dicionário de dados).
+- Informe as regras: o que entra e o que sai (ex.: sem pedidos cancelados; o preço já vem com desconto).
+- Peça o formato: código pronto para colar, explicação em 3 linhas e como testar.
+- Use os modelos de pedido: p-pandas-limpeza e p-pandas-analise (Python) e p-dax (DAX).
+
+2) GERAR
+- Cole o pedido. Se a IA fizer perguntas, responda. Se ela inventar uma coluna que não existe, avise e peça de novo.
+
+3) REVISAR (antes de rodar ou colar)
+- Todas as tabelas e colunas existem de verdade?
+- Os filtros combinam com a regra de negócio (ex.: cancelados)?
+- Python: juntou tabelas (merge) sem duplicar linhas? Tratou campos vazios? As datas estão como data?
+- DAX: o número muda como esperado ao filtrar por ano ou canal? A divisão usa DIVIDE? A tabela de datas está marcada?
+
+4) TESTAR
+- Compare com um número que você já conhece: uma consulta SQL, a tabela dinâmica do Excel ou um total de controle.
+- Se não bater, volte ao passo 1 e conte o erro à IA (ex.: "o total deu X, o esperado é Y").
+
+5) REGISTRAR
+- Guarde o pedido (v1, v2...), o que a IA devolveu, o que você corrigiu e como validou. Isso faz parte das suas entregas.
+
+CUIDADOS
+- Nunca envie dados pessoais reais (nome, CPF, e-mail de clientes) a uma IA que a empresa não aprovou. Nos exercícios, use o dataset fictício.
+- Não use um código que você não consegue explicar em uma frase.', null, 'c-ia-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.', '["Coluna calculada vs. medida","Contexto de linha e de filtro: o que faz o número mudar","O ciclo para usar IA em código (especificar, gerar, revisar, testar, registrar), o mesmo para DAX e Python: veja o Guia rápido","Revisar a medida da IA: filtros, relacionamentos e conferência com SQL","Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote de medidas DAX (gabarito)","DAX Guide"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (18, 'intermediario', 'Python com IA: limpeza e análise com pandas', 'Assistentes de IA aceleram a escrita de código, mas só quem sabe especificar e revisar evita erros silenciosos. Hoje você treina o ciclo especificar → gerar → revisar → testar.', '["Como escrever um bom prompt analítico (contexto, dados, restrições, saída)","groupby, merge, pivot_table","Revisar código da IA (joins, filtros, nulos)","Registrar prompts e versões"]'::jsonb, '[{"area":"Financeiro","text":"Conciliar lançamentos com merge e achar divergências."},{"area":"Marketing","text":"CPA por canal com groupby e formatação em R$."}]'::jsonb, '["Assistente de IA (Claude)","Python + pandas","Templates de prompt"]'::jsonb, 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código. Releia o Guia rápido de IA, o mesmo que você usou no DAX (dias 15 e 16).', 150, '2026-12-02', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+delete from public.session_templates where session_day in (15,16,18);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 4);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 5);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 4);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-limpeza', 1);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-analise', 2);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-revisao-codigo', 3);

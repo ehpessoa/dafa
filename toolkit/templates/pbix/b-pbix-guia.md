@@ -1,5 +1,5 @@
 # Roteiro do arquivo vendas.pbix
-Fonte: PostgreSQL (Supabase) → schema treinamento (modo Importar).
+Fonte: no dia 9, o seu Excel do Painel de vendas (Semana 1). No dia 10, troque a fonte para PostgreSQL (Supabase) → schema treinamento (modo Importar) e confira se os totais continuam iguais.
 
 Página 1 – Visão Executiva
 - Cartões: Receita, Margem %, Pedidos, Ticket Médio

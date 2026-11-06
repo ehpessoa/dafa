@@ -9,7 +9,7 @@ const writeToken = (t: string | null) => { try { if (t) localStorage.setItem(TOK
 interface Ctx {
   token: string | null; profile: Profile | null; loading: boolean; isTeacher: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (name: string, email: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string, invite?: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 const AuthCtx = createContext<Ctx | null>(null);
@@ -38,8 +38,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     writeToken(r.token); setToken(r.token); setProfile(r.user);
   };
   const signIn = async (email: string, password: string) => accept(await api<AuthResult>('app_login', { p_email: email, p_password: password }));
-  const signUp = async (name: string, email: string, password: string) =>
-    accept(await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password }));
+  const signUp = async (name: string, email: string, password: string, invite?: string) =>
+    accept(await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password, p_invite: invite || null }));
   const signOut = async () => {
     const t = token;
     clear();

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { isConfigured } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
+import { TRAILS, HIGHLIGHTS } from './landingContent';
 
 export default function Login() {
   const { signIn, signUp } = useAuth();
@@ -26,16 +27,18 @@ export default function Login() {
   };
 
   return (
+    <>
     <div className="hero">
       <div className="left">
         <div className="brand" style={{ color: '#fff', padding: 0 }}><div className="logo" style={{ background: 'rgb(255 255 255 / .2)' }}>📊</div> DAFA</div>
         <h1>Análise de dados para quem decide.</h1>
         <p style={{ fontSize: '1.1rem', opacity: .9 }}>Programa de 30 dias úteis em 3 níveis — Excel, SQL, Power BI, Python e IA — com exercícios reais de comercial, finanças, logística, e-commerce, esporte e marketing.</p>
         <div className="steps">
-          <div>🌱 <b>Iniciante</b> · Excel, SQL e primeiro relatório</div>
-          <div>🚀 <b>Intermediário</b> · Modelagem, DAX e Python com IA</div>
-          <div>🏆 <b>Avançado</b> · Segmentação, previsão e projeto final</div>
+          {TRAILS.map((t) => (
+            <a key={t.id} href={`#trilha-${t.id}`} className="step-link">{t.emoji} <b>{t.name}</b> · {t.subtitle}</a>
+          ))}
         </div>
+        <a href="#trilhas" className="small" style={{ color: '#fff', opacity: .9 }}>↓ Veja o que você aprende em cada dia</a>
         <p className="small" style={{ opacity: .8 }}>Cada entrega é avaliada por um tutor. Refaça quantas vezes precisar até dominar.</p>
       </div>
       <div className="right">
@@ -72,5 +75,40 @@ export default function Login() {
         </form>
       </div>
     </div>
+    <section id="trilhas" className="landing">
+      <div className="landing-in">
+        <h2>O que você aprende, trilha por trilha</h2>
+        <p className="muted">30 dias úteis, cerca de 2h30 por dia, sem exigir conhecimento prévio de programação. Todo dia segue o mesmo caminho: entender o porquê, ver a ferramenta, praticar e enviar uma entrega para o tutor.</p>
+        {TRAILS.map((t) => (
+          <article key={t.id} id={`trilha-${t.id}`} className="trail">
+            <header>
+              <h3>{t.emoji} {t.name} · {t.subtitle}</h3>
+              <div className="small muted">{t.period}</div>
+              <p><b>Promessa:</b> {t.promise}</p>
+            </header>
+            {t.weeks.map((w) => (
+              <div key={w.title} className="tweek">
+                <h4>{w.title}</h4>
+                {w.days.map((d) => (
+                  <details key={d.day} className="tday">
+                    <summary><span className="dn">Dia {d.day}</span> {d.title}{d.delivery && ' 📦'}</summary>
+                    <ul>{d.learn.map((l) => <li key={l}>{l}</li>)}</ul>
+                    <p><b>Na prática:</b> {d.practice}</p>
+                    {d.delivery && <p className="deliv"><b>📦 Entrega da semana:</b> {d.delivery}</p>}
+                  </details>
+                ))}
+              </div>
+            ))}
+            <p className="takeaway"><b>O que você leva:</b> {t.takeaway}</p>
+          </article>
+        ))}
+        <div className="hl-grid">
+          {HIGHLIGHTS.map((h) => (
+            <div key={h.title} className="card"><div style={{ fontSize: '1.6rem' }}>{h.icon}</div><b>{h.title}</b><p className="small muted" style={{ margin: '6px 0 0' }}>{h.text}</p></div>
+          ))}
+        </div>
+      </div>
+    </section>
+    </>
   );
 }

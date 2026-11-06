@@ -61,6 +61,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-joins
    _Entrega:_ Nota com conferência
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [JOINs entre fatos e dimensões](../toolkit/templates/sql/t-sql-joins.sql) — INNER/LEFT JOIN para responder perguntas de negócio.
 
 ### 5) Recursos

@@ -236,6 +236,7 @@ CÓDIGO: [COLE AQUI]` },
   FATO_PEDIDOS ||--o| FATO_ENTREGAS : "gera"
   DIM_CLIENTES { int cliente_id PK
     text nome
+    text cidade
     text uf
     text segmento
     text canal_aquisicao
@@ -251,7 +252,8 @@ CÓDIGO: [COLE AQUI]` },
     text status
     text canal
     text uf_entrega
-    numeric frete }
+    numeric frete
+    numeric desconto_pct }
   FATO_ITENS_PEDIDO { int item_id PK
     int pedido_id FK
     int produto_id FK
@@ -266,6 +268,7 @@ CÓDIGO: [COLE AQUI]` },
     text canal
     date mes
     numeric investimento
+    int impressoes
     int cliques
     int conversoes }
   FATO_FINANCEIRO { int lancamento_id PK
@@ -275,10 +278,13 @@ CÓDIGO: [COLE AQUI]` },
     text centro_custo
     numeric valor }
   ESPORTE_PARTIDAS { int partida_id PK
-    text temporada
+    int temporada
+    int rodada
     date data_jogo
     text mandante
     text visitante
+    int gols_mandante
+    int gols_visitante
     int publico
     numeric receita_bilheteria }` },
 
@@ -305,6 +311,9 @@ CÓDIGO: [COLE AQUI]` },
   { slug: 'x-painel-vendas', kind: 'excel', file: 'xlsx', url: '/templates/painel-vendas.xlsx', title: 'Planilha: painel de vendas (Excel)',
     description: 'Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.',
     content: 'Abas: LEIAME · Dados (cole a aba fato_pedidos) · Calculos (SOMASES/PROCV de exemplo) · Painel (KPIs + espaço para gráficos).' },
+  { slug: 'x-dicionario', kind: 'excel', file: 'xlsx', url: '/templates/dicionario-dados.xlsx', title: 'Dicionário de dados (Excel)',
+    description: 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.',
+    content: 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, ROAS...).' },
   { slug: 'x-kpis', kind: 'excel', file: 'xlsx', url: '/templates/kpis-areas.xlsx', title: 'Planilha: catálogo de KPIs por área',
     description: 'KPI, fórmula, fonte, frequência e dono para Comercial, Financeiro, Logística, E-commerce, Esporte e Marketing.',
     content: 'Abas por área com colunas: KPI, definição, fórmula, fonte (tabela/coluna), frequência, meta, dono.' },

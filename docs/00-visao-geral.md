@@ -52,4 +52,5 @@ Regras (aplicadas no banco, não só na tela):
 | Toolkits: [🌱 Iniciante](toolkit-iniciante.md) · [🚀 Intermediário](toolkit-intermediario.md) · [🏆 Avançado](toolkit-avancado.md) | As 30 sessões com os 5 blocos |
 | [03 · Pesquisa e melhorias](03-pesquisa-e-melhorias.md) | O que a pesquisa indicou e como entrou no programa |
 | [04 · Setup e recursos](04-setup-e-recursos.md) | Supabase, cadastro de tutores, Power BI, Python, aluno somente-leitura |
+| [Dicionário de dados](dicionario-de-dados.md) | As 8 tabelas: colunas, valores possíveis, relações e cuidados de cálculo |
 | [05 · App de treinamento](05-app.md) | Arquitetura, modelo de dados, segurança, telas |

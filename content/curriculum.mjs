@@ -31,9 +31,9 @@ export const sessions = [
     learn: ['O ciclo da análise: Pergunta → Dados → Análise → Insight → Decisão', 'Diferença entre dado, métrica, KPI e indicador', 'Como escrever uma pergunta SMART de negócio', 'Tipos de análise: descritiva, diagnóstica, preditiva e prescritiva'],
     scenarios: [['Comercial', 'O diretor diz "as vendas do app estão estranhas". Qual métrica, período e comparação transformam isso em pergunta?'], ['Marketing', '"Qual canal traz clientes que mais compram em 90 dias?" – métrica, recorte e decisão (onde investir).'], ['Esporte', 'Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo.']],
     tools: ['Papel/Miro/Excel para mapear perguntas', 'Dataset de treinamento (Excel)'],
-    connection: 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder.',
-    exercises: exs(['Dissecando 5 pedidos vagos', 'Reescreva 5 pedidos vagos (ex.: "melhorar a logística") como perguntas com métrica, recorte, período e decisão.', 'Documento com 5 perguntas SMART'], ['Reconhecimento do dataset', 'Abra o Excel do treinamento, descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis'], ['Catálogo de KPIs', 'Escolha 2 áreas (ex.: Comercial e Logística) e liste 4 KPIs de cada com fórmula e fonte.', 'Planilha x-kpis preenchida']),
-    templates: ['x-kpis', 'c-entrega-semanal'], resources: ['r-dataset-xlsx'] },
+    connection: 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder. O Dicionário de dados é o seu guia: ele explica cada coluna, os valores possíveis e os cuidados de cálculo.',
+    exercises: exs(['Dissecando 5 pedidos vagos', 'Reescreva 5 pedidos vagos (ex.: "melhorar a logística") como perguntas com métrica, recorte, período e decisão.', 'Documento com 5 perguntas SMART'], ['Reconhecimento do dataset', 'Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis'], ['Catálogo de KPIs', 'Escolha 2 áreas (ex.: Comercial e Logística) e liste 4 KPIs de cada com fórmula e fonte.', 'Planilha x-kpis preenchida']),
+    templates: ['x-dicionario', 'x-kpis', 'c-entrega-semanal'], resources: ['r-dataset-xlsx'] },
 
   { day: 2, level: 'iniciante', title: 'Excel: organização e qualidade dos dados', minutes: 120, deps: [1],
     why: 'Cerca de 80% do tempo de uma análise vai para preparar dados. Dados bem estruturados (uma linha por registro, uma coluna por atributo) evitam erros e permitem automação.',
@@ -79,7 +79,7 @@ export const sessions = [
     tools: ['Supabase (SQL Editor ou cliente SQL)', 'Diagrama ER (Mermaid)'],
     connection: 'O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).',
     exercises: exs(['Ler o diagrama ER', 'Identifique PK/FK e cardinalidade de cada relacionamento.', 'Tabela PK/FK + cardinalidade'], ['Primeiro acesso', 'Conecte-se ao Supabase e rode SELECT COUNT(*) em cada tabela.', 'Print/ tabela de contagens'], ['Desenhe um modelo seu', 'Desenhe o ER de uma área da sua empresa com 4 tabelas.', 'Diagrama Mermaid ou imagem']),
-    templates: ['d-er-modelo', 't-sql-basico'], resources: ['r-supabase-url', 'r-supabase-studio', 'r-pg-tutorial'] },
+    templates: ['d-er-modelo', 'x-dicionario', 't-sql-basico'], resources: ['r-supabase-url', 'r-supabase-studio', 'r-pg-tutorial'] },
 
   { day: 7, level: 'iniciante', title: 'SQL I: SELECT, WHERE, ORDER BY', minutes: 120, deps: [6],
     why: 'SQL é a língua franca dos dados. Saber extrair exatamente o que precisa reduz a dependência de TI e evita planilhas gigantes.',
@@ -88,7 +88,7 @@ export const sessions = [
     tools: ['Supabase SQL Editor', 'Template t-sql-basico'],
     connection: 'Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.',
     exercises: exs(['10 consultas de filtro', 'Escreva 10 consultas com WHERE/ORDER/LIMIT sobre pedidos, clientes e financeiro.', 'Arquivo .sql comentado'], ['Bate com o Excel?', 'Compare 2 resultados SQL com a planilha e explique diferenças.', 'Nota de conferência']),
-    templates: ['t-sql-basico'], resources: ['r-supabase-studio', 'r-pg-tutorial'] },
+    templates: ['x-dicionario', 't-sql-basico'], resources: ['r-supabase-studio', 'r-pg-tutorial'] },
 
   { day: 8, level: 'iniciante', title: 'SQL II: agregações e GROUP BY', minutes: 120, deps: [7],
     why: 'Decisões raramente usam linhas individuais; usam totais, médias e comparações por grupo. GROUP BY é o coração da análise de negócio.',
@@ -97,7 +97,7 @@ export const sessions = [
     tools: ['Supabase SQL Editor', 'Template t-sql-agregacao'],
     connection: 'É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.',
     exercises: exs(['Receita mensal em SQL', 'Reproduza em SQL a dinâmica de receita por mês.', 'Query + resultado'], ['Métricas de marketing', 'Calcule CTR, CPC, CPA e ROAS por canal.', 'Query com métricas nomeadas'], ['Faixas com CASE', 'Classifique pedidos em faixas de valor e conte por faixa.', 'Query + comentário']),
-    templates: ['t-sql-agregacao'], resources: ['r-supabase-studio', 'r-pg-tutorial'] },
+    templates: ['x-dicionario', 't-sql-agregacao'], resources: ['r-supabase-studio', 'r-pg-tutorial'] },
 
   { day: 9, level: 'iniciante', title: 'Power BI Desktop: instalação, conexão e primeiro relatório', minutes: 150, deps: [5, 8],
     why: 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.',
@@ -126,7 +126,7 @@ export const sessions = [
     tools: ['Supabase SQL Editor', 'Template t-sql-joins'],
     connection: 'Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.',
     exercises: exs(['Margem por categoria', 'Calcule receita, custo e margem % por categoria.', 'Query validada'], ['Anti-join', 'Liste clientes sem compras por canal de aquisição.', 'Query + contagem'], ['Teste de duplicação', 'Demonstre com contagens que o JOIN não duplicou linhas.', 'Nota com conferência']),
-    templates: ['t-sql-joins'], resources: ['r-supabase-studio', 'r-pg-tutorial'] },
+    templates: ['x-dicionario', 't-sql-joins'], resources: ['r-supabase-studio', 'r-pg-tutorial'] },
 
   { day: 12, level: 'intermediario', title: 'SQL IV: CTEs, subqueries e window functions', minutes: 150, deps: [11],
     why: 'Rankings, acumulados e variações período a período são perguntas diárias de gestão. Window functions resolvem sem planilhas auxiliares.',

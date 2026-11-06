@@ -48,24 +48,25 @@ flowchart LR
 - **Esporte:** Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo.
 
 ### 2) Conexão com as ferramentas
-Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder.
+Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder. O Dicionário de dados é o seu guia: ele explica cada coluna, os valores possíveis e os cuidados de cálculo.
 
 Ferramentas: Papel/Miro/Excel para mapear perguntas · Dataset de treinamento (Excel)
 
 ### 3) Exercícios
 1. **Dissecando 5 pedidos vagos** — Reescreva 5 pedidos vagos (ex.: "melhorar a logística") como perguntas com métrica, recorte, período e decisão.  
    _Entrega:_ Documento com 5 perguntas SMART
-2. **Reconhecimento do dataset** — Abra o Excel do treinamento, descreva em 1 linha cada aba e a granularidade (o que representa uma linha).  
+2. **Reconhecimento do dataset** — Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).  
    _Entrega:_ Tabela: aba | granularidade | 2 perguntas possíveis
 3. **Catálogo de KPIs** — Escolha 2 áreas (ex.: Comercial e Logística) e liste 4 KPIs de cada com fórmula e fonte.  
    _Entrega:_ Planilha x-kpis preenchida
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 📗 [Planilha: catálogo de KPIs por área](../web/public/templates/kpis-areas.xlsx) — KPI, fórmula, fonte, frequência e dono para Comercial, Financeiro, Logística, E-commerce, Esporte e Marketing.
 - 📦 [Modelo de relatório de entrega semanal](../toolkit/templates/entrega/c-entrega-semanal.md) — Estrutura para o documento que acompanha cada entrega semanal.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -101,7 +102,7 @@ Ferramentas: Microsoft Excel (365 ou 2019+) · Dataset de treinamento (Excel)
 - 📗 [Planilha: painel de vendas (Excel)](../web/public/templates/painel-vendas.xlsx) — Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -140,7 +141,7 @@ Ferramentas: Excel · Planilha do dia 2 (dados limpos)
 - 📗 [Planilha: painel de vendas (Excel)](../web/public/templates/painel-vendas.xlsx) — Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -177,7 +178,7 @@ Ferramentas: Excel – Tabela Dinâmica · Dataset
 - 📗 [Planilha: painel de vendas (Excel)](../web/public/templates/painel-vendas.xlsx) — Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -215,7 +216,7 @@ Ferramentas: Excel · Template de entrega semanal
 - 📦 [Modelo de relatório de entrega semanal](../toolkit/templates/entrega/c-entrega-semanal.md) — Estrutura para o documento que acompanha cada entrega semanal.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 > 📦 **Entregável semanal 1:** Painel de vendas em Excel — Planilha com dados limpos, fórmulas, tabela dinâmica e 4 gráficos respondendo a 3 perguntas de negócio, mais o relatório de entrega.
 
@@ -253,6 +254,7 @@ Ferramentas: Supabase (SQL Editor ou cliente SQL) · Diagrama ER (Mermaid)
 
 ### 4) Templates
 - 🧩 [Diagrama ER do banco de análise](../toolkit/templates/diagram/d-er-modelo.md) — Estrutura de dados do schema treinamento (renderiza no GitHub/Mermaid Live).
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [Consultas básicas (SELECT / WHERE / ORDER BY)](../toolkit/templates/sql/t-sql-basico.sql) — Primeiras consultas no schema treinamento.
 
 ### 5) Recursos
@@ -291,6 +293,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-basico
    _Entrega:_ Nota de conferência
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [Consultas básicas (SELECT / WHERE / ORDER BY)](../toolkit/templates/sql/t-sql-basico.sql) — Primeiras consultas no schema treinamento.
 
 ### 5) Recursos
@@ -331,6 +334,7 @@ Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
    _Entrega:_ Query + comentário
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [Agregações (GROUP BY / HAVING)](../toolkit/templates/sql/t-sql-agregacao.sql) — Totais, médias e rankings por dimensão.
 
 ### 5) Recursos

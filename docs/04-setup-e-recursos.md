@@ -23,6 +23,7 @@ flowchart TD
 | `supabase/migrations/20261106000005_day9_day10_excel_first.sql` | Atualização idempotente dos dias 9 e 10 (Excel primeiro, Supabase no dia 10). Já incluída no seed para instalações novas |
 | `supabase/migrations/20261106000006_signup_invite.sql` | **Cadastro controlado**: modos `open`/`invite`/`closed`, código de convite (guardado só como hash) e função `admin_set_signup` |
 | `supabase/migrations/20261106000007_password_reset_and_throttle.sql` | **Redefinição de senha assistida pelo tutor** (código de uso único, 1 h) e **limite de tentativas** do código de convite |
+| `supabase/migrations/20261106000008_data_dictionary.sql` | Dicionário de dados: novo template, diagrama ER completo e vínculo aos dias 1, 6, 7, 8 e 11 |
 
 > Atalho: `supabase/apply_all.sql` contém as migrations concatenadas — cole no SQL Editor e execute uma vez (regenere com `cat supabase/migrations/*.sql > supabase/apply_all.sql`).
 
@@ -132,7 +133,8 @@ alter role aluno_leitura with login password '<SENHA-FORTE>';
 
 | Recurso | Link | Observação |
 |---|---|---|
-| Dataset em Excel | `web/public/data/dataset_treinamento.xlsx` (no app: Biblioteca) | 8 abas = 8 tabelas do Supabase |
+| Dataset em Excel | `web/public/data/dataset_treinamento.xlsx` (no app: Biblioteca) | 8 abas = 8 tabelas do Supabase, mais a aba `DICIONARIO` |
+| Dicionário de dados | `web/public/templates/dicionario-dados.xlsx` · [docs/dicionario-de-dados.md](dicionario-de-dados.md) | Colunas, valores possíveis, relações e cuidados de cálculo (fonte: `content/dicionario.json`) |
 | Power BI Desktop | <https://www.microsoft.com/en-us/download/details.aspx?id=58494> ou Microsoft Store (`aka.ms/pbidesktopstore`) | Somente Windows |
 | Exemplos `.pbix` oficiais | <https://github.com/microsoft/powerbi-desktop-samples> · [guia](https://learn.microsoft.com/power-bi/create-reports/sample-datasets) | Para estudo do modelo e visuais |
 | Python | <https://www.python.org/downloads/> | 3.12+; marcar *Add to PATH* |
@@ -154,7 +156,8 @@ O currículo é escrito em `content/*.mjs` (fonte única). Depois de editar:
 
 ```bash
 npm install
-npm run build:content      # seed SQL + docs + templates
+npm run build:content      # seed SQL + docs + templates (inclui docs/dicionario-de-dados.md)
+python3 scripts/build_dicionario.py   # Excel do dicionário e aba DICIONARIO no dataset (depois de build_excel.py)
 npm run validate:sql       # aplica as 3 migrations num Postgres embutido
 node scripts/test-auth.mjs # testa cadastro/login, sessões, acesso por perfil, dependências e avaliação
 ```

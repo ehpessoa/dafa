@@ -13,7 +13,7 @@ export const TRAILS: LandingTrail[] = [
       { title: 'Semana 1 · Pensar como analista e dominar o Excel', days: [
         { day: 1, title: 'Mentalidade analítica e perguntas de negócio',
           learn: ['Transformar "as vendas caíram" em uma pergunta clara, com métrica, período, comparação e decisão associada', 'O ciclo Pergunta → Dados → Análise → Insight → Decisão', 'A diferença entre dado, métrica, KPI e indicador', 'Os quatro tipos de análise: o que aconteceu, por que, o que vai acontecer e o que fazer'],
-          practice: 'Reescreve 5 pedidos vagos como perguntas objetivas, descreve o conjunto de dados e monta um catálogo de KPIs de duas áreas.' },
+          practice: 'Reescreve 5 pedidos vagos como perguntas objetivas, descreve o conjunto de dados com ajuda do Dicionário de dados (que explica cada coluna e seus cuidados) e monta um catálogo de KPIs de duas áreas.' },
         { day: 2, title: 'Excel: organização e qualidade dos dados',
           learn: ['Cerca de 80% do tempo de uma análise vai para preparar dados: aqui você aprende a fazer isso direito', 'Organizar a planilha em "uma linha por registro" e formatar como Tabela', 'Remover duplicados, tratar campos vazios e padronizar textos', 'Corrigir datas gravadas como texto e valores com vírgula e ponto misturados'],
           practice: 'Faz um diagnóstico de qualidade na base de pedidos e entrega a planilha limpa.' },

@@ -16,6 +16,7 @@ flowchart LR
 | Ver o plano dia a dia com datas, dependências e entregáveis | [docs/02-plano-30-dias.md](docs/02-plano-30-dias.md) |
 | Conteúdo das sessões | [🌱 Iniciante](docs/toolkit-iniciante.md) · [🚀 Intermediário](docs/toolkit-intermediario.md) · [🏆 Avançado](docs/toolkit-avancado.md) |
 | Pesquisa e melhorias | [docs/03-pesquisa-e-melhorias.md](docs/03-pesquisa-e-melhorias.md) |
+| Entender as tabelas e colunas dos exercícios | [docs/dicionario-de-dados.md](docs/dicionario-de-dados.md) |
 | Configurar Supabase, tutores, Power BI, Python | [docs/04-setup-e-recursos.md](docs/04-setup-e-recursos.md) |
 | Arquitetura e telas do app | [docs/05-app.md](docs/05-app.md) |
 

@@ -15,7 +15,7 @@ export const levels = [
 
 export const weekly = [
   { week: 1, title: 'Painel de vendas em Excel', description: 'Planilha com dados limpos, fórmulas, tabela dinâmica e 4 gráficos respondendo a 3 perguntas de negócio, mais o relatório de entrega.' },
-  { week: 2, title: 'Primeiro relatório Power BI + 10 consultas SQL', description: 'Arquivo .pbix de 2 páginas conectado ao Supabase e um .sql com 10 consultas comentadas.' },
+  { week: 2, title: 'Primeiro relatório Power BI + 10 consultas SQL', description: 'Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas.' },
   { week: 3, title: 'Modelo estrela com medidas DAX', description: 'Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX.' },
   { week: 4, title: 'Notebook Python de análise', description: 'Notebook .ipynb (ou .py) que lê o Supabase, limpa, analisa e gera 3 gráficos, com prompts de IA registrados e revisados.' },
   { week: 5, title: 'Segmentação e previsão', description: 'Relatório com RFM de clientes, previsão de receita de 6 meses e análise financeira (DRE + caixa), com recomendação por área.' },
@@ -101,22 +101,22 @@ export const sessions = [
 
   { day: 9, level: 'iniciante', title: 'Power BI Desktop: instalação, conexão e primeiro relatório', minutes: 150, deps: [5, 8],
     why: 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.',
-    learn: ['Instalar o Power BI Desktop', 'Obter dados: PostgreSQL (Supabase) e Excel', 'Importar vs. DirectQuery', 'Visuais básicos: cartão, barras, linhas, segmentações'],
+    learn: ['Instalar o Power BI Desktop', 'Obter dados: importar o Excel que você montou na Semana 1 (Painel de vendas)', 'Do Excel ao Power BI: o que cada ferramenta faz melhor', 'Visuais básicos: cartão, barras, linhas, segmentações'],
     scenarios: [['Comercial', 'Dashboard de receita por canal com filtro de ano para a reunião de segunda.'], ['E-commerce', 'Funil de pedidos por status (pendente → entregue).']],
-    tools: ['Power BI Desktop (Windows)', 'Supabase (Postgres)', 'Excel'],
-    connection: 'As tabelas do Supabase viram o modelo do Power BI. O que você fez em SQL (agregar) o Power BI faz de forma visual e interativa.',
-    exercises: exs(['Instalar e conectar', 'Instale o Power BI Desktop e conecte ao Supabase (ou ao Excel se o acesso ao banco não estiver liberado).', 'Print da lista de tabelas carregadas'], ['Página 1: Visão executiva', 'Crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações.', 'Arquivo .pbix v1']),
-    templates: ['b-pbix-guia', 'c-relatorio'], resources: ['r-pbi-desktop', 'r-pbi-samples', 'r-pbi-sample-docs', 'r-supabase-url'] },
+    tools: ['Power BI Desktop (Windows)', 'Excel (seu Painel de vendas da Semana 1)'],
+    connection: 'Você parte da planilha que já limpou e analisou na Semana 1: as abas viram tabelas do Power BI e os gráficos que você fez no Excel são recriados de forma interativa. No dia 10, o mesmo relatório passa a ler do Supabase.',
+    exercises: exs(['Instalar e conectar', 'Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.', 'Print da lista de tabelas carregadas'], ['Página 1: Visão executiva', 'A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.', 'Arquivo .pbix v1']),
+    templates: ['b-pbix-guia', 'c-relatorio'], resources: ['r-pbi-desktop', 'r-pbi-samples', 'r-pbi-sample-docs'] },
 
   { day: 10, level: 'iniciante', title: 'Design de relatórios e entrega da Semana 2', minutes: 150, deps: [9],
     why: 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.',
-    learn: ['Hierarquia visual e grade', 'Cores com propósito e acessibilidade', 'Interações: filtros cruzados, tooltips, bookmarks', 'Validar números contra o SQL'],
+    learn: ['Hierarquia visual e grade', 'Cores com propósito e acessibilidade', 'Interações: filtros cruzados, tooltips, bookmarks', 'Trocar a fonte do Excel pelo Supabase e validar os números contra o SQL'],
     scenarios: [['Financeiro', 'Painel com receitas x despesas x resultado e alerta de mês negativo.'], ['Marketing', 'Painel de campanhas: investimento, conversões e CPA por canal.']],
-    tools: ['Power BI Desktop', 'Checklist de qualidade'],
-    connection: 'Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles.',
-    exercises: exs(['Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas'], ['10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql'], ['Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega']),
+    tools: ['Power BI Desktop', 'Supabase (Postgres)', 'Checklist de qualidade'],
+    connection: 'Hoje o relatório troca a fonte: sai o Excel e entra o Supabase. Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles e com o Excel.',
+    exercises: exs(['Trocar a fonte para o Supabase', 'Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.', 'Print dos totais antes e depois'], ['Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas'], ['10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql'], ['Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega']),
     weekly: 2,
-    templates: ['b-pbix-guia', 'c-relatorio', 'c-entrega-semanal', 't-sql-agregacao'], resources: ['r-pbi-desktop', 'r-pbi-learn'] },
+    templates: ['b-pbix-guia', 'c-relatorio', 'c-entrega-semanal', 't-sql-agregacao'], resources: ['r-pbi-desktop', 'r-pbi-learn', 'r-supabase-url'] },
 
   // ═══════════ INTERMEDIÁRIO ═══════════
   { day: 11, level: 'intermediario', title: 'SQL III: JOINs e combinação de tabelas', minutes: 120, deps: [8],

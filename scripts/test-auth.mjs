@@ -61,7 +61,7 @@ await fails(() => rpc('_app_user', ana.token), /permission denied/);       // in
 // ── Bootstrap: escopo por perfil ──
 const T = { ana: (await rpc('app_login', 'ana@gmail.com', 'senha-forte-1')).token, tutor: (await rpc('app_login', 'tutor@x.com', 'outra-senha-9')).token, bia: (await rpc('app_login', 'bia@x.com', 'senha-forte-2')).token };
 const bs = await rpc('app_bootstrap', T.ana);
-assert.equal(bs.sessions.length, 30); assert.equal(bs.exercises.length, 67); assert.equal(bs.levels.length, 3);
+assert.equal(bs.sessions.length, 30); assert.equal(bs.exercises.length, 68); assert.equal(bs.levels.length, 3);
 assert.equal(bs.profiles.length, 1); assert.ok(bs.profiles.every((p) => !('password_hash' in p)));
 await fails(() => rpc('app_bootstrap', 'x'.repeat(64)), /Sessão expirada/);
 

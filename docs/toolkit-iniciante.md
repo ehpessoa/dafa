@@ -348,8 +348,8 @@ Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
 
 **O que você vai aprender**
 - Instalar o Power BI Desktop
-- Obter dados: PostgreSQL (Supabase) e Excel
-- Importar vs. DirectQuery
+- Obter dados: importar o Excel que você montou na Semana 1 (Painel de vendas)
+- Do Excel ao Power BI: o que cada ferramenta faz melhor
 - Visuais básicos: cartão, barras, linhas, segmentações
 
 **Cenários de uso**
@@ -357,14 +357,14 @@ Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
 - **E-commerce:** Funil de pedidos por status (pendente → entregue).
 
 ### 2) Conexão com as ferramentas
-As tabelas do Supabase viram o modelo do Power BI. O que você fez em SQL (agregar) o Power BI faz de forma visual e interativa.
+Você parte da planilha que já limpou e analisou na Semana 1: as abas viram tabelas do Power BI e os gráficos que você fez no Excel são recriados de forma interativa. No dia 10, o mesmo relatório passa a ler do Supabase.
 
-Ferramentas: Power BI Desktop (Windows) · Supabase (Postgres) · Excel
+Ferramentas: Power BI Desktop (Windows) · Excel (seu Painel de vendas da Semana 1)
 
 ### 3) Exercícios
-1. **Instalar e conectar** — Instale o Power BI Desktop e conecte ao Supabase (ou ao Excel se o acesso ao banco não estiver liberado).  
+1. **Instalar e conectar** — Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.  
    _Entrega:_ Print da lista de tabelas carregadas
-2. **Página 1: Visão executiva** — Crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações.  
+2. **Página 1: Visão executiva** — A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.  
    _Entrega:_ Arquivo .pbix v1
 
 ### 4) Templates
@@ -375,7 +375,6 @@ Ferramentas: Power BI Desktop (Windows) · Supabase (Postgres) · Excel
 - [Download do Power BI Desktop](https://www.microsoft.com/en-us/download/details.aspx?id=58494) — Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.
 - [Exemplos .pbix oficiais da Microsoft](https://github.com/microsoft/powerbi-desktop-samples) — Repositório oficial com relatórios .pbix de exemplo para abrir, estudar o modelo e os visuais.
 - [Power BI – Sample datasets (Microsoft Learn)](https://learn.microsoft.com/power-bi/create-reports/sample-datasets) — Guia oficial para baixar e abrir os exemplos; no Desktop também há Início > "Aprender com dados de exemplo".
-- [Supabase do programa (banco de análise)]((URL do Supabase informada pelo tutor)) — Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.
 
 ---
 
@@ -390,23 +389,25 @@ Ferramentas: Power BI Desktop (Windows) · Supabase (Postgres) · Excel
 - Hierarquia visual e grade
 - Cores com propósito e acessibilidade
 - Interações: filtros cruzados, tooltips, bookmarks
-- Validar números contra o SQL
+- Trocar a fonte do Excel pelo Supabase e validar os números contra o SQL
 
 **Cenários de uso**
 - **Financeiro:** Painel com receitas x despesas x resultado e alerta de mês negativo.
 - **Marketing:** Painel de campanhas: investimento, conversões e CPA por canal.
 
 ### 2) Conexão com as ferramentas
-Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles.
+Hoje o relatório troca a fonte: sai o Excel e entra o Supabase. Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles e com o Excel.
 
-Ferramentas: Power BI Desktop · Checklist de qualidade
+Ferramentas: Power BI Desktop · Supabase (Postgres) · Checklist de qualidade
 
 ### 3) Exercícios
-1. **Página 2 e refinamento** — Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.  
+1. **Trocar a fonte para o Supabase** — Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.  
+   _Entrega:_ Print dos totais antes e depois
+2. **Página 2 e refinamento** — Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.  
    _Entrega:_ .pbix com 2 páginas
-2. **10 consultas SQL finais** — Consolide 10 consultas comentadas e valide 3 totais contra o relatório.  
+3. **10 consultas SQL finais** — Consolide 10 consultas comentadas e valide 3 totais contra o relatório.  
    _Entrega:_ Arquivo .sql
-3. **Relatório da semana** — Preencha o modelo de entrega semanal.  
+4. **Relatório da semana** — Preencha o modelo de entrega semanal.  
    _Entrega:_ Documento de entrega
 
 ### 4) Templates
@@ -418,5 +419,6 @@ Ferramentas: Power BI Desktop · Checklist de qualidade
 ### 5) Recursos
 - [Download do Power BI Desktop](https://www.microsoft.com/en-us/download/details.aspx?id=58494) — Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.
 - [Microsoft Learn – Power BI](https://learn.microsoft.com/power-bi/) — Trilhas gratuitas e documentação completa do Power BI.
+- [Supabase do programa (banco de análise)]((URL do Supabase informada pelo tutor)) — Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.
 
-> 📦 **Entregável semanal 2:** Primeiro relatório Power BI + 10 consultas SQL — Arquivo .pbix de 2 páginas conectado ao Supabase e um .sql com 10 consultas comentadas.
+> 📦 **Entregável semanal 2:** Primeiro relatório Power BI + 10 consultas SQL — Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas.

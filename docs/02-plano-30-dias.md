@@ -161,7 +161,7 @@ flowchart LR
 | 9 | qui 19/11 | **Power BI Desktop: instalação, conexão e primeiro relatório** | O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.. | D5, D8 |
 | 10 | sex 20/11 | **Design de relatórios e entrega da Semana 2** 📦 | Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.. | D9 |
 
-> 📦 **Entregável da semana 2:** Primeiro relatório Power BI + 10 consultas SQL — Arquivo .pbix de 2 páginas conectado ao Supabase e um .sql com 10 consultas comentadas. _(prazo: sex 20/11)_
+> 📦 **Entregável da semana 2:** Primeiro relatório Power BI + 10 consultas SQL — Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas. _(prazo: sex 20/11)_
 
 ### 🚀 Semana 3 · Intermediário (23/11 – 27/11)
 

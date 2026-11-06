@@ -158,10 +158,10 @@ export const sessions = [
   { day: 15, level: 'intermediario', title: 'DAX I: medidas e contexto – entrega da Semana 3', minutes: 150, deps: [14],
     why: 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.',
     learn: ['Coluna calculada vs. medida', 'Contexto de linha e de filtro', 'CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT', 'ALL / REMOVEFILTERS para % do total'],
-    scenarios: [['Comercial', 'Ticket médio e % da receita por canal.'], ['Marketing', 'CPA e ROAS por campanha.']],
+    scenarios: [['Comercial', 'Ticket médio e % da receita por canal.'], ['Marketing', 'CTR e CPA por campanha.']],
     tools: ['Power BI Desktop', 'DAX Guide', 'Pacote de medidas DAX'],
     connection: 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.',
-    exercises: exs(['8 medidas base', 'Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, ROAS e % do Total.', 'Lista de medidas + prints'], ['Validação cruzada', 'Prove que 3 medidas batem com SQL.', 'Tabela de conferência']),
+    exercises: exs(['8 medidas base', 'Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, CTR e % do Total.', 'Lista de medidas + prints'], ['Validação cruzada', 'Prove que 3 medidas batem com SQL.', 'Tabela de conferência']),
     weekly: 3,
     templates: ['b-dax-pack', 'd-star-schema', 'c-entrega-semanal'], resources: ['r-dax', 'r-pbi-learn'] },
 

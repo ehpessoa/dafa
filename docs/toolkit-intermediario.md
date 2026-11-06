@@ -199,7 +199,7 @@ Ferramentas: Power Query (Power BI/Excel) · Fluxo ETL (diagrama)
 
 **Cenários de uso**
 - **Comercial:** Ticket médio e % da receita por canal.
-- **Marketing:** CPA e ROAS por campanha.
+- **Marketing:** CTR e CPA por campanha.
 
 ### 2) Conexão com as ferramentas
 Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.
@@ -207,7 +207,7 @@ Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Di
 Ferramentas: Power BI Desktop · DAX Guide · Pacote de medidas DAX
 
 ### 3) Exercícios
-1. **8 medidas base** — Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, ROAS e % do Total.  
+1. **8 medidas base** — Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, CTR e % do Total.  
    _Entrega:_ Lista de medidas + prints
 2. **Validação cruzada** — Prove que 3 medidas batem com SQL.  
    _Entrega:_ Tabela de conferência

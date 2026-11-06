@@ -8,6 +8,7 @@ import type { Exercise } from '../lib/types';
 import { ExBadge, Empty, SessBadge } from '../components/ui';
 import TemplateCard from '../components/TemplateCard';
 import ResourceCard from '../components/ResourceCard';
+import type { Template } from '../lib/types';
 
 const TABS = [
   ['conceito', '1 · Conceito'], ['ferramentas', '2 · Ferramentas'], ['exercicios', '3 · Exercícios'], ['templates', '4 · Templates'], ['recursos', '5 · Recursos'],
@@ -77,6 +78,24 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
   );
 }
 
+// Guia rápido de IA em destaque: aberto na primeira sessão que o usa (Dia 15) e recolhido nas seguintes.
+function AiGuide({ t, open }: { t: Template; open: boolean }) {
+  const lines = (t.content ?? '').split('\n');
+  const heading = (l: string) => /^\d\)/.test(l) || l === 'CUIDADOS';
+  return (
+    <details className="card" open={open} style={{ borderLeft: '5px solid var(--primary)' }}>
+      <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: '1.05rem' }}>🤖 {t.title}</summary>
+      <p className="muted small" style={{ margin: '8px 0' }}>{t.description} Vale para as duas linguagens: Python (pandas) e DAX (Power BI).</p>
+      <div style={{ lineHeight: 1.55 }}>
+        {lines.map((l, i) => l.trim() === '' ? <div key={i} style={{ height: 6 }} />
+          : heading(l) ? <div key={i} style={{ fontWeight: 700, marginTop: 6 }}>{l}</div>
+          : l.startsWith('- ') ? <div key={i} style={{ paddingLeft: 16, textIndent: -12 }}>• {l.slice(2)}</div>
+          : <div key={i}>{l}</div>)}
+      </div>
+    </details>
+  );
+}
+
 export default function SessionPage() {
   const { day: dayParam } = useParams();
   const [qs, setQs] = useSearchParams();
@@ -100,6 +119,8 @@ export default function SessionPage() {
   const tpls = data.sessionTemplates.filter((x) => x.session_day === day).sort((a, b) => a.position - b.position).map((x) => data.templates.find((t) => t.slug === x.template_slug)!).filter(Boolean);
   const ress = data.sessionResources.filter((x) => x.session_day === day).sort((a, b) => a.position - b.position).map((x) => data.resources.find((r) => r.slug === x.resource_slug)!).filter(Boolean);
   const weekly = data.weekly.find((w) => w.session_day === day);
+  const aiGuide = tpls.find((t) => t.slug === 'c-ia-guia');
+  const aiFirstDay = Math.min(...data.sessionTemplates.filter((x) => x.template_slug === 'c-ia-guia').map((x) => x.session_day));
   const setTab = (t: string) => { const n = new URLSearchParams(qs); n.set('tab', t); setQs(n, { replace: true }); };
   const keep = viewAs ? `?aluno=${viewAs}` : '';
 
@@ -142,6 +163,7 @@ export default function SessionPage() {
             {TABS.map(([k, label]) => <button key={k} role="tab" aria-selected={tab === k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}><span className="n">{label[0]}</span>{label.slice(4)}</button>)}
           </div>
 
+          {tab === 'conceito' && aiGuide && <AiGuide t={aiGuide} open={day === aiFirstDay} />}
           {tab === 'conceito' && (
             <div className="grid g2">
               <div className="card"><h2>🎯 Por que isso importa?</h2><p>{s.why}</p><h3>📚 O que você vai aprender</h3><ul>{s.learn.map((x) => <li key={x}>{x}</li>)}</ul></div>
@@ -156,6 +178,7 @@ export default function SessionPage() {
           )}
           {tab === 'exercicios' && (
             <div className="stack">
+              {aiGuide && <div className="alert">🤖 Vai usar IA para gerar código? Siga o <a href="#" onClick={(e) => { e.preventDefault(); setTab('conceito'); }}>Guia rápido de IA</a>: especificar, gerar, revisar, testar e registrar. Registre os pedidos que fizer.</div>}
               <div className="alert">✅ A sessão é concluída quando <b>todos os exercícios</b> forem aprovados pelo tutor. Se pedir ajustes, refaça e reenvie quantas vezes precisar.</div>
               {exs.map((e) => <ExerciseBlock key={e.id} ex={e} studentId={studentId} canSubmit={!isTeacher} />)}
             </div>

@@ -1,0 +1,6 @@
+- [ ] A medida usa só tabelas e colunas que existem no meu modelo (a IA não inventou nada)?
+- [ ] Ao mudar o filtro (ano, canal, categoria), o número muda como eu espero?
+- [ ] Os filtros que deveriam valer (ex.: sem cancelados) estão sendo aplicados?
+- [ ] O total bate com a consulta SQL de referência, para pelo menos um mês?
+- [ ] Divisões usam DIVIDE (sem erro quando o denominador é zero)?
+- [ ] Sei explicar em uma frase o que a medida calcula e registrei o pedido e a correção que fiz?

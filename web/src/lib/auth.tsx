@@ -9,12 +9,12 @@ const writeToken = (t: string | null) => { try { if (t) localStorage.setItem(TOK
 interface Ctx {
   token: string | null; profile: Profile | null; loading: boolean; isTeacher: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (name: string, email: string, phone: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string, invite: string | undefined, phone: string) => Promise<void>;
   sendVerificationCode: () => Promise<void>;
   confirmVerification: (code: string) => Promise<void>;
   changePhone: (phone: string) => Promise<void>;
-  requestPasswordReset: (email: string) => Promise<void>;
-  confirmPasswordReset: (email: string, code: string, password: string) => Promise<void>;
+  requestWhatsAppReset: (email: string) => Promise<void>;
+  confirmWhatsAppReset: (email: string, code: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 const AuthCtx = createContext<Ctx | null>(null);
@@ -50,8 +50,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     writeToken(r.token); setToken(r.token); setProfile(r.user);
   };
   const signIn = async (email: string, password: string) => accept(await api<AuthResult>('app_login', { p_email: email, p_password: password }));
-  const signUp = async (name: string, email: string, phone: string, password: string) => {
-    const r = await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password, p_phone: phone });
+  const signUp = async (name: string, email: string, password: string, invite: string | undefined, phone: string) => {
+    const r = await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password, p_invite: invite || null, p_phone: phone });
     accept(r);
     // Envia o código de verificação do WhatsApp; se falhar, a tela de verificação oferece "Reenviar código".
     post('/api/verify-send', { token: r.token }).catch(() => undefined);
@@ -66,11 +66,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
   const changePhone = async (phone: string) => { setProfile(await api<Profile>('app_change_phone', { p_token: token, p_phone: phone })); };
   /** Pede o código de redefinição; o backend envia por WhatsApp (resposta igual exista a conta ou não). */
-  const requestPasswordReset = async (email: string) => {
-    await post('/api/reset-request', { email });
-  };
-  const confirmPasswordReset = async (email: string, code: string, password: string) => {
-    const r = await api<{ ok?: boolean; error?: string }>('app_reset_confirm', { p_email: email, p_code: code, p_password: password });
+  const requestWhatsAppReset = async (email: string) => { await post('/api/reset-request', { email }); };
+  const confirmWhatsAppReset = async (email: string, code: string, password: string) => {
+    const r = await api<{ ok?: boolean; error?: string }>('app_wa_reset_confirm', { p_email: email, p_code: code, p_password: password });
     if (!r.ok) throw new Error(r.error ?? 'Não foi possível redefinir a senha.');
   };
   const signOut = async () => {
@@ -79,7 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (t) { try { await api('app_logout', { p_token: t }); } catch { /* sessão já removida localmente */ } }
   };
 
-  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, sendVerificationCode, confirmVerification, changePhone, requestPasswordReset, confirmPasswordReset, signOut }}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, sendVerificationCode, confirmVerification, changePhone, requestWhatsAppReset, confirmWhatsAppReset, signOut }}>{children}</AuthCtx.Provider>;
 }
 export function useAuth() {
   const c = useContext(AuthCtx);

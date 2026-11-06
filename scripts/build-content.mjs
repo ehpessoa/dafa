@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { START_DATE, levels, weekly, sessions } from '../content/curriculum.mjs';
 import { templates } from '../content/templates.mjs';
 import { resources } from '../content/resources.mjs';
+import { readFileSync } from 'node:fs';
+const dic = JSON.parse(readFileSync(new URL('../content/dicionario.json', import.meta.url), 'utf8'));
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = (p, c) => { const f = join(root, p); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, c); };
@@ -51,6 +53,9 @@ for (const t of templates) {
 }
 for (const r of resources) L.push(`insert into public.resources (slug, category, title, url, description) values (${q(r.slug)}, ${q(r.category)}, ${q(r.title)}, ${q(r.url)}, ${q(r.description)}) on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;`);
 L.push('delete from public.session_templates; delete from public.session_resources;');
+// Remove recursos/templates que saíram de content/*.mjs (as junções acima já foram esvaziadas, então não há FK pendente).
+L.push(`delete from public.resources where slug <> all (array[${resources.map((r) => q(r.slug)).join(', ')}]);`);
+L.push(`delete from public.templates where slug <> all (array[${templates.map((t) => q(t.slug)).join(', ')}]);`);
 for (const s of sessions) {
   s.templates.forEach((t, i) => L.push(`insert into public.session_templates (session_day, template_slug, position) values (${s.day}, ${q(t)}, ${i});`));
   s.resources.forEach((r, i) => L.push(`insert into public.session_resources (session_day, resource_slug, position) values (${s.day}, ${q(r)}, ${i});`));
@@ -138,3 +143,22 @@ for (const l of levels) {
 }
 
 console.log(`OK: ${sessions.length} sessões, ${sessions.reduce((n, s) => n + s.exercises.length, 0)} exercícios, ${templates.length} templates, ${resources.length} recursos. ${bdays[0]} → ${bdays[29]}`);
+
+// Dicionário de dados (docs/dicionario-de-dados.md), a partir de content/dicionario.json
+{
+  const esc = (x) => String(x).replace(/\|/g, '\\|');
+  const M = [`# 📖 ${dic.titulo}\n`, `${dic.intro}\n`, '> Versão em Excel: [dicionario-dados.xlsx](../web/public/templates/dicionario-dados.xlsx) (e aba `DICIONARIO` no dataset). Fonte única: `content/dicionario.json`.\n'];
+  M.push('## Resumo das tabelas\n', '| Tabela | Tipo | Linhas | Uma linha representa |', '|---|---|---:|---|');
+  for (const t of dic.tabelas) M.push(`| \`${t.nome}\` | ${t.tipo} | ${t.linhas.toLocaleString('pt-BR')} | ${t.granularidade.replace(/^Uma linha = /, '')} |`);
+  M.push('', '## Como as tabelas se ligam\n', '| Tabela A | Tabela B | Coluna | Cardinalidade | Observação |', '|---|---|---|---|---|');
+  for (const r of dic.relacoes) M.push(`| ${r.map(esc).join(' | ')} |`);
+  M.push('', '## Colunas de cada tabela\n');
+  for (const t of dic.tabelas) {
+    M.push(`### \`${t.nome}\`\n`, `**${t.granularidade}.** ${t.uso}\n`, '| Coluna | Tipo | O que significa | Valores possíveis / exemplo | Atenção |', '|---|---|---|---|---|');
+    for (const c of t.colunas) M.push(`| \`${c[0]}\` | ${esc(c[1])} | ${esc(c[2])} | ${esc(c[3])} | ${esc(c[4])} |`);
+    M.push('');
+  }
+  M.push('## Cuidados e regras de cálculo\n');
+  for (const [k, v] of dic.cuidados) M.push(`- **${k}:** ${v}`);
+  out('docs/dicionario-de-dados.md', M.join('\n') + '\n');
+}

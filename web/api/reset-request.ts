@@ -11,7 +11,7 @@ export default {
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
     if (!email || email.length > 254) return json({ error: 'Informe o e-mail da conta.' }, 400);
     try {
-      const issue = await rpc<Issue | null>('app_reset_issue', { p_email: email });
+      const issue = await rpc<Issue | null>('app_wa_reset_issue', { p_email: email });
       if (issue?.code && issue.phone) {
         await sendWhatsAppText(issue.phone, [
           `Olá, ${firstName(issue.name ?? '')}! 🔐`,

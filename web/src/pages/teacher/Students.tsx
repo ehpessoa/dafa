@@ -4,11 +4,13 @@ import { api } from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
 import { useData } from '../../lib/data';
 import { fmtDate } from '../../lib/progress';
+import { useOverdue } from '../../lib/overdue';
 import { Avatar, Empty, Progress } from '../../components/ui';
 
 export default function Students() {
   const { data, progress, reload } = useData();
   const { token, profile } = useAuth();
+  const { overdue } = useOverdue();
   const [err, setErr] = useState('');
   const tutors = data.profiles.filter((p) => p.role === 'teacher');
   const demote = async (id: string, name: string | null) => {
@@ -23,11 +25,11 @@ export default function Students() {
     <div className="stack">
       <h1>👥 Alunos</h1>
       {students.length === 0 ? <Empty>Nenhum aluno ainda. Alunos aparecem assim que criam a conta.</Empty> : (
-        <div className="card scroll-x"><table><thead><tr><th>Aluno</th><th style={{ minWidth: 160 }}>Progresso</th><th>Sessões</th><th>Nota média</th><th>Pendentes</th><th>Ajustes</th><th>Última entrega</th></tr></thead><tbody>
+        <div className="card scroll-x"><table><thead><tr><th>Aluno</th><th style={{ minWidth: 160 }}>Progresso</th><th>Sessões</th><th>Nota média</th><th>Pendentes</th><th>Ajustes</th><th>Atraso</th><th>Última entrega</th></tr></thead><tbody>
           {students.map((s) => { const x = progress.summary(s.id); return (
             <tr key={s.id} className="click" onClick={() => nav(`/tutor/alunos/${s.id}`)}>
               <td><div className="row" style={{ flexWrap: 'nowrap' }}><Avatar name={s.full_name} url={s.avatar_url} size={30} /><div><b>{s.full_name}</b><div className="small muted">{s.email}</div></div></div></td>
-              <td><Progress pct={x.pct} /><span className="small muted">{x.pct}%</span></td><td>{x.doneSessions}/{x.totalSessions}</td><td>{x.avgScore?.toFixed(1) ?? '—'}</td><td>{x.pending}</td><td>{x.revisions}</td><td>{x.last ? fmtDate(x.last) : '—'}</td>
+              <td><Progress pct={x.pct} /><span className="small muted">{x.pct}%</span></td><td>{x.doneSessions}/{x.totalSessions}</td><td>{x.avgScore?.toFixed(1) ?? '—'}</td><td>{x.pending}</td><td>{x.revisions}</td><td>{(overdue.get(s.id)?.length ?? 0) > 0 ? <span className="badge amber" title="Entrega semanal vencida e não enviada">⏰ {overdue.get(s.id)!.length}</span> : <span className="muted">—</span>}{s.alerts_paused && <span className="badge" style={{ marginLeft: 6 }} title="Alertas pausados">🔕</span>}</td><td>{x.last ? fmtDate(x.last) : '—'}</td>
             </tr>); })}
         </tbody></table></div>
       )}

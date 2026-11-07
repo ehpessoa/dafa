@@ -1,5 +1,5 @@
 export type Role = 'student' | 'teacher';
-export interface Profile { id: string; email: string; full_name: string | null; avatar_url: string | null; role: Role; created_at: string; phone_verified?: boolean; phone_hint?: string | null }
+export interface Profile { id: string; email: string; full_name: string | null; avatar_url: string | null; role: Role; created_at: string; phone_verified?: boolean; phone_hint?: string | null; alerts_paused?: boolean }
 export interface Level { slug: string; position: number; title: string; emoji: string | null; color: string | null; objective: string | null; description: string | null }
 export interface Scenario { area: string; text: string }
 export interface Session {
@@ -23,8 +23,8 @@ export interface Review {
   id: string; submission_id: string; tutor_id: string | null; score: number; verdict: Verdict; feedback: string; created_at: string;
   source: 'tutor' | 'ai'; instructions: string | null; examples: string | null;
 }
-export type NotifKind = 'ai_approved' | 'in_review' | 'approved' | 'revision_requested' | 'rejected';
-export interface Notification { id: string; user_id: string; kind: NotifKind; title: string; body: string; submission_id: string | null; created_at: string; read_at: string | null }
+export type NotifKind = 'ai_approved' | 'in_review' | 'approved' | 'revision_requested' | 'rejected' | 'overdue' | 'overdue_tutor';
+export interface Notification { id: string; user_id: string; kind: NotifKind; title: string; body: string; submission_id: string | null; created_at: string; read_at: string | null; link?: string | null }
 export interface RubricCheck { id: string; label: string; weight: number; dim: 'num' | 'neg' | 'tec' | 'vis' | 'rep' }
 export interface Rubric { exercise_id: string; mode: 'text' | 'sql' | 'file' | 'mixed'; expected: string; checks: RubricCheck[]; grading_notes: string | null; force_tutor: boolean }
 export interface AiCriterion extends RubricCheck { score: number; comment: string }

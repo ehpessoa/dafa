@@ -20,6 +20,7 @@ flowchart LR
 | Configurar Supabase, tutores, Power BI, Python | [docs/04-setup-e-recursos.md](docs/04-setup-e-recursos.md) |
 | Arquitetura e telas do app | [docs/05-app.md](docs/05-app.md) |
 | Correção automática por IA (Gemini), gabarito dos 67 exercícios e revisão do tutor | [docs/06-correcao-ia.md](docs/06-correcao-ia.md) |
+| Alertas de atraso da entrega semanal (WhatsApp + app) e pausa por aluno | [docs/07-alertas-de-atraso.md](docs/07-alertas-de-atraso.md) |
 
 ## Estrutura
 

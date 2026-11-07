@@ -8,7 +8,8 @@
     "export:dataset": "node scripts/export-dataset.mjs",
     "compute:references": "node scripts/compute-references.mjs",
     "test:ai": "node scripts/test-ai-grading.mjs",
-    "test:auth": "node scripts/test-auth.mjs"
+    "test:auth": "node scripts/test-auth.mjs",
+    "test:overdue": "node scripts/test-overdue.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.15",

@@ -4,6 +4,7 @@ import { api } from '../../lib/supabase';
 import { useAuth } from '../../lib/auth';
 import { useData } from '../../lib/data';
 import { fmtDate } from '../../lib/progress';
+import { useOverdue } from '../../lib/overdue';
 import DepGraph from '../../components/DepGraph';
 import { Avatar, Empty, ExBadge, Ring, SessBadge } from '../../components/ui';
 
@@ -14,8 +15,17 @@ export default function StudentDetail() {
   const [reset, setReset] = useState<{ code: string; expires_at: string } | null>(null);
   const [resetErr, setResetErr] = useState('');
   const [busy, setBusy] = useState(false);
+  const { overdue, reload: reloadOverdue } = useOverdue();
   const st = data.profiles.find((p) => p.id === id);
   if (!st) return <Empty>Aluno não encontrado.</Empty>;
+  const late = overdue.get(st.id) ?? [];
+  const paused = Boolean(st.alerts_paused);
+  const toggleAlerts = async () => {
+    setBusy(true); setResetErr('');
+    try { await api('app_set_student_alerts', { p_token: token, p_student_id: st.id, p_paused: !paused }); await reload(); await reloadOverdue(); }
+    catch (e) { setResetErr(e instanceof Error ? e.message : String(e)); }
+    setBusy(false);
+  };
   const promote = async () => {
     if (!window.confirm(`Promover ${st.full_name} a tutor? Ele(a) passará a ver a turma inteira e avaliar entregas.`)) return;
     setBusy(true); setResetErr('');
@@ -40,6 +50,20 @@ export default function StudentDetail() {
           <div className="small"><div>Sessões: <b>{sum.doneSessions}/{sum.totalSessions}</b></div><div>Nota média: <b>{sum.avgScore?.toFixed(1) ?? '—'}</b></div><div>Pendentes: <b>{sum.pending}</b> · Ajustes: <b>{sum.revisions}</b></div></div>
         </div>
       </div>
+      {st.role === 'student' && (
+        <div className="card stack">
+          <div className="row between"><h2 style={{ margin: 0 }}>⏰ Alertas de atraso</h2>
+            <span className={`badge ${paused ? '' : 'green'}`}>{paused ? '🔕 Pausados' : '🔔 Ativos'}</span></div>
+          {late.length > 0
+            ? <div className="alert" role="status"><b>Entrega semanal em atraso:</b>{late.map((w) => <div key={w.week}>• Semana {w.week} — {w.title} (venceu em {fmtDate(w.due_date)} · {w.days_late} {w.days_late === 1 ? 'dia' : 'dias'})</div>)}</div>
+            : <p className="muted small" style={{ margin: 0 }}>Nenhuma entrega semanal em atraso.</p>}
+          <p className="muted small" style={{ margin: 0 }}>
+            {paused ? 'Este aluno não recebe lembretes (WhatsApp e app) e não entra no resumo dos tutores. Retome quando quiser.'
+              : 'Quando uma entrega semanal vence, o aluno é lembrado por WhatsApp e no app (no máximo 1 vez a cada 3 dias, em dias úteis) e os tutores recebem um resumo. Pause se o aluno combinou outro prazo ou está afastado.'}
+          </p>
+          <div><button className="btn sm" disabled={busy} onClick={toggleAlerts}>{paused ? '🔔 Retomar alertas deste aluno' : '🔕 Pausar alertas deste aluno'}</button></div>
+        </div>
+      )}
       <div className="card stack">
         <h2 style={{ margin: 0 }}>Perfil de acesso</h2>
         <p className="muted small" style={{ margin: 0 }}>{st.role === 'teacher' ? 'Esta pessoa é tutor(a). Para rebaixar, use a lista de tutores em Alunos.' : 'Promova este aluno a tutor para que ele veja a turma e avalie entregas.'}</p>

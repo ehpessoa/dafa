@@ -8,7 +8,7 @@ export default function TeacherHome() {
   const { data, progress } = useData();
   const students = data.profiles.filter((p) => p.role === 'student');
   const sums = students.map((s) => ({ s, sum: progress.summary(s.id) }));
-  const queue = data.submissions.filter((x) => x.status === 'submitted');
+  const queue = data.submissions.filter((x) => x.status === 'submitted' || x.status === 'needs_review');
   const avg = sums.length ? Math.round(sums.reduce((a, b) => a + b.sum.pct, 0) / sums.length) : 0;
   const reviews = data.reviews;
   const approvalRate = reviews.length ? Math.round((reviews.filter((r) => r.verdict === 'approved').length / reviews.length) * 100) : 0;
@@ -22,7 +22,7 @@ export default function TeacherHome() {
     const rs = reviews.filter((r) => ids.has(data.submissions.find((x) => x.id === r.submission_id)?.exercise_id ?? ''));
     return { dia: `D${sess.day}`, ajustes: rs.filter((r) => r.verdict === 'revision_requested').length, aprovados: rs.filter((r) => r.verdict === 'approved').length };
   }).filter((x) => x.ajustes + x.aprovados > 0);
-  const pie = [{ name: 'Aprovadas', v: reviews.filter((r) => r.verdict === 'approved').length, c: '#16a34a' }, { name: 'Ajustes', v: reviews.filter((r) => r.verdict === 'revision_requested').length, c: '#d97706' }, { name: 'Pendentes', v: queue.length, c: '#2563eb' }];
+  const pie = [{ name: 'Aprovadas', v: reviews.filter((r) => r.verdict === 'approved').length, c: '#16a34a' }, { name: 'Ajustes', v: reviews.filter((r) => r.verdict === 'revision_requested').length, c: '#d97706' }, { name: 'Reprovadas', v: reviews.filter((r) => r.verdict === 'rejected').length, c: '#dc2626' }, { name: 'Pendentes', v: queue.length, c: '#2563eb' }];
 
   return (
     <div className="stack">

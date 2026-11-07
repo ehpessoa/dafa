@@ -80,7 +80,7 @@ let tb = await rpc('app_bootstrap', T.tutor); assert.equal(tb.submissions.length
 // tutor pede ajustes → aluno refaz
 await fails(() => rpc('app_review', T.tutor, s1.id, 11, 'approved', 'ok'), /entre 0 e 10/);
 await fails(() => rpc('app_review', T.tutor, s1.id, 5, 'approved', ' '), /feedback/);
-await rpc('app_review', T.tutor, s1.id, 5.5, 'revision_requested', 'Ajuste X');
+await rpc('app_review', T.tutor, s1.id, 5.5, 'revision_requested', 'Ajuste X', 'Refaça o passo X', 'Exemplo: …');
 let ab = await rpc('app_bootstrap', T.ana);
 assert.equal(ab.submissions[0].status, 'revision_requested'); assert.equal(ab.reviews.length, 1); assert.equal(ab.reviews[0].feedback, 'Ajuste X');
 assert.equal((await rpc('app_bootstrap', T.bia)).reviews.length, 0);

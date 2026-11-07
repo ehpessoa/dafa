@@ -106,3 +106,14 @@ pre.code { background: #0b1220; color: #dbe6ff; padding: 14px; border-radius: 10
 .diagram { background: #fff; border-radius: 10px; padding: 12px; overflow: auto; border: 1px solid var(--border); }
 .spinner { width: 28px; height: 28px; border: 3px solid var(--slate-soft); border-top-color: var(--primary); border-radius: 50%; animation: spin .8s linear infinite; margin: 60px auto; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* correção por IA / revisão */
+.attempt.needs_review { border-color: var(--primary); } .attempt.rejected { border-color: var(--red); }
+.bell { position: relative; } .bell .dot { position: absolute; top: -4px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--red); color: #fff; font-size: .7rem; font-weight: 700; display: grid; place-items: center; }
+.notif { border-left: 4px solid var(--border); padding: 10px 14px; background: var(--surface); border-radius: 0 12px 12px 0; border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.notif.unread { background: var(--primary-soft); } .notif.approved, .notif.ai_approved { border-left-color: var(--green); } .notif.revision_requested { border-left-color: var(--amber); } .notif.rejected { border-left-color: var(--red); } .notif.in_review { border-left-color: var(--primary); }
+.crit { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 6px 0; border-bottom: 1px dashed var(--border); } .crit:last-child { border-bottom: 0; }
+.todo-box { background: var(--amber-soft); border: 1px solid var(--amber); border-radius: 10px; padding: 10px 12px; white-space: pre-wrap; }
+.example-box { background: var(--surface-2); border: 1px dashed var(--border); border-radius: 10px; padding: 10px 12px; white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: .85rem; }
+.segmented { display: flex; gap: 8px; flex-wrap: wrap; } .segmented .btn[aria-pressed="true"] { outline: 2px solid var(--primary); }
+.btn.bad { background: var(--red); color: #fff; border-color: var(--red); }

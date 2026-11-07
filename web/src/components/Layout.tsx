@@ -10,7 +10,8 @@ const link = (to: string, icon: string, label: string, end = false) => (
 
 export default function Layout() {
   const { profile, isTeacher, signOut } = useAuth();
-  const { loading, error } = useData();
+  const { loading, error, data } = useData();
+  const unread = data.notifications.filter((n) => !n.read_at).length;
   const [open, setOpen] = useState(false);
   const loc = useLocation();
   const onTeacherArea = loc.pathname.startsWith('/tutor');
@@ -25,6 +26,7 @@ export default function Layout() {
           {link('/trilha', '🗺️', 'Trilha & dependências')}
           {link('/calendario', '📅', 'Calendário 30 dias')}
           {link('/biblioteca', '🧰', 'Biblioteca de recursos')}
+          <NavLink to="/notificacoes" className={({ isActive }) => (isActive ? 'active' : '')}>🔔 Notificações{unread > 0 && <span className="badge red" style={{ marginLeft: 6 }} aria-label={`${unread} não lidas`}>{unread}</span>}</NavLink>
           {isTeacher && (<>
             <div className="group">Tutor</div>
             {link('/tutor', '📈', 'Visão da turma', true)}
@@ -42,7 +44,7 @@ export default function Layout() {
         </div>
       </aside>
       <div>
-        <div className="topbar"><button className="btn sm" onClick={() => setOpen(true)} aria-label="Abrir menu">☰</button><b>DAFA</b><button className="btn sm" style={{ marginLeft: 'auto' }} onClick={signOut}>Sair</button></div>
+        <div className="topbar"><button className="btn sm" onClick={() => setOpen(true)} aria-label="Abrir menu">☰</button><b>DAFA</b><NavLink to="/notificacoes" className="btn sm bell" style={{ marginLeft: 'auto' }} aria-label="Notificações">🔔{unread > 0 && <span className="dot">{unread}</span>}</NavLink><button className="btn sm" onClick={signOut}>Sair</button></div>
         <main className="main">
           {error && <ErrorBox msg={`Erro ao carregar dados: ${error}. Verifique se as migrations do Supabase foram aplicadas.`} />}
           {loading ? <Spinner /> : <Outlet />}

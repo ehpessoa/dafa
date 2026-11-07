@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { START_DATE, levels, weekly, sessions } from '../content/curriculum.mjs';
 import { templates } from '../content/templates.mjs';
 import { resources } from '../content/resources.mjs';
+import { rubrics, DIMS, PASS_MARK } from '../content/rubrics.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = (p, c) => { const f = join(root, p); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, c); };
@@ -136,5 +137,39 @@ for (const l of levels) {
   }
   out(`docs/toolkit-${l.slug}.md`, D.join('\n'));
 }
+
+// ── Gabarito de correção: seed (migration) + documentação ──
+const exIds = new Set(sessions.flatMap((s) => s.exercises.map((e) => e.id)));
+for (const id of Object.keys(rubrics)) if (!exIds.has(id)) throw new Error(`rubrica de exercício inexistente: ${id}`);
+for (const id of exIds) if (!rubrics[id]) throw new Error(`exercício sem rubrica: ${id}`);
+const RS = ['-- GERADO por scripts/build-content.mjs a partir de content/rubrics.mjs. Não edite à mão.', 'begin;'];
+for (const r of Object.values(rubrics)) {
+  RS.push(`insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values (${q(r.exercise_id)}, ${q(r.mode)}, ${q(r.expected)}, ${j(r.checks)}, ${j(r.reference)}, ${q(r.grading_notes)}, ${r.force_tutor}) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;`);
+}
+RS.push('commit;');
+out('supabase/migrations/20261106000006_seed_rubrics.sql', RS.join('\n') + '\n');
+
+const G = [];
+G.push('# 🤖 Correção automática por IA (Gemini) + revisão do tutor\n');
+G.push(`> Gerado por \`npm run build:content\` a partir de \`content/rubrics.mjs\`. A **nota ≥ ${PASS_MARK}** aprova sozinha; abaixo disso a entrega vai para o tutor.\n`);
+G.push('## Fluxo\n');
+G.push('```mermaid\nflowchart TD\n  A[📤 Aluno envia] --> B{{🤖 Gemini corrige<br/>gabarito do exercício}}\n  B -- "nota ≥ 7 e evidência suficiente" --> C[✅ Aprovada automaticamente]\n  B -- "nota < 7, evidência fraca ou baixa confiança" --> D[🔎 Fila do tutor<br/>nota e análise da IA como apoio]\n  C --> N[🔔 Aluno notificado]\n  D --> E{Tutor decide}\n  E -- Aprovar --> C2[✅ Aprovada]\n  E -- "Refazer: instruções + exemplo" --> R[↩ Aluno refaz e reenvia]\n  E -- Reprovar --> X[❌ Reprovada, com motivo]\n  C2 --> N\n  R --> N\n  X --> N\n  R --> A\n```\n');
+G.push('## Como a nota é calculada\n');
+G.push('Cada exercício tem de 3 a 5 **verificações** com peso (somam 100). A IA dá 0–10 a cada uma, com comentário; a **nota final é a média ponderada calculada no código** (não é o número que o modelo "acha"). Dimensões: ' + Object.entries(DIMS).map(([k, v]) => `\`${k}\` ${v}`).join(' · ') + '.\n');
+G.push('**Aprovação automática** exige, ao mesmo tempo: nota ≥ 7 · evidência textual suficiente · confiança média/alta · nenhum sinal de tentativa de manipular a IA · exercício que não seja só-tutor. Caso contrário vai para o tutor (o motivo fica registrado).\n');
+G.push('| Tipo de exercício | O que a IA consegue verificar |\n|---|---|\n| `text` | Tudo: a resposta escrita é o entregável |\n| `sql` | Query e resultados colados, conferidos contra os **números de referência** do banco de treinamento |\n| `file` | Só o que o aluno descrever/colar (fórmulas, listas de medidas, prints descritos). A IA **não abre links**: sem evidência textual a entrega vai ao tutor |\n');
+G.push('## Solução esperada por exercício\n');
+const modeIcon = { text: '📝', sql: '🗄️', file: '📎', mixed: '🔀' };
+for (const s of sessions) {
+  G.push(`### Dia ${s.day} · ${s.title}\n`);
+  for (const e of s.exercises) {
+    const r = rubrics[e.id];
+    G.push(`**${e.id} — ${e.title}** ${modeIcon[r.mode]} \`${r.mode}\`${r.force_tutor ? ' · só tutor' : ''}  \n_Pedido:_ ${e.instructions}  \n_Solução esperada:_ ${r.expected}\n`);
+    G.push('| Peso | Verificação | Dimensão |\n|---:|---|---|\n' + r.checks.map((c) => `| ${c.weight} | ${c.label.replace(/\|/g, '/')} | ${c.dim} |`).join('\n') + '\n');
+    if (r.reference.length) G.push(`_Referência:_ ${r.reference.map((x) => `\`${x.key}\``).join(', ')} (ver \`content/references.mjs\`)\n`);
+    if (r.grading_notes) G.push(`> ⚠️ ${r.grading_notes}\n`);
+  }
+}
+out('docs/06-correcao-ia.md', G.join('\n'));
 
 console.log(`OK: ${sessions.length} sessões, ${sessions.reduce((n, s) => n + s.exercises.length, 0)} exercícios, ${templates.length} templates, ${resources.length} recursos. ${bdays[0]} → ${bdays[29]}`);

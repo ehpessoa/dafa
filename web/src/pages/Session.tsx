@@ -3,7 +3,7 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { api } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { useData } from '../lib/data';
-import { fmtDate, weekday, type ExState } from '../lib/progress';
+import { fmtDate, weekday, isWaiting, type ExState } from '../lib/progress';
 import type { Exercise } from '../lib/types';
 import { ExBadge, Empty, SessBadge } from '../components/ui';
 import TemplateCard from '../components/TemplateCard';
@@ -22,7 +22,8 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
   const [err, setErr] = useState('');
   const state: ExState = progress.exState(studentId, ex.id);
   const attempts = progress.attempts(studentId, ex.id);
-  const waiting = attempts.at(-1)?.status === 'submitted'; // último envio ainda sem avaliação
+  const waiting = attempts.length > 0 && isWaiting(attempts[attempts.length - 1]); // último envio ainda sem decisão (IA ou tutor)
+  const rejected = state === 'rejected';
 
   const submit = async () => {
     setBusy(true); setErr('');
@@ -51,17 +52,30 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
                 {a.link_url && <div><a href={a.link_url} target="_blank" rel="noreferrer noopener">🔗 {a.link_url}</a></div>}
                 {rev ? (
                   <div style={{ marginTop: 8, paddingTop: 8, borderTop: '1px dashed var(--border)' }}>
-                    <div className="row between"><span className={`badge ${rev.verdict === 'approved' ? 'green' : 'amber'}`}>{rev.verdict === 'approved' ? '✔ Aprovado' : '↩ Ajustes solicitados'}</span><span className="score">{rev.score.toFixed(1)}/10</span></div>
-                    <div style={{ whiteSpace: 'pre-wrap' }}>💬 {rev.feedback}</div>
+                    <div className="row between">
+                      <span className="row" style={{ gap: 6 }}>
+                        <span className={`badge ${rev.verdict === 'approved' ? 'green' : rev.verdict === 'rejected' ? 'red' : 'amber'}`}>
+                          {rev.verdict === 'approved' ? '✔ Aprovado' : rev.verdict === 'rejected' ? '✖ Reprovado' : '↩ Refaça'}
+                        </span>
+                        <span className="badge">{rev.source === 'ai' ? '🤖 Correção automática' : '🎓 Tutor'}</span>
+                      </span>
+                      <span className="score">{rev.score.toFixed(1)}/10</span>
+                    </div>
+                    <div style={{ whiteSpace: 'pre-wrap', marginTop: 6 }}>💬 {rev.feedback}</div>
+                    {rev.instructions && <div style={{ marginTop: 8 }}><b className="small">📋 Como refazer</b><div className="todo-box">{rev.instructions}</div></div>}
+                    {rev.examples && <div style={{ marginTop: 8 }}><b className="small">💡 Exemplo</b><div className="example-box">{rev.examples}</div></div>}
                   </div>
-                ) : <div className="small muted" style={{ marginTop: 6 }}>⏳ Aguardando avaliação do tutor…</div>}
+                ) : a.status === 'needs_review'
+                  ? <div className="small" style={{ marginTop: 6 }}>🔎 Passou pela correção automática e está <b>em revisão pelo tutor</b>. Você será avisado da decisão.</div>
+                  : <div className="small muted" style={{ marginTop: 6 }}>⏳ Aguardando correção…</div>}
               </div>
             );
           })}
         </div>
       )}
 
-      {canSubmit && !waiting && (
+      {canSubmit && rejected && <div className="alert err">✖ Esta entrega foi <b>reprovada</b> pelo tutor (veja o motivo acima). Fale com o tutor se quiser reabrir o exercício.</div>}
+      {canSubmit && !waiting && !rejected && (
         <div>
           <b>{attempts.length === 0 ? 'Enviar entrega' : state === 'approved' ? 'Enviar nova versão (opcional)' : `Refazer entrega · tentativa ${attempts.length + 1}`}</b>
           <label htmlFor={`c-${ex.id}`}>Resposta / explicação</label>
@@ -72,7 +86,7 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
           <div style={{ marginTop: 10 }}><button className="btn primary" disabled={busy || (!content.trim() && !link.trim())} onClick={submit}>{busy ? 'Enviando…' : attempts.length ? '🔁 Reenviar' : '📤 Enviar para avaliação'}</button></div>
         </div>
       )}
-      {canSubmit && waiting && <div className="alert">⏳ Entrega enviada. Aguarde a avaliação do tutor — você poderá refazer se ele solicitar ajustes.</div>}
+      {canSubmit && waiting && <div className="alert">⏳ Entrega enviada. Ela será corrigida automaticamente; se a nota for menor que 7, o tutor revisa e decide (aprovar, pedir ajustes com instruções ou reprovar). Você receberá uma notificação.</div>}
     </div>
   );
 }
@@ -156,7 +170,7 @@ export default function SessionPage() {
           )}
           {tab === 'exercicios' && (
             <div className="stack">
-              <div className="alert">✅ A sessão é concluída quando <b>todos os exercícios</b> forem aprovados pelo tutor. Se pedir ajustes, refaça e reenvie quantas vezes precisar.</div>
+              <div className="alert">✅ A sessão é concluída quando <b>todos os exercícios</b> forem aprovados pelo tutor. Notas ≥ 7 na correção automática aprovam na hora; abaixo disso o tutor decide. Se pedir ajustes, refaça e reenvie quantas vezes precisar.</div>
               {exs.map((e) => <ExerciseBlock key={e.id} ex={e} studentId={studentId} canSubmit={!isTeacher} />)}
             </div>
           )}

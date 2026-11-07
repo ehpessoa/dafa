@@ -67,6 +67,13 @@ erDiagram
 | Aluno não vira tutor | papel definido no cadastro (allowlist) ou por SQL do administrador |
 | Funções internas não expostas | `_app_*` e `_session_*` sem `execute` para a API |
 
+## Correção por IA e revisão do tutor
+
+Entregas são corrigidas pelo Gemini contra um gabarito por exercício: **nota ≥ 7 aprova sozinha; abaixo disso o tutor decide** (aprovar, pedir que refaça com instruções + exemplo, ou reprovar) e o aluno é notificado de toda decisão. Detalhes, solução esperada dos 67 exercícios e configuração em [06-correcao-ia.md](06-correcao-ia.md).
+
+![Avaliação com análise da IA](img/14-tutor-avaliar.png)
+![Aluno vê instruções e exemplo](img/18-aluno-refazer.png)
+
 ## Rodar localmente
 
 ```bash
@@ -85,6 +92,7 @@ Deploy estático (Vercel/Netlify/Cloudflare Pages): `web/vercel.json` e `web/pub
 |---|---|---|
 | SQL | `npm run validate:sql` | 3 migrations num Postgres embutido (PGlite) |
 | Autenticação e regras | `node scripts/test-auth.mjs` | cadastro/login, bloqueio por tentativas, sessões, isolamento entre alunos, dependências, avaliação, acesso direto negado |
+| Correção por IA | `node scripts/test-ai-grading.mjs` | Gemini simulado: aprovação ≥ 7, fila do tutor, refazer/reprovar, notificações, permissões, falhas e camada HTTP |
 | UI (E2E) | `node scripts/e2e-mock.mjs` | Playwright com API Supabase **simulada**: aluno, tutor, bloqueio, refazer, mobile, redirecionamento |
 
 > O banco real do projeto recebeu um teste de fumaça (cadastro, login, carga de dados e bloqueios) e o usuário de teste foi removido; o fluxo completo na interface publicada deve ser conferido por você após o deploy.

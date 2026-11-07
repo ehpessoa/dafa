@@ -9,6 +9,7 @@ import Trail from './pages/Trail';
 import SessionPage from './pages/Session';
 import CalendarPage from './pages/Calendar';
 import Library from './pages/Library';
+import Notifications from './pages/Notifications';
 import TeacherHome from './pages/teacher/TeacherHome';
 import Queue from './pages/teacher/Queue';
 import Review from './pages/teacher/Review';
@@ -29,6 +30,7 @@ function Gate() {
           <Route path="sessao/:day" element={<SessionPage />} />
           <Route path="calendario" element={<CalendarPage />} />
           <Route path="biblioteca" element={<Library />} />
+          <Route path="notificacoes" element={<Notifications />} />
           <Route path="tutor" element={teacherOnly(<TeacherHome />)} />
           <Route path="tutor/fila" element={teacherOnly(<Queue />)} />
           <Route path="tutor/avaliar/:id" element={teacherOnly(<Review />)} />

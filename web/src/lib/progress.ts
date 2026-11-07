@@ -1,14 +1,17 @@
 import type { Data, Review, Submission } from './types';
 
-export type ExState = 'todo' | 'submitted' | 'revision' | 'approved';
+export type ExState = 'todo' | 'submitted' | 'revision' | 'approved' | 'rejected';
 export type SessState = 'locked' | 'available' | 'in_progress' | 'review' | 'done';
 
 export const SESS_LABEL: Record<SessState, string> = {
   locked: 'Bloqueada', available: 'Disponível', in_progress: 'Em andamento', review: 'Aguardando tutor', done: 'Concluída',
 };
 export const EX_LABEL: Record<ExState, string> = {
-  todo: 'A fazer', submitted: 'Aguardando avaliação', revision: 'Ajustes solicitados', approved: 'Aprovado',
+  todo: 'A fazer', submitted: 'Aguardando avaliação', revision: 'Ajustes solicitados', approved: 'Aprovado', rejected: 'Reprovado',
 };
+
+/** Entrega ainda sem decisão final (aguardando a IA ou o tutor). */
+export const isWaiting = (s: Submission) => s.status === 'submitted' || s.status === 'needs_review';
 
 export function makeProgress(d: Data) {
   const subs = new Map<string, Submission[]>();
@@ -31,7 +34,8 @@ export function makeProgress(d: Data) {
     const a = attempts(student, ex);
     if (!a.length) return 'todo';
     if (a.some((s) => s.status === 'approved')) return 'approved';
-    return a[a.length - 1].status === 'submitted' ? 'submitted' : 'revision';
+    const last = a[a.length - 1].status;
+    return last === 'submitted' || last === 'needs_review' ? 'submitted' : last === 'rejected' ? 'rejected' : 'revision';
   }
   const isDone = (student: string, day: number) => {
     const ids = exBySession.get(day) ?? [];
@@ -58,7 +62,7 @@ export function makeProgress(d: Data) {
       totalSessions: d.sessions.length,
       approvedEx, totalEx: d.exercises.length,
       pct: d.exercises.length ? Math.round((approvedEx / d.exercises.length) * 100) : 0,
-      pending: mySubs.filter((s) => s.status === 'submitted').length,
+      pending: mySubs.filter(isWaiting).length,
       revisions: d.exercises.filter((e) => exState(student, e.id) === 'revision').length,
       avgScore: scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : null,
       attempts: mySubs.length,

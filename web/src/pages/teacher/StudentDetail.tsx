@@ -27,7 +27,7 @@ export default function StudentDetail() {
             <td><SessBadge s={progress.sessState(st.id, s.day)} /></td>
             <td><div className="chips">{data.exercises.filter((e) => e.session_day === s.day).map((e) => {
               const last = progress.attempts(st.id, e.id).at(-1);
-              return last && last.status === 'submitted' ? <Link key={e.id} to={`/tutor/avaliar/${last.id}`} title={e.title}><ExBadge s="submitted" /></Link> : <span key={e.id} title={e.title}><ExBadge s={progress.exState(st.id, e.id)} /></span>;
+              return last && (last.status === 'submitted' || last.status === 'needs_review') ? <Link key={e.id} to={`/tutor/avaliar/${last.id}`} title={e.title}><ExBadge s="submitted" /></Link> : <span key={e.id} title={e.title}><ExBadge s={progress.exState(st.id, e.id)} /></span>;
             })}</div></td></tr>
         ))}
       </tbody></table></div>

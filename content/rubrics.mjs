@@ -3,8 +3,9 @@
 //
 // mode:   text  = resposta escrita (a IA consegue verificar tudo pelo texto)
 //         sql   = query + resultado colados (a IA confere números contra `refs`)
-//         file  = o entregável é um arquivo (.xlsx/.pbix/.ipynb…): a IA só vê o que o aluno descrever/colar;
-//                 sem evidência textual suficiente a entrega vai para o tutor, nunca é aprovada sozinha
+//         file  = o entregável é um arquivo (.xlsx/.pbix/.pbit/.ipynb/slides…): a IA LÊ o arquivo pelo link (público) e faz uma
+//                 PRÉ-análise com nota, mas a decisão final é SEMPRE do tutor (nunca aprova sozinha). Sem arquivo legível
+//                 nem descrição suficiente, a entrega também vai ao tutor, sinalizada como evidência insuficiente
 // checks: [peso, o que verificar, dimensão]  — pesos somam 100. Dimensões = critérios do programa:
 //         num (correção dos números, 35%) · neg (raciocínio de negócio, 25%) · tec (técnica, 20%) · vis (visual, 10%) · rep (reprodutibilidade, 10%)
 // refs:   chaves de content/references.mjs (números calculados no banco de treinamento) para conferir resultados

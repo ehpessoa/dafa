@@ -30,6 +30,7 @@ export interface AiEvaluation {
   submission_id: string; status: 'processing' | 'done' | 'error'; score: number | null; criteria: AiCriterion[] | null; summary: string | null;
   strengths: string[] | null; gaps: string[] | null; suggested_instructions: string | null; suggested_examples: string | null;
   evidence_sufficient: boolean | null; confidence: 'low' | 'medium' | 'high' | null; suspected_manipulation: boolean | null;
+  attachments: { source: string; status: 'read' | 'failed' | 'ignored'; kind?: string; detail?: string; truncated?: boolean }[] | null; requires_tutor: boolean | null;
   outcome: 'auto_approved' | 'sent_to_tutor' | 'discarded' | null; outcome_reason: string | null; model: string | null; error: string | null; finished_at: string | null;
 }
 

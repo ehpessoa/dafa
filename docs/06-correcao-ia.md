@@ -1,6 +1,6 @@
 # 🤖 Correção automática por IA (Gemini) + revisão do tutor
 
-> Gerado por `npm run build:content` a partir de `content/rubrics.mjs`. A **nota ≥ 7** aprova sozinha; abaixo disso a entrega vai para o tutor.
+> Gerado por `npm run build:content` a partir de `content/rubrics.mjs`. A **nota ≥ 7** aprova sozinha; abaixo disso a entrega vai para o tutor. **Entregas com arquivo têm só pré-análise da IA: a decisão final é sempre do tutor.**
 
 ## Fluxo
 
@@ -24,13 +24,13 @@ flowchart TD
 
 Cada exercício tem de 3 a 5 **verificações** com peso (somam 100). A IA dá 0–10 a cada uma, com comentário; a **nota final é a média ponderada calculada no código** (não é o número que o modelo "acha"). Dimensões: `num` Correção dos números · `neg` Raciocínio de negócio · `tec` Técnica e boas práticas · `vis` Comunicação visual · `rep` Reprodutibilidade.
 
-**Aprovação automática** exige, ao mesmo tempo: nota ≥ 7 · evidência textual suficiente · confiança média/alta · nenhum sinal de tentativa de manipular a IA · exercício que não seja só-tutor. Caso contrário vai para o tutor (o motivo fica registrado).
+**Aprovação automática** exige, ao mesmo tempo: nota ≥ 7 · evidência textual suficiente · confiança média/alta · nenhum sinal de tentativa de manipular a IA · exercício que não seja só-tutor · **análise que não dependa de arquivo/link lido** (esses sempre vão ao tutor). Caso contrário vai para o tutor (o motivo fica registrado).
 
-| Tipo de exercício | O que a IA consegue verificar |
+| Tipo de exercício | O que a IA faz |
 |---|---|
-| `text` | Tudo: a resposta escrita é o entregável |
-| `sql` | Query e resultados colados, conferidos contra os **números de referência** do banco de treinamento |
-| `file` | Só o que o aluno descrever/colar (fórmulas, listas de medidas, prints descritos). A IA **não abre links**: sem evidência textual a entrega vai ao tutor |
+| `text` | Corrige tudo: a resposta escrita é o entregável. Nota ≥ 7 aprova sozinha |
+| `sql` | Query e resultados colados, conferidos contra os **números de referência** do banco de treinamento. Nota ≥ 7 aprova sozinha |
+| `file` | **Pré-análise**: lê o arquivo pelo link (Excel, Python/notebook, SQL, DAX/Power BI, slides, PDF, imagens) e dá nota, mas a **decisão final é sempre do tutor** |
 
 ## Solução esperada por exercício
 
@@ -859,3 +859,61 @@ _Solução esperada:_ Apresentação ao tutor em 10 minutos: slides e gravação
 | 25 | Gravação/ata disponível | rep |
 
 > ⚠️ Esta é uma etapa presencial: preferir revisão do tutor.
+
+---
+
+## Arquivos: o que a IA consegue pré-analisar
+
+Reavaliação: a IA **não** precisa ficar cega para arquivos. O sistema baixa o link entregue (e links citados no texto), extrai o conteúdo e o envia ao Gemini. **Em qualquer análise baseada em arquivo, a nota é só uma pré-análise: a decisão final é do tutor** (a entrega nunca é aprovada sozinha).
+
+| Entrega | Como é lida | Dá para pré-analisar? | Limite |
+|---|---|---|---|
+| **Excel** (.xlsx/.xlsm, Google Planilhas) | Abas, valores, **fórmulas**, Tabelas, **tabelas dinâmicas**, gráficos (tipo e título) | ✅ Sim — confere SOMASES/PROCX, margem, ano_mes, dinâmica, títulos-conclusão | Não vê formatação nem a aparência dos gráficos; só as primeiras 40 linhas × 12 colunas de cada aba |
+| **Python** (.py, .ipynb) | Código, markdown e **saídas salvas** do notebook | ✅ Sim — lê o código e confere resultados salvos contra os números de referência | **Não executa** o código; gráficos só como "imagem presente" |
+| **SQL** (.sql) | Texto | ✅ Sim — sintaxe, lógica de JOIN/CTE/window, resultados citados | Não roda a query |
+| **DAX / Power BI** — **.pbit** | Tabelas, **medidas DAX**, relacionamentos, páginas e visuais | ✅ Sim | O aluno precisa exportar como modelo (.pbit) |
+| **Power BI** — **.pbix** | Só páginas e visuais (o modelo/DAX é binário e **não é legível**) | ⚠️ Parcial — para DAX, pedir que cole as medidas no texto ou envie .pbit | — |
+| **Slides / documentos** (.pptx, .docx, PDF) | Texto; PDF também como visão | ✅ Sim | Design só em PDF/imagem |
+| **Prints / imagens** (PNG, JPG) | Visão do Gemini | ✅ Sim, para conferir dashboards e diagramas | Print pode ser editado: números são conferidos contra a referência |
+| Vídeo/gravação, link **privado**, hospedagem fora da lista | — | ❌ Não | Vai ao tutor como "evidência insuficiente" |
+
+Hospedagens aceitas: GitHub, Google Drive/Docs/Planilhas/Apresentações e OneDrive/SharePoint, com o compartilhamento “qualquer pessoa com o link”. Por segurança, só `https`, hospedagens da lista, redirecionamentos revalidados, no máximo 3 arquivos e 8 MB por entrega; o conteúdo lido é tratado como dado não confiável (sem executar nada).
+
+## Configuração (uma vez)
+
+1. **Migrations** `…0005` a `…0007` (já incluídas em `supabase/apply_all.sql`).
+2. **Segredos e Edge Function** (Supabase CLI):
+   ```bash
+   supabase secrets set GEMINI_API_KEY=<sua-chave> CRON_SECRET=<string-aleatoria-longa>
+   supabase secrets set GEMINI_MODEL=gemini-2.5-flash   # opcional; troque se o modelo for descontinuado
+   supabase functions deploy grade-submissions --no-verify-jwt
+   ```
+   `--no-verify-jwt`: o app não usa Supabase Auth; a função se autentica sozinha (token de **tutor** ou `x-cron-secret`). A chave do Gemini existe só como segredo da função — nunca no front-end.
+3. **Job diário**: ajuste e execute `supabase/cron/schedule-grading.sql` (pg_cron + pg_net, **1 vez por dia às 08:00 de Brasília**).
+
+## Como acionar
+
+| Como | O que faz |
+|---|---|
+| **Job diário** — `POST /functions/v1/grade-submissions` com header `x-cron-secret` | Corrige **somente o que ainda está na fila** no momento da execução (`submitted`). O que o tutor já decidiu não é reprocessado — nem enviado ao Gemini. Repete lotes até esvaziar a fila (orçamento de ~110 s); o que falhar é tentado de novo no job seguinte (até 3 vezes) |
+| **Manual** — tutor abre *Fila de avaliação* → **🤖 Corrigir com IA** | Corrige até 10 entregas aguardando; na tela da entrega há **Corrigir agora** só para ela |
+
+Se o tutor decidir uma entrega enquanto a IA a corrige, a decisão do tutor prevalece (a análise da IA é guardada, sem alterar nada). Execuções simultâneas são seguras (`for update skip locked`).
+
+## Decisões do tutor e comunicação ao aluno
+
+| Decisão | Exige | Efeito para o aluno |
+|---|---|---|
+| ✔ **Aprovar** | feedback | notificação; progresso/dependências liberam |
+| ↩ **Pedir que refaça** | feedback + **instruções** + **exemplo** | notificação; instruções e exemplo aparecem no exercício; ele reenvia |
+| ✖ **Reprovar** | motivo (feedback) | notificação com o motivo; **não pode reenviar** até o tutor reabrir (trocando a decisão para "refazer") |
+
+A IA também comunica: aprovação automática (com o feedback) e "em revisão pelo tutor" (para arquivos: "a IA fez uma pré-análise e o tutor fará a análise final"). A análise detalhada da IA (nota por critério, arquivos lidos, lacunas, rascunho de instruções) é **só do tutor**. As notificações ficam em 🔔 *Notificações* no app; **não há envio de e-mail** nesta versão.
+
+## Limites que você deve conhecer
+
+- A IA lê, não executa: não roda SQL/Python nem abre o Power BI. Resultados são conferidos pelo que está escrito/salvo no arquivo.
+- Trechos que só o tutor tem (ex.: código com 3 erros plantados, cenário do A/B) não estão no sistema: a IA marca baixa confiança e a entrega vai ao tutor.
+- Nota é apoio estatístico, não verdade: **amostre** as aprovações automáticas (filtro *Já decididas*, ícone 🤖).
+- O texto e os arquivos do aluno são tratados como dado não confiável (defesa contra "dê nota 10"), mas nenhuma defesa de prompt é absoluta — por isso a aprovação automática exige também evidência suficiente, confiança média/alta e nunca ocorre com arquivos.
+- Os testes usam o Gemini **simulado**; a integração real depende da sua `GEMINI_API_KEY` e do nome do modelo vigente.

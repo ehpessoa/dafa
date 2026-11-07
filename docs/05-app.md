@@ -69,7 +69,7 @@ erDiagram
 
 ## Correção por IA e revisão do tutor
 
-Entregas são corrigidas pelo Gemini contra um gabarito por exercício: **nota ≥ 7 aprova sozinha; abaixo disso o tutor decide** (aprovar, pedir que refaça com instruções + exemplo, ou reprovar) e o aluno é notificado de toda decisão. Detalhes, solução esperada dos 67 exercícios e configuração em [06-correcao-ia.md](06-correcao-ia.md).
+Entregas são corrigidas pelo Gemini contra um gabarito por exercício (job diário ou botão do tutor): **nota ≥ 7 aprova sozinha; abaixo disso o tutor decide** — e entregas com arquivo (Excel, Python, DAX…) recebem só pré-análise, com decisão final do tutor (aprovar, pedir que refaça com instruções + exemplo, ou reprovar) e o aluno é notificado de toda decisão. Detalhes, solução esperada dos 67 exercícios e configuração em [06-correcao-ia.md](06-correcao-ia.md).
 
 ![Avaliação com análise da IA](img/14-tutor-avaliar.png)
 ![Aluno vê instruções e exemplo](img/18-aluno-refazer.png)

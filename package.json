@@ -11,6 +11,7 @@
     "test:auth": "node scripts/test-auth.mjs"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.5.15"
+    "@electric-sql/pglite": "^0.5.15",
+    "fflate": "^0.8.2"
   }
 }

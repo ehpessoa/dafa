@@ -5,16 +5,17 @@
 create extension if not exists pg_cron;
 create extension if not exists pg_net;
 
--- a cada 15 minutos, em horário comercial de Brasília (UTC-3 → 11h–23h UTC), de segunda a sexta
+-- UMA vez por dia, 08:00 em Brasília (11:00 UTC). Só entram as entregas que ainda estão na fila ('submitted') nesse
+-- momento: o que o tutor já decidiu antes do job não é reprocessado. O job repete lotes até esvaziar a fila (limite de tempo).
 select cron.schedule(
   'dafa-corrigir-entregas',
-  '*/15 11-23 * * 1-5',
+  '0 11 * * *',
   $$
   select net.http_post(
     url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/grade-submissions',
     headers := jsonb_build_object('Content-Type', 'application/json', 'x-cron-secret', '<CRON_SECRET>'),
     body    := '{"limit": 10}'::jsonb,
-    timeout_milliseconds := 120000
+    timeout_milliseconds := 150000
   );
   $$
 );

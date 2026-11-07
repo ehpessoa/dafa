@@ -67,7 +67,7 @@ export default function Queue() {
               <tr key={s.id} className="click" onClick={() => nav(`/tutor/avaliar/${s.id}`)}>
                 <td><b>{st?.full_name ?? st?.email}</b></td>
                 <td>Dia {ex.session_day} · {ex.title}</td><td>#{s.attempt}</td><td>{fmtDate(s.created_at, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</td>
-                <td>{ai?.status === 'done' && ai.score != null ? <span title={ai.outcome_reason ?? ''}>🤖 {Number(ai.score).toFixed(1)}</span> : ai?.status === 'error' ? <span className="badge red" title={ai.error ?? ''}>erro</span> : <span className="muted">—</span>}</td>
+                <td>{ai?.status === 'done' && ai.score != null ? <span title={ai.outcome_reason ?? ''}>🤖 {Number(ai.score).toFixed(1)}{ai.attachments?.some((a) => a.status === 'read') ? ' 📎' : ''}</span> : ai?.status === 'error' ? <span className="badge red" title={ai.error ?? ''}>erro</span> : <span className="muted">—</span>}</td>
                 <td>{badge(s.status, rev?.score)}{rev?.source === 'ai' && <span className="small muted"> 🤖</span>}</td>
               </tr>
             );

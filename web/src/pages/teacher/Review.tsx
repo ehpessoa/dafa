@@ -10,7 +10,7 @@ import type { Verdict } from '../../lib/types';
 const DIM: Record<string, string> = { num: 'Números', neg: 'Negócio', tec: 'Técnica', vis: 'Visual', rep: 'Reprodutib.' };
 const REASON: Record<string, string> = {
   score_below_pass: 'Nota abaixo de 7', insufficient_evidence: 'Evidência insuficiente (a IA não abre links/arquivos)', low_confidence: 'IA com baixa confiança',
-  suspected_manipulation: 'Possível tentativa de manipular a correção', tutor_only_exercise: 'Etapa avaliada só pelo tutor', score_at_or_above_pass: 'Nota ≥ 7', already_decided: 'Já decidida pelo tutor',
+  suspected_manipulation: 'Possível tentativa de manipular a correção', tutor_only_exercise: 'Etapa avaliada só pelo tutor', file_requires_tutor: 'Pré-análise de arquivo: a decisão final é sua', score_at_or_above_pass: 'Nota ≥ 7', already_decided: 'Já decidida pelo tutor',
 };
 const VERDICT_LABEL: Record<Verdict, string> = { approved: 'Aprovar', revision_requested: 'Pedir que refaça', rejected: 'Reprovar' };
 
@@ -101,6 +101,10 @@ export default function Review() {
                 <span className={`badge ${ai.outcome === 'auto_approved' ? 'green' : 'amber'}`}>{ai.outcome === 'auto_approved' ? 'Aprovada automaticamente' : `Enviada ao tutor · ${REASON[ai.outcome_reason ?? ''] ?? ai.outcome_reason}`}</span>
               </div>
               <div className="small muted">Confiança: {ai.confidence === 'high' ? 'alta' : ai.confidence === 'medium' ? 'média' : 'baixa'} · evidência {ai.evidence_sufficient ? 'suficiente' : 'insuficiente'}{ai.suspected_manipulation ? ' · ⚠️ possível manipulação' : ''} · {ai.model}</div>
+              {!!ai.attachments?.length && (
+                <div className="small"><b>📎 Arquivos/links:</b> {ai.attachments.map((a, i) => (
+                  <span key={i} className={`badge ${a.status === 'read' ? 'green' : 'amber'}`} style={{ marginRight: 6 }} title={a.detail ?? a.source}>{a.status === 'read' ? `lido · ${a.kind}${a.truncated ? ' (truncado)' : ''}` : `não lido · ${a.detail}`}</span>))}</div>
+              )}
               <p style={{ margin: 0 }}>{ai.summary}</p>
               {ai.criteria?.map((c) => <div key={c.id} className="crit"><span>{c.label}<div className="small muted">{c.comment}</div></span><b>{Number(c.score).toFixed(1)}</b></div>)}
               {!!ai.strengths?.length && <div><b className="small">Pontos fortes</b><ul>{ai.strengths.map((x) => <li key={x}>{x}</li>)}</ul></div>}

@@ -81,6 +81,7 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
           <label htmlFor={`c-${ex.id}`}>Resposta / explicação</label>
           <textarea id={`c-${ex.id}`} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Descreva o que fez, cole a query, os resultados, suas conclusões…" />
           <label htmlFor={`l-${ex.id}`}>Link do arquivo (OneDrive, Drive, GitHub…) — opcional</label>
+          <div className="small muted" style={{ marginBottom: 4 }}>Compartilhe como “qualquer pessoa com o link”: a IA lê Excel, notebooks, .sql, slides, PDF e imagens por aqui (pré-análise; o tutor decide). Para Power BI, prefira exportar .pbit ou colar as medidas DAX.</div>
           <input id={`l-${ex.id}`} type="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://" />
           {err && <div className="alert err" style={{ marginTop: 8 }}>{err}</div>}
           <div style={{ marginTop: 10 }}><button className="btn primary" disabled={busy || (!content.trim() && !link.trim())} onClick={submit}>{busy ? 'Enviando…' : attempts.length ? '🔁 Reenviar' : '📤 Enviar para avaliação'}</button></div>

@@ -166,7 +166,7 @@ export async function callGemini({ apiKey, model = DEFAULT_MODEL, userPrompt, ex
 
 /** Corrige uma entrega: prompt → Gemini → nota. */
 export async function gradeItem(item, { apiKey, model, fetchImpl, wait, attach }) {
-  const att = attach ? await collectAttachments(item.submission, attach) : { files: [], report: [], read: 0 };
+  const att = attach ? await collectAttachments({ ...item.submission, files: item.files ?? [] }, attach) : { files: [], report: [], read: 0 };
   const extraParts = att.files.filter((f) => f.inline).map((f) => ({ inlineData: { mimeType: f.inline.mimeType, data: f.inline.data } }));
   const text = await callGemini({ apiKey, model, userPrompt: buildUserPrompt(item, att), extraParts, fetchImpl, wait });
   return evaluate(item, parseModelJson(text), att);

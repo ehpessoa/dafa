@@ -10,6 +10,7 @@
 const HOSTS = ['github.com', 'raw.githubusercontent.com', 'gist.githubusercontent.com', 'drive.google.com', 'docs.google.com', 'drive.usercontent.google.com',
   'googleusercontent.com', '1drv.ms', 'onedrive.live.com', 'api.onedrive.com', 'sharepoint.com', 'files.1drv.com', 'microsoftpersonalcontent.com'];
 export const MAX_BYTES = 8 * 1024 * 1024;
+const LOGIN_HOSTS = ['accounts.google.com', 'login.live.com', 'login.microsoftonline.com', 'github.com/login'];
 const MAX_TEXT = 24000, MAX_FILES = 3, MAX_INLINE = 4 * 1024 * 1024;
 
 export function hostAllowed(host) {
@@ -56,14 +57,18 @@ export async function fetchLimited(url, { fetchImpl = fetch, maxBytes = MAX_BYTE
     let res;
     try { res = await fetchImpl(cur, { redirect: 'manual', signal: AbortSignal.timeout(timeoutMs), headers: { 'user-agent': 'DAFA-grader/1.0' } }); }
     catch { return { ok: false, reason: 'não foi possível baixar (rede/tempo)' }; }
-    if (res.status >= 300 && res.status < 400 && res.headers.get('location')) { cur = new URL(res.headers.get('location'), cur).href; continue; }
+    if (res.status >= 300 && res.status < 400 && res.headers.get('location')) {
+      cur = new URL(res.headers.get('location'), cur).href;
+      if (LOGIN_HOSTS.some((d) => new URL(cur).hostname === d)) return { ok: false, reason: 'link privado: pede login' };
+      continue;
+    }
     if (res.status === 401 || res.status === 403 || res.status === 404) return { ok: false, reason: `link privado ou inexistente (HTTP ${res.status})` };
     if (!res.ok) return { ok: false, reason: `HTTP ${res.status}` };
     const len = Number(res.headers.get('content-length'));
-    if (len > maxBytes) return { ok: false, reason: `arquivo maior que ${Math.round(maxBytes / 1048576)} MB` };
+    if (len > maxBytes) return { ok: false, tooBig: true, reason: `arquivo maior que ${Math.round(maxBytes / 1048576)} MB` };
     const chunks = []; let n = 0;
     const rd = res.body?.getReader?.();
-    if (rd) { for (;;) { const { done, value } = await rd.read(); if (done) break; n += value.length; if (n > maxBytes) { await rd.cancel(); return { ok: false, reason: `arquivo maior que ${Math.round(maxBytes / 1048576)} MB` }; } chunks.push(value); } }
+    if (rd) { for (;;) { const { done, value } = await rd.read(); if (done) break; n += value.length; if (n > maxBytes) { await rd.cancel(); return { ok: false, tooBig: true, reason: `arquivo maior que ${Math.round(maxBytes / 1048576)} MB` }; } chunks.push(value); } }
     else { const b = new Uint8Array(await res.arrayBuffer()); if (b.length > maxBytes) return { ok: false, reason: 'arquivo grande demais' }; chunks.push(b); n = b.length; }
     const bytes = new Uint8Array(n); let o = 0; for (const c of chunks) { bytes.set(c, o); o += c.length; }
     const cd = res.headers.get('content-disposition') ?? '';
@@ -188,23 +193,56 @@ export function interpret(bytes, { unzip, name = '' }) {
 }
 
 /**
- * Lê os links da entrega. Retorna { files:[{name,kind,text?,inline?,note}], report:[{source,status,kind?,detail?}], read:n }.
- * deps: { fetchImpl, unzip:{unzipSync,strFromU8} }
+ * Valida um link ANTES de aceitar a entrega: https, hospedagem suportada, acessível sem login.
+ * Retorna { ok, kind?, detail?, warning? }. "ok" = acessível publicamente (mesmo que a IA não consiga ler o formato).
+ */
+export async function validateLink(raw, deps = {}) {
+  const url = String(raw ?? '').trim();
+  const HELP = 'Compartilhe como “qualquer pessoa com o link” e tente de novo.';
+  let u; try { u = new URL(url); } catch { return { ok: false, detail: 'Link inválido. Cole o endereço completo, começando com https://.' }; }
+  if (u.protocol !== 'https:') return { ok: false, detail: 'Use um link https://.' };
+  if (!hostAllowed(u.hostname)) return { ok: false, detail: 'Hospedagem não suportada. Use GitHub, Google Drive/Docs/Planilhas/Apresentações ou OneDrive/SharePoint.' };
+  const folder = u.hostname === 'drive.google.com' && /^\/drive\/(u\/\d+\/)?folders\//.test(u.pathname);
+  const dl = folder ? u.href : toDownloadUrl(url);
+  if (!dl) return { ok: false, detail: 'Link não reconhecido.' };
+  const got = await fetchLimited(dl, { fetchImpl: deps.fetchImpl });
+  if (!got.ok) {
+    if (got.tooBig) return { ok: true, kind: 'arquivo grande', warning: `Link acessível, mas ${got.reason}: a IA não fará a pré-análise; o tutor verá o arquivo.` };
+    return { ok: false, detail: `Não consegui acessar o link (${got.reason}). ${HELP}` };
+  }
+  if (folder) return { ok: true, kind: 'pasta', warning: 'Pasta pública: a IA não lê o conteúdo da pasta; o tutor abrirá os arquivos.' };
+  const r = interpret(got.bytes, { unzip: deps.unzip, name: got.filename });
+  if (r.error && /login/.test(r.error)) return { ok: false, detail: `O link abre uma página de login/visualização, não o arquivo. ${HELP}` };
+  if (r.error) return { ok: true, kind: 'arquivo', warning: `Link acessível, mas ${r.error}: a IA não fará a pré-análise; o tutor verá o arquivo.` };
+  return { ok: true, kind: r.kind, warning: /só layout/.test(r.kind) ? 'Power BI .pbix: a IA lê só páginas e visuais. Para conferir o DAX, envie .pbit ou cole as medidas no texto.' : undefined };
+}
+
+/**
+ * Lê o que o aluno entregou: arquivos ANEXADOS (guardados no Storage) e links públicos.
+ * Retorna { files:[{name,kind,text?,inline?,note}], report:[{source,status,kind?,detail?,origin}], read:n }.
+ * sub.files: [{name, path}] · deps: { fetchImpl, unzip:{unzipSync,strFromU8}, readFile(path) → Uint8Array }
  */
 export async function collectAttachments(sub, deps = {}) {
-  const { urls, skipped } = extractUrls(sub);
   const files = [], report = [];
-  for (const s of skipped) report.push({ source: s.slice(0, 200), status: 'ignored', detail: 'hospedagem não suportada (use GitHub, Google Drive/Docs ou OneDrive)' });
   let inline = 0;
+  const add = (source, name, bytes, origin) => {
+    const r = interpret(bytes, { unzip: deps.unzip, name });
+    if (r.error) { report.push({ source: String(source).slice(0, 200), status: 'failed', detail: r.error, origin }); return; }
+    if (r.inline) { inline += bytes.length; if (inline > MAX_INLINE * 2) { report.push({ source: String(source).slice(0, 200), status: 'failed', detail: 'limite de anexos visuais', origin }); return; } }
+    files.push({ name: name || String(source), kind: r.kind, text: r.text, inline: r.inline, truncated: r.truncated });
+    report.push({ source: String(source).slice(0, 200), status: 'read', kind: r.kind, name, bytes: bytes.length, truncated: Boolean(r.truncated), origin });
+  };
+  for (const f of (sub.files ?? []).slice(0, 5)) {
+    try { add(f.name, f.name, await deps.readFile(f.path), 'upload'); }
+    catch { report.push({ source: f.name, status: 'failed', detail: 'não foi possível ler o arquivo anexado', origin: 'upload' }); }
+  }
+  const { urls, skipped } = extractUrls(sub);
+  for (const s of skipped) report.push({ source: s.slice(0, 200), status: 'ignored', detail: 'hospedagem não suportada (use GitHub, Google Drive/Docs ou OneDrive)', origin: 'link' });
   for (const u of urls) {
     const dl = toDownloadUrl(u);
     const got = dl ? await fetchLimited(dl, { fetchImpl: deps.fetchImpl }) : { ok: false, reason: 'link inválido' };
-    if (!got.ok) { report.push({ source: u.slice(0, 200), status: 'failed', detail: got.reason }); continue; }
-    const r = interpret(got.bytes, { unzip: deps.unzip, name: got.filename });
-    if (r.error) { report.push({ source: u.slice(0, 200), status: 'failed', detail: r.error }); continue; }
-    if (r.inline) { inline += got.bytes.length; if (inline > MAX_INLINE * 2) { report.push({ source: u.slice(0, 200), status: 'failed', detail: 'limite de anexos visuais' }); continue; } }
-    files.push({ name: got.filename || u, kind: r.kind, text: r.text, inline: r.inline, truncated: r.truncated });
-    report.push({ source: u.slice(0, 200), status: 'read', kind: r.kind, name: got.filename, bytes: got.bytes.length, truncated: Boolean(r.truncated) });
+    if (!got.ok) { report.push({ source: u.slice(0, 200), status: 'failed', detail: got.reason, origin: 'link' }); continue; }
+    add(u, got.filename, got.bytes, 'link');
   }
   return { files, report, read: files.length };
 }

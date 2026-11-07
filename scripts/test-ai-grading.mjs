@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { bootDb } from './validate-sql.mjs';
 import { buildUserPrompt, evaluate, parseModelJson, callGemini, runBatch, SYSTEM_PROMPT } from '../supabase/functions/_shared/grader.mjs';
 import { handleRequest } from '../supabase/functions/_shared/handler.mjs';
+import { handleFiles } from '../supabase/functions/_shared/files.mjs';
 import { collectAttachments, extractUrls, toDownloadUrl, hostAllowed, fetchLimited, interpret } from '../supabase/functions/_shared/attachments.mjs';
 import { zipSync, unzipSync, strFromU8, strToU8 } from 'fflate';
 
@@ -121,7 +122,10 @@ await rpc('app_review', T.token, s3.id, 4, 'revision_requested', 'Reaberto.', 'L
 assert.equal((await submitAs(A.token, 'd01-e3', 'v2 com 8 KPIs')).attempt, 2, 'reaberto pelo tutor, o aluno volta a poder enviar');
 
 // ── 6) Guardas: link só, baixa confiança, manipulação, modo arquivo, tutor-only ──
-const gs = async (tok, ex, content, link) => { const s = await submitAs(tok, ex, content, link); return s.id; };
+const gs = async (tok, ex, content, link) => {
+  if (link) await db.query(`insert into public.link_checks (user_id, url, ok, kind) values ($1, $2, true, 'arquivo')`, [(await rpc('app_me', tok)).id, link]);   // simula a validação feita pela Edge Function
+  const s = await submitAs(tok, ex, content, link); return s.id;
+};
 // bia precisa liberar dias para chegar a exercícios de outros dias; usa-se o dia 1 e SQL direto para outros testes
 for (const [name, ex, content, link, o, reason] of [
   ['só link', 'd01-e1', null, 'https://drive.example.com/doc', { score: 10 }, 'insufficient_evidence'],
@@ -370,6 +374,129 @@ for (const e of (await db.query(`select id from public.exercises where session_d
   assert.deepEqual((await db.query(`select attempts from public.ai_evaluations where submission_id=$1`, [f1])).rows[0], { attempts: 1 });
   // no dia seguinte (novo job) elas são reprocessadas
   script = () => ({ score: 9 }); const j3 = await (await post({ limit: 5 })).json(); assert.equal(j3.auto_approved, 3);
+}
+
+// ── 15) Entrega por arquivo anexado ou link PÚBLICO validado ──
+const FILES = { 'https://drive.google.com/uc?export=download&id=PUB': xlsxBytes, 'https://drive.google.com/uc?export=download&id=LOGIN': strToU8('<!DOCTYPE html><html>Faça login'),
+  'https://drive.google.com/uc?export=download&id=ZIP': zipSync({ 'a.txt': strToU8('x') }), 'https://raw.githubusercontent.com/o/r/main/q.sql': strToU8('select 1;') };
+const linkFetch = async (url) => {
+  if (url.includes('id=PRIV')) return new Response(null, { status: 302, headers: { location: 'https://accounts.google.com/ServiceLogin' } });
+  if (url.includes('id=GONE')) return new Response('nf', { status: 404 });
+  if (url.includes('id=BIG')) return new Response(new Uint8Array(10), { status: 200, headers: { 'content-length': String(20 * 1024 * 1024) } });
+  if (url.includes('/drive/folders/PUBF')) return new Response('<html>pasta</html>', { status: 200 });
+  if (url.includes('/drive/folders/PRIVF')) return new Response(null, { status: 302, headers: { location: 'https://accounts.google.com/x' } });
+  return FILES[url] ? new Response(FILES[url], { status: 200 }) : new Response('nf', { status: 404 });
+};
+const store = new Map();
+const storage = { upload: async (p, b) => { store.set(p, b); }, remove: async (ps) => { ps.forEach((p) => store.delete(p)); }, signedUrl: async (p, s) => `https://signed.example/${p}?exp=${s}` };
+const fdb = {
+  actor: (t, e) => as('service_role', 'file_actor', t, e ?? null),
+  register: (u, e, n, m, s, p) => as('service_role', 'file_register', u, e, n, m, s, p),
+  deletePending: (u, i) => as('service_role', 'file_pending_delete', u, i),
+  access: (t, i) => as('service_role', 'file_access', t, i),
+  linkBegin: (t) => as('service_role', 'link_check_begin', t),
+  linkSave: (u, url, r) => as('service_role', 'link_check_save', u, url, r.ok, r.kind ?? null, r.detail ?? null, r.warning ?? null),
+};
+const ctx = { db: fdb, storage, fetchImpl: linkFetch, unzip };
+const check = async (token, url) => { const res = await handleFiles(new Request('http://x/f', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'check-link', token, url }) }), ctx); return { status: res.status, ...(await res.json()) }; };
+const upload = async (token, exercise, name, bytes) => {
+  const form = new FormData(); form.set('token', token); form.set('exercise_id', exercise); form.set('file', new File([bytes], name));
+  const res = await handleFiles(new Request('http://x/f', { method: 'POST', body: form }), ctx); return { status: res.status, ...(await res.json()) };
+};
+const act = async (token, body) => { const res = await handleFiles(new Request('http://x/f', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token, ...body }) }), ctx); return { status: res.status, ...(await res.json()) }; };
+
+const al = await reg('anexo@x.com', 'Anexo'); const alId = al.user.id;
+for (const e of (await db.query(`select id from public.exercises where session_day=1`)).rows) await db.query(`insert into public.submissions (exercise_id, student_id, attempt, content, status) values ($1,$2,1,'ok','approved')`, [e.id, alId]);
+
+// 15a) link sozinho: o banco não aceita sem validação prévia (mesmo chamando a RPC direto)
+await fails(() => submitAs(al.token, 'd02-e2', null, 'https://drive.google.com/file/d/PUB/view'), /Valide o link/);
+// validação: casos aceitos e recusados
+let c = await check(al.token, 'https://drive.google.com/file/d/PUB/view'); assert.deepEqual([c.ok, c.kind], [true, 'excel']);
+for (const [url, re] of [['https://drive.google.com/file/d/PRIV/view', /privado|login/], ['https://drive.google.com/file/d/GONE/view', /privado ou inexistente/],
+  ['https://drive.google.com/file/d/LOGIN/view', /página de login/], ['http://github.com/o/r', /https/], ['https://evil.com/x.xlsx', /Hospedagem não suportada/],
+  ['https://127.0.0.1/x', /Hospedagem/], ['não é link', /inválido/], ['https://drive.google.com/drive/folders/PRIVF', /privado|login/]]) {
+  c = await check(al.token, url); assert.equal(c.ok, false, url); assert.match(c.detail, re, url);
+}
+c = await check(al.token, 'https://drive.google.com/drive/folders/PUBF'); assert.deepEqual([c.ok, c.kind], [true, 'pasta']); assert.match(c.warning, /IA não lê/);
+c = await check(al.token, 'https://drive.google.com/file/d/ZIP/view'); assert.equal(c.ok, true); assert.match(c.warning, /não fará a pré-análise/);
+c = await check(al.token, 'https://drive.google.com/file/d/BIG/view'); assert.equal(c.ok, true); assert.match(c.warning, /maior que/);
+c = await check(al.token, 'https://github.com/o/r/blob/main/q.sql'); assert.deepEqual([c.ok, c.kind], [true, 'sql']);
+// recusado → continua sem poder enviar; aprovado → envia; resultado fica registrado na entrega
+await fails(() => submitAs(al.token, 'd02-e2', null, 'https://drive.google.com/file/d/PRIV/view'), /Valide o link/);
+await fails(() => submitAs(al.token, 'd02-e2', null, 'https://drive.google.com/file/d/OUTRO/view'), /Valide o link/);   // outro link não validado
+await check(al.token, 'https://drive.google.com/file/d/PUB/view');
+await db.exec(`update public.link_checks set checked_at = now() - interval '2 hours' where url like '%PUB%'`); await fails(() => submitAs(al.token, 'd02-e2', null, 'https://drive.google.com/file/d/PUB/view'), /Valide o link/);   // validação vence em 1 h
+await check(al.token, 'https://drive.google.com/file/d/PUB/view');
+let sl = await submitAs(al.token, 'd02-e2', null, 'https://drive.google.com/file/d/PUB/view'); assert.equal(sl.link_check.ok, true); assert.equal(sl.link_check.kind, 'excel');
+// só o aluno valida, com limite por hora, e sessão válida
+assert.equal((await check(T.token, 'https://github.com/o/r')).status, 403); assert.equal((await check('x'.repeat(64), 'https://github.com/o/r')).status, 401);
+await db.exec(`insert into public.link_checks (user_id, url, ok) select '${alId}', 'https://github.com/x/' || g, false from generate_series(1, 30) g`);
+assert.match((await check(al.token, 'https://github.com/o/r')).error, /Muitas validações/);
+await db.exec(`delete from public.link_checks where url like 'https://github.com/x/%'`);
+
+// 15b) arquivos anexados
+await db.exec(`update public.submissions set status='approved' where student_id='${alId}'`);
+let up = await upload(al.token, 'd02-e1', 'diagnostico.xlsx', xlsxBytes); assert.equal(up.status, 200); assert.equal(up.name, 'diagnostico.xlsx');
+const path = [...store.keys()][0]; assert.match(path, new RegExp(`^${alId}/[0-9a-f-]{36}\\.xlsx$`), 'caminho não usa o nome do aluno');
+assert.equal((await upload(al.token, 'd02-e1', 'virus.exe', new Uint8Array([77, 90]))).status, 400);
+assert.match((await upload(al.token, 'd02-e1', 'falso.pdf', strToU8('não sou pdf'))).error, /não corresponde/);
+assert.match((await upload(al.token, 'd02-e1', 'falso.xlsx', strToU8('texto'))).error, /não corresponde/);
+assert.equal((await upload(al.token, 'd02-e1', 'vazio.txt', new Uint8Array(0))).status, 400);
+assert.equal((await upload(al.token, 'd02-e1', 'grande.pdf', new Uint8Array(8 * 1024 * 1024 + 1))).status, 413);
+assert.equal((await upload(T.token, 'd02-e1', 'a.txt', strToU8('x'))).status, 403, 'tutor não anexa');
+assert.equal((await upload('x'.repeat(64), 'd02-e1', 'a.txt', strToU8('x'))).status, 401);
+assert.match((await upload(al.token, 'd09-e1', 'a.txt', strToU8('x'))).error, /bloqueada/, 'respeita dependências');
+assert.match((await upload(al.token, 'nao-existe', 'a.txt', strToU8('x'))).error, /inexistente/);
+assert.equal((await upload(al.token, 'd02-e1', '../../etc/passwd.txt', strToU8('x'))).name, 'passwd.txt', 'nome higienizado');
+for (let i = 0; i < 3; i++) assert.equal((await upload(al.token, 'd02-e1', `a${i}.txt`, strToU8('x'))).status, 200);   // 5 pendentes
+const before = store.size; assert.match((await upload(al.token, 'd02-e1', 'sexto.txt', strToU8('x'))).error, /5 arquivos/); assert.equal(store.size, before, 'upload recusado não deixa lixo no Storage');
+// remover um anexo pendente
+const pend = (await db.query(`select id, storage_path from public.submission_files where student_id=$1 and name='a0.txt'`, [alId])).rows[0];
+assert.equal((await act(al.token, { action: 'delete-file', file_id: pend.id })).deleted, true); assert.equal(store.has(pend.storage_path), false);
+assert.equal((await act(al.token, { action: 'delete-file', file_id: pend.id })).deleted, false);
+// enviar só com arquivos (sem texto nem link) — e regras de posse
+const ids = (await db.query(`select id from public.submission_files where student_id=$1 and submission_id is null order by name`, [alId])).rows.map((x) => x.id);
+const other = await reg('outro@x.com', 'Outro'); for (const e of (await db.query(`select id from public.exercises where session_day=1`)).rows) await db.query(`insert into public.submissions (exercise_id, student_id, attempt, content, status) values ($1,$2,1,'ok','approved')`, [e.id, other.user.id]);
+await fails(() => rpc('app_submit', other.token, 'd02-e1', null, null, ids), /não está mais disponível/);               // arquivo de outro aluno
+await fails(() => rpc('app_submit', al.token, 'd02-e2', null, null, ids), /não está mais disponível/);                 // arquivo de outro exercício
+await fails(() => rpc('app_submit', al.token, 'd02-e1', null, null, [...ids, ...ids, crypto.randomUUID(), crypto.randomUUID(), crypto.randomUUID(), crypto.randomUUID()]), /no máximo 5|não está mais disponível/);
+await fails(() => rpc('app_submit', al.token, 'd02-e1', null, null, null), /anexe arquivos ou informe um link/);
+const sf = await rpc('app_submit', al.token, 'd02-e1', null, null, ids); assert.equal(sf.attempt >= 1, true);
+assert.equal((await db.query(`select count(*)::int n from public.submission_files where submission_id=$1`, [sf.id])).rows[0].n, ids.length);
+await fails(() => rpc('app_submit', al.token, 'd02-e1', 'x', null, ids), /aguardando|não está mais disponível/);
+// metadados no bootstrap (sem caminho do Storage); outro aluno não vê; tutor vê
+const fb = (await rpc('app_bootstrap', al.token)).files; assert.equal(fb.length, ids.length); assert.ok(fb.every((f) => !('storage_path' in f) && f.submission_id === sf.id));
+assert.equal((await rpc('app_bootstrap', other.token)).files.length, 0); assert.equal((await rpc('app_bootstrap', T.token)).files.length >= ids.length, true);
+// URL assinada: dono e tutor; outro aluno não
+assert.match((await act(al.token, { action: 'file-url', file_id: ids[0] })).url, /^https:\/\/signed\.example\//);
+assert.equal((await act(T.token, { action: 'file-url', file_id: ids[0] })).status, 200);
+assert.match((await act(other.token, { action: 'file-url', file_id: ids[0] })).error, /não encontrado/);
+// acesso direto às tabelas e funções: negado
+for (const t of ['submission_files', 'link_checks']) { await db.exec('set role anon'); await fails(() => db.query(`select * from public.${t}`), /permission denied/); await db.exec('reset role'); }
+for (const f of [['file_register', alId, 'd02-e1', 'a', 'x', 1, 'p'], ['file_access', al.token, ids[0]], ['link_check_begin', al.token], ['files_cleanup_pending', 24]]) await fails(() => as('anon', ...f), /permission denied/);
+
+// 15c) a IA lê o arquivo ANEXADO (exercício de arquivo ⇒ pré-análise, decisão final do tutor)
+{
+  const up2 = await upload(al.token, 'd02-e2', 'limpeza.xlsx', xlsxBytes); const idf = up2.id;
+  await db.exec(`update public.submissions set status='approved' where student_id='${alId}'`);
+  const sx = await rpc('app_submit', al.token, 'd02-e2', 'Converti para Tabela e criei ano_mes (arquivo anexado).', null, [idf]);
+  const G3 = { ...G, attach: { fetchImpl: linkFetch, unzip, readFile: async (p) => store.get(p) } };
+  script = () => ({ score: 9 }); const rr = await runBatch({ db: svc, gemini: G3, trigger: 'manual', ids: [sx.id], limit: 5 });
+  assert.equal(rr.results[0].reason, 'file_requires_tutor'); assert.match(calls.at(-1).prompt, /ARQUIVO===== limpeza\.xlsx \(excel\)/); assert.match(calls.at(-1).prompt, /B2: =SOMASES/);
+  const ev = (await db.query(`select attachments from public.ai_evaluations where submission_id=$1`, [sx.id])).rows[0].attachments; assert.deepEqual([ev[0].origin, ev[0].status, ev[0].kind], ['upload', 'read', 'excel']);
+  // arquivo anexado sumiu do Storage → não finge que leu
+  const up3 = await upload(al.token, 'd02-e2', 'sumiu.xlsx', xlsxBytes); await db.exec(`update public.submissions set status='approved' where student_id='${alId}'`);
+  const sy = await rpc('app_submit', al.token, 'd02-e2', 'pronto', null, [up3.id]); store.delete((await db.query(`select storage_path from public.submission_files where id=$1`, [up3.id])).rows[0].storage_path);
+  script = () => ({ score: 10 }); const ry = await runBatch({ db: svc, gemini: G3, trigger: 'manual', ids: [sy.id], limit: 5 });
+  assert.equal(ry.results[0].reason, 'insufficient_evidence'); assert.equal((await db.query(`select attachments from public.ai_evaluations where submission_id=$1`, [sy.id])).rows[0].attachments[0].status, 'failed');
+}
+// 15d) limpeza: anexo nunca enviado há > 24 h é apagado (banco + Storage); o enviado permanece
+{
+  const old = await upload((await rpc('app_login', 'outro@x.com', 'senha-forte-1')).token, 'd02-e1', 'velho.txt', strToU8('x'));
+  await db.exec(`update public.submission_files set created_at = now() - interval '25 hours' where id='${old.id}'`);
+  const paths = await as('service_role', 'files_cleanup_pending', 24);
+  assert.equal(paths.length, 1); assert.equal((await db.query(`select count(*)::int n from public.submission_files where id=$1`, [old.id])).rows[0].n, 0);
+  assert.equal((await db.query(`select count(*)::int n from public.submission_files where submission_id is not null`)).rows[0].n > 0, true);
 }
 
 // ── 12) Cliente Gemini isolado ──

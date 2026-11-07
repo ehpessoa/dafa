@@ -16,7 +16,9 @@ export interface SessionResource { session_day: number; resource_slug: string; p
 export interface Weekly { week: number; title: string; description: string; start_date: string; due_date: string; session_day: number }
 export type SubStatus = 'submitted' | 'needs_review' | 'approved' | 'revision_requested' | 'rejected';
 export type Verdict = 'approved' | 'revision_requested' | 'rejected';
-export interface Submission { id: string; exercise_id: string; student_id: string; attempt: number; content: string | null; link_url: string | null; status: SubStatus; created_at: string }
+export interface LinkCheck { ok: boolean; kind?: string | null; warning?: string | null; checked_at?: string }
+export interface Submission { id: string; exercise_id: string; student_id: string; attempt: number; content: string | null; link_url: string | null; status: SubStatus; created_at: string; link_check?: LinkCheck | null; attachment_count?: number }
+export interface SubFile { id: string; student_id: string; exercise_id: string; submission_id: string; name: string; mime: string | null; size_bytes: number; created_at: string }
 export interface Review {
   id: string; submission_id: string; tutor_id: string | null; score: number; verdict: Verdict; feedback: string; created_at: string;
   source: 'tutor' | 'ai'; instructions: string | null; examples: string | null;
@@ -30,7 +32,7 @@ export interface AiEvaluation {
   submission_id: string; status: 'processing' | 'done' | 'error'; score: number | null; criteria: AiCriterion[] | null; summary: string | null;
   strengths: string[] | null; gaps: string[] | null; suggested_instructions: string | null; suggested_examples: string | null;
   evidence_sufficient: boolean | null; confidence: 'low' | 'medium' | 'high' | null; suspected_manipulation: boolean | null;
-  attachments: { source: string; status: 'read' | 'failed' | 'ignored'; kind?: string; detail?: string; truncated?: boolean }[] | null; requires_tutor: boolean | null;
+  attachments: { source: string; status: 'read' | 'failed' | 'ignored'; origin?: 'upload' | 'link'; kind?: string; detail?: string; truncated?: boolean }[] | null; requires_tutor: boolean | null;
   outcome: 'auto_approved' | 'sent_to_tutor' | 'discarded' | null; outcome_reason: string | null; model: string | null; error: string | null; finished_at: string | null;
 }
 
@@ -38,5 +40,5 @@ export interface Data {
   levels: Level[]; sessions: Session[]; deps: Dependency[]; exercises: Exercise[]; templates: Template[]; resources: Resource[];
   sessionTemplates: SessionTemplate[]; sessionResources: SessionResource[]; weekly: Weekly[];
   submissions: Submission[]; reviews: Review[]; profiles: Profile[];
-  notifications: Notification[]; rubrics: Rubric[]; aiEvaluations: AiEvaluation[];
+  notifications: Notification[]; files: SubFile[]; rubrics: Rubric[]; aiEvaluations: AiEvaluation[];
 }

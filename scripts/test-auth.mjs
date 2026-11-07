@@ -70,7 +70,7 @@ await fails(() => rpc('app_submit', T.ana, 'd02-e1', 'x', null), /bloqueada/);
 const s1 = await rpc('app_submit', T.ana, 'd01-e1', 'minha entrega', null); assert.equal(s1.attempt, 1); assert.equal(s1.status, 'submitted');
 await fails(() => rpc('app_submit', T.ana, 'd01-e1', 'de novo', null), /aguardando/);
 await fails(() => rpc('app_submit', T.ana, 'd01-e2', null, 'javascript:alert(1)'), /http/);
-await fails(() => rpc('app_submit', T.ana, 'd01-e2', '  ', ''), /resposta ou informe/);
+await fails(() => rpc('app_submit', T.ana, 'd01-e2', '  ', ''), /anexe arquivos ou informe/);
 await fails(() => rpc('app_submit', T.tutor, 'd01-e1', 'x', null), /Apenas alunos/);
 await fails(() => rpc('app_submit', T.ana, 'nao-existe', 'x', null), /inexistente/);
 // aluno não avalia; não vê entregas de outros
@@ -84,6 +84,7 @@ await rpc('app_review', T.tutor, s1.id, 5.5, 'revision_requested', 'Ajuste X', '
 let ab = await rpc('app_bootstrap', T.ana);
 assert.equal(ab.submissions[0].status, 'revision_requested'); assert.equal(ab.reviews.length, 1); assert.equal(ab.reviews[0].feedback, 'Ajuste X');
 assert.equal((await rpc('app_bootstrap', T.bia)).reviews.length, 0);
+await db.query(`insert into public.link_checks (user_id, url, ok, kind) values ($1, 'https://drive.example.com/x', true, 'texto')`, [ana.user.id]);   // link já validado pela Edge Function
 const s2 = await rpc('app_submit', T.ana, 'd01-e1', 'v2', 'https://drive.example.com/x'); assert.equal(s2.attempt, 2);
 await rpc('app_review', T.tutor, s2.id, 9, 'approved', 'Perfeito');
 await rpc('app_review', T.tutor, s2.id, 8.5, 'approved', 'Perfeito (nota ajustada)');   // reavaliação atualiza

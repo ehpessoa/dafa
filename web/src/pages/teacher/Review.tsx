@@ -5,6 +5,7 @@ import { useAuth } from '../../lib/auth';
 import { useData } from '../../lib/data';
 import { fmtDate } from '../../lib/progress';
 import { Empty } from '../../components/ui';
+import { FileLink } from '../Session';
 import type { Verdict } from '../../lib/types';
 
 const DIM: Record<string, string> = { num: 'Números', neg: 'Negócio', tec: 'Técnica', vis: 'Visual', rep: 'Reprodutib.' };
@@ -78,7 +79,8 @@ export default function Review() {
           <div className="attempt submitted">
             <b>Entrega do aluno</b>
             {sub.content && <div style={{ whiteSpace: 'pre-wrap', marginTop: 6 }}>{sub.content}</div>}
-            {sub.link_url && <div style={{ marginTop: 6 }}><a href={sub.link_url} target="_blank" rel="noreferrer noopener">🔗 {sub.link_url}</a></div>}
+            {sub.link_url && <div style={{ marginTop: 6 }}><a href={sub.link_url} target="_blank" rel="noreferrer noopener">🔗 {sub.link_url}</a> {sub.link_check?.ok && <span className="badge green">acesso verificado{sub.link_check.kind ? ` · ${sub.link_check.kind}` : ''}</span>}{sub.link_check?.warning && <div className="small muted">{sub.link_check.warning}</div>}</div>}
+            {data.files.some((f) => f.submission_id === sub.id) && <div className="row" style={{ marginTop: 8 }}>{data.files.filter((f) => f.submission_id === sub.id).map((f) => <FileLink key={f.id} id={f.id} name={f.name} size={f.size_bytes} />)}</div>}
           </div>
           {rubric && (
             <details>
@@ -103,7 +105,7 @@ export default function Review() {
               <div className="small muted">Confiança: {ai.confidence === 'high' ? 'alta' : ai.confidence === 'medium' ? 'média' : 'baixa'} · evidência {ai.evidence_sufficient ? 'suficiente' : 'insuficiente'}{ai.suspected_manipulation ? ' · ⚠️ possível manipulação' : ''} · {ai.model}</div>
               {!!ai.attachments?.length && (
                 <div className="small"><b>📎 Arquivos/links:</b> {ai.attachments.map((a, i) => (
-                  <span key={i} className={`badge ${a.status === 'read' ? 'green' : 'amber'}`} style={{ marginRight: 6 }} title={a.detail ?? a.source}>{a.status === 'read' ? `lido · ${a.kind}${a.truncated ? ' (truncado)' : ''}` : `não lido · ${a.detail}`}</span>))}</div>
+                  <span key={i} className={`badge ${a.status === 'read' ? 'green' : 'amber'}`} style={{ marginRight: 6 }} title={a.detail ?? a.source}>{a.status === 'read' ? `lido · ${a.origin === 'upload' ? 'anexo' : 'link'} · ${a.kind}${a.truncated ? ' (truncado)' : ''}` : `não lido · ${a.detail}`}</span>))}</div>
               )}
               <p style={{ margin: 0 }}>{ai.summary}</p>
               {ai.criteria?.map((c) => <div key={c.id} className="crit"><span>{c.label}<div className="small muted">{c.comment}</div></span><b>{Number(c.score).toFixed(1)}</b></div>)}

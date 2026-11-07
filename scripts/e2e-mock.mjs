@@ -20,7 +20,7 @@ const pub = ({ password, key, ...u }) => u;
 const tokens = new Map();                                       // token -> user
 const newToken = (u) => { const t = randomUUID().replace(/-/g, '') + randomUUID().replace(/-/g, ''); tokens.set(t, u); return t; };
 const byKey = (k) => U.find((u) => u.key === k);
-T.submissions = []; T.reviews = []; T.notifications = []; T.aiEvaluations = [];
+T.submissions = []; T.reviews = []; T.notifications = []; T.aiEvaluations = []; T.files = []; const okLinks = new Set();
 T.rubrics = (await db.query(`select * from public.exercise_rubrics`)).rows;
 const sub = (who, ex, attempt, status, h, content = 'Resolvi usando SOMASES; totais conferem com o SQL.') => {
   const s = { id: randomUUID(), exercise_id: ex, student_id: byKey(who).id, attempt, content, link_url: null, status, created_at: ago(h) }; T.submissions.push(s); return s;
@@ -36,11 +36,12 @@ notify('ana', 'in_review', '🔎 Entrega em revisão pelo tutor', 'Dia 2 · Limp
 sub('bruno', 'd01-e1', 1, 'submitted', 5, 'Minhas 5 perguntas SMART...');
 
 const bootstrap = (u) => ({
-  ...Object.fromEntries(Object.keys(T).filter((k) => !['submissions', 'reviews', 'notifications', 'rubrics', 'aiEvaluations'].includes(k)).map((k) => [k, T[k]])),
+  ...Object.fromEntries(Object.keys(T).filter((k) => !['submissions', 'reviews', 'notifications', 'rubrics', 'aiEvaluations', 'files'].includes(k)).map((k) => [k, T[k]])),
   submissions: u.role === 'teacher' ? T.submissions : T.submissions.filter((s) => s.student_id === u.id),
   reviews: T.reviews.filter((r) => u.role === 'teacher' || T.submissions.find((s) => s.id === r.submission_id)?.student_id === u.id),
   profiles: (u.role === 'teacher' ? U : [u]).map(pub),
   notifications: T.notifications.filter((n) => n.user_id === u.id),
+  files: T.files.filter((f) => f.submission_id && (u.role === 'teacher' || f.student_id === u.id)),
   rubrics: u.role === 'teacher' ? T.rubrics : [], aiEvaluations: u.role === 'teacher' ? T.aiEvaluations : [],
 });
 const CORS = { 'access-control-allow-origin': '*', 'access-control-expose-headers': '*' };
@@ -62,7 +63,10 @@ async function rpc(fn, b) {
       const u = user(); const last = T.submissions.filter((s) => s.exercise_id === b.p_exercise_id && s.student_id === u.id).at(-1);
       if (last && ['submitted', 'needs_review'].includes(last.status)) throw new Error('Você já tem uma entrega aguardando avaliação neste exercício.');
       if (last?.status === 'rejected') throw new Error('Esta entrega foi reprovada pelo tutor.');
-      const s = { id: randomUUID(), exercise_id: b.p_exercise_id, student_id: u.id, attempt: (last?.attempt ?? 0) + 1, content: b.p_content, link_url: b.p_link, status: 'submitted', created_at: new Date().toISOString() };
+      if (b.p_link && !okLinks.has(b.p_link)) throw new Error('Valide o link antes de enviar: ele precisa estar público (“qualquer pessoa com o link”) e acessível.');
+      const s = { id: randomUUID(), exercise_id: b.p_exercise_id, student_id: u.id, attempt: (last?.attempt ?? 0) + 1, content: b.p_content, link_url: b.p_link, status: 'submitted', created_at: new Date().toISOString(),
+        link_check: b.p_link ? { ok: true, kind: 'excel', warning: null } : null, attachment_count: (b.p_file_ids ?? []).length };
+      T.files.filter((f) => (b.p_file_ids ?? []).includes(f.id)).forEach((f) => { f.submission_id = s.id; });
       T.submissions.push(s); return s;
     }
     case 'app_review': {
@@ -91,8 +95,24 @@ async function open(who, w = 1280, h = 900) {
     if (u.pathname === '/functions/v1/grade-submissions') {
       const b = req.postDataJSON(); if (b.action === 'status') return json(route, { pending: T.submissions.filter((x) => x.status === 'submitted').length });
       const todo = T.submissions.filter((x) => x.status === 'submitted'); let ap = 0, tu = 0;
-      for (const sb of todo) { const good = sb.content.includes('SMART'); sb.status = good ? 'needs_review' : 'needs_review'; tu++; aiEval(sb, 5, 'sent_to_tutor', 'score_below_pass'); notify(U.find((x) => x.id === sb.student_id).key, 'in_review', '🔎 Entrega em revisão pelo tutor', 'Em revisão.', sb.id); }
+      for (const sb of todo) { sb.status = 'needs_review'; tu++; aiEval(sb, 5, 'sent_to_tutor', 'score_below_pass'); notify(U.find((x) => x.id === sb.student_id).key, 'in_review', '🔎 Entrega em revisão pelo tutor', 'Em revisão.', sb.id); }
       return json(route, { trigger: 'manual', claimed: todo.length, auto_approved: ap, sent_to_tutor: tu, discarded: 0, errors: [] });
+    }
+    if (u.pathname === '/functions/v1/submission-files') {
+      const ct = req.headers()['content-type'] ?? '';
+      if (ct.includes('multipart')) {
+        const raw = req.postData() ?? ''; const name = (raw.match(/filename="([^"]+)"/) ?? [])[1] ?? 'arquivo.xlsx';
+        const tok = (raw.match(/name="token"\r\n\r\n([^\r]+)/) ?? [])[1]; const me = tokens.get(tok);
+        const f = { id: randomUUID(), student_id: me.id, exercise_id: (raw.match(/name="exercise_id"\r\n\r\n([^\r]+)/) ?? [])[1], submission_id: null, name, mime: null, size_bytes: 2048, created_at: new Date().toISOString() };
+        T.files.push(f); return json(route, { id: f.id, name, size: 2048 });
+      }
+      const b = req.postDataJSON();
+      if (b.action === 'check-link') {
+        if (b.url.includes('privado')) return json(route, { ok: false, detail: 'Não consegui acessar o link (link privado: pede login). Compartilhe como “qualquer pessoa com o link” e tente de novo.' });
+        okLinks.add(b.url); return json(route, { ok: true, kind: 'excel' });
+      }
+      if (b.action === 'delete-file') { T.files = T.files.filter((f) => f.id !== b.file_id); return json(route, { deleted: true }); }
+      if (b.action === 'file-url') return json(route, { name: 'x', url: 'https://signed.example/x' });
     }
     const m = u.pathname.match(/\/rest\/v1\/rpc\/(\w+)/);
     if (!m) return json(route, { message: 'rota inesperada: ' + u.pathname }, 404);
@@ -138,7 +158,17 @@ const shot = async (page, name, full = true) => { await page.waitForTimeout(1300
   await page.goto(BASE + '/sessao/2?tab=exercicios'); await page.waitForSelector('text=Histórico de tentativas'); await shot(page, '04-sessao-exercicios');
   assert.ok(await page.locator('text=Aguardando avaliação').first().isVisible());
   await page.goto(BASE + '/sessao/1?tab=exercicios'); await page.waitForSelector('text=Enviar nova versão (opcional)');
-  await page.locator('textarea').first().fill('Versão melhorada'); await page.click('text=Reenviar >> nth=0'); await page.waitForSelector('text=Entrega enviada. Ela será corrigida');
+  // link sozinho: só é aceito depois de verificado (link privado é barrado)
+  const form = page.locator('.card', { hasText: 'Dissecando 5 pedidos vagos' });
+  await form.locator('input[type=url]').fill('https://drive.google.com/file/d/privado/view'); await form.locator('text=Verificar link').click();
+  await page.waitForSelector('text=pede login'); assert.ok(await form.locator('button:has-text("Reenviar")').isDisabled(), 'link privado não pode ser enviado');
+  await form.locator('input[type=url]').fill('https://drive.google.com/file/d/publico/view'); assert.ok(await form.locator('button:has-text("Reenviar")').isDisabled(), 'link novo ainda não verificado');
+  await form.locator('text=Verificar link').click(); await page.waitForSelector('text=Link acessível'); assert.ok(await form.locator('button:has-text("Reenviar")').isEnabled());
+  // arquivo anexado
+  await form.locator('input[type=file]').setInputFiles({ name: 'painel.xlsx', mimeType: 'application/octet-stream', buffer: Buffer.from('PKfake') }); await page.waitForSelector('text=painel.xlsx');
+  await shot(page, '04b-aluno-anexo-link');
+  await form.locator('button:has-text("Reenviar")').click(); await page.waitForSelector('text=Entrega enviada. Ela será corrigida');
+  await page.reload(); await page.waitForSelector('text=Histórico de tentativas'); await page.waitForSelector('text=acesso verificado'); await page.waitForSelector('button:has-text("painel.xlsx")');
   await page.goto(BASE + '/sessao/6'); await page.waitForSelector('text=Por que isso importa'); await shot(page, '05-sessao-conceito');
   await page.goto(BASE + '/sessao/6?tab=templates'); await page.click('text=Ver diagrama >> nth=0'); await page.waitForSelector('.diagram svg', { timeout: 20000 }); await shot(page, '06-template-diagrama');
   await page.goto(BASE + '/sessao/6?tab=recursos'); await page.waitForSelector('text=Supabase do programa'); await shot(page, '07-recursos');

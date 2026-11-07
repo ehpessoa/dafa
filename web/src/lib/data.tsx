@@ -6,7 +6,7 @@ import { useAuth } from './auth';
 
 interface Ctx { data: Data; progress: Progress; loading: boolean; error: string | null; reload: () => Promise<void> }
 const DataCtx = createContext<Ctx | null>(null);
-const EMPTY: Data = { levels: [], sessions: [], deps: [], exercises: [], templates: [], resources: [], sessionTemplates: [], sessionResources: [], weekly: [], submissions: [], reviews: [], profiles: [], notifications: [], rubrics: [], aiEvaluations: [] };
+const EMPTY: Data = { levels: [], sessions: [], deps: [], exercises: [], templates: [], resources: [], sessionTemplates: [], sessionResources: [], weekly: [], submissions: [], reviews: [], profiles: [], notifications: [], files: [], rubrics: [], aiEvaluations: [] };
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const { token, signOut } = useAuth();

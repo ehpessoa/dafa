@@ -171,7 +171,20 @@ for (const s of sessions) {
   }
 }
 G.push('---\n');
-G.push(`## Arquivos: o que a IA consegue pré-analisar
+G.push(`## Como o aluno entrega arquivos
+
+Cada exercício aceita **texto**, **arquivos anexados** e/ou **link público** (pelo menos um dos três):
+
+| Forma | Regras |
+|---|---|
+| **Anexo** | Até 5 arquivos de 8 MB. Aceitos: .xlsx .xlsm .pptx .docx .pbix .pbit .pdf .png .jpg .gif .webp .py .sql .dax .csv .txt .md .ipynb .json. O conteúdo é conferido (um \`.pdf\` que não é PDF é recusado). Ficam no **Storage privado** do Supabase: só o aluno e o tutor acessam, por URL assinada de 5 min |
+| **Link público** | GitHub, Google Drive/Docs/Planilhas/Apresentações ou OneDrive/SharePoint, compartilhado como "qualquer pessoa com o link" |
+
+**O link é validado antes de a entrega ser aceita.** Ao clicar em *Verificar link* (ou sair do campo), a Edge Function \`submission-files\` baixa o link como um visitante anônimo e recusa: link privado/inexistente, página de login, hospedagem não suportada e endereços que não sejam \`https\`. Links acessíveis mas que a IA não consegue ler (pasta, .zip, arquivo > 8 MB) são aceitos com um aviso: o tutor abrirá o conteúdo. O botão *Enviar* só habilita com o link verificado, **e o banco também exige** (\`app_submit\` só aceita um link com validação ok nos últimos 60 min), então um cliente adulterado não contorna a regra. A validação fica registrada na entrega (selo "acesso verificado" para o tutor). Limite: 30 verificações por aluno por hora.
+
+Anexos que o aluno nunca enviou (> 24 h) são apagados pelo job diário.
+
+## Arquivos: o que a IA consegue pré-analisar
 
 Reavaliação: a IA **não** precisa ficar cega para arquivos. O sistema baixa o link entregue (e links citados no texto), extrai o conteúdo e o envia ao Gemini. **Em qualquer análise baseada em arquivo, a nota é só uma pré-análise: a decisão final é do tutor** (a entrega nunca é aprovada sozinha).
 
@@ -186,16 +199,17 @@ Reavaliação: a IA **não** precisa ficar cega para arquivos. O sistema baixa o
 | **Prints / imagens** (PNG, JPG) | Visão do Gemini | ✅ Sim, para conferir dashboards e diagramas | Print pode ser editado: números são conferidos contra a referência |
 | Vídeo/gravação, link **privado**, hospedagem fora da lista | — | ❌ Não | Vai ao tutor como "evidência insuficiente" |
 
-Hospedagens aceitas: GitHub, Google Drive/Docs/Planilhas/Apresentações e OneDrive/SharePoint, com o compartilhamento “qualquer pessoa com o link”. Por segurança, só \`https\`, hospedagens da lista, redirecionamentos revalidados, no máximo 3 arquivos e 8 MB por entrega; o conteúdo lido é tratado como dado não confiável (sem executar nada).
+Anexos são lidos direto do Storage; links, nas hospedagens aceitas (GitHub, Google Drive/Docs/Planilhas/Apresentações e OneDrive/SharePoint, com o compartilhamento “qualquer pessoa com o link”). Por segurança, só \`https\`, hospedagens da lista, redirecionamentos revalidados, no máximo 3 links e 5 anexos por entrega, 8 MB cada; o conteúdo lido é tratado como dado não confiável (sem executar nada).
 
 ## Configuração (uma vez)
 
-1. **Migrations** \`…0005\` a \`…0007\` (já incluídas em \`supabase/apply_all.sql\`).
+1. **Migrations** \`…0005\` a \`…0008\` (já incluídas em \`supabase/apply_all.sql\`; a 0008 cria o bucket privado \`submission-files\`).
 2. **Segredos e Edge Function** (Supabase CLI):
    \`\`\`bash
    supabase secrets set GEMINI_API_KEY=<sua-chave> CRON_SECRET=<string-aleatoria-longa>
    supabase secrets set GEMINI_MODEL=gemini-2.5-flash   # opcional; troque se o modelo for descontinuado
    supabase functions deploy grade-submissions --no-verify-jwt
+   supabase functions deploy submission-files --no-verify-jwt   # anexos e validação de links
    \`\`\`
    \`--no-verify-jwt\`: o app não usa Supabase Auth; a função se autentica sozinha (token de **tutor** ou \`x-cron-secret\`). A chave do Gemini existe só como segredo da função — nunca no front-end.
 3. **Job diário**: ajuste e execute \`supabase/cron/schedule-grading.sql\` (pg_cron + pg_net, **1 vez por dia às 08:00 de Brasília**).

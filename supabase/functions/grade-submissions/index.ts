@@ -21,11 +21,14 @@ async function rpc(fn: string, args: Record<string, unknown> = {}) {
   return data;
 }
 
+const BUCKET = 'submission-files';
 const db = {
   teacherId: (token: string) => rpc('ai_teacher_id', { p_token: token }),
   pendingCount: () => rpc('ai_pending_count'),
   claim: ({ limit, ids, trigger, runBy, skipErrors }: { limit: number; ids: string[] | null; trigger: string; runBy: string | null; skipErrors?: boolean }) =>
     rpc('ai_claim', { p_limit: limit, p_submission_ids: ids, p_trigger: trigger, p_run_by: runBy, p_skip_errors: Boolean(skipErrors) }),
+  // job agendado: apaga anexos que o aluno nunca enviou (> 24 h) e validações antigas
+  cleanup: async () => { const paths = (await rpc('files_cleanup_pending', { p_hours: 24 })) as string[]; if (paths?.length) await admin.storage.from(BUCKET).remove(paths); return paths?.length ?? 0; },
   fail: (id: string, msg: string) => rpc('ai_fail', { p_submission: id, p_error: msg }),
   apply: ({ submission, evaluation: e, feedback, model }: { submission: string; evaluation: any; feedback: string; model: string }) =>
     rpc('ai_apply', {
@@ -38,5 +41,8 @@ const db = {
 
 Deno.serve((req) => handleRequest(req, {
   env: Deno.env.toObject(), db, fetchImpl: fetch,
-  attach: { fetchImpl: fetch, unzip: { unzipSync, strFromU8 } },   // lê links/arquivos dos alunos (GitHub, Google Drive/Docs, OneDrive)
+  attach: {
+    fetchImpl: fetch, unzip: { unzipSync, strFromU8 },
+    readFile: async (path: string) => { const { data, error } = await admin.storage.from(BUCKET).download(path); if (error || !data) throw new Error(error?.message ?? 'arquivo ausente'); return new Uint8Array(await data.arrayBuffer()); },
+  },   // lê links/arquivos dos alunos (GitHub, Google Drive/Docs, OneDrive)
 }));

@@ -57,6 +57,7 @@ export async function handleRequest(req, { env, db, fetchImpl, attach }) {
         result.errors.push(...more.errors); result.results.push(...more.results);
       }
     }
+    if (trigger === 'scheduled' && db.cleanup) { try { result.cleaned = await db.cleanup(); } catch { /* limpeza é best-effort */ } }
     return json(200, { trigger, ...result });
   } catch (e) {
     return json(500, { error: e instanceof Error ? e.message : String(e) });

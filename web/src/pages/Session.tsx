@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { api } from '../lib/supabase';
+import { api, checkLink, deleteFile, fileUrl, uploadFile, type LinkResult } from '../lib/supabase';
 import { useAuth } from '../lib/auth';
 import { useData } from '../lib/data';
 import { fmtDate, weekday, isWaiting, type ExState } from '../lib/progress';
@@ -9,15 +9,31 @@ import { ExBadge, Empty, SessBadge } from '../components/ui';
 import TemplateCard from '../components/TemplateCard';
 import ResourceCard from '../components/ResourceCard';
 
+const ACCEPT = '.xlsx,.xlsm,.pptx,.docx,.pbix,.pbit,.pdf,.png,.jpg,.jpeg,.gif,.webp,.py,.sql,.dax,.csv,.txt,.md,.ipynb,.json';
+const fmtSize = (n: number) => (n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+
+/** Link para baixar um arquivo anexado (URL assinada, válida por 5 min). */
+function FileLink({ id, name, size }: { id: string; name: string; size: number }) {
+  const { token } = useAuth();
+  const [err, setErr] = useState('');
+  const open = async () => { setErr(''); try { window.open((await fileUrl(token ?? '', id)).url, '_blank', 'noopener'); } catch (e) { setErr(e instanceof Error ? e.message : String(e)); } };
+  return <span><button type="button" className="btn sm" onClick={open}>📎 {name} <span className="muted">({fmtSize(size)})</span></button>{err && <span className="small" style={{ color: 'var(--red)' }}> {err}</span>}</span>;
+}
+export { FileLink };
+
 const TABS = [
   ['conceito', '1 · Conceito'], ['ferramentas', '2 · Ferramentas'], ['exercicios', '3 · Exercícios'], ['templates', '4 · Templates'], ['recursos', '5 · Recursos'],
 ] as const;
 
 function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: string; canSubmit: boolean }) {
-  const { progress, reload } = useData();
+  const { data, progress, reload } = useData();
   const { token } = useAuth();
   const [content, setContent] = useState('');
   const [link, setLink] = useState('');
+  const [lc, setLc] = useState<{ state: 'idle' | 'checking' | 'ok' | 'bad'; res?: LinkResult }>({ state: 'idle' });
+  const [files, setFiles] = useState<{ id: string; name: string; size: number }[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [fileErr, setFileErr] = useState('');
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const state: ExState = progress.exState(studentId, ex.id);
@@ -25,11 +41,30 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
   const waiting = attempts.length > 0 && isWaiting(attempts[attempts.length - 1]); // último envio ainda sem decisão (IA ou tutor)
   const rejected = state === 'rejected';
 
+  const validate = async () => {
+    const u = link.trim(); if (!u) return;
+    setLc({ state: 'checking' });
+    try { const r = await checkLink(token ?? '', u); setLc({ state: r.ok ? 'ok' : 'bad', res: r }); }
+    catch (e) { setLc({ state: 'bad', res: { ok: false, detail: e instanceof Error ? e.message : String(e) } }); }
+  };
+  const onFiles = async (list: FileList | null) => {
+    if (!list?.length) return;
+    setUploading(true); setFileErr('');
+    for (const f of Array.from(list)) {
+      try { const r = await uploadFile(token ?? '', ex.id, f); setFiles((x) => [...x, r]); }
+      catch (e) { setFileErr(`${f.name}: ${e instanceof Error ? e.message : String(e)}`); }
+    }
+    setUploading(false);
+  };
+  const removeFile = async (id: string) => { try { await deleteFile(token ?? '', id); } catch { /* já removido */ } setFiles((x) => x.filter((f) => f.id !== id)); };
+  const linkPending = Boolean(link.trim()) && lc.state !== 'ok';          // link informado precisa estar validado
+  const canSend = !busy && !uploading && !linkPending && Boolean(content.trim() || link.trim() || files.length);
+
   const submit = async () => {
     setBusy(true); setErr('');
     try {
-      await api('app_submit', { p_token: token, p_exercise_id: ex.id, p_content: content.trim() || null, p_link: link.trim() || null });
-      setContent(''); setLink(''); await reload();
+      await api('app_submit', { p_token: token, p_exercise_id: ex.id, p_content: content.trim() || null, p_link: link.trim() || null, p_file_ids: files.length ? files.map((f) => f.id) : null });
+      setContent(''); setLink(''); setFiles([]); setLc({ state: 'idle' }); await reload();
     } catch (e) { setErr(e instanceof Error ? e.message : String(e)); }
     setBusy(false);
   };
@@ -49,7 +84,8 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
               <div key={a.id} className={`attempt ${a.status}`}>
                 <div className="row between"><b>Tentativa {a.attempt}</b><span className="small muted">{fmtDate(a.created_at, { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span></div>
                 {a.content && <div style={{ whiteSpace: 'pre-wrap' }}>{a.content}</div>}
-                {a.link_url && <div><a href={a.link_url} target="_blank" rel="noreferrer noopener">🔗 {a.link_url}</a></div>}
+                {a.link_url && <div><a href={a.link_url} target="_blank" rel="noreferrer noopener">🔗 {a.link_url}</a> {a.link_check?.ok && <span className="badge green" title={a.link_check.warning ?? ''}>acesso verificado</span>}</div>}
+                {data.files.filter((f) => f.submission_id === a.id).length > 0 && <div className="row" style={{ marginTop: 4 }}>{data.files.filter((f) => f.submission_id === a.id).map((f) => <FileLink key={f.id} id={f.id} name={f.name} size={f.size_bytes} />)}</div>}
                 {rev ? (
                   <div style={{ marginTop: 8, paddingTop: 8, borderTop: '1px dashed var(--border)' }}>
                     <div className="row between">
@@ -80,11 +116,22 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
           <b>{attempts.length === 0 ? 'Enviar entrega' : state === 'approved' ? 'Enviar nova versão (opcional)' : `Refazer entrega · tentativa ${attempts.length + 1}`}</b>
           <label htmlFor={`c-${ex.id}`}>Resposta / explicação</label>
           <textarea id={`c-${ex.id}`} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Descreva o que fez, cole a query, os resultados, suas conclusões…" />
-          <label htmlFor={`l-${ex.id}`}>Link do arquivo (OneDrive, Drive, GitHub…) — opcional</label>
-          <div className="small muted" style={{ marginBottom: 4 }}>Compartilhe como “qualquer pessoa com o link”: a IA lê Excel, notebooks, .sql, slides, PDF e imagens por aqui (pré-análise; o tutor decide). Para Power BI, prefira exportar .pbit ou colar as medidas DAX.</div>
-          <input id={`l-${ex.id}`} type="url" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://" />
+          <label htmlFor={`f-${ex.id}`}>Anexar arquivos — opcional <span className="muted small">(até 5 · 8 MB cada · Excel, Power BI, notebook, .py/.sql, slides, PDF, imagens)</span></label>
+          <input id={`f-${ex.id}`} type="file" multiple accept={ACCEPT} disabled={uploading || files.length >= 5} onChange={(e) => { void onFiles(e.target.files); e.target.value = ''; }} />
+          {uploading && <div className="small muted">Enviando arquivo…</div>}
+          {fileErr && <div className="alert err" style={{ marginTop: 6 }}>{fileErr}</div>}
+          {files.length > 0 && <div className="stack" style={{ gap: 6, marginTop: 6 }}>{files.map((f) => (
+            <div key={f.id} className="row between attempt submitted" style={{ margin: 0 }}><span>📎 {f.name} <span className="muted small">({fmtSize(f.size)})</span></span><button type="button" className="btn sm" onClick={() => removeFile(f.id)} aria-label={`Remover ${f.name}`}>Remover</button></div>))}</div>}
+          <label htmlFor={`l-${ex.id}`}>Ou informe um link público — opcional</label>
+          <div className="small muted" style={{ marginBottom: 4 }}>GitHub, Google Drive/Docs ou OneDrive, compartilhado como “qualquer pessoa com o link”. O link é <b>verificado antes do envio</b>.</div>
+          <div className="row">
+            <input id={`l-${ex.id}`} type="url" style={{ flex: 1 }} value={link} onChange={(e) => { setLink(e.target.value); setLc({ state: 'idle' }); }} onBlur={() => { if (link.trim() && lc.state === 'idle') void validate(); }} placeholder="https://" />
+            <button type="button" className="btn sm" disabled={!link.trim() || lc.state === 'checking'} onClick={validate}>{lc.state === 'checking' ? 'Verificando…' : 'Verificar link'}</button>
+          </div>
+          {lc.state === 'ok' && <div className="alert ok" style={{ marginTop: 6 }} role="status">✔ Link acessível{lc.res?.kind ? ` (${lc.res.kind})` : ''}.{lc.res?.warning && <div className="small">{lc.res.warning}</div>}</div>}
+          {lc.state === 'bad' && <div className="alert err" style={{ marginTop: 6 }} role="alert">✖ {lc.res?.detail ?? 'Não foi possível acessar o link.'}</div>}
           {err && <div className="alert err" style={{ marginTop: 8 }}>{err}</div>}
-          <div style={{ marginTop: 10 }}><button className="btn primary" disabled={busy || (!content.trim() && !link.trim())} onClick={submit}>{busy ? 'Enviando…' : attempts.length ? '🔁 Reenviar' : '📤 Enviar para avaliação'}</button></div>
+          <div style={{ marginTop: 10 }}><button className="btn primary" disabled={!canSend} onClick={submit}>{busy ? 'Enviando…' : attempts.length ? '🔁 Reenviar' : '📤 Enviar para avaliação'}</button></div>
         </div>
       )}
       {canSubmit && waiting && <div className="alert">⏳ Entrega enviada. Ela será corrigida automaticamente; se a nota for menor que 7, o tutor revisa e decide (aprovar, pedir ajustes com instruções ou reprovar). Você receberá uma notificação.</div>}

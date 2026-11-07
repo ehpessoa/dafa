@@ -191,7 +191,7 @@ export const references = {
     ]
   },
   "d08-e2": {
-    "desc": "CTR, CPC e CPA por canal de campanha (ROAS exige premissa de receita)",
+    "desc": "CTR, CPC e CPA por canal de campanha",
     "sql": "SELECT canal, SUM(investimento) AS investimento, SUM(impressoes) AS impressoes, SUM(cliques) AS cliques, SUM(conversoes) AS conversoes, ROUND(100.0*SUM(cliques)/SUM(impressoes),2) AS ctr_pct, ROUND(SUM(investimento)/SUM(cliques),2) AS cpc, ROUND(SUM(investimento)/SUM(conversoes),2) AS cpa FROM treinamento.fato_campanhas GROUP BY 1 ORDER BY 1",
     "rows": [
       {

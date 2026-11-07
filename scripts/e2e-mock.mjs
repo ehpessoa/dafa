@@ -53,8 +53,10 @@ async function rpc(fn, b) {
     case 'app_me': { const u = tokens.get(b.p_token); return u ? pub(u) : null; }
     case 'app_bootstrap': return bootstrap(user());
     case 'app_login': { const u = U.find((x) => x.email === b.p_email.toLowerCase()); return u && u.password === b.p_password ? { token: newToken(u), user: pub(u) } : { error: 'E-mail ou senha inválidos.' }; }
+    case 'app_signup_status': return { mode: 'open' };
     case 'app_register': {
       if (U.some((x) => x.email === b.p_email.toLowerCase())) throw new Error('Este e-mail já está cadastrado. Use "Entrar".');
+      if (!/^\d{10,13}$/.test(String(b.p_phone ?? '').replace(/\D/g, ''))) throw new Error('Informe um WhatsApp válido no formato (99) 99999-9999.');
       const u = { ...mkUser(randomUUID(), b.p_email.toLowerCase(), b.p_name, 'student'), password: b.p_password }; U.push(u);
       return { token: newToken(u), user: pub(u) };
     }
@@ -206,6 +208,9 @@ const shot = async (page, name, full = true) => { await page.waitForTimeout(1300
   await page.fill('#fb', 'Não atende ao enunciado.'); await page.click('text=Salvar e avisar o aluno'); await page.waitForSelector('text=Fila de avaliação');
   await page.goto(BASE + '/tutor/alunos'); await page.waitForSelector('text=Ana Souza'); await shot(page, '15-tutor-alunos');
   await page.click('text=Ana Souza'); await page.waitForSelector('text=Mapa de progresso'); await shot(page, '16-tutor-aluno');
+  await page.goto(BASE + '/sessao/15'); await page.waitForSelector('text=1) ESPECIFICAR'); await shot(page, '17-guia-ia-dia15');   // guia aberto no 1º uso
+  await page.goto(BASE + '/sessao/16'); await page.waitForSelector('text=Guia rápido: como usar a IA'); assert.equal(await page.locator('text=1) ESPECIFICAR').isVisible(), false, 'guia recolhido a partir do 2º uso');
+  await page.goto(BASE + '/sessao/15?tab=exercicios'); await page.waitForSelector('text=Vai usar IA para gerar código');
   await page.goto(BASE + '/sessao/4'); await page.waitForSelector('text=Por que isso importa');
   assert.deepEqual(errors, []);
 }

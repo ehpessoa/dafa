@@ -36,7 +36,7 @@ const Q = {
   'd08-e1': { desc: 'Receita por ano (total por mês: 24+ linhas; aqui os totais anuais para conferência)', sql: `
     SELECT extract(year FROM p.data_pedido)::int AS ano, ROUND(${REC},2) AS receita, count(DISTINCT date_trunc('month',p.data_pedido)) AS meses
     FROM ${FROM} WHERE p.status<>'cancelado' GROUP BY 1 ORDER BY 1` },
-  'd08-e2': { desc: 'CTR, CPC e CPA por canal de campanha (ROAS exige premissa de receita)', sql: `
+  'd08-e2': { desc: 'CTR, CPC e CPA por canal de campanha', sql: `
     SELECT canal, SUM(investimento) AS investimento, SUM(impressoes) AS impressoes, SUM(cliques) AS cliques, SUM(conversoes) AS conversoes,
            ROUND(100.0*SUM(cliques)/SUM(impressoes),2) AS ctr_pct, ROUND(SUM(investimento)/SUM(cliques),2) AS cpc,
            ROUND(SUM(investimento)/SUM(conversoes),2) AS cpa FROM treinamento.fato_campanhas GROUP BY 1 ORDER BY 1` },

@@ -48,24 +48,25 @@ flowchart LR
 - **Esporte:** Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo.
 
 ### 2) Conexão com as ferramentas
-Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder.
+Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder. O Dicionário de dados é o seu guia: ele explica cada coluna, os valores possíveis e os cuidados de cálculo.
 
 Ferramentas: Papel/Miro/Excel para mapear perguntas · Dataset de treinamento (Excel)
 
 ### 3) Exercícios
 1. **Dissecando 5 pedidos vagos** — Reescreva 5 pedidos vagos (ex.: "melhorar a logística") como perguntas com métrica, recorte, período e decisão.  
    _Entrega:_ Documento com 5 perguntas SMART
-2. **Reconhecimento do dataset** — Abra o Excel do treinamento, descreva em 1 linha cada aba e a granularidade (o que representa uma linha).  
+2. **Reconhecimento do dataset** — Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).  
    _Entrega:_ Tabela: aba | granularidade | 2 perguntas possíveis
 3. **Catálogo de KPIs** — Escolha 2 áreas (ex.: Comercial e Logística) e liste 4 KPIs de cada com fórmula e fonte.  
    _Entrega:_ Planilha x-kpis preenchida
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 📗 [Planilha: catálogo de KPIs por área](../web/public/templates/kpis-areas.xlsx) — KPI, fórmula, fonte, frequência e dono para Comercial, Financeiro, Logística, E-commerce, Esporte e Marketing.
 - 📦 [Modelo de relatório de entrega semanal](../toolkit/templates/entrega/c-entrega-semanal.md) — Estrutura para o documento que acompanha cada entrega semanal.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -101,7 +102,7 @@ Ferramentas: Microsoft Excel (365 ou 2019+) · Dataset de treinamento (Excel)
 - 📗 [Planilha: painel de vendas (Excel)](../web/public/templates/painel-vendas.xlsx) — Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -140,7 +141,7 @@ Ferramentas: Excel · Planilha do dia 2 (dados limpos)
 - 📗 [Planilha: painel de vendas (Excel)](../web/public/templates/painel-vendas.xlsx) — Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -177,7 +178,7 @@ Ferramentas: Excel – Tabela Dinâmica · Dataset
 - 📗 [Planilha: painel de vendas (Excel)](../web/public/templates/painel-vendas.xlsx) — Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 ---
 
@@ -215,7 +216,7 @@ Ferramentas: Excel · Template de entrega semanal
 - 📦 [Modelo de relatório de entrega semanal](../toolkit/templates/entrega/c-entrega-semanal.md) — Estrutura para o documento que acompanha cada entrega semanal.
 
 ### 5) Recursos
-- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.
+- [Dataset de treinamento (Excel)](../web/public/data/dataset_treinamento.xlsx) — Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.
 
 > 📦 **Entregável semanal 1:** Painel de vendas em Excel — Planilha com dados limpos, fórmulas, tabela dinâmica e 4 gráficos respondendo a 3 perguntas de negócio, mais o relatório de entrega.
 
@@ -241,23 +242,25 @@ Ferramentas: Excel · Template de entrega semanal
 ### 2) Conexão com as ferramentas
 O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).
 
-Ferramentas: Supabase (SQL Editor ou cliente SQL) · Diagrama ER (Mermaid)
+Ferramentas: Cliente SQL (DBeaver) conectado ao Supabase · Diagrama ER (Mermaid)
 
 ### 3) Exercícios
 1. **Ler o diagrama ER** — Identifique PK/FK e cardinalidade de cada relacionamento.  
    _Entrega:_ Tabela PK/FK + cardinalidade
-2. **Primeiro acesso** — Conecte-se ao Supabase e rode SELECT COUNT(*) em cada tabela.  
+2. **Primeiro acesso** — Siga o guia "conectar ao banco" (DBeaver + usuário aluno_leitura) e rode SELECT COUNT(*) em cada tabela.  
    _Entrega:_ Print/ tabela de contagens
 3. **Desenhe um modelo seu** — Desenhe o ER de uma área da sua empresa com 4 tabelas.  
    _Entrega:_ Diagrama Mermaid ou imagem
 
 ### 4) Templates
+- ✅ [Guia: conectar ao banco do programa (sem conta Supabase)](../toolkit/templates/checklist/c-conexao-banco.md) — Passo a passo no DBeaver com o usuário aluno_leitura. Você NÃO faz login no painel do Supabase.
 - 🧩 [Diagrama ER do banco de análise](../toolkit/templates/diagram/d-er-modelo.md) — Estrutura de dados do schema treinamento (renderiza no GitHub/Mermaid Live).
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [Consultas básicas (SELECT / WHERE / ORDER BY)](../toolkit/templates/sql/t-sql-basico.sql) — Primeiras consultas no schema treinamento.
 
 ### 5) Recursos
 - [Supabase do programa (banco de análise)]((URL do Supabase informada pelo tutor)) — Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -282,7 +285,7 @@ Ferramentas: Supabase (SQL Editor ou cliente SQL) · Diagrama ER (Mermaid)
 ### 2) Conexão com as ferramentas
 Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.
 
-Ferramentas: Supabase SQL Editor · Template t-sql-basico
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-basico
 
 ### 3) Exercícios
 1. **10 consultas de filtro** — Escreva 10 consultas com WHERE/ORDER/LIMIT sobre pedidos, clientes e financeiro.  
@@ -291,10 +294,11 @@ Ferramentas: Supabase SQL Editor · Template t-sql-basico
    _Entrega:_ Nota de conferência
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [Consultas básicas (SELECT / WHERE / ORDER BY)](../toolkit/templates/sql/t-sql-basico.sql) — Primeiras consultas no schema treinamento.
 
 ### 5) Recursos
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -320,21 +324,22 @@ Ferramentas: Supabase SQL Editor · Template t-sql-basico
 ### 2) Conexão com as ferramentas
 É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.
 
-Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
+Ferramentas: Cliente SQL (DBeaver) · Template t-sql-agregacao
 
 ### 3) Exercícios
 1. **Receita mensal em SQL** — Reproduza em SQL a dinâmica de receita por mês.  
    _Entrega:_ Query + resultado
-2. **Métricas de marketing** — Calcule CTR, CPC, CPA e ROAS por canal.  
+2. **Métricas de marketing** — Calcule CTR, CPC e CPA por canal.  
    _Entrega:_ Query com métricas nomeadas
 3. **Faixas com CASE** — Classifique pedidos em faixas de valor e conte por faixa.  
    _Entrega:_ Query + comentário
 
 ### 4) Templates
+- 📗 [Dicionário de dados (Excel)](../web/public/templates/dicionario-dados.xlsx) — Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.
 - 🗄️ [Agregações (GROUP BY / HAVING)](../toolkit/templates/sql/t-sql-agregacao.sql) — Totais, médias e rankings por dimensão.
 
 ### 5) Recursos
-- [Supabase – SQL Editor](https://supabase.com/dashboard) — Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.
+- [DBeaver Community (cliente SQL gratuito)](https://dbeaver.io/download/) — Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".
 - [Tutorial SQL do PostgreSQL](https://www.postgresql.org/docs/current/tutorial.html) — Documentação oficial do Postgres (mesmo motor do Supabase).
 
 ---
@@ -348,8 +353,8 @@ Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
 
 **O que você vai aprender**
 - Instalar o Power BI Desktop
-- Obter dados: PostgreSQL (Supabase) e Excel
-- Importar vs. DirectQuery
+- Obter dados: importar o Excel que você montou na Semana 1 (Painel de vendas)
+- Do Excel ao Power BI: o que cada ferramenta faz melhor
 - Visuais básicos: cartão, barras, linhas, segmentações
 
 **Cenários de uso**
@@ -357,14 +362,14 @@ Ferramentas: Supabase SQL Editor · Template t-sql-agregacao
 - **E-commerce:** Funil de pedidos por status (pendente → entregue).
 
 ### 2) Conexão com as ferramentas
-As tabelas do Supabase viram o modelo do Power BI. O que você fez em SQL (agregar) o Power BI faz de forma visual e interativa.
+Você parte da planilha que já limpou e analisou na Semana 1: as abas viram tabelas do Power BI e os gráficos que você fez no Excel são recriados de forma interativa. No dia 10, o mesmo relatório passa a ler do Supabase.
 
-Ferramentas: Power BI Desktop (Windows) · Supabase (Postgres) · Excel
+Ferramentas: Power BI Desktop (Windows) · Excel (seu Painel de vendas da Semana 1)
 
 ### 3) Exercícios
-1. **Instalar e conectar** — Instale o Power BI Desktop e conecte ao Supabase (ou ao Excel se o acesso ao banco não estiver liberado).  
+1. **Instalar e conectar** — Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.  
    _Entrega:_ Print da lista de tabelas carregadas
-2. **Página 1: Visão executiva** — Crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações.  
+2. **Página 1: Visão executiva** — A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.  
    _Entrega:_ Arquivo .pbix v1
 
 ### 4) Templates
@@ -375,7 +380,6 @@ Ferramentas: Power BI Desktop (Windows) · Supabase (Postgres) · Excel
 - [Download do Power BI Desktop](https://www.microsoft.com/en-us/download/details.aspx?id=58494) — Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.
 - [Exemplos .pbix oficiais da Microsoft](https://github.com/microsoft/powerbi-desktop-samples) — Repositório oficial com relatórios .pbix de exemplo para abrir, estudar o modelo e os visuais.
 - [Power BI – Sample datasets (Microsoft Learn)](https://learn.microsoft.com/power-bi/create-reports/sample-datasets) — Guia oficial para baixar e abrir os exemplos; no Desktop também há Início > "Aprender com dados de exemplo".
-- [Supabase do programa (banco de análise)]((URL do Supabase informada pelo tutor)) — Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.
 
 ---
 
@@ -390,23 +394,25 @@ Ferramentas: Power BI Desktop (Windows) · Supabase (Postgres) · Excel
 - Hierarquia visual e grade
 - Cores com propósito e acessibilidade
 - Interações: filtros cruzados, tooltips, bookmarks
-- Validar números contra o SQL
+- Trocar a fonte do Excel pelo Supabase e validar os números contra o SQL
 
 **Cenários de uso**
 - **Financeiro:** Painel com receitas x despesas x resultado e alerta de mês negativo.
 - **Marketing:** Painel de campanhas: investimento, conversões e CPA por canal.
 
 ### 2) Conexão com as ferramentas
-Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles.
+Hoje o relatório troca a fonte: sai o Excel e entra o Supabase. Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles e com o Excel.
 
-Ferramentas: Power BI Desktop · Checklist de qualidade
+Ferramentas: Power BI Desktop · Supabase (Postgres) · Checklist de qualidade
 
 ### 3) Exercícios
-1. **Página 2 e refinamento** — Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.  
+1. **Trocar a fonte para o Supabase** — Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.  
+   _Entrega:_ Print dos totais antes e depois
+2. **Página 2 e refinamento** — Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.  
    _Entrega:_ .pbix com 2 páginas
-2. **10 consultas SQL finais** — Consolide 10 consultas comentadas e valide 3 totais contra o relatório.  
+3. **10 consultas SQL finais** — Consolide 10 consultas comentadas e valide 3 totais contra o relatório.  
    _Entrega:_ Arquivo .sql
-3. **Relatório da semana** — Preencha o modelo de entrega semanal.  
+4. **Relatório da semana** — Preencha o modelo de entrega semanal.  
    _Entrega:_ Documento de entrega
 
 ### 4) Templates
@@ -418,5 +424,6 @@ Ferramentas: Power BI Desktop · Checklist de qualidade
 ### 5) Recursos
 - [Download do Power BI Desktop](https://www.microsoft.com/en-us/download/details.aspx?id=58494) — Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.
 - [Microsoft Learn – Power BI](https://learn.microsoft.com/power-bi/) — Trilhas gratuitas e documentação completa do Power BI.
+- [Supabase do programa (banco de análise)]((URL do Supabase informada pelo tutor)) — Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.
 
-> 📦 **Entregável semanal 2:** Primeiro relatório Power BI + 10 consultas SQL — Arquivo .pbix de 2 páginas conectado ao Supabase e um .sql com 10 consultas comentadas.
+> 📦 **Entregável semanal 2:** Primeiro relatório Power BI + 10 consultas SQL — Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas.

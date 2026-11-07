@@ -1,1 +1,1 @@
-{ "rewrites": [{ "source": "/((?!data/|templates/|assets/).*)", "destination": "/index.html" }] }
+{ "rewrites": [{ "source": "/((?!api/|data/|templates/|assets/).*)", "destination": "/index.html" }] }

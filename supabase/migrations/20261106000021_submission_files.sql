@@ -58,7 +58,7 @@ drop function if exists public.app_submit(text, text, text, text);
 create function public.app_submit(p_token text, p_exercise_id text, p_content text, p_link text, p_file_ids uuid[] default null)
 returns json language plpgsql security definer set search_path = public, extensions as $$
 declare
-  u public.app_users := public._app_user(p_token);
+  u public.app_users := public._app_active_user(p_token);
   v_day int;
   v_last record;
   v_content text := nullif(trim(coalesce(p_content, '')), '');
@@ -118,7 +118,7 @@ $$;
 -- ───────────── Bootstrap com metadados dos arquivos ─────────────
 create or replace function public.app_bootstrap(p_token text)
 returns json language plpgsql stable security definer set search_path = public, extensions as $$
-declare u public.app_users := public._app_user(p_token);
+declare u public.app_users := public._app_active_user(p_token);
 begin
   return json_build_object(
     'levels',           (select coalesce(json_agg(x order by x.position), '[]') from public.levels x),
@@ -196,7 +196,7 @@ $$;
 -- Identifica quem envia; com p_exercise exige aluno, exercício existente e sessão liberada.
 create function public.file_actor(p_token text, p_exercise text default null)
 returns json language plpgsql stable security definer set search_path = public, extensions as $$
-declare u public.app_users := public._app_user(p_token); v_day int;
+declare u public.app_users := public._app_active_user(p_token); v_day int;
 begin
   if p_exercise is not null then
     if u.role <> 'student' then raise exception 'Apenas alunos anexam arquivos.' using errcode = '42501'; end if;
@@ -230,7 +230,7 @@ $$;
 -- Acesso a um arquivo: dono ou tutor.
 create function public.file_access(p_token text, p_id uuid)
 returns json language plpgsql stable security definer set search_path = public, extensions as $$
-declare u public.app_users := public._app_user(p_token); f public.submission_files;
+declare u public.app_users := public._app_active_user(p_token); f public.submission_files;
 begin
   select * into f from public.submission_files where id = p_id;
   if not found or (u.role <> 'teacher' and f.student_id <> u.id) then raise exception 'Arquivo não encontrado.'; end if;
@@ -241,7 +241,7 @@ $$;
 -- Início de uma validação de link: só aluno, no máximo 30 por hora.
 create function public.link_check_begin(p_token text)
 returns uuid language plpgsql security definer set search_path = public, extensions as $$
-declare u public.app_users := public._app_user(p_token);
+declare u public.app_users := public._app_active_user(p_token);
 begin
   if u.role <> 'student' then raise exception 'Apenas alunos validam links de entrega.' using errcode = '42501'; end if;
   if (select count(*) from public.link_checks where user_id = u.id and checked_at > now() - interval '1 hour') >= 30 then

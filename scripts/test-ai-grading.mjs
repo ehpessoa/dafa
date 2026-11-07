@@ -55,13 +55,27 @@ const notifs = async (uid) => (await db.query(`select kind, title, body, read_at
 
 // ── 1) Gabarito carregado para os 67 exercícios ──
 const { rows: [{ n, bad }] } = await db.query(`select count(*)::int n, count(*) filter (where (select sum((c->>'weight')::int) from jsonb_array_elements(checks) c) <> 100)::int bad from public.exercise_rubrics`);
-assert.equal(n, 67); assert.equal(bad, 0);
+assert.equal(n, (await db.query(`select count(*)::int n from public.exercises`)).rows[0].n); assert.equal(bad, 0);
 assert.equal((await db.query(`select count(*)::int n from public.exercises e where not exists (select 1 from public.exercise_rubrics r where r.exercise_id=e.id)`)).rows[0].n, 0);
 
 // ── usuários ──
-const reg = async (e, n) => (await rpc('app_register', e, 'senha-forte-1', n));
+await db.exec(`select public.admin_set_signup('open')`);
+let phoneN = 11900000000;
+// cadastro como o app faz (WhatsApp obrigatório) e confirmação do WhatsApp, exigida pelas funções de dados
+const reg = async (e, n, verified = true) => {
+  const r = await rpc('app_register', e, 'senha-forte-1', n, null, String(++phoneN));
+  if (verified) await db.query(`update public.app_users set phone_verified_at = now() where id = $1`, [r.user.id]);
+  return r;
+};
 const A = await reg('ana@x.com', 'Ana'), B = await reg('bia@x.com', 'Bia'), T = await reg('tutor@x.com', 'Tutora');
 assert.equal(T.user.role, 'teacher');
+
+// ── 1b) A exigência de WhatsApp verificado (migration 015) vale também para as funções novas ──
+{
+  const nv = await reg('naoverificado@x.com', 'Sem Zap', false);
+  for (const f of [['app_bootstrap', nv.token], ['app_submit', nv.token, 'd01-e1', 'x', null], ['app_notifications_read', nv.token, null], ['app_review', nv.token, crypto.randomUUID(), 5, 'rejected', 'x']]) await fails(() => rpc(...f), /Confirme seu WhatsApp/);
+  for (const f of [['file_actor', nv.token, 'd01-e1'], ['link_check_begin', nv.token]]) await fails(() => as('service_role', ...f), /Confirme seu WhatsApp/);
+}
 
 // ── 2) Nota ≥ 7 → aprovação automática + notificação ──
 const good = 'Q1: Qual canal teve a maior receita nos últimos 6 meses para decidir onde investir? Q2: ... Q3: ... Q4: ... Q5: ...';
@@ -91,7 +105,7 @@ await fails(() => submitAs(A.token, 'd01-e2', 'de novo'), /aguardando avaliaçã
 const abs = await rpc('app_bootstrap', A.token); assert.deepEqual([abs.rubrics, abs.aiEvaluations], [[], []]);
 assert.equal(abs.notifications.length, 2);
 const tbs = await rpc('app_bootstrap', T.token);
-assert.equal(tbs.rubrics.length, 67); const ev = tbs.aiEvaluations.find((x) => x.submission_id === s2.id);
+assert.equal(tbs.rubrics.length, n); const ev = tbs.aiEvaluations.find((x) => x.submission_id === s2.id);
 assert.equal(ev.outcome, 'sent_to_tutor'); assert.equal(ev.outcome_reason, 'score_below_pass'); assert.equal(Number(ev.score), 4); assert.equal(ev.criteria.length, 3);
 assert.equal(ev.suggested_instructions, 'Refaça incluindo X.');
 

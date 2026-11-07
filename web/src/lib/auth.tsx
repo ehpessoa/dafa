@@ -9,10 +9,27 @@ const writeToken = (t: string | null) => { try { if (t) localStorage.setItem(TOK
 interface Ctx {
   token: string | null; profile: Profile | null; loading: boolean; isTeacher: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (name: string, email: string, password: string) => Promise<void>;
+  signUp: (name: string, email: string, password: string, invite: string | undefined, phone: string) => Promise<void>;
+  sendVerificationCode: () => Promise<void>;
+  confirmVerification: (code: string) => Promise<void>;
+  changePhone: (phone: string) => Promise<void>;
+  updateProfile: (name: string, email: string, password?: string) => Promise<void>;
+  changePassword: (current: string, next: string) => Promise<void>;
+  requestPhoneChange: (password: string, phone: string) => Promise<void>;
+  confirmPhoneChange: (code: string) => Promise<void>;
+  acceptInvite: (invite: string, password: string) => Promise<void>;
+  requestWhatsAppReset: (email: string) => Promise<void>;
+  confirmWhatsAppReset: (email: string, code: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 const AuthCtx = createContext<Ctx | null>(null);
+
+/** POST JSON para as funções do servidor (/api/*); lança Error com a mensagem devolvida. */
+async function post(url: string, body: unknown) {
+  const res = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const data = (await res.json().catch(() => ({}))) as { error?: string };
+  if (!res.ok) throw new Error(data.error ?? 'Não foi possível concluir agora. Tente novamente.');
+}
 
 interface AuthResult { token?: string; user?: Profile; error?: string }
 
@@ -38,15 +55,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     writeToken(r.token); setToken(r.token); setProfile(r.user);
   };
   const signIn = async (email: string, password: string) => accept(await api<AuthResult>('app_login', { p_email: email, p_password: password }));
-  const signUp = async (name: string, email: string, password: string) =>
-    accept(await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password }));
+  const signUp = async (name: string, email: string, password: string, invite: string | undefined, phone: string) => {
+    const r = await api<AuthResult>('app_register', { p_name: name, p_email: email, p_password: password, p_invite: invite || null, p_phone: phone });
+    accept(r);
+    // Envia o código de verificação do WhatsApp; se falhar, a tela de verificação oferece "Reenviar código".
+    post('/api/verify-send', { token: r.token }).catch(() => undefined);
+  };
+  const updateProfile = async (name: string, email: string, password?: string) => {
+    const r = await api<{ user?: Profile; error?: string }>('app_profile_update', { p_token: token, p_name: name, p_email: email, p_password: password || null });
+    if (r.error || !r.user) throw new Error(r.error ?? 'Não foi possível salvar.');
+    setProfile(r.user);
+  };
+  const changePassword = async (current: string, next: string) => {
+    const r = await api<{ ok?: boolean; error?: string }>('app_change_password', { p_token: token, p_current: current, p_new: next });
+    if (!r.ok) throw new Error(r.error ?? 'Não foi possível alterar a senha.');
+  };
+  const requestPhoneChange = async (password: string, phone: string) => { await post('/api/phone-change-send', { token, password, phone }); };
+  const confirmPhoneChange = async (code: string) => {
+    const r = await api<{ ok?: boolean; error?: string; user?: Profile }>('app_phone_change_confirm', { p_token: token, p_code: code });
+    if (!r.ok || !r.user) throw new Error(r.error ?? 'Não foi possível confirmar o código.');
+    setProfile(r.user);
+  };
+  /** Aluno abre o link do convite, define a senha e a conta é criada já verificada. */
+  const acceptInvite = async (invite: string, password: string) => {
+    const r = await api<AuthResult>('app_invite_accept', { p_invite: invite, p_password: password });
+    accept(r);
+    post('/api/welcome', { token: r.token }).catch(() => undefined);
+  };
+  const sendVerificationCode = async () => { await post('/api/verify-send', { token }); };
+  const confirmVerification = async (code: string) => {
+    const r = await api<{ ok?: boolean; error?: string; user?: Profile }>('app_verify_confirm', { p_token: token, p_code: code });
+    if (!r.ok || !r.user) throw new Error(r.error ?? 'Não foi possível verificar o código.');
+    setProfile(r.user);
+    // Confirmação do cadastro por WhatsApp (uma única vez; falha aqui não impede o uso do app).
+    post('/api/welcome', { token }).catch(() => undefined);
+  };
+  const changePhone = async (phone: string) => { setProfile(await api<Profile>('app_change_phone', { p_token: token, p_phone: phone })); };
+  /** Pede o código de redefinição; o backend envia por WhatsApp (resposta igual exista a conta ou não). */
+  const requestWhatsAppReset = async (email: string) => { await post('/api/reset-request', { email }); };
+  const confirmWhatsAppReset = async (email: string, code: string, password: string) => {
+    const r = await api<{ ok?: boolean; error?: string }>('app_wa_reset_confirm', { p_email: email, p_code: code, p_password: password });
+    if (!r.ok) throw new Error(r.error ?? 'Não foi possível redefinir a senha.');
+  };
   const signOut = async () => {
     const t = token;
     clear();
     if (t) { try { await api('app_logout', { p_token: t }); } catch { /* sessão já removida localmente */ } }
   };
 
-  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, signOut }}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ token, profile, loading, isTeacher: profile?.role === 'teacher', signIn, signUp, updateProfile, changePassword, requestPhoneChange, confirmPhoneChange, acceptInvite, sendVerificationCode, confirmVerification, changePhone, requestWhatsAppReset, confirmWhatsAppReset, signOut }}>{children}</AuthCtx.Provider>;
 }
 export function useAuth() {
   const c = useContext(AuthCtx);

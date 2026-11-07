@@ -48,14 +48,14 @@ _Solução esperada:_ Cinco pedidos vagos reescritos como perguntas SMART. Cada 
 | 20 | Cada pergunta indica a decisão/ação que a resposta apoia | neg |
 
 **d01-e2 — Reconhecimento do dataset** 📝 `text`  
-_Pedido:_ Abra o Excel do treinamento, descreva em 1 linha cada aba e a granularidade (o que representa uma linha).  
-_Solução esperada:_ Tabela com uma linha por aba do Excel de treinamento (dim_clientes, dim_produtos, fato_pedidos, fato_itens_pedido, fato_entregas, fato_campanhas, fato_financeiro, esporte_partidas) com a granularidade correta (ex.: fato_pedidos = 1 linha por pedido; fato_itens_pedido = 1 linha por item de pedido) e 2 perguntas possíveis por aba.
+_Pedido:_ Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).  
+_Solução esperada:_ Tabela com uma linha por aba do Excel de treinamento (dim_clientes, dim_produtos, fato_pedidos, fato_itens_pedido, fato_entregas, fato_campanhas, fato_financeiro, esporte_partidas), apoiada na aba DICIONARIO / Dicionário de dados, com a granularidade correta (ex.: fato_pedidos = 1 linha por pedido; fato_itens_pedido = 1 linha por item de pedido) e 2 perguntas possíveis por aba. Não basta copiar o dicionário: as perguntas precisam ser do próprio aluno.
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
 | 35 | Cobre todas (ou quase todas) as abas do dataset | num |
-| 35 | Granularidade correta e específica ("1 linha = 1 …"), não genérica | num |
-| 30 | Duas perguntas plausíveis e respondíveis com os dados da aba | neg |
+| 35 | Granularidade correta e específica ("1 linha = 1 …"), coerente com o dicionário | num |
+| 30 | Duas perguntas plausíveis e respondíveis com os dados da aba (não copiadas do dicionário) | neg |
 
 **d01-e3 — Catálogo de KPIs** 📝 `text`  
 _Pedido:_ Escolha 2 áreas (ex.: Comercial e Logística) e liste 4 KPIs de cada com fórmula e fonte.  
@@ -200,13 +200,13 @@ _Solução esperada:_ Tabela com cada relacionamento do ER: PK de cada tabela e 
 | 20 | Organização em tabela clara | vis |
 
 **d06-e2 — Primeiro acesso** 📝 `text`  
-_Pedido:_ Conecte-se ao Supabase e rode SELECT COUNT(*) em cada tabela.  
-_Solução esperada:_ SELECT COUNT(*) em cada tabela com as contagens: dim_clientes 800 · dim_produtos 60 · fato_pedidos 6.900 · fato_itens_pedido 14.994 · fato_entregas 6.514 · fato_campanhas 120 · fato_financeiro 192 · esporte_partidas 760.
+_Pedido:_ Siga o guia "conectar ao banco" (DBeaver + usuário aluno_leitura) e rode SELECT COUNT(*) em cada tabela.  
+_Solução esperada:_ Conexão feita pelo guia "conectar ao banco" (DBeaver + usuário aluno_leitura) e SELECT COUNT(*) em cada tabela com as contagens: dim_clientes 800 · dim_produtos 60 · fato_pedidos 6.900 · fato_itens_pedido 14.994 · fato_entregas 6.514 · fato_campanhas 120 · fato_financeiro 192 · esporte_partidas 760.
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
 | 70 | Contagens conferem com a referência | num |
-| 15 | Mostra a(s) query(s) usada(s) | rep |
+| 15 | Mostra a(s) query(s) usada(s) (e que conectou como aluno_leitura, sem expor a senha) | rep |
 | 15 | Apresenta em tabela/print legível | vis |
 
 _Referência:_ `d06-e2` (ver `content/references.mjs`)
@@ -261,15 +261,15 @@ _Solução esperada:_ SELECT date_trunc('month', data_pedido), SUM(quantidade*pr
 _Referência:_ `d08-e1`, `d12-e1` (ver `content/references.mjs`)
 
 **d08-e2 — Métricas de marketing** 🗄️ `sql`  
-_Pedido:_ Calcule CTR, CPC, CPA e ROAS por canal.  
-_Solução esperada:_ CTR = cliques ÷ impressões; CPC = investimento ÷ cliques; CPA = investimento ÷ conversões; ROAS = receita atribuída ÷ investimento (a tabela não tem receita: o aluno deve declarar a premissa, ex. conversões × ticket médio ≈ 563). Referência: E-mail CTR 3,90% CPC 0,59 CPA 10,08 · Google Ads 2,97% / 0,77 / 20,22 · Meta Ads 1,47% / 1,49 / 58,49 · Afiliados 1,82% / 1,29 / 38,32 · Influenciadores 1,27% / 1,72 / 88,76.
+_Pedido:_ Calcule CTR, CPC e CPA por canal.  
+_Solução esperada:_ CTR = cliques ÷ impressões; CPC = investimento ÷ cliques; CPA = investimento ÷ conversões, por canal de fato_campanhas (o ROAS não faz parte do exercício: a tabela não tem receita). Referência: E-mail CTR 3,90% CPC 0,59 CPA 10,08 · Google Ads 2,97% / 0,77 / 20,22 · Meta Ads 1,47% / 1,49 / 58,49 · Afiliados 1,82% / 1,29 / 38,32 · Influenciadores 1,27% / 1,72 / 88,76.
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
-| 45 | CTR, CPC e CPA por canal conferem com a referência | num |
-| 20 | ROAS calculado com premissa de receita explícita | neg |
-| 20 | Colunas com nomes claros (alias) e divisão segura | tec |
-| 15 | Query e leitura breve (melhor/pior canal) | neg |
+| 55 | CTR, CPC e CPA por canal conferem com a referência | num |
+| 20 | Colunas com nomes claros (alias), agregando antes de dividir (SUM/SUM, não média de razões) e divisão segura | tec |
+| 15 | Leitura breve (melhor/pior canal, ex.: E-mail mais eficiente, Influenciadores mais caro por conversão) | neg |
+| 10 | Query apresentada | rep |
 
 _Referência:_ `d08-e2` (ver `content/references.mjs`)
 
@@ -288,29 +288,43 @@ _Referência:_ `d08-e3` (ver `content/references.mjs`)
 ### Dia 9 · Power BI Desktop: instalação, conexão e primeiro relatório
 
 **d09-e1 — Instalar e conectar** 📎 `file`  
-_Pedido:_ Instale o Power BI Desktop e conecte ao Supabase (ou ao Excel se o acesso ao banco não estiver liberado).  
-_Solução esperada:_ Power BI Desktop instalado e conectado ao Supabase (ou ao Excel). O aluno envia/descreve a lista de tabelas carregadas: as 8 tabelas do dataset.
+_Pedido:_ Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.  
+_Solução esperada:_ Power BI Desktop instalado e o Excel do Painel de vendas (Semana 1) importado. O aluno lista as tabelas/abas carregadas e confere o tipo de cada coluna (datas como Data, valores como Número decimal, textos como Texto).
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
-| 50 | Lista as tabelas carregadas (esperadas: dim_clientes, dim_produtos, fato_pedidos, fato_itens_pedido, fato_entregas, fato_campanhas, fato_financeiro, esporte_partidas) | num |
-| 30 | Indica a fonte da conexão (Supabase ou Excel) | rep |
-| 20 | Print ou descrição do Navegador/Modelo | vis |
+| 40 | Lista as tabelas/abas do Excel carregadas no Power BI | num |
+| 35 | Confere e cita os tipos das colunas (data, número, texto) e corrige o que veio errado | tec |
+| 15 | Indica que a fonte é o Excel da Semana 1 | rep |
+| 10 | Print ou descrição do Navegador/Modelo | vis |
 
 **d09-e2 — Página 1: Visão executiva** 📎 `file`  
-_Pedido:_ Crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações.  
-_Solução esperada:_ Página "Visão executiva": 4 cartões (ex.: receita, pedidos, ticket médio, margem), 1 gráfico de linha mensal, 1 gráfico de barras por categoria e 2 segmentações. O aluno descreve cada visual e as medidas.
+_Pedido:_ A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.  
+_Solução esperada:_ Página "Visão executiva" a partir do Excel: 4 cartões (ex.: receita, pedidos, ticket médio, margem), 1 gráfico de linha mensal, 1 de barras por categoria e 2 segmentações, e uma comparação com o painel da Semana 1 (os totais devem bater). O aluno descreve cada visual e as medidas.
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
-| 40 | Quatro cartões + linha mensal + barras por categoria + 2 segmentações descritos | tec |
-| 25 | Medidas/valores coerentes com o dataset | num |
+| 35 | Quatro cartões + linha mensal + barras por categoria + 2 segmentações descritos | tec |
+| 30 | Comparação com o painel do Excel mostrando totais iguais (ou explicando a diferença) | num |
 | 20 | Layout e títulos claros | vis |
 | 15 | Arquivo .pbix informado | rep |
 
 ### Dia 10 · Design de relatórios e entrega da Semana 2
 
-**d10-e1 — Página 2 e refinamento** 📎 `file`  
+**d10-e1 — Trocar a fonte para o Supabase** 📎 `file`  
+_Pedido:_ Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.  
+_Solução esperada:_ Fonte do relatório trocada do Excel para o Supabase (Obter dados > PostgreSQL, usuário aluno_leitura) e os cartões da página 1 continuam batendo. Entrega: totais antes (Excel) e depois (Supabase) lado a lado — ex.: receita total ≈ 3.682.164,86 e 6.534 pedidos não cancelados, ou a diferença explicada (ex.: cancelados, tipos).
+
+| Peso | Verificação | Dimensão |
+|---:|---|---|
+| 45 | Totais antes e depois apresentados lado a lado e coerentes | num |
+| 25 | Descreve a troca de fonte (PostgreSQL/Supabase) e o que precisou ajustar (tipos, nomes, relacionamentos) | tec |
+| 20 | Explica qualquer diferença entre Excel e Supabase | neg |
+| 10 | Print ou arquivo informado, sem expor a senha | rep |
+
+_Referência:_ `d03-e2`, `d08-e3` (ver `content/references.mjs`)
+
+**d10-e2 — Página 2 e refinamento** 📎 `file`  
 _Pedido:_ Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.  
 _Solução esperada:_ Segunda página (Logística ou Marketing) e checklist de qualidade aplicado nas duas páginas (c-relatorio): títulos, cores, alinhamento, rótulos, contraste. O aluno lista o que ajustou.
 
@@ -321,7 +335,7 @@ _Solução esperada:_ Segunda página (Logística ou Marketing) e checklist de q
 | 20 | Métricas corretas (ex.: atraso por transportadora, CPA por canal) | num |
 | 10 | .pbix informado | rep |
 
-**d10-e2 — 10 consultas SQL finais** 🗄️ `sql`  
+**d10-e3 — 10 consultas SQL finais** 🗄️ `sql`  
 _Pedido:_ Consolide 10 consultas comentadas e valide 3 totais contra o relatório.  
 _Solução esperada:_ Arquivo .sql com 10 consultas comentadas e 3 totais validados contra o relatório (ex.: receita total ≈ 3.682.164,86; pedidos não cancelados 6.534; 6.900 pedidos totais).
 
@@ -334,7 +348,7 @@ _Solução esperada:_ Arquivo .sql com 10 consultas comentadas e 3 totais valida
 
 _Referência:_ `d03-e2`, `d08-e3` (ver `content/references.mjs`)
 
-**d10-e3 — Relatório da semana** 📝 `text`  
+**d10-e4 — Relatório da semana** 📝 `text`  
 _Pedido:_ Preencha o modelo de entrega semanal.  
 _Solução esperada:_ Entrega semanal no modelo: pergunta, método, 3 achados quantificados, recomendação, links para .pbix e .sql.
 
@@ -472,42 +486,45 @@ _Solução esperada:_ Diagrama do fluxo ETL: fonte (Supabase/Excel) → transfor
 
 ### Dia 15 · DAX I: medidas e contexto – entrega da Semana 3
 
-**d15-e1 — 8 medidas base** 📎 `file`  
-_Pedido:_ Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, ROAS e % do Total.  
-_Solução esperada:_ Oito medidas DAX: Receita, Custo, Margem % (DIVIDE), Pedidos (DISTINCTCOUNT), Ticket Médio (DIVIDE), CPA, ROAS, % do Total (DIVIDE com ALL/ALLSELECTED). Valores gerais esperados: receita ≈ 3.682.164,86; margem ≈ 36,6%; 6.534 pedidos.
+**d15-e1 — 8 medidas base, com IA** 📎 `file`  
+_Pedido:_ Escreva você mesmo Receita e % do Total. Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais) e peça à IA, com o prompt p-dax, as outras seis: Custo, Margem %, Pedidos, Ticket Médio, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões). Registre cada pedido feito à IA.  
+_Solução esperada:_ Oito medidas DAX: o aluno escreve Receita e % do Total (DIVIDE com ALL/ALLSELECTED); a IA (prompt p-dax) gera Custo, Margem % (DIVIDE), Pedidos (DISTINCTCOUNT), Ticket Médio (DIVIDE), CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões), estas duas sobre fato_campanhas importada SEM relacionamento. Cada pedido feito à IA é registrado. Valores gerais esperados: receita ≈ 3.682.164,86; margem ≈ 36,6%; 6.534 pedidos; CPA e CTR por canal conforme a referência do dia 8.
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
-| 30 | As 8 medidas presentes com nomes claros | num |
-| 35 | DAX correto (DIVIDE, DISTINCTCOUNT, ALL) | tec |
-| 25 | Valores exibidos coerentes com a referência | num |
-| 10 | Prints / arquivo | rep |
+| 25 | As 8 medidas presentes com nomes claros (CTR no lugar de ROAS) | num |
+| 30 | DAX correto (DIVIDE, DISTINCTCOUNT, ALL; CPA/CTR somando fato_campanhas sem depender de relacionamento) | tec |
+| 20 | Valores exibidos coerentes com a referência | num |
+| 15 | Pedidos feitos à IA registrados (prompt usado e resposta/ajuste) | rep |
+| 10 | Prints / arquivo | vis |
 
-_Referência:_ `d03-e2`, `d08-e3` (ver `content/references.mjs`)
+_Referência:_ `d03-e2`, `d08-e3`, `d08-e2` (ver `content/references.mjs`)
 
 **d15-e2 — Validação cruzada** 📝 `text`  
-_Pedido:_ Prove que 3 medidas batem com SQL.  
-_Solução esperada:_ Tabela de conferência provando que 3 medidas DAX batem com SQL (valor DAX, valor SQL, diferença), com a query usada.
+_Pedido:_ Prove que 3 medidas batem com SQL e aplique o checklist de revisão: liste pelo menos 1 correção ou ponto de atenção que você encontrou numa medida da IA.  
+_Solução esperada:_ Tabela de conferência provando que 3 medidas DAX batem com SQL (valor DAX, valor SQL, diferença), com a query usada, mais o checklist de revisão de IA: pelo menos 1 correção ou ponto de atenção real encontrado numa medida gerada pela IA.
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
-| 45 | Três medidas comparadas com SQL e valores coerentes | num |
-| 30 | Queries SQL mostradas | rep |
-| 25 | Explica diferenças ou confirma igualdade | tec |
+| 35 | Três medidas comparadas com SQL e valores coerentes | num |
+| 20 | Queries SQL mostradas | rep |
+| 20 | Explica diferenças ou confirma igualdade | tec |
+| 25 | Checklist de revisão com ao menos 1 correção/ponto de atenção concreto numa medida da IA | tec |
 
 _Referência:_ `d03-e2`, `d08-e3` (ver `content/references.mjs`)
 
 ### Dia 16 · DAX II: inteligência de tempo
 
-**d16-e1 — Painel de variação** 📎 `file`  
-_Pedido:_ Crie YTD, Mês Ant., Var % e 12M e exiba em linha + cartões.  
-_Solução esperada:_ Medidas de tempo com dim_data: YTD (TOTALYTD/DATESYTD), Mês anterior (DATEADD/PREVIOUSMONTH), Var % (DIVIDE) e 12M (DATESINPERIOD), exibidas em gráfico de linha + cartões.
+**d16-e1 — Painel de variação, com IA** 📎 `file`  
+_Pedido:_ Peça à IA, com o prompt p-dax, as medidas YTD, Mês Ant., Var % e 12M, aplique-as no modelo e exiba em linha + cartões. Registre os pedidos e as correções que fez.  
+_Solução esperada:_ Medidas de tempo geradas com a IA (prompt p-dax) sobre dim_data: YTD (TOTALYTD/DATESYTD), Mês anterior (DATEADD/PREVIOUSMONTH), Var % (DIVIDE) e 12M (DATESINPERIOD), aplicadas ao modelo e exibidas em gráfico de linha + cartões, com os pedidos à IA e as correções feitas registrados.
 
 | Peso | Verificação | Dimensão |
 |---:|---|---|
-| 50 | Quatro medidas de tempo corretas | tec |
-| 20 | Usa tabela de datas marcada | tec |
+| 40 | Quatro medidas de tempo corretas | tec |
+| 15 | Usa tabela de datas marcada | tec |
 | 20 | Visual com linha + cartões | vis |
+| 15 | Pedidos à IA e correções registrados | rep |
 | 10 | Arquivo/print | rep |
 
 **d16-e2 — Caso de teste** 📝 `text`  
@@ -894,7 +911,7 @@ Anexos são lidos direto do Storage; links, nas hospedagens aceitas (GitHub, Goo
 
 ## Configuração (uma vez)
 
-1. **Migrations** `…0005` a `…0008` (já incluídas em `supabase/apply_all.sql`; a 0008 cria o bucket privado `submission-files`).
+1. **Migrations** `…0018` a `…0021` (já incluídas em `supabase/apply_all.sql`; a 0021 cria o bucket privado `submission-files`).
 2. **Segredos e Edge Function** (Supabase CLI):
    ```bash
    supabase secrets set GEMINI_API_KEY=<sua-chave> CRON_SECRET=<string-aleatoria-longa>

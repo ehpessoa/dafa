@@ -6,6 +6,8 @@ import { START_DATE, levels, weekly, sessions } from '../content/curriculum.mjs'
 import { templates } from '../content/templates.mjs';
 import { resources } from '../content/resources.mjs';
 import { rubrics, DIMS, PASS_MARK } from '../content/rubrics.mjs';
+import { readFileSync } from 'node:fs';
+const dic = JSON.parse(readFileSync(new URL('../content/dicionario.json', import.meta.url), 'utf8'));
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = (p, c) => { const f = join(root, p); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, c); };
@@ -52,6 +54,9 @@ for (const t of templates) {
 }
 for (const r of resources) L.push(`insert into public.resources (slug, category, title, url, description) values (${q(r.slug)}, ${q(r.category)}, ${q(r.title)}, ${q(r.url)}, ${q(r.description)}) on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;`);
 L.push('delete from public.session_templates; delete from public.session_resources;');
+// Remove recursos/templates que saíram de content/*.mjs (as junções acima já foram esvaziadas, então não há FK pendente).
+L.push(`delete from public.resources where slug <> all (array[${resources.map((r) => q(r.slug)).join(', ')}]);`);
+L.push(`delete from public.templates where slug <> all (array[${templates.map((t) => q(t.slug)).join(', ')}]);`);
 for (const s of sessions) {
   s.templates.forEach((t, i) => L.push(`insert into public.session_templates (session_day, template_slug, position) values (${s.day}, ${q(t)}, ${i});`));
   s.resources.forEach((r, i) => L.push(`insert into public.session_resources (session_day, resource_slug, position) values (${s.day}, ${q(r)}, ${i});`));
@@ -147,7 +152,7 @@ for (const r of Object.values(rubrics)) {
   RS.push(`insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values (${q(r.exercise_id)}, ${q(r.mode)}, ${q(r.expected)}, ${j(r.checks)}, ${j(r.reference)}, ${q(r.grading_notes)}, ${r.force_tutor}) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;`);
 }
 RS.push('commit;');
-out('supabase/migrations/20261106000006_seed_rubrics.sql', RS.join('\n') + '\n');
+out('supabase/migrations/20261106000019_seed_rubrics.sql', RS.join('\n') + '\n');
 
 const G = [];
 G.push('# 🤖 Correção automática por IA (Gemini) + revisão do tutor\n');
@@ -203,7 +208,7 @@ Anexos são lidos direto do Storage; links, nas hospedagens aceitas (GitHub, Goo
 
 ## Configuração (uma vez)
 
-1. **Migrations** \`…0005\` a \`…0008\` (já incluídas em \`supabase/apply_all.sql\`; a 0008 cria o bucket privado \`submission-files\`).
+1. **Migrations** \`…0018\` a \`…0021\` (já incluídas em \`supabase/apply_all.sql\`; a 0021 cria o bucket privado \`submission-files\`).
 2. **Segredos e Edge Function** (Supabase CLI):
    \`\`\`bash
    supabase secrets set GEMINI_API_KEY=<sua-chave> CRON_SECRET=<string-aleatoria-longa>
@@ -244,3 +249,22 @@ A IA também comunica: aprovação automática (com o feedback) e "em revisão p
 out('docs/06-correcao-ia.md', G.join('\n'));
 
 console.log(`OK: ${sessions.length} sessões, ${sessions.reduce((n, s) => n + s.exercises.length, 0)} exercícios, ${templates.length} templates, ${resources.length} recursos. ${bdays[0]} → ${bdays[29]}`);
+
+// Dicionário de dados (docs/dicionario-de-dados.md), a partir de content/dicionario.json
+{
+  const esc = (x) => String(x).replace(/\|/g, '\\|');
+  const M = [`# 📖 ${dic.titulo}\n`, `${dic.intro}\n`, '> Versão em Excel: [dicionario-dados.xlsx](../web/public/templates/dicionario-dados.xlsx) (e aba `DICIONARIO` no dataset). Fonte única: `content/dicionario.json`.\n'];
+  M.push('## Resumo das tabelas\n', '| Tabela | Tipo | Linhas | Uma linha representa |', '|---|---|---:|---|');
+  for (const t of dic.tabelas) M.push(`| \`${t.nome}\` | ${t.tipo} | ${t.linhas.toLocaleString('pt-BR')} | ${t.granularidade.replace(/^Uma linha = /, '')} |`);
+  M.push('', '## Como as tabelas se ligam\n', '| Tabela A | Tabela B | Coluna | Cardinalidade | Observação |', '|---|---|---|---|---|');
+  for (const r of dic.relacoes) M.push(`| ${r.map(esc).join(' | ')} |`);
+  M.push('', '## Colunas de cada tabela\n');
+  for (const t of dic.tabelas) {
+    M.push(`### \`${t.nome}\`\n`, `**${t.granularidade}.** ${t.uso}\n`, '| Coluna | Tipo | O que significa | Valores possíveis / exemplo | Atenção |', '|---|---|---|---|---|');
+    for (const c of t.colunas) M.push(`| \`${c[0]}\` | ${esc(c[1])} | ${esc(c[2])} | ${esc(c[3])} | ${esc(c[4])} |`);
+    M.push('');
+  }
+  M.push('## Cuidados e regras de cálculo\n');
+  for (const [k, v] of dic.cuidados) M.push(`- **${k}:** ${v}`);
+  out('docs/dicionario-de-dados.md', M.join('\n') + '\n');
+}

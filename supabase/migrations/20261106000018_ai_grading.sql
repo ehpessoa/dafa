@@ -102,7 +102,7 @@ $$;
 create or replace function public.app_submit(p_token text, p_exercise_id text, p_content text, p_link text)
 returns json language plpgsql security definer set search_path = public, extensions as $$
 declare
-  u public.app_users := public._app_user(p_token);
+  u public.app_users := public._app_active_user(p_token);
   v_day int;
   v_last record;
   v_content text := nullif(trim(coalesce(p_content, '')), '');
@@ -145,7 +145,7 @@ create function public.app_review(p_token text, p_submission_id uuid, p_score nu
                                   p_instructions text default null, p_examples text default null)
 returns json language plpgsql security definer set search_path = public, extensions as $$
 declare
-  u public.app_users := public._app_user(p_token);
+  u public.app_users := public._app_active_user(p_token);
   r public.reviews;
   v_fb text := trim(coalesce(p_feedback, ''));
   v_ins text := nullif(trim(coalesce(p_instructions, '')), '');
@@ -187,7 +187,7 @@ $$;
 -- ───────────── Notificações: marcar como lidas ─────────────
 create function public.app_notifications_read(p_token text, p_ids uuid[] default null)
 returns integer language plpgsql security definer set search_path = public, extensions as $$
-declare u public.app_users := public._app_user(p_token); n int;
+declare u public.app_users := public._app_active_user(p_token); n int;
 begin
   update public.notifications set read_at = now()
    where user_id = u.id and read_at is null and (p_ids is null or id = any (p_ids));
@@ -199,7 +199,7 @@ $$;
 -- ───────────── app_bootstrap: inclui notificações; tutor recebe rubricas e avaliações da IA ─────────────
 create or replace function public.app_bootstrap(p_token text)
 returns json language plpgsql stable security definer set search_path = public, extensions as $$
-declare u public.app_users := public._app_user(p_token);
+declare u public.app_users := public._app_active_user(p_token);
 begin
   return json_build_object(
     'levels',           (select coalesce(json_agg(x order by x.position), '[]') from public.levels x),
@@ -233,7 +233,7 @@ $$;
 -- Tutor autenticado? Retorna o id (ou levanta erro). Usada no acionamento manual.
 create function public.ai_teacher_id(p_token text)
 returns uuid language plpgsql stable security definer set search_path = public, extensions as $$
-declare u public.app_users := public._app_user(p_token);
+declare u public.app_users := public._app_active_user(p_token);
 begin
   if u.role <> 'teacher' then raise exception 'Apenas tutores podem acionar a correção por IA.' using errcode = '42501'; end if;
   return u.id;

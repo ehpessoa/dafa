@@ -920,7 +920,7 @@ Anexos são lidos direto do Storage; links, nas hospedagens aceitas (GitHub, Goo
    supabase functions deploy submission-files --no-verify-jwt   # anexos e validação de links
    ```
    `--no-verify-jwt`: o app não usa Supabase Auth; a função se autentica sozinha (token de **tutor** ou `x-cron-secret`). A chave do Gemini existe só como segredo da função — nunca no front-end.
-3. **Job diário**: ajuste e execute `supabase/cron/schedule-grading.sql` (pg_cron + pg_net, **1 vez por dia às 08:00 de Brasília**).
+3. **Job diário**: execute `supabase/cron/schedule-grading.sql` (pg_cron + pg_net, **1 vez por dia às 08:00 de Brasília**). O `CRON_SECRET` é guardado no **Vault** (`select vault.create_secret('<mesmo valor do segredo da função>', 'dafa_cron_secret')`), não no texto do job.
 
 ## Como acionar
 

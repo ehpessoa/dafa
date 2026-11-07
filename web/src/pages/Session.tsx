@@ -28,7 +28,7 @@ const TABS = [
 
 function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: string; canSubmit: boolean }) {
   const { data, progress, reload } = useData();
-  const { token } = useAuth();
+  const { token, profile } = useAuth();
   const [content, setContent] = useState('');
   const [link, setLink] = useState('');
   const [lc, setLc] = useState<{ state: 'idle' | 'checking' | 'ok' | 'bad'; res?: LinkResult }>({ state: 'idle' });
@@ -135,7 +135,7 @@ function ExerciseBlock({ ex, studentId, canSubmit }: { ex: Exercise; studentId: 
           <div style={{ marginTop: 10 }}><button className="btn primary" disabled={!canSend} onClick={submit}>{busy ? 'Enviando…' : attempts.length ? '🔁 Reenviar' : '📤 Enviar para avaliação'}</button></div>
         </div>
       )}
-      {canSubmit && waiting && <div className="alert">⏳ Entrega enviada. Ela será corrigida automaticamente; se a nota for menor que 7, o tutor revisa e decide (aprovar, pedir ajustes com instruções ou reprovar). Você receberá uma notificação.</div>}
+      {canSubmit && waiting && !profile?.alerts_paused && <div className="alert">⏳ Entrega enviada. Ela será corrigida automaticamente; se a nota for menor que 7, o tutor revisa e decide (aprovar, pedir ajustes com instruções ou reprovar). Você receberá uma notificação.</div>}
     </div>
   );
 }

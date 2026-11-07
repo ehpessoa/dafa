@@ -32,9 +32,11 @@ export default function Queue() {
     setBusy(false); refreshPending();
   };
 
-  const items = data.submissions.filter((s) => filter === 'todo' ? s.status === 'submitted' : filter === 'review' ? s.status === 'needs_review' : s.status !== 'submitted' && s.status !== 'needs_review')
+  const paused = new Set(data.profiles.filter((p) => p.alerts_paused).map((p) => p.id));   // alertas pausados: não aparecem nas filas de pendências
+  const hidden = data.submissions.filter((s) => (s.status === 'submitted' || s.status === 'needs_review') && paused.has(s.student_id)).length;
+  const items = data.submissions.filter((s) => filter !== 'done' && paused.has(s.student_id) ? false : filter === 'todo' ? s.status === 'submitted' : filter === 'review' ? s.status === 'needs_review' : s.status !== 'submitted' && s.status !== 'needs_review')
     .sort((a, b) => (filter === 'done' ? b.created_at.localeCompare(a.created_at) : a.created_at.localeCompare(b.created_at)));
-  const count = (f: Filter) => data.submissions.filter((s) => f === 'todo' ? s.status === 'submitted' : f === 'review' ? s.status === 'needs_review' : false).length;
+  const count = (f: Filter) => data.submissions.filter((s) => !paused.has(s.student_id)).filter((s) => f === 'todo' ? s.status === 'submitted' : f === 'review' ? s.status === 'needs_review' : false).length;
 
   const badge = (status: string, score?: number) => {
     const sc = score != null ? ` · ${score.toFixed(1)}` : '';
@@ -58,6 +60,7 @@ export default function Queue() {
         <button className="btn sm" aria-pressed={filter === 'todo'} onClick={() => setFilter('todo')}>⏳ Aguardando IA ({count('todo')})</button>
         <button className="btn sm" aria-pressed={filter === 'done'} onClick={() => setFilter('done')}>✔ Já decididas</button>
       </div>
+      {hidden > 0 && filter !== 'done' && <div className="alert">🔕 {hidden} entrega(s) de alunos com alertas pausados não aparecem aqui. Abra o aluno em <Link to="/tutor/alunos">Alunos</Link> para avaliá-las ou retome os alertas.</div>}
       {items.length === 0 ? <Empty>{filter === 'review' ? 'Nada para decidir 🎉' : filter === 'todo' ? 'Nenhuma entrega aguardando a IA.' : 'Nada decidido ainda.'}</Empty> : (
         <div className="card scroll-x"><table><thead><tr><th>Aluno</th><th>Sessão / exercício</th><th>Tentativa</th><th>Enviada</th><th>IA</th><th>Status</th></tr></thead><tbody>
           {items.map((s) => {

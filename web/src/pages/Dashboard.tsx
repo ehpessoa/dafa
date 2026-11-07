@@ -37,6 +37,8 @@ export default function Dashboard() {
         {next && <Link className="btn primary" to={`/sessao/${next.day}`}>Continuar: Dia {next.day} →</Link>}
       </div>
 
+      {profile!.alerts_paused && <div className="alert">🔕 Seus alertas estão pausados pelo tutor. Você continua podendo estudar e enviar entregas normalmente.</div>}
+
       {todays && (
         <div className="card" style={{ borderColor: 'var(--primary)' }}>
           <div className="row between">

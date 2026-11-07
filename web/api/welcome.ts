@@ -1,5 +1,5 @@
 // POST /api/welcome  { token }  → envia a confirmação de cadastro por WhatsApp (uma única vez por conta).
-import { firstName, json, rpc, sendWhatsAppText } from './_lib/server';
+import { firstName, json, rpc, sendWhatsAppText } from './_lib/server.js';
 
 interface Claim { user_id: string; name: string; email: string; phone: string }
 

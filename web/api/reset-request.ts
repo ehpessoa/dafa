@@ -1,6 +1,6 @@
 // POST /api/reset-request  { email }  → envia por WhatsApp o código de 6 dígitos para redefinir a senha.
 // A resposta é sempre a mesma (exista a conta ou não) para não revelar quais e-mails estão cadastrados.
-import { firstName, json, rpc, sendWhatsAppText } from './_lib/server';
+import { firstName, json, rpc, sendWhatsAppText } from './_lib/server.js';
 
 interface Issue { throttled?: boolean; name?: string; phone?: string; code?: string }
 

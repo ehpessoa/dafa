@@ -1,6 +1,6 @@
 // POST /api/invite-send  { token, name, email, phone, role? }  (token = sessão do TUTOR)
 // Cria o convite personalizado e envia por WhatsApp o link do app com o token do convite.
-import { firstName, json, rpc, sendWhatsAppText } from './_lib/server';
+import { firstName, json, rpc, sendWhatsAppText } from './_lib/server.js';
 
 interface Issued { id: string; invite: string; name: string; phone: string; role: 'student' | 'teacher' }
 

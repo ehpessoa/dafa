@@ -1,5 +1,5 @@
 // POST /api/verify-send  { token }  → envia por WhatsApp o código de 6 dígitos que verifica o número do cadastro.
-import { firstName, json, rpc, sendWhatsAppText } from './_lib/server';
+import { firstName, json, rpc, sendWhatsAppText } from './_lib/server.js';
 
 interface Issue { throttled?: boolean; name?: string; phone?: string; code?: string }
 

@@ -1,6 +1,6 @@
 // POST /api/phone-change-send  { token, password, phone }
 // Confere a senha atual e envia por WhatsApp, para o NOVO número, o código que confirma a troca.
-import { firstName, json, rpc, sendWhatsAppText } from './_lib/server';
+import { firstName, json, rpc, sendWhatsAppText } from './_lib/server.js';
 
 interface Issue { error?: string; throttled?: boolean; name?: string; phone?: string; code?: string }
 

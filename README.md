@@ -2,12 +2,12 @@
 
 ## Objetivo
 
-Capacitar profissionais administrativos em análise de dados por meio de um programa de **30 dias úteis** (09/11 → 18/12/2026), organizado em **3 níveis** (Iniciante, Intermediário, Avançado). O aluno estuda cada sessão, resolve exercícios práticos sobre um dataset fictício e envia as entregas para um **tutor** avaliar. Quem recebe pedido de ajustes pode refazer quantas vezes precisar.
+Capacitar profissionais administrativos em análise de dados por meio de um programa de **30 dias úteis** (09/11 → 18/12/2026), organizado em **3 níveis** (Iniciante, Intermediário, Avançado). O aluno estuda cada sessão, resolve exercícios práticos sobre um dataset fictício e envia as entregas. Uma **IA (Gemini)** corrige com base em um gabarito por exercício e aprova sozinha quando a nota é ≥ 7; o restante vai para a fila do **tutor**. Quem recebe pedido de ajustes pode refazer quantas vezes precisar, e atrasos nas entregas semanais geram lembretes por WhatsApp.
 
 O projeto reúne duas partes:
 
 - **Toolkit**: currículo, templates e documentação (SQL, prompts de IA, diagramas, checklists).
-- **App e-learning**: aplicação web com cadastro/login próprios, trilha de sessões, envio de exercícios e avaliação por tutor.
+- **App e-learning**: aplicação web com cadastro por convite, login próprio, trilha de sessões, envio de exercícios, correção por IA, revisão do tutor e alertas de atraso.
 
 ```mermaid
 flowchart LR
@@ -23,7 +23,9 @@ flowchart LR
 |---|---|---|
 | App web (`web/`) | React 18, TypeScript, Vite, React Router, Recharts, Mermaid | Interface do aluno e do tutor |
 | Banco e API | Supabase (Postgres) acessado apenas via RPCs `security definer` | Currículo, usuários, entregas e avaliações |
-| Autenticação | Própria do app (e-mail e senha, tabela `app_users`, sessões com token) | Perfis **aluno** e **tutor** |
+| Autenticação | Própria do app (e-mail e senha, tabela `app_users`, sessões com token), cadastro por convite e WhatsApp verificado | Perfis **aluno** e **tutor** |
+| Correção por IA | Gemini, via Edge Functions do Supabase (`supabase/functions/`) e agendamento `pg_cron` | Nota por gabarito e aprovação automática |
+| WhatsApp | Evolution API, chamada pelo servidor (`web/api/`, Vercel) | Convites, verificação do número, recuperação de senha e alertas de atraso |
 | Hospedagem do app | Vercel (`web/vercel.json`) | Publicação |
 | Ferramentas ensinadas | Excel, Power BI, Python, SQL | Conteúdo das sessões |
 | Scripts (`scripts/`) | Node.js (`.mjs`), Python, PGlite | Geração de conteúdo, validação SQL, testes e geração dos `.xlsx` |
@@ -44,36 +46,53 @@ Não há botão "Iniciar": a trilha é fixa, com 30 sessões (dias). O aluno com
 
 ```mermaid
 flowchart TD
-  L[Login / cadastro] --> T[Trilha ou Dashboard]
+  C[Convite do tutor<br/>link por WhatsApp] --> L[Cadastro / login<br/>WhatsApp verificado]
+  L --> T[Trilha ou Dashboard]
   T --> S{Sessão<br/>desbloqueada?}
   S -- não --> W[Mostra dias que faltam<br/>concluir]
   S -- sim --> E[Estuda conceito, ferramentas,<br/>templates e recursos]
-  E --> X[Envia exercício<br/>app_submit → status submitted]
-  X --> R[Tutor avalia na fila<br/>app_review: nota + feedback]
-  R -- aprovado --> A[Exercício approved]
-  R -- ajustes --> V[revision_requested]
+  E --> X[Envia exercício<br/>status submitted]
+  X --> G{{🤖 Gemini corrige<br/>pelo gabarito}}
+  G -- "nota ≥ 7, evidência suficiente,<br/>sem arquivo" --> A[✅ Aprovada automaticamente]
+  G -- "nota < 7, baixa confiança<br/>ou entrega com arquivo" --> Q[🔎 Fila do tutor<br/>com a análise da IA]
+  Q --> R{Tutor decide}
+  R -- aprovar --> A
+  R -- refazer --> V[↩ revision_requested]
+  R -- reprovar --> Z[❌ Reprovada, com motivo]
   V --> X
   A --> D{Todos os exercícios<br/>da sessão aprovados?}
   D -- sim --> F[Sessão concluída<br/>libera sessões dependentes]
   D -- não --> E
 ```
 
-1. **Acesso**: o aluno se cadastra ou entra (`app_register` / `app_login`).
+1. **Convite e acesso**: o tutor convida o aluno (nome, e-mail e WhatsApp) e o aluno recebe um link por WhatsApp. O cadastro também aceita código de convite, conforme o modo configurado (`open`, `invite` ou `closed`). O número de WhatsApp é verificado por código, e a senha pode ser recuperada por WhatsApp.
 2. **Escolha da sessão**: pelo Dashboard ("Continuar: Dia N") ou pela Trilha. Sessões só abrem quando suas dependências estão concluídas. O bloqueio vale na interface e no banco.
 3. **Estudo**: a sessão traz abas de conceito, ferramentas, exercícios, templates e recursos.
-4. **Envio**: cada exercício gera uma tentativa (`attempt`) com status `submitted`. Enquanto a última tentativa aguarda avaliação, um novo envio é bloqueado.
-5. **Avaliação**: o tutor vê a fila, dá nota (0–10) e feedback e decide entre aprovar ou pedir ajustes. A nota 7 é só uma referência, o veredito é manual.
-6. **Refação**: com ajustes solicitados, o aluno envia nova tentativa. O histórico fica preservado.
-7. **Conclusão**: a sessão fecha quando todos os seus exercícios têm uma tentativa aprovada.
+4. **Envio**: cada exercício gera uma tentativa (`attempt`) com status `submitted`, com texto, link ou arquivo. Enquanto a última tentativa aguarda avaliação, um novo envio é bloqueado.
+5. **Correção pela IA**: cada exercício tem de 3 a 5 verificações com peso, e a nota final é a média ponderada calculada no código. A aprovação automática exige nota ≥ 7, evidência textual suficiente, confiança média ou alta, nenhum sinal de manipulação e que a análise não dependa de arquivo ou link lido. Exercícios `text` e `sql` podem ser aprovados sozinhos. Os de tipo `file` recebem só pré-análise, e a decisão é sempre do tutor.
+6. **Revisão do tutor**: o que a IA não aprova cai na fila, com a nota e a análise da IA como apoio. O tutor pode aprovar, pedir para refazer (com instruções e exemplo) ou reprovar com motivo. O aluno é notificado em todos os casos.
+7. **Refação**: com ajustes solicitados, o aluno envia nova tentativa e o histórico fica preservado. Se o tutor reprovar, o aluno não pode reenviar até o tutor reabrir o exercício.
+8. **Conclusão**: a sessão fecha quando todos os seus exercícios têm uma tentativa aprovada.
+
+### Alertas de atraso
+
+As entregas semanais fecham nas sessões dos dias 5, 10, 15, 20, 25 e 30. Se o prazo vence e o aluno não enviou nenhuma tentativa de pelo menos um exercício daquela sessão, ele recebe lembrete por WhatsApp e notificação no app:
+
+- roda em dias úteis, às 09:00 de Brasília;
+- no máximo 1 aviso a cada 3 dias e 8 avisos por aluno;
+- os tutores recebem um resumo da rodada no app e por WhatsApp;
+- o tutor pode pausar e retomar os alertas de cada aluno.
+
+Detalhes e configuração em [docs/07-alertas-de-atraso.md](docs/07-alertas-de-atraso.md).
 
 ### Status acompanhados
 
-O único status gravado no banco é o da entrega (`submissions.status`). Os demais são calculados no cliente (`web/src/lib/progress.ts`).
+O status da entrega é gravado no banco (`submissions.status`). Os de exercício e sessão são calculados no cliente (`web/src/lib/progress.ts`).
 
 | Nível | Estados |
 |---|---|
-| Entrega (banco) | `submitted` → `approved` ou `revision_requested` |
-| Exercício (derivado) | `todo`, `submitted`, `revision`, `approved` |
+| Entrega (banco) | `submitted` → `approved` (IA ou tutor), ou `needs_review` (na fila do tutor) → `approved`, `revision_requested` ou `rejected` |
+| Exercício (derivado) | `todo`, `submitted` (inclui `needs_review`), `revision`, `approved`, `rejected` |
 | Sessão (derivado) | `locked`, `available`, `in_progress`, `review`, `done` |
 
 O Dashboard mostra o percentual de exercícios aprovados, sessões concluídas, pendências, ajustes, nota média e entregáveis semanais. Os dados são carregados de uma vez (`app_bootstrap`) e só atualizam após enviar, avaliar ou recarregar a página (não há realtime).

@@ -4,11 +4,16 @@ import { DataProvider } from './lib/data';
 import Layout from './components/Layout';
 import { Spinner } from './components/ui';
 import Login from './pages/Login';
+import VerifyPhone from './pages/VerifyPhone';
+import AcceptInvite from './pages/AcceptInvite';
+import Profile from './pages/Profile';
+import Invites from './pages/teacher/Invites';
 import Dashboard from './pages/Dashboard';
 import Trail from './pages/Trail';
 import SessionPage from './pages/Session';
 import CalendarPage from './pages/Calendar';
 import Library from './pages/Library';
+import Notifications from './pages/Notifications';
 import TeacherHome from './pages/teacher/TeacherHome';
 import Queue from './pages/teacher/Queue';
 import Review from './pages/teacher/Review';
@@ -18,20 +23,27 @@ import StudentDetail from './pages/teacher/StudentDetail';
 function Gate() {
   const { profile, loading, isTeacher } = useAuth();
   if (loading) return <Spinner />;
-  if (!profile) return <Login />;
+  if (!profile) {
+    const invite = new URLSearchParams(window.location.search).get('convite');
+    return invite ? <AcceptInvite invite={invite} /> : <Login />;
+  }
+  if (profile.phone_verified === false) return <VerifyPhone />;
   const teacherOnly = (el: JSX.Element) => (isTeacher ? el : <Navigate to="/" replace />);
   return (
     <DataProvider>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path="perfil" element={<Profile />} />
           <Route path="trilha" element={<Trail />} />
           <Route path="sessao/:day" element={<SessionPage />} />
           <Route path="calendario" element={<CalendarPage />} />
           <Route path="biblioteca" element={<Library />} />
+          <Route path="notificacoes" element={<Notifications />} />
           <Route path="tutor" element={teacherOnly(<TeacherHome />)} />
           <Route path="tutor/fila" element={teacherOnly(<Queue />)} />
           <Route path="tutor/avaliar/:id" element={teacherOnly(<Review />)} />
+          <Route path="tutor/convites" element={teacherOnly(<Invites />)} />
           <Route path="tutor/alunos" element={teacherOnly(<Students />)} />
           <Route path="tutor/alunos/:id" element={teacherOnly(<StudentDetail />)} />
           <Route path="*" element={<Navigate to="/" replace />} />

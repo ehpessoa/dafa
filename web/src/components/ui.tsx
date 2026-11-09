@@ -3,7 +3,7 @@ import { EX_LABEL, SESS_LABEL, type ExState, type SessState } from '../lib/progr
 
 export const sessBadge: Record<SessState, string> = { locked: '', available: 'blue', in_progress: 'amber', review: 'amber', done: 'green' };
 export const sessIcon: Record<SessState, string> = { locked: '🔒', available: '▶️', in_progress: '✏️', review: '⏳', done: '✅' };
-export const exBadge: Record<ExState, string> = { todo: '', submitted: 'blue', revision: 'amber', approved: 'green' };
+export const exBadge: Record<ExState, string> = { todo: '', submitted: 'blue', revision: 'amber', approved: 'green', rejected: 'red' };
 
 export const SessBadge = ({ s }: { s: SessState }) => <span className={`badge ${sessBadge[s]}`}>{sessIcon[s]} {SESS_LABEL[s]}</span>;
 export const ExBadge = ({ s }: { s: ExState }) => <span className={`badge ${exBadge[s]}`}>{EX_LABEL[s]}</span>;

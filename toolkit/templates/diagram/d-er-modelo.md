@@ -8,6 +8,7 @@ erDiagram
   FATO_PEDIDOS ||--o| FATO_ENTREGAS : "gera"
   DIM_CLIENTES { int cliente_id PK
     text nome
+    text cidade
     text uf
     text segmento
     text canal_aquisicao
@@ -23,7 +24,8 @@ erDiagram
     text status
     text canal
     text uf_entrega
-    numeric frete }
+    numeric frete
+    numeric desconto_pct }
   FATO_ITENS_PEDIDO { int item_id PK
     int pedido_id FK
     int produto_id FK
@@ -38,6 +40,7 @@ erDiagram
     text canal
     date mes
     numeric investimento
+    int impressoes
     int cliques
     int conversoes }
   FATO_FINANCEIRO { int lancamento_id PK
@@ -47,10 +50,13 @@ erDiagram
     text centro_custo
     numeric valor }
   ESPORTE_PARTIDAS { int partida_id PK
-    text temporada
+    int temporada
+    int rodada
     date data_jogo
     text mandante
     text visitante
+    int gols_mandante
+    int gols_visitante
     int publico
     numeric receita_bilheteria }
 ```

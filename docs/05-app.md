@@ -57,7 +57,7 @@ erDiagram
 
 | Regra | Implementação |
 |---|---|
-| Cadastro e login próprios | `app_register`, `app_login`, `app_logout`, `app_me` (tabela `app_users`, bcrypt, sessões com token) |
+| Cadastro e login próprios | `app_register` (com WhatsApp), `app_login`, `app_logout`, `app_me`, `app_reset_confirm` (código por WhatsApp) (tabela `app_users`, bcrypt, sessões com token) |
 | Nenhuma tabela é lida/escrita direto pela API | RLS ativo sem policies + `revoke` para `anon`/`authenticated` |
 | Aluno só vê as próprias entregas/avaliações; tutor vê a turma | `app_bootstrap` filtra por perfil |
 | Sessão bloqueada não aceita entrega | `app_submit` verifica as dependências no servidor |
@@ -66,6 +66,13 @@ erDiagram
 | Links de entrega só `http(s)` | validação em `app_submit` + `check` na tabela |
 | Aluno não vira tutor | papel definido no cadastro (allowlist) ou por SQL do administrador |
 | Funções internas não expostas | `_app_*` e `_session_*` sem `execute` para a API |
+
+## Correção por IA e revisão do tutor
+
+Entregas são corrigidas pelo Gemini contra um gabarito por exercício (job diário ou botão do tutor): **nota ≥ 7 aprova sozinha; abaixo disso o tutor decide** — e entregas com arquivo (Excel, Python, DAX…) recebem só pré-análise, com decisão final do tutor (aprovar, pedir que refaça com instruções + exemplo, ou reprovar) e o aluno é notificado de toda decisão. Detalhes, solução esperada dos 67 exercícios e configuração em [06-correcao-ia.md](06-correcao-ia.md).
+
+![Avaliação com análise da IA](img/14-tutor-avaliar.png)
+![Aluno vê instruções e exemplo](img/18-aluno-refazer.png)
 
 ## Rodar localmente
 
@@ -85,6 +92,7 @@ Deploy estático (Vercel/Netlify/Cloudflare Pages): `web/vercel.json` e `web/pub
 |---|---|---|
 | SQL | `npm run validate:sql` | 3 migrations num Postgres embutido (PGlite) |
 | Autenticação e regras | `node scripts/test-auth.mjs` | cadastro/login, bloqueio por tentativas, sessões, isolamento entre alunos, dependências, avaliação, acesso direto negado |
+| Correção por IA | `node scripts/test-ai-grading.mjs` | Gemini simulado: aprovação ≥ 7, fila do tutor, refazer/reprovar, notificações, permissões, falhas e camada HTTP |
 | UI (E2E) | `node scripts/e2e-mock.mjs` | Playwright com API Supabase **simulada**: aluno, tutor, bloqueio, refazer, mobile, redirecionamento |
 
 > O banco real do projeto recebeu um teste de fumaça (cadastro, login, carga de dados e bloqueios) e o usuário de teste foi removido; o fluxo completo na interface publicada deve ser conferido por você após o deploy.

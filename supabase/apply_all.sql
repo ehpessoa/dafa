@@ -516,24 +516,24 @@ begin;
 insert into public.levels (slug, position, title, emoji, color, objective, description) values ('iniciante', 1, 'Iniciante', '🌱', '#16a34a', 'Pensar como analista: formular perguntas, organizar dados, dominar Excel, SQL básico e o primeiro relatório no Power BI.', 'Semanas 1–2 · Dias 1–10 · Excel, SQL I–II, Supabase e Power BI Desktop.') on conflict (slug) do update set position=excluded.position, title=excluded.title, emoji=excluded.emoji, color=excluded.color, objective=excluded.objective, description=excluded.description;
 insert into public.levels (slug, position, title, emoji, color, objective, description) values ('intermediario', 2, 'Intermediário', '🚀', '#2563eb', 'Modelar dados, combinar tabelas, transformar com Power Query, calcular com DAX e automatizar análises com Python e IA.', 'Semanas 3–4 · Dias 11–20 · SQL III–IV, modelo estrela, DAX, Python/pandas.') on conflict (slug) do update set position=excluded.position, title=excluded.title, emoji=excluded.emoji, color=excluded.color, objective=excluded.objective, description=excluded.description;
 insert into public.levels (slug, position, title, emoji, color, objective, description) values ('avancado', 3, 'Avançado', '🏆', '#9333ea', 'Gerar decisões: segmentação, previsão, testes A/B, análise financeira, IA aplicada, dashboards executivos e projeto final.', 'Semanas 5–6 · Dias 21–30 · RFM, forecast, A/B, automação, storytelling e capstone.') on conflict (slug) do update set position=excluded.position, title=excluded.title, emoji=excluded.emoji, color=excluded.color, objective=excluded.objective, description=excluded.description;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (1, 'iniciante', 'Mentalidade analítica e perguntas de negócio', 'Análise sem pergunta vira relatório que ninguém usa. Antes de qualquer ferramenta, você precisa saber transformar um problema vago ("vendas caíram") em uma pergunta mensurável, com métrica, recorte e decisão associada.', '["O ciclo da análise: Pergunta → Dados → Análise → Insight → Decisão","Diferença entre dado, métrica, KPI e indicador","Como escrever uma pergunta SMART de negócio","Tipos de análise: descritiva, diagnóstica, preditiva e prescritiva"]'::jsonb, '[{"area":"Comercial","text":"O diretor diz \"as vendas do app estão estranhas\". Qual métrica, período e comparação transformam isso em pergunta?"},{"area":"Marketing","text":"\"Qual canal traz clientes que mais compram em 90 dias?\" – métrica, recorte e decisão (onde investir)."},{"area":"Esporte","text":"Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo."}]'::jsonb, '["Papel/Miro/Excel para mapear perguntas","Dataset de treinamento (Excel)"]'::jsonb, 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder.', 120, '2026-11-09', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (1, 'iniciante', 'Mentalidade analítica e perguntas de negócio', 'Análise sem pergunta vira relatório que ninguém usa. Antes de qualquer ferramenta, você precisa saber transformar um problema vago ("vendas caíram") em uma pergunta mensurável, com métrica, recorte e decisão associada.', '["O ciclo da análise: Pergunta → Dados → Análise → Insight → Decisão","Diferença entre dado, métrica, KPI e indicador","Como escrever uma pergunta SMART de negócio","Tipos de análise: descritiva, diagnóstica, preditiva e prescritiva"]'::jsonb, '[{"area":"Comercial","text":"O diretor diz \"as vendas do app estão estranhas\". Qual métrica, período e comparação transformam isso em pergunta?"},{"area":"Marketing","text":"\"Qual canal traz clientes que mais compram em 90 dias?\" – métrica, recorte e decisão (onde investir)."},{"area":"Esporte","text":"Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo."}]'::jsonb, '["Papel/Miro/Excel para mapear perguntas","Dataset de treinamento (Excel)"]'::jsonb, 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder. O Dicionário de dados é o seu guia: ele explica cada coluna, os valores possíveis e os cuidados de cálculo.', 120, '2026-11-09', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (2, 'iniciante', 'Excel: organização e qualidade dos dados', 'Cerca de 80% do tempo de uma análise vai para preparar dados. Dados bem estruturados (uma linha por registro, uma coluna por atributo) evitam erros e permitem automação.', '["Princípios de dados \"tidy\": 1 linha = 1 registro","Formatar como Tabela (Ctrl+T) e referências estruturadas","Remover duplicados, tratar vazios, padronizar texto (ARRUMAR, MAIÚSCULA)","Validação de dados e tipos (data vs. texto vs. número)"]'::jsonb, '[{"area":"Financeiro","text":"Lançamentos com datas em texto e valores com vírgula/ponto misturados quebram o fechamento mensal."},{"area":"E-commerce","text":"Cadastro com o mesmo cliente digitado de 3 formas distorce a contagem de clientes únicos."}]'::jsonb, '["Microsoft Excel (365 ou 2019+)","Dataset de treinamento (Excel)"]'::jsonb, 'Os conceitos de tipos, chaves e duplicidade são os mesmos que você usará em SQL (tipos de coluna, PRIMARY KEY) e Power Query (tipagem). Excel é o laboratório mais rápido para vê-los.', 120, '2026-11-10', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (3, 'iniciante', 'Excel: fórmulas essenciais para análise', 'Fórmulas permitem responder perguntas de forma repetível e auditável. Dominar condicionais, busca e agregação cobre a maior parte das análises do dia a dia administrativo.', '["SOMASES, CONT.SES, MÉDIASES","SE, E, OU, SEERRO","PROCV / PROCX / ÍNDICE+CORRESP para trazer atributos de outra tabela","Referências absolutas vs. relativas; nomes de intervalo"]'::jsonb, '[{"area":"Comercial","text":"Receita por vendedor e meta atingida (SE) para bonificação."},{"area":"Logística","text":"Percentual de entregas com atraso por transportadora com CONT.SES."},{"area":"Financeiro","text":"Trazer o centro de custo de uma tabela de de-para com PROCX."}]'::jsonb, '["Excel","Planilha do dia 2 (dados limpos)"]'::jsonb, 'PROCX equivale a um JOIN em SQL; SOMASES equivale a SUM + WHERE + GROUP BY. Guarde essa tradução: no dia 7 você fará os mesmos cálculos em SQL.', 120, '2026-11-11', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (4, 'iniciante', 'Excel: tabelas dinâmicas e segmentações', 'Tabelas dinâmicas são o "GROUP BY visual": respondem em segundos perguntas de resumo e preparam o terreno para entender o modelo de dados do Power BI.', '["Linhas, colunas, valores e filtros","Agrupar datas (mês/trimestre/ano)","Campos calculados e % do total","Segmentação de dados e linha do tempo"]'::jsonb, '[{"area":"E-commerce","text":"Ranking de categorias por receita e participação % no total."},{"area":"Marketing","text":"ROI por canal de campanha e por mês."},{"area":"Esporte","text":"Público médio e bilheteria por mandante na temporada."}]'::jsonb, '["Excel – Tabela Dinâmica","Dataset"]'::jsonb, 'Cada arrasto de campo equivale a um GROUP BY. No Power BI, a matriz e os visuais funcionam da mesma forma.', 120, '2026-11-12', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (5, 'iniciante', 'Excel: gráficos, storytelling e entrega da Semana 1', 'Um bom gráfico encurta a decisão. Hoje você aprende a escolher o gráfico certo e a escrever o título como conclusão, fechando a semana com seu primeiro entregável.', '["Escolha do gráfico (comparação, evolução, composição, relação)","Remover ruído: grades, 3D, legendas desnecessárias","Título-conclusão e destaque de cor","Estrutura do relatório de entrega"]'::jsonb, '[{"area":"Financeiro","text":"Evolução do resultado mensal com destaque nos meses negativos."},{"area":"Comercial","text":"Participação de cada canal na receita (barras, não pizza com 8 fatias)."}]'::jsonb, '["Excel","Template de entrega semanal"]'::jsonb, 'As regras de design valem igualmente no Power BI e no matplotlib. Você reutilizará o checklist de qualidade até o dia 30.', 150, '2026-11-13', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (6, 'iniciante', 'Bancos de dados, Supabase e modelo relacional', 'Dados reais vivem em bancos, não em planilhas soltas. Entender tabelas, chaves e relacionamentos permite pedir, consultar e cruzar dados com segurança e escala.', '["Tabela, linha, coluna, tipo de dado","Chave primária e chave estrangeira","Fato vs. dimensão","Supabase = Postgres na nuvem; schema treinamento; usuário somente-leitura"]'::jsonb, '[{"area":"Logística","text":"Pedidos ligados a entregas por pedido_id: onde ficam transportadora e prazo?"},{"area":"E-commerce","text":"Um cliente com muitos pedidos, um pedido com muitos itens (1:N)."}]'::jsonb, '["Supabase (SQL Editor ou cliente SQL)","Diagrama ER (Mermaid)"]'::jsonb, 'O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).', 120, '2026-11-16', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (7, 'iniciante', 'SQL I: SELECT, WHERE, ORDER BY', 'SQL é a língua franca dos dados. Saber extrair exatamente o que precisa reduz a dependência de TI e evita planilhas gigantes.', '["SELECT, FROM, WHERE, AND/OR/IN/BETWEEN/LIKE","ORDER BY, LIMIT, DISTINCT","Operadores, datas e NULL","Boas práticas: nomear colunas, comentar, evitar SELECT * em produção"]'::jsonb, '[{"area":"Comercial","text":"Pedidos do canal marketplace de uma UF no último trimestre."},{"area":"Financeiro","text":"Lançamentos de despesa acima de R$ 10 mil em um centro de custo."}]'::jsonb, '["Supabase SQL Editor","Template t-sql-basico"]'::jsonb, 'Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.', 120, '2026-11-17', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (8, 'iniciante', 'SQL II: agregações e GROUP BY', 'Decisões raramente usam linhas individuais; usam totais, médias e comparações por grupo. GROUP BY é o coração da análise de negócio.', '["COUNT, SUM, AVG, MIN, MAX","GROUP BY e HAVING","date_trunc para agrupar por mês","CASE WHEN para criar categorias"]'::jsonb, '[{"area":"Marketing","text":"CTR, CPC e CPA por canal e por mês."},{"area":"Esporte","text":"Média de gols e público por rodada."},{"area":"Logística","text":"Frete médio por UF e transportadora."}]'::jsonb, '["Supabase SQL Editor","Template t-sql-agregacao"]'::jsonb, 'É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.', 120, '2026-11-18', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (9, 'iniciante', 'Power BI Desktop: instalação, conexão e primeiro relatório', 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.', '["Instalar o Power BI Desktop","Obter dados: PostgreSQL (Supabase) e Excel","Importar vs. DirectQuery","Visuais básicos: cartão, barras, linhas, segmentações"]'::jsonb, '[{"area":"Comercial","text":"Dashboard de receita por canal com filtro de ano para a reunião de segunda."},{"area":"E-commerce","text":"Funil de pedidos por status (pendente → entregue)."}]'::jsonb, '["Power BI Desktop (Windows)","Supabase (Postgres)","Excel"]'::jsonb, 'As tabelas do Supabase viram o modelo do Power BI. O que você fez em SQL (agregar) o Power BI faz de forma visual e interativa.', 150, '2026-11-19', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (10, 'iniciante', 'Design de relatórios e entrega da Semana 2', 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.', '["Hierarquia visual e grade","Cores com propósito e acessibilidade","Interações: filtros cruzados, tooltips, bookmarks","Validar números contra o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Painel com receitas x despesas x resultado e alerta de mês negativo."},{"area":"Marketing","text":"Painel de campanhas: investimento, conversões e CPA por canal."}]'::jsonb, '["Power BI Desktop","Checklist de qualidade"]'::jsonb, 'Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles.', 150, '2026-11-20', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (11, 'intermediario', 'SQL III: JOINs e combinação de tabelas', 'Quase toda pergunta relevante cruza tabelas (quem comprou o quê, quando, entregue por quem). JOINs corretos evitam o erro mais comum: duplicar linhas e inflar números.', '["INNER, LEFT, RIGHT, FULL JOIN","Cardinalidade e o risco de duplicação","Anti-join (LEFT + IS NULL)","Conferência de totais antes e depois do JOIN"]'::jsonb, '[{"area":"E-commerce","text":"Clientes cadastrados que nunca compraram (campanha de ativação)."},{"area":"Logística","text":"Atraso por transportadora cruzando pedidos e entregas."},{"area":"Comercial","text":"Margem por categoria cruzando itens e produtos."}]'::jsonb, '["Supabase SQL Editor","Template t-sql-joins"]'::jsonb, 'Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.', 120, '2026-11-23', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (12, 'intermediario', 'SQL IV: CTEs, subqueries e window functions', 'Rankings, acumulados e variações período a período são perguntas diárias de gestão. Window functions resolvem sem planilhas auxiliares.', '["WITH (CTE) para organizar consultas","ROW_NUMBER, RANK, NTILE","LAG/LEAD e acumulados (SUM OVER)","FILTER e CASE em agregações"]'::jsonb, '[{"area":"Financeiro","text":"Caixa acumulado e variação mês a mês."},{"area":"Comercial","text":"Top 3 produtos por categoria."},{"area":"Esporte","text":"Classificação da temporada com pontos acumulados por rodada."}]'::jsonb, '["Supabase SQL Editor","Template t-sql-cte-window"]'::jsonb, 'As mesmas ideias aparecem como medidas DAX (YTD, mês anterior) nos dias 15–16.', 150, '2026-11-24', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (6, 'iniciante', 'Bancos de dados, Supabase e modelo relacional', 'Dados reais vivem em bancos, não em planilhas soltas. Entender tabelas, chaves e relacionamentos permite pedir, consultar e cruzar dados com segurança e escala.', '["Tabela, linha, coluna, tipo de dado","Chave primária e chave estrangeira","Fato vs. dimensão","Supabase = Postgres na nuvem; schema treinamento; usuário somente-leitura"]'::jsonb, '[{"area":"Logística","text":"Pedidos ligados a entregas por pedido_id: onde ficam transportadora e prazo?"},{"area":"E-commerce","text":"Um cliente com muitos pedidos, um pedido com muitos itens (1:N)."}]'::jsonb, '["Cliente SQL (DBeaver) conectado ao Supabase","Diagrama ER (Mermaid)"]'::jsonb, 'O diagrama ER é o mapa que você usará em SQL (JOINs), Power BI (relacionamentos) e Python (merge).', 120, '2026-11-16', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (7, 'iniciante', 'SQL I: SELECT, WHERE, ORDER BY', 'SQL é a língua franca dos dados. Saber extrair exatamente o que precisa reduz a dependência de TI e evita planilhas gigantes.', '["SELECT, FROM, WHERE, AND/OR/IN/BETWEEN/LIKE","ORDER BY, LIMIT, DISTINCT","Operadores, datas e NULL","Boas práticas: nomear colunas, comentar, evitar SELECT * em produção"]'::jsonb, '[{"area":"Comercial","text":"Pedidos do canal marketplace de uma UF no último trimestre."},{"area":"Financeiro","text":"Lançamentos de despesa acima de R$ 10 mil em um centro de custo."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-basico"]'::jsonb, 'Compare cada consulta com o filtro que você fazia no Excel (dia 2–4). O resultado deve bater.', 120, '2026-11-17', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (8, 'iniciante', 'SQL II: agregações e GROUP BY', 'Decisões raramente usam linhas individuais; usam totais, médias e comparações por grupo. GROUP BY é o coração da análise de negócio.', '["COUNT, SUM, AVG, MIN, MAX","GROUP BY e HAVING","date_trunc para agrupar por mês","CASE WHEN para criar categorias"]'::jsonb, '[{"area":"Marketing","text":"CTR, CPC e CPA por canal e por mês."},{"area":"Esporte","text":"Média de gols e público por rodada."},{"area":"Logística","text":"Frete médio por UF e transportadora."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-agregacao"]'::jsonb, 'É a versão em SQL da tabela dinâmica do dia 4. Reproduza uma dinâmica sua em SQL.', 120, '2026-11-18', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (9, 'iniciante', 'Power BI Desktop: instalação, conexão e primeiro relatório', 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.', '["Instalar o Power BI Desktop","Obter dados: importar o Excel que você montou na Semana 1 (Painel de vendas)","Do Excel ao Power BI: o que cada ferramenta faz melhor","Visuais básicos: cartão, barras, linhas, segmentações"]'::jsonb, '[{"area":"Comercial","text":"Dashboard de receita por canal com filtro de ano para a reunião de segunda."},{"area":"E-commerce","text":"Funil de pedidos por status (pendente → entregue)."}]'::jsonb, '["Power BI Desktop (Windows)","Excel (seu Painel de vendas da Semana 1)"]'::jsonb, 'Você parte da planilha que já limpou e analisou na Semana 1: as abas viram tabelas do Power BI e os gráficos que você fez no Excel são recriados de forma interativa. No dia 10, o mesmo relatório passa a ler do Supabase.', 150, '2026-11-19', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (10, 'iniciante', 'Design de relatórios e entrega da Semana 2', 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.', '["Hierarquia visual e grade","Cores com propósito e acessibilidade","Interações: filtros cruzados, tooltips, bookmarks","Trocar a fonte do Excel pelo Supabase e validar os números contra o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Painel com receitas x despesas x resultado e alerta de mês negativo."},{"area":"Marketing","text":"Painel de campanhas: investimento, conversões e CPA por canal."}]'::jsonb, '["Power BI Desktop","Supabase (Postgres)","Checklist de qualidade"]'::jsonb, 'Hoje o relatório troca a fonte: sai o Excel e entra o Supabase. Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles e com o Excel.', 150, '2026-11-20', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (11, 'intermediario', 'SQL III: JOINs e combinação de tabelas', 'Quase toda pergunta relevante cruza tabelas (quem comprou o quê, quando, entregue por quem). JOINs corretos evitam o erro mais comum: duplicar linhas e inflar números.', '["INNER, LEFT, RIGHT, FULL JOIN","Cardinalidade e o risco de duplicação","Anti-join (LEFT + IS NULL)","Conferência de totais antes e depois do JOIN"]'::jsonb, '[{"area":"E-commerce","text":"Clientes cadastrados que nunca compraram (campanha de ativação)."},{"area":"Logística","text":"Atraso por transportadora cruzando pedidos e entregas."},{"area":"Comercial","text":"Margem por categoria cruzando itens e produtos."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-joins"]'::jsonb, 'Os relacionamentos que você desenhará no Power BI (dia 13) são JOINs permanentes; entender o SQL evita erros de modelo.', 120, '2026-11-23', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (12, 'intermediario', 'SQL IV: CTEs, subqueries e window functions', 'Rankings, acumulados e variações período a período são perguntas diárias de gestão. Window functions resolvem sem planilhas auxiliares.', '["WITH (CTE) para organizar consultas","ROW_NUMBER, RANK, NTILE","LAG/LEAD e acumulados (SUM OVER)","FILTER e CASE em agregações"]'::jsonb, '[{"area":"Financeiro","text":"Caixa acumulado e variação mês a mês."},{"area":"Comercial","text":"Top 3 produtos por categoria."},{"area":"Esporte","text":"Classificação da temporada com pontos acumulados por rodada."}]'::jsonb, '["Cliente SQL (DBeaver)","Template t-sql-cte-window"]'::jsonb, 'As mesmas ideias aparecem como medidas DAX (YTD, mês anterior) nos dias 15–16.', 150, '2026-11-24', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (13, 'intermediario', 'Modelagem dimensional: modelo estrela', 'Um bom modelo torna as medidas simples, rápidas e corretas. Um modelo ruim gera números diferentes em cada tela.', '["Fato vs. dimensão e granularidade","Esquema estrela vs. flocos de neve","Tabela de datas (calendário) obrigatória","Direção de filtro e relacionamentos 1:N"]'::jsonb, '[{"area":"E-commerce","text":"Fato vendas com dimensões Data, Cliente, Produto e Canal."},{"area":"Marketing","text":"Fato campanhas com dimensão Canal compartilhada com vendas (dimensão conforme)."}]'::jsonb, '["Power BI – Modo Modelo","Mermaid (desenho do modelo)"]'::jsonb, 'Você aplica o que viu em JOINs: cada relacionamento do modelo é um JOIN que o Power BI executa para você.', 120, '2026-11-25', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (14, 'intermediario', 'Power Query: ETL sem código', 'Transformações feitas no Power Query ficam registradas e se repetem a cada atualização, eliminando a "limpeza manual" mensal.', '["Etapas aplicadas e linguagem M (visão geral)","Tipagem, divisão, mesclagem e acréscimo de consultas","Colunas personalizadas e condicionais","Parâmetros e boas práticas de desempenho"]'::jsonb, '[{"area":"Financeiro","text":"Consolidar 12 arquivos mensais de lançamentos numa só tabela."},{"area":"Logística","text":"Criar a coluna no_prazo e dias_atraso na tabela de entregas."}]'::jsonb, '["Power Query (Power BI/Excel)","Fluxo ETL (diagrama)"]'::jsonb, 'Power Query faz o papel do SQL de preparação e do pandas de limpeza. Decidir onde transformar (banco, Power Query ou Python) é uma habilidade-chave.', 120, '2026-11-26', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CPA e ROAS por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (16, 'intermediario', 'DAX II: inteligência de tempo', 'Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.', '["Tabela de datas marcada como tal","TOTALYTD, DATEADD, SAMEPERIODLASTYEAR","Médias móveis (DATESINPERIOD)","Variações absolutas e percentuais"]'::jsonb, '[{"area":"Financeiro","text":"Resultado acumulado no ano vs. ano anterior."},{"area":"E-commerce","text":"Receita dos últimos 12 meses e crescimento mensal."}]'::jsonb, '["Power BI Desktop","Pacote DAX"]'::jsonb, 'Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito.', 120, '2026-11-30', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.', '["Coluna calculada vs. medida","Contexto de linha e de filtro: o que faz o número mudar","O ciclo para usar IA em código (especificar, gerar, revisar, testar, registrar), o mesmo para DAX e Python: veja o Guia rápido","Revisar a medida da IA: filtros, relacionamentos e conferência com SQL","Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote de medidas DAX (gabarito)","DAX Guide"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (16, 'intermediario', 'DAX II: inteligência de tempo', 'Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.', '["Tabela de datas marcada como tal (as medidas de tempo dependem dela)","TOTALYTD, DATEADD, SAMEPERIODLASTYEAR: o que cada uma faz, sem precisar decorar a sintaxe","Médias móveis (DATESINPERIOD)","Variações absolutas e percentuais","Pedir medidas de tempo à IA e conferir os valores com o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Resultado acumulado no ano vs. ano anterior."},{"area":"E-commerce","text":"Receita dos últimos 12 meses e crescimento mensal."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote DAX (gabarito)"]'::jsonb, 'Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito. A IA erra fácil em tempo (tabela de datas, período anterior): por isso cada medida precisa ser conferida com o SQL.', 120, '2026-11-30', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (17, 'intermediario', 'Python: instalação, VS Code e pandas básico', 'Python automatiza análises repetidas e abre portas para estatística, previsão e IA. Para o administrativo, o objetivo não é programar tudo, e sim saber pedir, ler e validar código.', '["Instalar Python e VS Code","Ambiente virtual e pip","DataFrame: ler CSV/Excel, head, info, describe","Selecionar, filtrar e ordenar com pandas"]'::jsonb, '[{"area":"Comercial","text":"Ler a planilha de pedidos e filtrar o canal app em segundos."},{"area":"Logística","text":"Calcular dias de atraso e listar os piores casos."}]'::jsonb, '["Python 3.12+","VS Code","pandas"]'::jsonb, 'Cada operação pandas tem equivalente em SQL (query, groupby) e Excel (filtro, dinâmica). Veja a tabela de tradução no template de prompt.', 150, '2026-12-01', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
-insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (18, 'intermediario', 'Python com IA: limpeza e análise com pandas', 'Assistentes de IA aceleram a escrita de código, mas só quem sabe especificar e revisar evita erros silenciosos. Hoje você treina o ciclo especificar → gerar → revisar → testar.', '["Como escrever um bom prompt analítico (contexto, dados, restrições, saída)","groupby, merge, pivot_table","Revisar código da IA (joins, filtros, nulos)","Registrar prompts e versões"]'::jsonb, '[{"area":"Financeiro","text":"Conciliar lançamentos com merge e achar divergências."},{"area":"Marketing","text":"CPA por canal com groupby e formatação em R$."}]'::jsonb, '["Assistente de IA (Claude)","Python + pandas","Templates de prompt"]'::jsonb, 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código.', 150, '2026-12-02', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (18, 'intermediario', 'Python com IA: limpeza e análise com pandas', 'Assistentes de IA aceleram a escrita de código, mas só quem sabe especificar e revisar evita erros silenciosos. Hoje você treina o ciclo especificar → gerar → revisar → testar.', '["Como escrever um bom prompt analítico (contexto, dados, restrições, saída)","groupby, merge, pivot_table","Revisar código da IA (joins, filtros, nulos)","Registrar prompts e versões"]'::jsonb, '[{"area":"Financeiro","text":"Conciliar lançamentos com merge e achar divergências."},{"area":"Marketing","text":"CPA por canal com groupby e formatação em R$."}]'::jsonb, '["Assistente de IA (Claude)","Python + pandas","Templates de prompt"]'::jsonb, 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código. Releia o Guia rápido de IA, o mesmo que você usou no DAX (dias 15 e 16).', 150, '2026-12-02', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (19, 'intermediario', 'Visualização em Python e estatística descritiva', 'Média engana. Distribuição, mediana e outliers mostram o que realmente acontece, e gráficos programáticos garantem reprodutibilidade.', '["Média, mediana, desvio, percentis","Histograma, boxplot, dispersão, heatmap","Correlação ≠ causalidade","Gráficos com título-conclusão em matplotlib/seaborn"]'::jsonb, '[{"area":"Esporte","text":"Distribuição de público: a média esconde jogos lotados e vazios?"},{"area":"Logística","text":"Distribuição do tempo de entrega por transportadora (boxplot)."},{"area":"E-commerce","text":"Relação entre desconto e quantidade por pedido."}]'::jsonb, '["Python (pandas, matplotlib, seaborn)","Template p-viz"]'::jsonb, 'Aplica o checklist de qualidade visual do Excel/Power BI em código.', 120, '2026-12-03', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (20, 'intermediario', 'Python + Supabase e entrega da Semana 4', 'Conectar Python direto ao banco elimina exportações manuais e garante que todos analisam a mesma versão dos dados.', '["Conexão segura (variáveis de ambiente, .env, SSL)","pandas.read_sql com SQLAlchemy","Parametrizar consultas","Estruturar um notebook reprodutível"]'::jsonb, '[{"area":"Comercial","text":"Relatório diário de vendas consultando o banco ao vivo."},{"area":"Financeiro","text":"Conferência automática do fechamento mensal."}]'::jsonb, '["Python","Supabase (usuário aluno_leitura)","Prompt p-supabase-conexao"]'::jsonb, 'Une SQL (dias 7–12) + pandas (17–19): o SQL traz o dado agregado; o Python refina, visualiza e interpreta.', 150, '2026-12-04', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
 insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (21, 'avancado', 'KPIs por área e árvore de métricas', 'Métricas soltas confundem; árvores de métricas mostram o que move o resultado e onde agir.', '["Árvore de métricas (North Star → drivers)","KPIs de Comercial, Financeiro, Logística, E-commerce, Marketing e Esporte","Leading vs. lagging indicators","Metas, limites e alertas"]'::jsonb, '[{"area":"E-commerce","text":"Receita = visitantes × conversão × ticket médio; qual driver caiu?"},{"area":"Esporte","text":"Receita de bilheteria = público × preço médio; o que muda com a posição na tabela?"}]'::jsonb, '["Excel x-kpis","Power BI","SQL"]'::jsonb, 'Conecta tudo: cada folha da árvore vira uma consulta SQL ou medida DAX.', 120, '2026-12-07', 5) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
@@ -586,7 +586,7 @@ insert into public.session_dependencies (day, requires_day) values (30, 24);
 insert into public.session_dependencies (day, requires_day) values (30, 27);
 insert into public.session_dependencies (day, requires_day) values (30, 29);
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e1', 1, 1, 'Dissecando 5 pedidos vagos', 'Reescreva 5 pedidos vagos (ex.: "melhorar a logística") como perguntas com métrica, recorte, período e decisão.', 'Documento com 5 perguntas SMART') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e2', 1, 2, 'Reconhecimento do dataset', 'Abra o Excel do treinamento, descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e2', 1, 2, 'Reconhecimento do dataset', 'Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e3', 1, 3, 'Catálogo de KPIs', 'Escolha 2 áreas (ex.: Comercial e Logística) e liste 4 KPIs de cada com fórmula e fonte.', 'Planilha x-kpis preenchida') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d02-e1', 2, 1, 'Diagnóstico de qualidade', 'Na aba fato_pedidos, conte nulos, duplicados e tipos por coluna. Registre o que encontrou.', 'Aba "Diagnostico" com tabela de achados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d02-e2', 2, 2, 'Limpeza com tabela', 'Converta para Tabela, padronize textos e crie coluna calculada "ano_mes".', 'Planilha com dados limpos + coluna ano_mes') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
@@ -598,18 +598,19 @@ insert into public.exercises (id, session_day, position, title, instructions, de
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d05-e1', 5, 1, '4 gráficos que respondem a 3 perguntas', 'Crie 4 gráficos com título-conclusão no painel.', 'Aba Painel') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d05-e2', 5, 2, 'Relatório de entrega', 'Escreva o relatório seguindo o modelo (pergunta, método, 3 achados, recomendação).', 'PDF/Doc do relatório') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e1', 6, 1, 'Ler o diagrama ER', 'Identifique PK/FK e cardinalidade de cada relacionamento.', 'Tabela PK/FK + cardinalidade') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e2', 6, 2, 'Primeiro acesso', 'Conecte-se ao Supabase e rode SELECT COUNT(*) em cada tabela.', 'Print/ tabela de contagens') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e2', 6, 2, 'Primeiro acesso', 'Siga o guia "conectar ao banco" (DBeaver + usuário aluno_leitura) e rode SELECT COUNT(*) em cada tabela.', 'Print/ tabela de contagens') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d06-e3', 6, 3, 'Desenhe um modelo seu', 'Desenhe o ER de uma área da sua empresa com 4 tabelas.', 'Diagrama Mermaid ou imagem') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d07-e1', 7, 1, '10 consultas de filtro', 'Escreva 10 consultas com WHERE/ORDER/LIMIT sobre pedidos, clientes e financeiro.', 'Arquivo .sql comentado') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d07-e2', 7, 2, 'Bate com o Excel?', 'Compare 2 resultados SQL com a planilha e explique diferenças.', 'Nota de conferência') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e1', 8, 1, 'Receita mensal em SQL', 'Reproduza em SQL a dinâmica de receita por mês.', 'Query + resultado') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e2', 8, 2, 'Métricas de marketing', 'Calcule CTR, CPC, CPA e ROAS por canal.', 'Query com métricas nomeadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e2', 8, 2, 'Métricas de marketing', 'Calcule CTR, CPC e CPA por canal.', 'Query com métricas nomeadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e3', 8, 3, 'Faixas com CASE', 'Classifique pedidos em faixas de valor e conte por faixa.', 'Query + comentário') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e1', 9, 1, 'Instalar e conectar', 'Instale o Power BI Desktop e conecte ao Supabase (ou ao Excel se o acesso ao banco não estiver liberado).', 'Print da lista de tabelas carregadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e2', 9, 2, 'Página 1: Visão executiva', 'Crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações.', 'Arquivo .pbix v1') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e1', 10, 1, 'Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e2', 10, 2, '10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e3', 10, 3, 'Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e1', 9, 1, 'Instalar e conectar', 'Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.', 'Print da lista de tabelas carregadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e2', 9, 2, 'Página 1: Visão executiva', 'A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.', 'Arquivo .pbix v1') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e1', 10, 1, 'Trocar a fonte para o Supabase', 'Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.', 'Print dos totais antes e depois') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e2', 10, 2, 'Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e3', 10, 3, '10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e4', 10, 4, 'Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d11-e1', 11, 1, 'Margem por categoria', 'Calcule receita, custo e margem % por categoria.', 'Query validada') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d11-e2', 11, 2, 'Anti-join', 'Liste clientes sem compras por canal de aquisição.', 'Query + contagem') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d11-e3', 11, 3, 'Teste de duplicação', 'Demonstre com contagens que o JOIN não duplicou linhas.', 'Nota com conferência') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
@@ -620,9 +621,9 @@ insert into public.exercises (id, session_day, position, title, instructions, de
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d13-e2', 13, 2, 'Montar no Power BI', 'Importe as tabelas, crie dim_data e os relacionamentos corretos.', 'Print do modelo') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d14-e1', 14, 1, 'Colunas de logística', 'Crie no_prazo (booleano) e dias_atraso em fato_entregas.', 'Etapas aplicadas documentadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d14-e2', 14, 2, 'Mapa do fluxo ETL', 'Desenhe o fluxo fonte → transformação → modelo → relatório.', 'Diagrama') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base', 'Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, ROAS e % do Total.', 'Lista de medidas + prints') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e2', 15, 2, 'Validação cruzada', 'Prove que 3 medidas batem com SQL.', 'Tabela de conferência') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
-insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e1', 16, 1, 'Painel de variação', 'Crie YTD, Mês Ant., Var % e 12M e exiba em linha + cartões.', 'Página .pbix') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base, com IA', 'Escreva você mesmo Receita e % do Total. Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais) e peça à IA, com o prompt p-dax, as outras seis: Custo, Margem %, Pedidos, Ticket Médio, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões). Registre cada pedido feito à IA.', 'Lista de medidas + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e2', 15, 2, 'Validação cruzada', 'Prove que 3 medidas batem com SQL e aplique o checklist de revisão: liste pelo menos 1 correção ou ponto de atenção que você encontrou numa medida da IA.', 'Tabela de conferência + checklist') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e1', 16, 1, 'Painel de variação, com IA', 'Peça à IA, com o prompt p-dax, as medidas YTD, Mês Ant., Var % e 12M, aplique-as no modelo e exiba em linha + cartões. Registre os pedidos e as correções que fez.', 'Página .pbix + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e2', 16, 2, 'Caso de teste', 'Escolha um mês e confirme os valores com SQL.', 'Nota de validação') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d17-e1', 17, 1, 'Ambiente funcionando', 'Instale Python, crie venv e rode um script que imprime a versão e o shape do dataset.', 'Print do terminal') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
 insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d17-e2', 17, 2, 'Exploração inicial', 'Carregue o Excel e responda 5 perguntas simples com pandas.', 'Script .py comentado') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
@@ -667,6 +668,41 @@ SELECT DISTINCT segmento FROM treinamento.dim_clientes;
 SELECT COUNT(*) AS total_clientes FROM treinamento.dim_clientes;
 
 -- TODO (exercício): clientes do segmento ''premium'' cadastrados após 2024-06-01, ordenados por data.', null, 't-sql-basico.sql') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-conexao-banco', 'checklist', 'Guia: conectar ao banco do programa (sem conta Supabase)', 'Passo a passo no DBeaver com o usuário aluno_leitura. Você NÃO faz login no painel do Supabase.', '# Conectar ao banco do programa
+
+> Você **não** precisa de conta nem de e-mail no Supabase. O login do painel do Supabase é só do tutor.
+> Para consultar os dados você usa um programa de SQL e o usuário somente leitura **aluno_leitura**.
+
+## O que o tutor vai te passar
+| Campo | Valor |
+|---|---|
+| Host | (informado pelo tutor, ex.: aws-0-<região>.pooler.supabase.com) |
+| Porta | 5432 |
+| Banco | postgres |
+| Usuário | aluno_leitura.<código-do-projeto> (informado pelo tutor) |
+| Senha | (informada pelo tutor, não compartilhe nem salve em arquivos do projeto) |
+
+## Passo a passo (DBeaver Community, Windows/Mac/Linux)
+1. Instale o **DBeaver Community** (dbeaver.io/download).
+2. Menu **Banco de dados > Nova conexão** e escolha **PostgreSQL**.
+3. Na aba **Principal**, preencha Host, Porta, Banco, Usuário e Senha com os dados do tutor.
+4. Na aba **SSL**, ative SSL e use o modo **require**. Na primeira vez, o DBeaver baixa o driver PostgreSQL: aceite.
+5. Clique em **Testar conexão**. Se aparecer "Conectado", clique em **Concluir**.
+6. Clique com o botão direito na conexão > **Editor SQL > Novo script** (atalho Ctrl+]).
+7. Rode o teste:
+
+```sql
+SELECT COUNT(*) FROM treinamento.fato_pedidos;
+```
+
+## Se der erro
+- **Senha/usuário inválidos**: confira o usuário completo (com o ponto e o código do projeto) e peça a senha de novo ao tutor.
+- **Timeout/host não encontrado**: use o host do Session pooler informado pelo tutor (não o host "db.").
+- **Erro de certificado/SSL**: confirme o modo require e peça orientação ao tutor.
+- Você só consegue **ler** (SELECT) as tabelas do schema treinamento; comandos que alteram dados são bloqueados de propósito.
+
+## Sem acesso ao banco?
+Use o dataset em Excel (recurso "Dataset de treinamento") e faça os mesmos exercícios com tabelas dinâmicas e fórmulas; avise o tutor.', null, 'c-conexao-banco.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('t-sql-agregacao', 'sql', 'Agregações (GROUP BY / HAVING)', 'Totais, médias e rankings por dimensão.', '-- Pedidos e frete médio por canal
 SELECT canal, COUNT(*) AS pedidos, ROUND(AVG(frete),2) AS frete_medio
 FROM treinamento.fato_pedidos
@@ -791,6 +827,16 @@ insert into public.templates (slug, kind, title, description, content, url, file
 Contexto de negócio: [DESCREVA A ÁREA E O QUE AS COLUNAS SIGNIFICAM].
 Regras: use funções pequenas, não use bibliotecas além de pandas, imprima um resumo "antes x depois".
 Depois do código, liste 3 riscos/pegadinhas de qualidade de dados que eu devo verificar manualmente.', null, 'p-pandas-limpeza.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('p-dax', 'prompt', 'Prompt: medida DAX com IA', 'Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.', 'Atue como especialista em Power BI e DAX e explique para um profissional administrativo, sem jargão.
+Meu modelo (tabelas, colunas e relacionamentos): [EX.: fato_itens_pedido[pedido_id, produto_id, quantidade, preco_unitario] -> dim_produtos[produto_id, custo]; dim_data[data] marcada como tabela de datas e ligada a fato_pedidos[data_pedido]].
+Regra de negócio: [EX.: "Receita = quantidade x preço unitário; pedidos cancelados ficam de fora"].
+Escreva a medida DAX chamada [NOME DA MEDIDA] que mostra [O QUE ELA DEVE MOSTRAR].
+Entregue:
+1. a medida, pronta para colar no Power BI;
+2. uma explicação em 3 linhas, em português simples, do que ela calcula e de como reage aos filtros (ex.: ano, canal, categoria);
+3. um caso de teste: como conferir o resultado com uma consulta SQL;
+4. o que pode dar errado (ex.: filtro ignorado, relacionamento inativo, tabela de datas).
+Use apenas as tabelas e colunas que informei. Se faltar informação, pergunte antes de escrever.', null, 'p-dax.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('p-pandas-analise', 'prompt', 'Prompt: análise exploratória com pandas', 'Gera EDA guiada por perguntas de negócio.', 'Atue como analista de dados. Tenho o DataFrame df com as colunas: [LISTA DE COLUNAS E TIPOS].
 Pergunta de negócio: [EX.: "Quais categorias têm maior margem e crescem mais rápido?"].
 Escreva código pandas que:
@@ -838,6 +884,7 @@ insert into public.templates (slug, kind, title, description, content, url, file
   FATO_PEDIDOS ||--o| FATO_ENTREGAS : "gera"
   DIM_CLIENTES { int cliente_id PK
     text nome
+    text cidade
     text uf
     text segmento
     text canal_aquisicao
@@ -853,7 +900,8 @@ insert into public.templates (slug, kind, title, description, content, url, file
     text status
     text canal
     text uf_entrega
-    numeric frete }
+    numeric frete
+    numeric desconto_pct }
   FATO_ITENS_PEDIDO { int item_id PK
     int pedido_id FK
     int produto_id FK
@@ -868,6 +916,7 @@ insert into public.templates (slug, kind, title, description, content, url, file
     text canal
     date mes
     numeric investimento
+    int impressoes
     int cliques
     int conversoes }
   FATO_FINANCEIRO { int lancamento_id PK
@@ -877,10 +926,13 @@ insert into public.templates (slug, kind, title, description, content, url, file
     text centro_custo
     numeric valor }
   ESPORTE_PARTIDAS { int partida_id PK
-    text temporada
+    int temporada
+    int rodada
     date data_jogo
     text mandante
     text visitante
+    int gols_mandante
+    int gols_visitante
     int publico
     numeric receita_bilheteria }', null, 'd-er-modelo.mmd') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('d-star-schema', 'diagram', 'Modelo estrela para Power BI', 'Fato Vendas no centro, dimensões Data, Cliente, Produto, Canal.', 'flowchart LR
@@ -897,10 +949,11 @@ insert into public.templates (slug, kind, title, description, content, url, file
   D -->|PNG / insights| E[Apresentação<br/>executiva]
   C --> E', null, 'd-fluxo-etl.mmd') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-painel-vendas', 'excel', 'Planilha: painel de vendas (Excel)', 'Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.', 'Abas: LEIAME · Dados (cole a aba fato_pedidos) · Calculos (SOMASES/PROCV de exemplo) · Painel (KPIs + espaço para gráficos).', '/templates/painel-vendas.xlsx', 'painel-vendas.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dicionario', 'excel', 'Dicionário de dados (Excel)', 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.', 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, métricas de campanha...).', '/templates/dicionario-dados.xlsx', 'dicionario-dados.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-kpis', 'excel', 'Planilha: catálogo de KPIs por área', 'KPI, fórmula, fonte, frequência e dono para Comercial, Financeiro, Logística, E-commerce, Esporte e Marketing.', 'Abas por área com colunas: KPI, definição, fórmula, fonte (tabela/coluna), frequência, meta, dono.', '/templates/kpis-areas.xlsx', 'kpis-areas.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dre-fluxo', 'excel', 'Planilha: DRE e fluxo de caixa', 'Modelo com receitas, despesas, resultado e caixa acumulado com fórmulas.', 'Abas: DRE_Mensal (fórmulas SOMA/ SOMASES) · Fluxo_Caixa (acumulado) · Orcado_vs_Realizado.', '/templates/dre-fluxo-caixa.xlsx', 'dre-fluxo-caixa.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-pbix-guia', 'pbix', 'Roteiro .pbix: relatório de vendas (3 páginas)', 'Especificação para construir seu arquivo .pbix no Power BI Desktop (e modelo de correção do tutor).', '# Roteiro do arquivo vendas.pbix
-Fonte: PostgreSQL (Supabase) → schema treinamento (modo Importar).
+Fonte: no dia 9, o seu Excel do Painel de vendas (Semana 1). No dia 10, troque a fonte para PostgreSQL (Supabase) → schema treinamento (modo Importar) e confira se os totais continuam iguais.
 
 Página 1 – Visão Executiva
 - Cartões: Receita, Margem %, Pedidos, Ticket Médio
@@ -920,14 +973,51 @@ Ticket Médio = DIVIDE([Receita], [Pedidos])
 
 Checklist de entrega: nome de abas claro, título-conclusão, cores consistentes, sem poluição, tooltip, bookmark de reset.
 Exporte o .pbix e anexe o link (OneDrive/Drive) na submissão.', null, 'b-pbix-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
-insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
 Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
 Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
 Receita YTD := TOTALYTD([Receita], dim_data[data])
 Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
 Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])
 Receita 12M := CALCULATE([Receita], DATESINPERIOD(dim_data[data], MAX(dim_data[data]), -12, MONTH))
 % Entregas no Prazo := DIVIDE(CALCULATE(COUNTROWS(fato_entregas), fato_entregas[no_prazo] = TRUE()), COUNTROWS(fato_entregas))', null, 'b-dax-pack.dax') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-ia-guia', 'checklist', 'Guia rápido: como usar a IA para gerar Python e DAX', 'Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.', 'A IA escreve rápido, mas erra com confiança. Seu papel é dirigir: dizer o que quer, conferir e registrar. Siga os 5 passos.
+
+1) ESPECIFICAR (você, antes de pedir)
+- Escreva a pergunta de negócio em uma frase (ex.: "Qual a margem por categoria?").
+- Descreva os dados: nomes das tabelas e colunas, o que cada linha representa e como as tabelas se ligam (use o Dicionário de dados).
+- Informe as regras: o que entra e o que sai (ex.: sem pedidos cancelados; o preço já vem com desconto).
+- Peça o formato: código pronto para colar, explicação em 3 linhas e como testar.
+- Use os modelos de pedido: p-pandas-limpeza e p-pandas-analise (Python) e p-dax (DAX).
+
+2) GERAR
+- Cole o pedido. Se a IA fizer perguntas, responda. Se ela inventar uma coluna que não existe, avise e peça de novo.
+
+3) REVISAR (antes de rodar ou colar)
+- Todas as tabelas e colunas existem de verdade?
+- Os filtros combinam com a regra de negócio (ex.: cancelados)?
+- Python: juntou tabelas (merge) sem duplicar linhas? Tratou campos vazios? As datas estão como data?
+- DAX: o número muda como esperado ao filtrar por ano ou canal? A divisão usa DIVIDE? A tabela de datas está marcada?
+
+4) TESTAR
+- Compare com um número que você já conhece: uma consulta SQL, a tabela dinâmica do Excel ou um total de controle.
+- Se não bater, volte ao passo 1 e conte o erro à IA (ex.: "o total deu X, o esperado é Y").
+
+5) REGISTRAR
+- Guarde o pedido (v1, v2...), o que a IA devolveu, o que você corrigiu e como validou. Isso faz parte das suas entregas.
+
+CUIDADOS
+- Nunca envie dados pessoais reais (nome, CPF, e-mail de clientes) a uma IA que a empresa não aprovou. Nos exercícios, use o dataset fictício.
+- Não use um código que você não consegue explicar em uma frase.', null, 'c-ia-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-dax-revisao', 'checklist', 'Checklist: revisar uma medida DAX gerada por IA', 'Seis conferências antes de confiar em uma medida que a IA escreveu.', '- [ ] A medida usa só tabelas e colunas que existem no meu modelo (a IA não inventou nada)?
+- [ ] Ao mudar o filtro (ano, canal, categoria), o número muda como eu espero?
+- [ ] Os filtros que deveriam valer (ex.: sem cancelados) estão sendo aplicados?
+- [ ] O total bate com a consulta SQL de referência, para pelo menos um mês?
+- [ ] Divisões usam DIVIDE (sem erro quando o denominador é zero)?
+- [ ] Sei explicar em uma frase o que a medida calcula e registrei o pedido e a correção que fiz?', null, 'c-dax-revisao.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
 insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-relatorio', 'checklist', 'Checklist de qualidade de relatório/dashboard', 'Use antes de enviar qualquer entrega visual.', '- [ ] A pergunta de negócio está no topo da página?
 - [ ] Cada gráfico tem título-conclusão (não só "Vendas por mês")?
 - [ ] Números têm unidade e formato (R$, %, mil/mi)?
@@ -950,9 +1040,9 @@ insert into public.templates (slug, kind, title, description, content, url, file
 4. Recomendação (ação, responsável, prazo, impacto esperado)
 5. Riscos e próximos passos
 Regra: 1 mensagem por slide, título = conclusão, máximo 30 palavras no corpo.', null, 'c-storytelling.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
-insert into public.resources (slug, category, title, url, description) values ('r-dataset-xlsx', 'Dados', 'Dataset de treinamento (Excel)', '/data/dataset_treinamento.xlsx', 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
+insert into public.resources (slug, category, title, url, description) values ('r-dataset-xlsx', 'Dados', 'Dataset de treinamento (Excel)', '/data/dataset_treinamento.xlsx', 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-supabase-url', 'Dados', 'Supabase do programa (banco de análise)', '{{SUPABASE_URL}}', 'Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
-insert into public.resources (slug, category, title, url, description) values ('r-supabase-studio', 'Dados', 'Supabase – SQL Editor', 'https://supabase.com/dashboard', 'Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
+insert into public.resources (slug, category, title, url, description) values ('r-dbeaver', 'Ferramentas', 'DBeaver Community (cliente SQL gratuito)', 'https://dbeaver.io/download/', 'Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-desktop', 'Ferramentas', 'Download do Power BI Desktop', 'https://www.microsoft.com/en-us/download/details.aspx?id=58494', 'Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-samples', 'Ferramentas', 'Exemplos .pbix oficiais da Microsoft', 'https://github.com/microsoft/powerbi-desktop-samples', 'Repositório oficial com relatórios .pbix de exemplo para abrir, estudar o modelo e os visuais.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-sample-docs', 'Referência', 'Power BI – Sample datasets (Microsoft Learn)', 'https://learn.microsoft.com/power-bi/create-reports/sample-datasets', 'Guia oficial para baixar e abrir os exemplos; no Desktop também há Início > "Aprender com dados de exemplo".') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
@@ -963,8 +1053,11 @@ insert into public.resources (slug, category, title, url, description) values ('
 insert into public.resources (slug, category, title, url, description) values ('r-pg-tutorial', 'Referência', 'Tutorial SQL do PostgreSQL', 'https://www.postgresql.org/docs/current/tutorial.html', 'Documentação oficial do Postgres (mesmo motor do Supabase).') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 insert into public.resources (slug, category, title, url, description) values ('r-pbi-learn', 'Referência', 'Microsoft Learn – Power BI', 'https://learn.microsoft.com/power-bi/', 'Trilhas gratuitas e documentação completa do Power BI.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
 delete from public.session_templates; delete from public.session_resources;
-insert into public.session_templates (session_day, template_slug, position) values (1, 'x-kpis', 0);
-insert into public.session_templates (session_day, template_slug, position) values (1, 'c-entrega-semanal', 1);
+delete from public.resources where slug <> all (array['r-dataset-xlsx', 'r-supabase-url', 'r-dbeaver', 'r-pbi-desktop', 'r-pbi-samples', 'r-pbi-sample-docs', 'r-python', 'r-vscode', 'r-pandas', 'r-dax', 'r-pg-tutorial', 'r-pbi-learn']);
+delete from public.templates where slug <> all (array['t-sql-basico', 'c-conexao-banco', 't-sql-agregacao', 't-sql-joins', 't-sql-cte-window', 't-sql-rfm', 't-sql-financeiro', 'p-pandas-limpeza', 'p-dax', 'p-pandas-analise', 'p-viz', 'p-supabase-conexao', 'p-forecast', 'p-abtest', 'p-automacao', 'p-revisao-codigo', 'd-er-modelo', 'd-star-schema', 'd-fluxo-etl', 'x-painel-vendas', 'x-dicionario', 'x-kpis', 'x-dre-fluxo', 'b-pbix-guia', 'b-dax-pack', 'c-ia-guia', 'c-dax-revisao', 'c-relatorio', 'c-entrega-semanal', 'c-storytelling']);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-kpis', 1);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'c-entrega-semanal', 2);
 insert into public.session_resources (session_day, resource_slug, position) values (1, 'r-dataset-xlsx', 0);
 insert into public.session_templates (session_day, template_slug, position) values (2, 'x-painel-vendas', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (2, 'r-dataset-xlsx', 0);
@@ -976,34 +1069,39 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_templates (session_day, template_slug, position) values (5, 'c-relatorio', 1);
 insert into public.session_templates (session_day, template_slug, position) values (5, 'c-entrega-semanal', 2);
 insert into public.session_resources (session_day, resource_slug, position) values (5, 'r-dataset-xlsx', 0);
-insert into public.session_templates (session_day, template_slug, position) values (6, 'd-er-modelo', 0);
-insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 1);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'c-conexao-banco', 0);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'd-er-modelo', 1);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'x-dicionario', 2);
+insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 3);
 insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-supabase-url', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-supabase-studio', 1);
+insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-dbeaver', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (6, 'r-pg-tutorial', 2);
-insert into public.session_templates (session_day, template_slug, position) values (7, 't-sql-basico', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-supabase-studio', 0);
+insert into public.session_templates (session_day, template_slug, position) values (7, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (7, 't-sql-basico', 1);
+insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (7, 'r-pg-tutorial', 1);
-insert into public.session_templates (session_day, template_slug, position) values (8, 't-sql-agregacao', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-supabase-studio', 0);
+insert into public.session_templates (session_day, template_slug, position) values (8, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (8, 't-sql-agregacao', 1);
+insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (8, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (9, 'b-pbix-guia', 0);
 insert into public.session_templates (session_day, template_slug, position) values (9, 'c-relatorio', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-desktop', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-samples', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-pbi-sample-docs', 2);
-insert into public.session_resources (session_day, resource_slug, position) values (9, 'r-supabase-url', 3);
 insert into public.session_templates (session_day, template_slug, position) values (10, 'b-pbix-guia', 0);
 insert into public.session_templates (session_day, template_slug, position) values (10, 'c-relatorio', 1);
 insert into public.session_templates (session_day, template_slug, position) values (10, 'c-entrega-semanal', 2);
 insert into public.session_templates (session_day, template_slug, position) values (10, 't-sql-agregacao', 3);
 insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-pbi-desktop', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-pbi-learn', 1);
-insert into public.session_templates (session_day, template_slug, position) values (11, 't-sql-joins', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-supabase-studio', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-supabase-url', 2);
+insert into public.session_templates (session_day, template_slug, position) values (11, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (11, 't-sql-joins', 1);
+insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (11, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (12, 't-sql-cte-window', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (12, 'r-supabase-studio', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (12, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (12, 'r-pg-tutorial', 1);
 insert into public.session_templates (session_day, template_slug, position) values (13, 'd-star-schema', 0);
 insert into public.session_templates (session_day, template_slug, position) values (13, 'd-er-modelo', 1);
@@ -1011,21 +1109,28 @@ insert into public.session_resources (session_day, resource_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (13, 'r-dax', 1);
 insert into public.session_templates (session_day, template_slug, position) values (14, 'd-fluxo-etl', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (14, 'r-pbi-learn', 0);
-insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 0);
-insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 1);
-insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 4);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 5);
 insert into public.session_resources (session_day, resource_slug, position) values (15, 'r-dax', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (15, 'r-pbi-learn', 1);
-insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 0);
-insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 4);
 insert into public.session_resources (session_day, resource_slug, position) values (16, 'r-dax', 0);
 insert into public.session_templates (session_day, template_slug, position) values (17, 'p-pandas-analise', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (17, 'r-python', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (17, 'r-vscode', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (17, 'r-pandas', 2);
-insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-limpeza', 0);
-insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-analise', 1);
-insert into public.session_templates (session_day, template_slug, position) values (18, 'p-revisao-codigo', 2);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-limpeza', 1);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-analise', 2);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-revisao-codigo', 3);
 insert into public.session_resources (session_day, resource_slug, position) values (18, 'r-pandas', 0);
 insert into public.session_templates (session_day, template_slug, position) values (19, 'p-viz', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (19, 'r-pandas', 0);
@@ -1040,7 +1145,7 @@ insert into public.session_templates (session_day, template_slug, position) valu
 insert into public.session_templates (session_day, template_slug, position) values (21, 't-sql-agregacao', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (21, 'r-pbi-learn', 0);
 insert into public.session_templates (session_day, template_slug, position) values (22, 't-sql-rfm', 0);
-insert into public.session_resources (session_day, resource_slug, position) values (22, 'r-supabase-studio', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (22, 'r-dbeaver', 0);
 insert into public.session_templates (session_day, template_slug, position) values (23, 'p-forecast', 0);
 insert into public.session_templates (session_day, template_slug, position) values (23, 't-sql-cte-window', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (23, 'r-python', 0);
@@ -1050,7 +1155,7 @@ insert into public.session_resources (session_day, resource_slug, position) valu
 insert into public.session_templates (session_day, template_slug, position) values (25, 't-sql-financeiro', 0);
 insert into public.session_templates (session_day, template_slug, position) values (25, 'x-dre-fluxo', 1);
 insert into public.session_templates (session_day, template_slug, position) values (25, 'c-entrega-semanal', 2);
-insert into public.session_resources (session_day, resource_slug, position) values (25, 'r-supabase-studio', 0);
+insert into public.session_resources (session_day, resource_slug, position) values (25, 'r-dbeaver', 0);
 insert into public.session_resources (session_day, resource_slug, position) values (25, 'r-pbi-learn', 1);
 insert into public.session_templates (session_day, template_slug, position) values (26, 'p-revisao-codigo', 0);
 insert into public.session_templates (session_day, template_slug, position) values (26, 'p-pandas-analise', 1);
@@ -1076,8 +1181,8 @@ insert into public.session_resources (session_day, resource_slug, position) valu
 insert into public.session_resources (session_day, resource_slug, position) values (30, 'r-pbi-desktop', 1);
 insert into public.session_resources (session_day, resource_slug, position) values (30, 'r-python', 2);
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (1, 'Painel de vendas em Excel', 'Planilha com dados limpos, fórmulas, tabela dinâmica e 4 gráficos respondendo a 3 perguntas de negócio, mais o relatório de entrega.', '2026-11-09', '2026-11-13', 5) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
-insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (2, 'Primeiro relatório Power BI + 10 consultas SQL', 'Arquivo .pbix de 2 páginas conectado ao Supabase e um .sql com 10 consultas comentadas.', '2026-11-16', '2026-11-20', 10) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
-insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (3, 'Modelo estrela com medidas DAX', 'Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX.', '2026-11-23', '2026-11-27', 15) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (2, 'Primeiro relatório Power BI + 10 consultas SQL', 'Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas.', '2026-11-16', '2026-11-20', 10) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (3, 'Modelo estrela com medidas DAX', 'Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX, com os pedidos feitos à IA registrados.', '2026-11-23', '2026-11-27', 15) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (4, 'Notebook Python de análise', 'Notebook .ipynb (ou .py) que lê o Supabase, limpa, analisa e gera 3 gráficos, com prompts de IA registrados e revisados.', '2026-11-30', '2026-12-04', 20) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (5, 'Segmentação e previsão', 'Relatório com RFM de clientes, previsão de receita de 6 meses e análise financeira (DRE + caixa), com recomendação por área.', '2026-12-07', '2026-12-11', 25) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
 insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (6, 'Projeto final (capstone)', 'Dashboard executivo + apresentação de 5 slides + repositório/pasta com SQL, Python e documentação, apresentado ao tutor.', '2026-12-14', '2026-12-18', 30) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
@@ -1413,4 +1518,2200 @@ begin
     execute format('revoke all on function %s from public', f.sig);
     execute format('grant execute on function %s to anon', f.sig);   -- o app usa a chave anon; Supabase Auth não é usado
   end loop;
+end $$;
+-- Dia 9 parte do Excel da Semana 1; Dia 10 troca a fonte para o Supabase (idempotente).
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (9, 'iniciante', 'Power BI Desktop: instalação, conexão e primeiro relatório', 'O Power BI reúne conexão, modelagem e visualização em uma só ferramenta e é o padrão de mercado para dashboards gerenciais interativos.', '["Instalar o Power BI Desktop","Obter dados: importar o Excel que você montou na Semana 1 (Painel de vendas)","Do Excel ao Power BI: o que cada ferramenta faz melhor","Visuais básicos: cartão, barras, linhas, segmentações"]'::jsonb, '[{"area":"Comercial","text":"Dashboard de receita por canal com filtro de ano para a reunião de segunda."},{"area":"E-commerce","text":"Funil de pedidos por status (pendente → entregue)."}]'::jsonb, '["Power BI Desktop (Windows)","Excel (seu Painel de vendas da Semana 1)"]'::jsonb, 'Você parte da planilha que já limpou e analisou na Semana 1: as abas viram tabelas do Power BI e os gráficos que você fez no Excel são recriados de forma interativa. No dia 10, o mesmo relatório passa a ler do Supabase.', 150, '2026-11-19', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (10, 'iniciante', 'Design de relatórios e entrega da Semana 2', 'Relatório bonito não é enfeite: layout e hierarquia visual guiam a leitura e evitam interpretações erradas.', '["Hierarquia visual e grade","Cores com propósito e acessibilidade","Interações: filtros cruzados, tooltips, bookmarks","Trocar a fonte do Excel pelo Supabase e validar os números contra o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Painel com receitas x despesas x resultado e alerta de mês negativo."},{"area":"Marketing","text":"Painel de campanhas: investimento, conversões e CPA por canal."}]'::jsonb, '["Power BI Desktop","Supabase (Postgres)","Checklist de qualidade"]'::jsonb, 'Hoje o relatório troca a fonte: sai o Excel e entra o Supabase. Seus 10 SQLs dos dias 7–8 viram a "prova real": os cartões do relatório precisam bater com eles e com o Excel.', 150, '2026-11-20', 2) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e1', 9, 1, 'Instalar e conectar', 'Instale o Power BI Desktop e importe o seu Excel do Painel de vendas (Semana 1), conferindo os tipos de cada coluna.', 'Print da lista de tabelas carregadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d09-e2', 9, 2, 'Página 1: Visão executiva', 'A partir do seu Excel, crie 4 cartões, 1 linha mensal, 1 barras por categoria e 2 segmentações e compare com o painel da Semana 1.', 'Arquivo .pbix v1') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e1', 10, 1, 'Trocar a fonte para o Supabase', 'Altere a fonte do relatório do Excel para o Supabase (Obter dados > PostgreSQL) e confirme que os cartões continuam batendo.', 'Print dos totais antes e depois') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e2', 10, 2, 'Página 2 e refinamento', 'Crie a página 2 (Logística ou Marketing) e aplique o checklist em ambas.', '.pbix com 2 páginas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e3', 10, 3, '10 consultas SQL finais', 'Consolide 10 consultas comentadas e valide 3 totais contra o relatório.', 'Arquivo .sql') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d10-e4', 10, 4, 'Relatório da semana', 'Preencha o modelo de entrega semanal.', 'Documento de entrega') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-pbix-guia', 'pbix', 'Roteiro .pbix: relatório de vendas (3 páginas)', 'Especificação para construir seu arquivo .pbix no Power BI Desktop (e modelo de correção do tutor).', '# Roteiro do arquivo vendas.pbix
+Fonte: no dia 9, o seu Excel do Painel de vendas (Semana 1). No dia 10, troque a fonte para PostgreSQL (Supabase) → schema treinamento (modo Importar) e confira se os totais continuam iguais.
+
+Página 1 – Visão Executiva
+- Cartões: Receita, Margem %, Pedidos, Ticket Médio
+- Linha: Receita por mês | Barras: Receita por categoria | Mapa/barras: Receita por UF
+- Segmentações: Ano, Canal
+
+Página 2 – Clientes
+- Matriz Segmento x Canal, Top 10 clientes, RFM (se já existir)
+
+Página 3 – Logística
+- % Entregas no prazo por transportadora, atraso médio (dias)
+
+Medidas mínimas (DAX):
+Receita = SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+Pedidos = DISTINCTCOUNT(fato_pedidos[pedido_id])
+Ticket Médio = DIVIDE([Receita], [Pedidos])
+
+Checklist de entrega: nome de abas claro, título-conclusão, cores consistentes, sem poluição, tooltip, bookmark de reset.
+Exporte o .pbix e anexe o link (OneDrive/Drive) na submissão.', null, 'b-pbix-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (2, 'Primeiro relatório Power BI + 10 consultas SQL', 'Arquivo .pbix de 2 páginas, iniciado no seu Excel e conectado ao Supabase, e um .sql com 10 consultas comentadas.', '2026-11-16', '2026-11-20', 10) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+delete from public.session_resources where session_day = 9 and resource_slug = 'r-supabase-url';
+insert into public.session_resources (session_day, resource_slug, position) values (10, 'r-supabase-url', 2) on conflict (session_day, resource_slug) do update set position = excluded.position;
+-- Cadastro controlado: modo 'open' (qualquer pessoa), 'invite' (exige código de convite) ou 'closed' (só tutores da lista).
+-- E-mails da teacher_allowlist sempre podem se cadastrar (tutores autorizados pela coordenação).
+-- Padrão seguro: 'invite' sem código definido = ninguém (exceto tutores) se cadastra até a coordenação definir o código.
+create table if not exists public.app_settings (
+  key text primary key,
+  value text not null,
+  updated_at timestamptz not null default now()
+);
+alter table public.app_settings enable row level security;   -- sem políticas: inacessível pela API
+revoke all on public.app_settings from public, anon, authenticated;
+comment on table public.app_settings is 'Configurações do app (modo de cadastro, hash do código de convite). Acesso somente via funções.';
+insert into public.app_settings (key, value) values ('signup_mode', 'invite') on conflict (key) do nothing;
+
+-- Informa à tela de cadastro se deve pedir o código (não revela o código nem seu hash).
+create or replace function public.app_signup_status()
+returns json language sql stable security definer set search_path = public as $$
+  select json_build_object('mode', coalesce((select value from public.app_settings where key = 'signup_mode'), 'invite'));
+$$;
+
+-- Normaliza o código (maiúsculas, sem espaços/hífens) para tolerar digitação.
+create or replace function public._invite_hash(p_code text)
+returns text language sql immutable set search_path = public, extensions as $$
+  select encode(digest(upper(regexp_replace(coalesce(p_code, ''), '[\s-]', '', 'g')), 'sha256'), 'hex');
+$$;
+
+-- Administração (SQL Editor): define o modo e, opcionalmente, o código de convite.
+create or replace function public.admin_set_signup(p_mode text, p_code text default null)
+returns text language plpgsql security definer set search_path = public, extensions as $$
+begin
+  if p_mode not in ('open', 'invite', 'closed') then raise exception 'Modo inválido: use open, invite ou closed.'; end if;
+  if p_code is not null and length(regexp_replace(p_code, '[\s-]', '', 'g')) < 8 then raise exception 'O código deve ter pelo menos 8 caracteres.'; end if;
+  insert into public.app_settings (key, value) values ('signup_mode', p_mode)
+    on conflict (key) do update set value = excluded.value, updated_at = now();
+  if p_code is not null then
+    insert into public.app_settings (key, value) values ('invite_code_hash', public._invite_hash(p_code))
+      on conflict (key) do update set value = excluded.value, updated_at = now();
+  end if;
+  return 'cadastro: ' || p_mode;
+end;
+$$;
+revoke all on function public.admin_set_signup(text, text) from public, anon, authenticated;
+revoke all on function public._invite_hash(text) from public, anon, authenticated;
+
+-- app_register passa a validar o convite (4º parâmetro opcional).
+drop function if exists public.app_register(text, text, text);
+create function public.app_register(p_email text, p_password text, p_name text, p_invite text default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_name text := trim(coalesce(p_name, ''));
+  v_mode text := coalesce((select value from public.app_settings where key = 'signup_mode'), 'invite');
+  v_hash text := (select value from public.app_settings where key = 'invite_code_hash');
+  v_tutor boolean;
+  u public.app_users;
+begin
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then
+    raise exception 'Informe um e-mail válido.';
+  end if;
+  if length(v_name) < 2 or length(v_name) > 100 then
+    raise exception 'Informe seu nome (2 a 100 caracteres).';
+  end if;
+  if p_password is null or length(p_password) < 8 then
+    raise exception 'A senha deve ter pelo menos 8 caracteres.';
+  end if;
+  if octet_length(p_password) > 72 then
+    raise exception 'A senha deve ter no máximo 72 caracteres.';
+  end if;
+
+  v_tutor := exists (select 1 from public.teacher_allowlist t where lower(t.email) = v_email);
+  if not v_tutor then
+    if v_mode = 'closed' then
+      raise exception 'O cadastro está fechado. Fale com a coordenação do programa.';
+    elsif v_mode = 'invite' and (v_hash is null or public._invite_hash(p_invite) <> v_hash) then
+      raise exception 'Código de convite inválido. Peça o código à coordenação do programa.';
+    end if;
+  end if;
+
+  if exists (select 1 from public.app_users where email = v_email) then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end if;
+
+  begin
+    insert into public.app_users (email, full_name, password_hash, role)
+    values (v_email, v_name, crypt(p_password, gen_salt('bf', 10)), case when v_tutor then 'teacher' else 'student' end)
+    returning * into u;
+  exception when unique_violation then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end;
+
+  return json_build_object('token', public._app_new_session(u.id), 'user', public._app_user_json(u));
+end;
+$$;
+
+revoke all on function public.app_register(text, text, text, text) from public;
+revoke all on function public.app_signup_status() from public;
+grant execute on function public.app_register(text, text, text, text) to anon;
+grant execute on function public.app_signup_status() to anon;
+-- 1) Redefinição de senha assistida pelo tutor (sem e-mail): o tutor gera um código de uso único e o aluno define a nova senha.
+-- 2) Limite de tentativas de código de convite (proteção contra adivinhação).
+
+-- ── Redefinição de senha ──
+create table if not exists public.password_resets (
+  user_id uuid primary key references public.app_users(id) on delete cascade,
+  code_hash text not null,
+  expires_at timestamptz not null,
+  failed_attempts int not null default 0,
+  created_by uuid references public.app_users(id) on delete set null,
+  created_at timestamptz not null default now()
+);
+alter table public.password_resets enable row level security;
+revoke all on public.password_resets from public, anon, authenticated;
+
+create or replace function public._reset_hash(p_code text)
+returns text language sql immutable set search_path = public, extensions as $$
+  select encode(digest(upper(regexp_replace(coalesce(p_code, ''), '[\s-]', '', 'g')), 'sha256'), 'hex');
+$$;
+revoke all on function public._reset_hash(text) from public, anon, authenticated;
+
+-- Tutor gera o código (válido por 1 hora) para um ALUNO. Tutores não redefinem senha de outros tutores.
+create or replace function public.app_teacher_reset_code(p_token text, p_student_id uuid)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  me public.app_users := public._app_user(p_token);
+  s public.app_users;
+  alphabet constant text := 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  raw text := '';
+  i int;
+  v_exp timestamptz := now() + interval '1 hour';
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores podem gerar códigos de redefinição.'; end if;
+  select * into s from public.app_users where id = p_student_id;
+  if not found or s.role <> 'student' then raise exception 'Aluno não encontrado.'; end if;
+  for i in 1..8 loop
+    raw := raw || substr(alphabet, 1 + (get_byte(gen_random_bytes(1), 0) % length(alphabet)), 1);
+  end loop;
+  insert into public.password_resets (user_id, code_hash, expires_at, failed_attempts, created_by)
+  values (s.id, public._reset_hash(raw), v_exp, 0, me.id)
+  on conflict (user_id) do update
+    set code_hash = excluded.code_hash, expires_at = excluded.expires_at, failed_attempts = 0, created_by = excluded.created_by, created_at = now();
+  return json_build_object('code', substr(raw, 1, 4) || '-' || substr(raw, 5, 4), 'expires_at', v_exp, 'student', s.full_name);
+end;
+$$;
+
+-- Aluno informa e-mail + código + nova senha. Erros voltam como {error} para que o contador de tentativas seja gravado.
+create or replace function public.app_reset_password(p_email text, p_code text, p_new_password text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  u public.app_users;
+  r public.password_resets;
+  v_msg constant text := 'Código inválido ou expirado. Peça um novo código ao tutor.';
+begin
+  if p_new_password is null or length(p_new_password) < 8 then
+    return json_build_object('error', 'A senha deve ter pelo menos 8 caracteres.');
+  end if;
+  if octet_length(p_new_password) > 72 then
+    return json_build_object('error', 'A senha deve ter no máximo 72 caracteres.');
+  end if;
+  select * into u from public.app_users where email = v_email and role = 'student';
+  if not found then return json_build_object('error', v_msg); end if;
+  select * into r from public.password_resets where user_id = u.id;
+  if not found or r.expires_at < now() then
+    delete from public.password_resets where user_id = u.id;
+    return json_build_object('error', v_msg);
+  end if;
+  if r.code_hash <> public._reset_hash(p_code) then
+    if r.failed_attempts + 1 >= 5 then delete from public.password_resets where user_id = u.id;   -- queima o código após 5 erros
+    else update public.password_resets set failed_attempts = failed_attempts + 1 where user_id = u.id; end if;
+    return json_build_object('error', v_msg);
+  end if;
+  update public.app_users
+     set password_hash = crypt(p_new_password, gen_salt('bf', 10)), failed_attempts = 0, locked_until = null
+   where id = u.id;
+  delete from public.password_resets where user_id = u.id;
+  delete from public.app_sessions where user_id = u.id;   -- encerra sessões antigas
+  return json_build_object('ok', true);
+end;
+$$;
+
+-- ── Limite de tentativas de convite ──
+create table if not exists public.signup_failures (id bigserial primary key, at timestamptz not null default now());
+alter table public.signup_failures enable row level security;
+revoke all on public.signup_failures from public, anon, authenticated;
+
+-- app_register: convite inválido/limite excedido voltam como {error} (para gravar a tentativa); demais erros seguem como exceção.
+create or replace function public.app_register(p_email text, p_password text, p_name text, p_invite text default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_name text := trim(coalesce(p_name, ''));
+  v_mode text := coalesce((select value from public.app_settings where key = 'signup_mode'), 'invite');
+  v_hash text := (select value from public.app_settings where key = 'invite_code_hash');
+  v_tutor boolean;
+  u public.app_users;
+begin
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then
+    raise exception 'Informe um e-mail válido.';
+  end if;
+  if length(v_name) < 2 or length(v_name) > 100 then
+    raise exception 'Informe seu nome (2 a 100 caracteres).';
+  end if;
+  if p_password is null or length(p_password) < 8 then
+    raise exception 'A senha deve ter pelo menos 8 caracteres.';
+  end if;
+  if octet_length(p_password) > 72 then
+    raise exception 'A senha deve ter no máximo 72 caracteres.';
+  end if;
+
+  v_tutor := exists (select 1 from public.teacher_allowlist t where lower(t.email) = v_email);
+  if not v_tutor then
+    if v_mode = 'closed' then
+      raise exception 'O cadastro está fechado. Fale com a coordenação do programa.';
+    elsif v_mode = 'invite' then
+      delete from public.signup_failures where at < now() - interval '1 day';
+      if (select count(*) from public.signup_failures where at > now() - interval '15 minutes') >= 20 then
+        return json_build_object('error', 'Muitas tentativas de código incorretas. Aguarde alguns minutos e tente de novo.');
+      end if;
+      if v_hash is null or public._invite_hash(p_invite) <> v_hash then
+        insert into public.signup_failures default values;
+        return json_build_object('error', 'Código de convite inválido. Peça o código à coordenação do programa.');
+      end if;
+    end if;
+  end if;
+
+  if exists (select 1 from public.app_users where email = v_email) then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end if;
+
+  begin
+    insert into public.app_users (email, full_name, password_hash, role)
+    values (v_email, v_name, crypt(p_password, gen_salt('bf', 10)), case when v_tutor then 'teacher' else 'student' end)
+    returning * into u;
+  exception when unique_violation then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end;
+
+  return json_build_object('token', public._app_new_session(u.id), 'user', public._app_user_json(u));
+end;
+$$;
+
+revoke all on function public.app_teacher_reset_code(text, uuid) from public;
+revoke all on function public.app_reset_password(text, text, text) from public;
+grant execute on function public.app_teacher_reset_code(text, uuid) to anon;   -- o app usa a chave anon; a função valida o token e o perfil
+grant execute on function public.app_reset_password(text, text, text) to anon;
+-- Dicionário de dados: novo template, ER completo, e vínculo aos dias 1, 6, 7, 8 e 11 (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dicionario', 'excel', 'Dicionário de dados (Excel)', 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.', 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, ROAS...).', '/templates/dicionario-dados.xlsx', 'dicionario-dados.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('d-er-modelo', 'diagram', 'Diagrama ER do banco de análise', 'Estrutura de dados do schema treinamento (renderiza no GitHub/Mermaid Live).', 'erDiagram
+  DIM_CLIENTES ||--o{ FATO_PEDIDOS : "faz"
+  FATO_PEDIDOS ||--|{ FATO_ITENS_PEDIDO : "contém"
+  DIM_PRODUTOS ||--o{ FATO_ITENS_PEDIDO : "vendido em"
+  FATO_PEDIDOS ||--o| FATO_ENTREGAS : "gera"
+  DIM_CLIENTES { int cliente_id PK
+    text nome
+    text cidade
+    text uf
+    text segmento
+    text canal_aquisicao
+    date data_cadastro }
+  DIM_PRODUTOS { int produto_id PK
+    text nome
+    text categoria
+    numeric preco
+    numeric custo }
+  FATO_PEDIDOS { int pedido_id PK
+    int cliente_id FK
+    date data_pedido
+    text status
+    text canal
+    text uf_entrega
+    numeric frete
+    numeric desconto_pct }
+  FATO_ITENS_PEDIDO { int item_id PK
+    int pedido_id FK
+    int produto_id FK
+    int quantidade
+    numeric preco_unitario }
+  FATO_ENTREGAS { int pedido_id PK
+    text transportadora
+    date data_envio
+    int prazo_dias
+    date data_entrega }
+  FATO_CAMPANHAS { int campanha_id PK
+    text canal
+    date mes
+    numeric investimento
+    int impressoes
+    int cliques
+    int conversoes }
+  FATO_FINANCEIRO { int lancamento_id PK
+    date data
+    text tipo
+    text categoria
+    text centro_custo
+    numeric valor }
+  ESPORTE_PARTIDAS { int partida_id PK
+    int temporada
+    int rodada
+    date data_jogo
+    text mandante
+    text visitante
+    int gols_mandante
+    int gols_visitante
+    int publico
+    numeric receita_bilheteria }', null, 'd-er-modelo.mmd') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.resources (slug, category, title, url, description) values ('r-dataset-xlsx', 'Dados', 'Dataset de treinamento (Excel)', '/data/dataset_treinamento.xlsx', 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.') on conflict (slug) do update set category=excluded.category, title=excluded.title, url=excluded.url, description=excluded.description;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (1, 'iniciante', 'Mentalidade analítica e perguntas de negócio', 'Análise sem pergunta vira relatório que ninguém usa. Antes de qualquer ferramenta, você precisa saber transformar um problema vago ("vendas caíram") em uma pergunta mensurável, com métrica, recorte e decisão associada.', '["O ciclo da análise: Pergunta → Dados → Análise → Insight → Decisão","Diferença entre dado, métrica, KPI e indicador","Como escrever uma pergunta SMART de negócio","Tipos de análise: descritiva, diagnóstica, preditiva e prescritiva"]'::jsonb, '[{"area":"Comercial","text":"O diretor diz \"as vendas do app estão estranhas\". Qual métrica, período e comparação transformam isso em pergunta?"},{"area":"Marketing","text":"\"Qual canal traz clientes que mais compram em 90 dias?\" – métrica, recorte e decisão (onde investir)."},{"area":"Esporte","text":"Um clube quer saber se o público em casa influencia a receita de bilheteria por jogo."}]'::jsonb, '["Papel/Miro/Excel para mapear perguntas","Dataset de treinamento (Excel)"]'::jsonb, 'Hoje não há código. Você aprende a olhar o dataset como um analista: quais tabelas existem, o que cada linha representa (granularidade) e quais perguntas ele consegue responder. O Dicionário de dados é o seu guia: ele explica cada coluna, os valores possíveis e os cuidados de cálculo.', 120, '2026-11-09', 1) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d01-e2', 1, 2, 'Reconhecimento do dataset', 'Abra o Excel do treinamento e use a aba DICIONARIO (ou o Dicionário de dados): descreva em 1 linha cada aba e a granularidade (o que representa uma linha).', 'Tabela: aba | granularidade | 2 perguntas possíveis') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+delete from public.session_templates where session_day in (1,6,7,8,11);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'x-kpis', 1);
+insert into public.session_templates (session_day, template_slug, position) values (1, 'c-entrega-semanal', 2);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'd-er-modelo', 0);
+insert into public.session_templates (session_day, template_slug, position) values (6, 'x-dicionario', 1);
+insert into public.session_templates (session_day, template_slug, position) values (6, 't-sql-basico', 2);
+insert into public.session_templates (session_day, template_slug, position) values (7, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (7, 't-sql-basico', 1);
+insert into public.session_templates (session_day, template_slug, position) values (8, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (8, 't-sql-agregacao', 1);
+insert into public.session_templates (session_day, template_slug, position) values (11, 'x-dicionario', 0);
+insert into public.session_templates (session_day, template_slug, position) values (11, 't-sql-joins', 1);
+-- Remove o ROAS do exercício do Dia 8 (fato_campanhas não tem receita por campanha) e ajusta o dicionário (idempotente).
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d08-e2', 8, 2, 'Métricas de marketing', 'Calcule CTR, CPC e CPA por canal.', 'Query com métricas nomeadas') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('x-dicionario', 'excel', 'Dicionário de dados (Excel)', 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.', 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, métricas de campanha...).', '/templates/dicionario-dados.xlsx', 'dicionario-dados.xlsx') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+-- Dia 15: troca ROAS por CTR (fato_campanhas não tem receita por campanha) (idempotente).
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base', 'Crie Receita, Custo, Margem %, Pedidos, Ticket Médio, CPA, CTR e % do Total.', 'Lista de medidas + prints') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+-- Dia 15: orienta importar fato_campanhas (sem relacionamento) para CPA e CTR (idempotente).
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Entender contexto de filtro é o que separa quem "arrasta campos" de quem constrói análises confiáveis.', '["Coluna calculada vs. medida","Contexto de linha e de filtro","CALCULATE, SUMX, DIVIDE, DISTINCTCOUNT","ALL / REMOVEFILTERS para % do total","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","DAX Guide","Pacote de medidas DAX"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base', 'Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais). Crie Receita, Custo, Margem %, Pedidos, Ticket Médio e % do Total e, a partir de fato_campanhas, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões).', 'Lista de medidas + prints') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+-- Pacote DAX: inclui CPA e CTR (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('b-dax-pack', 'pbix', 'Pacote de medidas DAX', 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.', 'Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
+Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
+Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
+Receita YTD := TOTALYTD([Receita], dim_data[data])
+Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
+Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])
+Receita 12M := CALCULATE([Receita], DATESINPERIOD(dim_data[data], MAX(dim_data[data]), -12, MONTH))
+% Entregas no Prazo := DIVIDE(CALCULATE(COUNTROWS(fato_entregas), fato_entregas[no_prazo] = TRUE()), COUNTROWS(fato_entregas))', null, 'b-dax-pack.dax') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+-- DAX com IA: modelo de pedido (p-dax), checklist de revisão e ajuste dos dias 15 e 16 (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('p-dax', 'prompt', 'Prompt: medida DAX com IA', 'Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.', 'Atue como especialista em Power BI e DAX e explique para um profissional administrativo, sem jargão.
+Meu modelo (tabelas, colunas e relacionamentos): [EX.: fato_itens_pedido[pedido_id, produto_id, quantidade, preco_unitario] -> dim_produtos[produto_id, custo]; dim_data[data] marcada como tabela de datas e ligada a fato_pedidos[data_pedido]].
+Regra de negócio: [EX.: "Receita = quantidade x preço unitário; pedidos cancelados ficam de fora"].
+Escreva a medida DAX chamada [NOME DA MEDIDA] que mostra [O QUE ELA DEVE MOSTRAR].
+Entregue:
+1. a medida, pronta para colar no Power BI;
+2. uma explicação em 3 linhas, em português simples, do que ela calcula e de como reage aos filtros (ex.: ano, canal, categoria);
+3. um caso de teste: como conferir o resultado com uma consulta SQL;
+4. o que pode dar errado (ex.: filtro ignorado, relacionamento inativo, tabela de datas).
+Use apenas as tabelas e colunas que informei. Se faltar informação, pergunte antes de escrever.', null, 'p-dax.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-dax-revisao', 'checklist', 'Checklist: revisar uma medida DAX gerada por IA', 'Seis conferências antes de confiar em uma medida que a IA escreveu.', '- [ ] A medida usa só tabelas e colunas que existem no meu modelo (a IA não inventou nada)?
+- [ ] Ao mudar o filtro (ano, canal, categoria), o número muda como eu espero?
+- [ ] Os filtros que deveriam valer (ex.: sem cancelados) estão sendo aplicados?
+- [ ] O total bate com a consulta SQL de referência, para pelo menos um mês?
+- [ ] Divisões usam DIVIDE (sem erro quando o denominador é zero)?
+- [ ] Sei explicar em uma frase o que a medida calcula e registrei o pedido e a correção que fiz?', null, 'c-dax-revisao.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.', '["Coluna calculada vs. medida","Contexto de linha e de filtro: o que faz o número mudar","Como pedir uma medida à IA: modelo, regra de negócio e resultado esperado","Revisar a medida da IA: filtros, relacionamentos e conferência com SQL","Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote de medidas DAX (gabarito)","DAX Guide"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (16, 'intermediario', 'DAX II: inteligência de tempo', 'Gestores comparam sempre com o período anterior. Inteligência de tempo entrega YTD, mês anterior e 12 meses móveis sem refazer cálculos.', '["Tabela de datas marcada como tal (as medidas de tempo dependem dela)","TOTALYTD, DATEADD, SAMEPERIODLASTYEAR: o que cada uma faz, sem precisar decorar a sintaxe","Médias móveis (DATESINPERIOD)","Variações absolutas e percentuais","Pedir medidas de tempo à IA e conferir os valores com o SQL"]'::jsonb, '[{"area":"Financeiro","text":"Resultado acumulado no ano vs. ano anterior."},{"area":"E-commerce","text":"Receita dos últimos 12 meses e crescimento mensal."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote DAX (gabarito)"]'::jsonb, 'Equivale às window functions LAG/SUM OVER do dia 12; use a SQL como gabarito. A IA erra fácil em tempo (tabela de datas, período anterior): por isso cada medida precisa ser conferida com o SQL.', 120, '2026-11-30', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e1', 15, 1, '8 medidas base, com IA', 'Escreva você mesmo Receita e % do Total. Importe também a tabela fato_campanhas (ela fica sem relacionamento com as demais) e peça à IA, com o prompt p-dax, as outras seis: Custo, Margem %, Pedidos, Ticket Médio, CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões). Registre cada pedido feito à IA.', 'Lista de medidas + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d15-e2', 15, 2, 'Validação cruzada', 'Prove que 3 medidas batem com SQL e aplique o checklist de revisão: liste pelo menos 1 correção ou ponto de atenção que você encontrou numa medida da IA.', 'Tabela de conferência + checklist') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.exercises (id, session_day, position, title, instructions, deliverable) values ('d16-e1', 16, 1, 'Painel de variação, com IA', 'Peça à IA, com o prompt p-dax, as medidas YTD, Mês Ant., Var % e 12M, aplique-as no modelo e exiba em linha + cartões. Registre os pedidos e as correções que fez.', 'Página .pbix + pedidos à IA registrados') on conflict (id) do update set session_day=excluded.session_day, position=excluded.position, title=excluded.title, instructions=excluded.instructions, deliverable=excluded.deliverable;
+insert into public.weekly_deliverables (week, title, description, start_date, due_date, session_day) values (3, 'Modelo estrela com medidas DAX', 'Arquivo .pbix com modelo estrela (dim_data, dim_clientes, dim_produtos), Power Query documentado e 8 medidas DAX, com os pedidos feitos à IA registrados.', '2026-11-23', '2026-11-27', 15) on conflict (week) do update set title=excluded.title, description=excluded.description, start_date=excluded.start_date, due_date=excluded.due_date, session_day=excluded.session_day;
+delete from public.session_templates where session_day in (15,16);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 0);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'p-dax', 1);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-dax-revisao', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 3);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 4);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 0);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'p-dax', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-dax-revisao', 2);
+insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 3);
+-- Guia rápido de IA (c-ia-guia) nos dias 15, 16 e 18 (idempotente).
+insert into public.templates (slug, kind, title, description, content, url, filename) values ('c-ia-guia', 'checklist', 'Guia rápido: como usar a IA para gerar Python e DAX', 'Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.', 'A IA escreve rápido, mas erra com confiança. Seu papel é dirigir: dizer o que quer, conferir e registrar. Siga os 5 passos.
+
+1) ESPECIFICAR (você, antes de pedir)
+- Escreva a pergunta de negócio em uma frase (ex.: "Qual a margem por categoria?").
+- Descreva os dados: nomes das tabelas e colunas, o que cada linha representa e como as tabelas se ligam (use o Dicionário de dados).
+- Informe as regras: o que entra e o que sai (ex.: sem pedidos cancelados; o preço já vem com desconto).
+- Peça o formato: código pronto para colar, explicação em 3 linhas e como testar.
+- Use os modelos de pedido: p-pandas-limpeza e p-pandas-analise (Python) e p-dax (DAX).
+
+2) GERAR
+- Cole o pedido. Se a IA fizer perguntas, responda. Se ela inventar uma coluna que não existe, avise e peça de novo.
+
+3) REVISAR (antes de rodar ou colar)
+- Todas as tabelas e colunas existem de verdade?
+- Os filtros combinam com a regra de negócio (ex.: cancelados)?
+- Python: juntou tabelas (merge) sem duplicar linhas? Tratou campos vazios? As datas estão como data?
+- DAX: o número muda como esperado ao filtrar por ano ou canal? A divisão usa DIVIDE? A tabela de datas está marcada?
+
+4) TESTAR
+- Compare com um número que você já conhece: uma consulta SQL, a tabela dinâmica do Excel ou um total de controle.
+- Se não bater, volte ao passo 1 e conte o erro à IA (ex.: "o total deu X, o esperado é Y").
+
+5) REGISTRAR
+- Guarde o pedido (v1, v2...), o que a IA devolveu, o que você corrigiu e como validou. Isso faz parte das suas entregas.
+
+CUIDADOS
+- Nunca envie dados pessoais reais (nome, CPF, e-mail de clientes) a uma IA que a empresa não aprovou. Nos exercícios, use o dataset fictício.
+- Não use um código que você não consegue explicar em uma frase.', null, 'c-ia-guia.md') on conflict (slug) do update set kind=excluded.kind, title=excluded.title, description=excluded.description, content=excluded.content, url=excluded.url, filename=excluded.filename;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (15, 'intermediario', 'DAX I: medidas e contexto – entrega da Semana 3', 'Medidas DAX calculam números corretos em qualquer filtro. Você não precisa decorar a sintaxe: precisa entender o contexto de filtro, pedir a medida certa à IA e conferir o resultado. É o mesmo ciclo especificar → gerar → revisar → testar que você usará no Python.', '["Coluna calculada vs. medida","Contexto de linha e de filtro: o que faz o número mudar","O ciclo para usar IA em código (especificar, gerar, revisar, testar, registrar), o mesmo para DAX e Python: veja o Guia rápido","Revisar a medida da IA: filtros, relacionamentos e conferência com SQL","Escrever à mão as medidas simples (Receita e % do Total) para reconhecer erros","Medidas sobre uma tabela sem relacionamento (fato_campanhas): CPA e CTR"]'::jsonb, '[{"area":"Comercial","text":"Ticket médio e % da receita por canal."},{"area":"Marketing","text":"CTR e CPA por campanha."}]'::jsonb, '["Power BI Desktop","Assistente de IA (Claude)","Prompt p-dax","Pacote de medidas DAX (gabarito)","DAX Guide"]'::jsonb, 'Compare o resultado de cada medida com a query SQL equivalente (dias 8 e 11). Divergências revelam erros de modelo. CPA e CTR vêm de fato_campanhas, que não tem chave em comum com as tabelas de vendas: ela entra no modelo sozinha, sem relacionamento, e suas medidas somam as próprias colunas. O pacote de medidas DAX é o seu gabarito: compare com o que a IA gerou.', 150, '2026-11-27', 3) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+insert into public.sessions (day, level_slug, title, why, learn, scenarios, tools, connection, minutes, scheduled_date, week) values (18, 'intermediario', 'Python com IA: limpeza e análise com pandas', 'Assistentes de IA aceleram a escrita de código, mas só quem sabe especificar e revisar evita erros silenciosos. Hoje você treina o ciclo especificar → gerar → revisar → testar.', '["Como escrever um bom prompt analítico (contexto, dados, restrições, saída)","groupby, merge, pivot_table","Revisar código da IA (joins, filtros, nulos)","Registrar prompts e versões"]'::jsonb, '[{"area":"Financeiro","text":"Conciliar lançamentos com merge e achar divergências."},{"area":"Marketing","text":"CPA por canal com groupby e formatação em R$."}]'::jsonb, '["Assistente de IA (Claude)","Python + pandas","Templates de prompt"]'::jsonb, 'O prompt carrega o que você aprendeu: pergunta (dia 1), modelo (dia 13) e regras de negócio. Quanto melhor a especificação, melhor o código. Releia o Guia rápido de IA, o mesmo que você usou no DAX (dias 15 e 16).', 150, '2026-12-02', 4) on conflict (day) do update set level_slug=excluded.level_slug, title=excluded.title, why=excluded.why, learn=excluded.learn, scenarios=excluded.scenarios, tools=excluded.tools, connection=excluded.connection, minutes=excluded.minutes, scheduled_date=excluded.scheduled_date, week=excluded.week;
+delete from public.session_templates where session_day in (15,16,18);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'd-star-schema', 4);
+insert into public.session_templates (session_day, template_slug, position) values (15, 'c-entrega-semanal', 5);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'b-dax-pack', 1);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'p-dax', 2);
+insert into public.session_templates (session_day, template_slug, position) values (16, 'c-dax-revisao', 3);
+insert into public.session_templates (session_day, template_slug, position) values (16, 't-sql-cte-window', 4);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'c-ia-guia', 0);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-limpeza', 1);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-pandas-analise', 2);
+insert into public.session_templates (session_day, template_slug, position) values (18, 'p-revisao-codigo', 3);
+-- ============================================================================
+-- WhatsApp no cadastro, verificação do número e recuperação de senha por código.
+-- ADITIVA: mantém o código de convite e a redefinição assistida pelo tutor (migrations 006/007).
+--
+--   - app_users.phone (somente dígitos, DDI 55), phone_verified_at, welcome_sent_at
+--   - Conta nova nasce NÃO verificada: o servidor só libera currículo/entregas/avaliações depois
+--     que o usuário confirma o código de 6 dígitos enviado ao número (15 min, 5 tentativas, hash, 1/min).
+--   - Contas existentes ficam como verificadas (sem telefone; a recuperação por WhatsApp não vale para elas).
+--   - Recuperação por WhatsApp: tabela própria (whatsapp_resets); só para contas com número verificado.
+--   - O ENVIO é feito pelo backend (web/api, Vercel). Funções com telefone/código: só service_role.
+-- ============================================================================
+
+alter table public.app_users
+  add column phone text check (phone is null or phone ~ '^55[0-9]{10,11}$'),
+  add column phone_verified_at timestamptz,
+  add column welcome_sent_at timestamptz;
+update public.app_users set phone_verified_at = created_at;      -- contas existentes (grandfathering)
+comment on column public.app_users.phone is 'WhatsApp do usuário: só dígitos com DDI (55 + DDD + número).';
+
+create table public.phone_verifications (
+  user_id uuid primary key references public.app_users (id) on delete cascade,
+  code_hash text not null,
+  attempts int not null default 0,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null
+);
+create table public.whatsapp_resets (
+  user_id uuid primary key references public.app_users (id) on delete cascade,
+  code_hash text not null,
+  attempts int not null default 0,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null
+);
+alter table public.phone_verifications enable row level security;
+alter table public.whatsapp_resets enable row level security;
+revoke all on public.phone_verifications, public.whatsapp_resets from public, anon, authenticated;
+
+-- ───────────── Auxiliares (internas) ─────────────
+create function public._normalize_phone(p text)
+returns text language plpgsql immutable set search_path = public as $$
+declare d text := regexp_replace(coalesce(p, ''), '\D', '', 'g');
+begin
+  if length(d) in (10, 11) then d := '55' || d; end if;
+  if d !~ '^55[0-9]{10,11}$' then return null; end if;
+  return d;
+end;
+$$;
+
+-- Código numérico de 6 dígitos.
+create function public._code6()
+returns text language sql volatile set search_path = public, extensions as $$
+  select lpad(((('x' || encode(gen_random_bytes(4), 'hex'))::bit(32)::bigint) % 1000000)::text, 6, '0');
+$$;
+create function public._code_hash(p_user uuid, p_code text)
+returns text language sql immutable set search_path = public, extensions as $$
+  select encode(digest(p_user::text || ':' || trim(coalesce(p_code, '')), 'sha256'), 'hex');
+$$;
+
+-- Perfil devolvido ao app: inclui se o WhatsApp foi verificado e os 4 últimos dígitos (para exibir).
+create or replace function public._app_user_json(u public.app_users)
+returns json language sql immutable set search_path = public as $$
+  select json_build_object('id', u.id, 'email', u.email, 'full_name', u.full_name, 'avatar_url', null,
+                           'role', u.role, 'created_at', u.created_at,
+                           'phone_verified', u.phone_verified_at is not null,
+                           'phone_hint', case when u.phone is null then null else right(u.phone, 4) end);
+$$;
+
+-- Usuário com sessão válida E WhatsApp verificado.
+create function public._app_active_user(p_token text)
+returns public.app_users language plpgsql stable security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_user(p_token);
+begin
+  if u.phone_verified_at is null then
+    raise exception 'Confirme seu WhatsApp para continuar.' using errcode = '42501';
+  end if;
+  return u;
+end;
+$$;
+
+-- As funções de dados passam a exigir conta verificada (troca _app_user → _app_active_user).
+do $$
+declare f text; d text;
+begin
+  foreach f in array array['app_bootstrap(text)', 'app_submit(text,text,text,text)', 'app_review(text,uuid,numeric,text,text)'] loop
+    d := pg_get_functiondef(f::regprocedure);
+    if position('public._app_user(p_token)' in d) = 0 then raise exception 'função % sem _app_user(p_token)', f; end if;
+    execute replace(d, 'public._app_user(p_token)', 'public._app_active_user(p_token)');
+  end loop;
+end $$;
+
+-- ───────────── Cadastro: WhatsApp obrigatório (convite e limite de tentativas preservados) ─────────────
+drop function public.app_register(text, text, text, text);
+create function public.app_register(p_email text, p_password text, p_name text, p_invite text default null, p_phone text default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_name text := trim(coalesce(p_name, ''));
+  v_phone text := public._normalize_phone(p_phone);
+  v_mode text := coalesce((select value from public.app_settings where key = 'signup_mode'), 'invite');
+  v_hash text := (select value from public.app_settings where key = 'invite_code_hash');
+  v_tutor boolean;
+  u public.app_users;
+begin
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then
+    raise exception 'Informe um e-mail válido.';
+  end if;
+  if length(v_name) < 2 or length(v_name) > 100 then
+    raise exception 'Informe seu nome (2 a 100 caracteres).';
+  end if;
+  if v_phone is null then
+    raise exception 'Informe um WhatsApp válido no formato (99) 99999-9999.';
+  end if;
+  if p_password is null or length(p_password) < 8 then
+    raise exception 'A senha deve ter pelo menos 8 caracteres.';
+  end if;
+  if octet_length(p_password) > 72 then
+    raise exception 'A senha deve ter no máximo 72 caracteres.';
+  end if;
+
+  v_tutor := exists (select 1 from public.teacher_allowlist t where lower(t.email) = v_email);
+  if not v_tutor then
+    if v_mode = 'closed' then
+      raise exception 'O cadastro está fechado. Fale com a coordenação do programa.';
+    elsif v_mode = 'invite' then
+      delete from public.signup_failures where at < now() - interval '1 day';
+      if (select count(*) from public.signup_failures where at > now() - interval '15 minutes') >= 20 then
+        return json_build_object('error', 'Muitas tentativas de código incorretas. Aguarde alguns minutos e tente de novo.');
+      end if;
+      if v_hash is null or public._invite_hash(p_invite) <> v_hash then
+        insert into public.signup_failures default values;
+        return json_build_object('error', 'Código de convite inválido. Peça o código à coordenação do programa.');
+      end if;
+    end if;
+  end if;
+
+  if exists (select 1 from public.app_users where email = v_email) then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end if;
+
+  begin
+    insert into public.app_users (email, full_name, password_hash, role, phone)
+    values (v_email, v_name, crypt(p_password, gen_salt('bf', 10)), case when v_tutor then 'teacher' else 'student' end, v_phone)
+    returning * into u;
+  exception when unique_violation then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end;
+
+  return json_build_object('token', public._app_new_session(u.id), 'user', public._app_user_json(u));
+end;
+$$;
+
+-- ───────────── Verificação do número ─────────────
+-- Gera o código (somente service_role). Retorna null se a sessão for inválida ou o número já estiver verificado.
+create function public.app_verify_issue(p_token text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users;
+  r public.phone_verifications;
+  v_code text;
+begin
+  begin u := public._app_user(p_token); exception when others then return null; end;
+  if u.phone is null or u.phone_verified_at is not null then return null; end if;
+  select * into r from public.phone_verifications where user_id = u.id;
+  if found and r.created_at > now() - interval '60 seconds' then return json_build_object('throttled', true); end if;
+
+  v_code := public._code6();
+  insert into public.phone_verifications (user_id, code_hash, attempts, created_at, expires_at)
+  values (u.id, public._code_hash(u.id, v_code), 0, now(), now() + interval '15 minutes')
+  on conflict (user_id) do update
+     set code_hash = excluded.code_hash, attempts = 0, created_at = excluded.created_at, expires_at = excluded.expires_at;
+  return json_build_object('name', u.full_name, 'phone', u.phone, 'code', v_code);
+end;
+$$;
+
+-- Confirma o código (anon, com o token da sessão). Erros voltam como {error} para gravar as tentativas.
+create function public.app_verify_confirm(p_token text, p_code text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users;
+  r public.phone_verifications;
+  v_msg constant text := 'Código inválido ou expirado. Peça um novo código.';
+begin
+  begin u := public._app_user(p_token); exception when others then
+    return json_build_object('error', 'Sessão expirada. Entre novamente.');
+  end;
+  if u.phone_verified_at is not null then return json_build_object('ok', true, 'user', public._app_user_json(u)); end if;
+  select * into r from public.phone_verifications where user_id = u.id;
+  if not found or r.expires_at < now() or r.attempts >= 5 then return json_build_object('error', v_msg); end if;
+  if r.code_hash <> public._code_hash(u.id, p_code) then
+    update public.phone_verifications set attempts = attempts + 1 where user_id = u.id;
+    return json_build_object('error', v_msg);
+  end if;
+  update public.app_users set phone_verified_at = now() where id = u.id returning * into u;
+  delete from public.phone_verifications where user_id = u.id;
+  return json_build_object('ok', true, 'user', public._app_user_json(u));
+end;
+$$;
+
+-- Corrige o número digitado errado (só enquanto não verificado). Invalida o código anterior.
+create function public.app_change_phone(p_token text, p_phone text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_user(p_token);
+  v_phone text := public._normalize_phone(p_phone);
+begin
+  if u.phone_verified_at is not null then raise exception 'O WhatsApp já foi verificado.'; end if;
+  if v_phone is null then raise exception 'Informe um WhatsApp válido no formato (99) 99999-9999.'; end if;
+  update public.app_users set phone = v_phone where id = u.id returning * into u;
+  delete from public.phone_verifications where user_id = u.id;
+  return public._app_user_json(u);
+end;
+$$;
+
+-- ───────────── Boas-vindas (service_role): só depois de verificar, uma única vez ─────────────
+create function public.app_welcome_claim(p_token text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare u public.app_users;
+begin
+  begin u := public._app_user(p_token); exception when others then return null; end;
+  if u.phone is null or u.phone_verified_at is null then return null; end if;
+  update public.app_users set welcome_sent_at = now()
+   where id = u.id and welcome_sent_at is null returning * into u;
+  if not found then return null; end if;
+  return json_build_object('user_id', u.id, 'name', u.full_name, 'email', u.email, 'phone', u.phone);
+end;
+$$;
+create function public.app_welcome_release(p_user uuid)
+returns void language sql security definer set search_path = public as $$
+  update public.app_users set welcome_sent_at = null where id = p_user;
+$$;
+
+-- ───────────── Recuperação de senha por WhatsApp ─────────────
+-- Gera o código (service_role). Retorna null se não houver conta com WhatsApp verificado
+-- (o backend responde sempre igual, para não revelar quais e-mails existem).
+create function public.app_wa_reset_issue(p_email text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users;
+  r public.whatsapp_resets;
+  v_code text;
+begin
+  select * into u from public.app_users where email = lower(trim(coalesce(p_email, '')));
+  if not found or u.phone is null or u.phone_verified_at is null then return null; end if;
+  select * into r from public.whatsapp_resets where user_id = u.id;
+  if found and r.created_at > now() - interval '60 seconds' then return json_build_object('throttled', true); end if;
+
+  v_code := public._code6();
+  insert into public.whatsapp_resets (user_id, code_hash, attempts, created_at, expires_at)
+  values (u.id, public._code_hash(u.id, v_code), 0, now(), now() + interval '15 minutes')
+  on conflict (user_id) do update
+     set code_hash = excluded.code_hash, attempts = 0, created_at = excluded.created_at, expires_at = excluded.expires_at;
+  return json_build_object('name', u.full_name, 'phone', u.phone, 'code', v_code);
+end;
+$$;
+
+-- Confirma o código e define a nova senha (anon). Encerra as sessões antigas.
+create function public.app_wa_reset_confirm(p_email text, p_code text, p_password text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users;
+  r public.whatsapp_resets;
+  v_msg constant text := 'Código inválido ou expirado. Solicite um novo.';
+begin
+  if p_password is null or length(p_password) < 8 then
+    return json_build_object('error', 'A senha deve ter pelo menos 8 caracteres.');
+  end if;
+  if octet_length(p_password) > 72 then
+    return json_build_object('error', 'A senha deve ter no máximo 72 caracteres.');
+  end if;
+  select * into u from public.app_users where email = lower(trim(coalesce(p_email, '')));
+  if not found then return json_build_object('error', v_msg); end if;
+  select * into r from public.whatsapp_resets where user_id = u.id;
+  if not found or r.expires_at < now() or r.attempts >= 5 then return json_build_object('error', v_msg); end if;
+  if r.code_hash <> public._code_hash(u.id, p_code) then
+    update public.whatsapp_resets set attempts = attempts + 1 where user_id = u.id;
+    return json_build_object('error', v_msg);
+  end if;
+  update public.app_users
+     set password_hash = crypt(p_password, gen_salt('bf', 10)), failed_attempts = 0, locked_until = null
+   where id = u.id;
+  delete from public.whatsapp_resets where user_id = u.id;
+  delete from public.app_sessions where user_id = u.id;
+  return json_build_object('ok', true);
+end;
+$$;
+
+-- ───────────── Permissões ─────────────
+revoke all on function public._normalize_phone(text), public._code6(), public._code_hash(uuid, text), public._app_active_user(text)
+  from public, anon, authenticated;
+revoke all on function public.app_register(text, text, text, text, text), public.app_verify_confirm(text, text),
+  public.app_change_phone(text, text), public.app_wa_reset_confirm(text, text, text) from public;
+grant execute on function public.app_register(text, text, text, text, text), public.app_verify_confirm(text, text),
+  public.app_change_phone(text, text), public.app_wa_reset_confirm(text, text, text) to anon;
+revoke all on function public.app_verify_issue(text), public.app_welcome_claim(text), public.app_welcome_release(uuid),
+  public.app_wa_reset_issue(text) from public, anon, authenticated;
+grant execute on function public.app_verify_issue(text), public.app_welcome_claim(text), public.app_welcome_release(uuid),
+  public.app_wa_reset_issue(text) to service_role;
+-- ============================================================================
+-- Convites personalizados: o tutor informa nome, e-mail e WhatsApp do aluno; o servidor envia por
+-- WhatsApp um link com token único. O aluno abre o link, define a senha e a conta é criada já
+-- verificada (receber o link no WhatsApp comprova o número). Dispensa o código de convite geral
+-- e vale mesmo com o cadastro fechado.
+--
+--   - Token: 256 bits aleatórios; só o hash SHA-256 é guardado; vale 7 dias; uso único.
+--   - Criar convite (app_invite_issue) é restrito à service_role: o token bruto nunca vai ao navegador.
+--   - Listar/revogar: só tutores (token de sessão). Limite de 30 convites por tutor por hora.
+-- ============================================================================
+create table public.student_invites (
+  id uuid primary key default gen_random_uuid(),
+  token_hash text not null unique,
+  email text not null check (email = lower(email)),
+  full_name text not null check (length(trim(full_name)) between 2 and 100),
+  phone text not null check (phone ~ '^55[0-9]{10,11}$'),
+  created_by uuid not null references public.app_users (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null,
+  used_at timestamptz,
+  used_by uuid references public.app_users (id) on delete set null
+);
+create index student_invites_email_idx on public.student_invites (email);
+alter table public.student_invites enable row level security;
+revoke all on public.student_invites from public, anon, authenticated;
+
+-- Cria o convite (service_role). Substitui convites pendentes do mesmo e-mail.
+create function public.app_invite_issue(p_token text, p_name text, p_email text, p_phone text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  me public.app_users;
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_name text := trim(coalesce(p_name, ''));
+  v_phone text := public._normalize_phone(p_phone);
+  v_raw text := encode(gen_random_bytes(32), 'hex');
+  v_id uuid;
+begin
+  begin me := public._app_user(p_token); exception when others then
+    raise exception 'Sessão expirada. Entre novamente.' using errcode = '28000';
+  end;
+  if me.role <> 'teacher' or me.phone_verified_at is null then
+    raise exception 'Apenas tutores podem enviar convites.' using errcode = '42501';
+  end if;
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then raise exception 'Informe um e-mail válido.'; end if;
+  if length(v_name) < 2 or length(v_name) > 100 then raise exception 'Informe o nome do aluno (2 a 100 caracteres).'; end if;
+  if v_phone is null then raise exception 'Informe um WhatsApp válido no formato (99) 99999-9999.'; end if;
+  if exists (select 1 from public.app_users where email = v_email) then
+    raise exception 'Este e-mail já tem conta no app.';
+  end if;
+  if (select count(*) from public.student_invites where created_by = me.id and created_at > now() - interval '1 hour') >= 30 then
+    raise exception 'Limite de 30 convites por hora atingido. Tente mais tarde.';
+  end if;
+
+  delete from public.student_invites where email = v_email and used_at is null;
+  insert into public.student_invites (token_hash, email, full_name, phone, created_by, expires_at)
+  values (encode(digest(v_raw, 'sha256'), 'hex'), v_email, v_name, v_phone, me.id, now() + interval '7 days')
+  returning id into v_id;
+  return json_build_object('id', v_id, 'invite', v_raw, 'name', v_name, 'phone', v_phone);
+end;
+$$;
+
+-- Dados do convite para a tela do aluno (anon). Não revela mais que o necessário.
+create function public.app_invite_info(p_invite text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare i public.student_invites;
+begin
+  select * into i from public.student_invites where token_hash = encode(digest(coalesce(p_invite, ''), 'sha256'), 'hex');
+  if not found or i.used_at is not null or i.expires_at < now() then
+    return json_build_object('error', 'Convite inválido ou expirado. Peça um novo convite ao seu tutor.');
+  end if;
+  return json_build_object('name', i.full_name, 'email', i.email, 'phone_hint', right(i.phone, 4));
+end;
+$$;
+
+-- Aceita o convite: cria a conta de aluno (já verificada) e abre a sessão.
+create function public.app_invite_accept(p_invite text, p_password text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  i public.student_invites;
+  u public.app_users;
+begin
+  if p_password is null or length(p_password) < 8 then raise exception 'A senha deve ter pelo menos 8 caracteres.'; end if;
+  if octet_length(p_password) > 72 then raise exception 'A senha deve ter no máximo 72 caracteres.'; end if;
+  select * into i from public.student_invites
+   where token_hash = encode(digest(coalesce(p_invite, ''), 'sha256'), 'hex') for update;
+  if not found or i.used_at is not null or i.expires_at < now() then
+    raise exception 'Convite inválido ou expirado. Peça um novo convite ao seu tutor.';
+  end if;
+  if exists (select 1 from public.app_users where email = i.email) then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end if;
+  insert into public.app_users (email, full_name, password_hash, role, phone, phone_verified_at)
+  values (i.email, i.full_name, crypt(p_password, gen_salt('bf', 10)), 'student', i.phone, now())
+  returning * into u;
+  update public.student_invites set used_at = now(), used_by = u.id where id = i.id;
+  return json_build_object('token', public._app_new_session(u.id), 'user', public._app_user_json(u));
+end;
+$$;
+
+-- Lista os convites (tutor).
+create function public.app_invite_list(p_token text)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare me public.app_users := public._app_active_user(p_token);
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores veem os convites.' using errcode = '42501'; end if;
+  return (select coalesce(json_agg(json_build_object(
+            'id', i.id, 'full_name', i.full_name, 'email', i.email, 'phone_hint', right(i.phone, 4),
+            'created_at', i.created_at, 'expires_at', i.expires_at, 'used_at', i.used_at,
+            'status', case when i.used_at is not null then 'used' when i.expires_at < now() then 'expired' else 'pending' end)
+          order by i.created_at desc), '[]')
+          from (select * from public.student_invites order by created_at desc limit 200) i);
+end;
+$$;
+
+-- Revoga um convite pendente (tutor).
+create function public.app_invite_revoke(p_token text, p_id uuid)
+returns boolean language plpgsql security definer set search_path = public, extensions as $$
+declare me public.app_users := public._app_active_user(p_token);
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores revogam convites.' using errcode = '42501'; end if;
+  delete from public.student_invites where id = p_id and used_at is null;
+  return true;
+end;
+$$;
+
+revoke all on function public.app_invite_issue(text, text, text, text) from public, anon, authenticated;
+grant execute on function public.app_invite_issue(text, text, text, text) to service_role;
+revoke all on function public.app_invite_info(text), public.app_invite_accept(text, text),
+  public.app_invite_list(text), public.app_invite_revoke(text, uuid) from public;
+grant execute on function public.app_invite_info(text), public.app_invite_accept(text, text),
+  public.app_invite_list(text), public.app_invite_revoke(text, uuid) to anon;
+
+-- Desfaz o convite quando o envio por WhatsApp falha (service_role).
+create function public.app_invite_revoke_by_id(p_id uuid)
+returns void language sql security definer set search_path = public as $$
+  delete from public.student_invites where id = p_id and used_at is null;
+$$;
+revoke all on function public.app_invite_revoke_by_id(uuid) from public, anon, authenticated;
+grant execute on function public.app_invite_revoke_by_id(uuid) to service_role;
+-- ============================================================================
+-- Edição de perfil, convite de tutores e troca de perfil (aluno ⇄ tutor).
+--
+--   - Nome: livre. E-mail e senha: exigem a SENHA ATUAL (com a mesma proteção de tentativas do login).
+--   - WhatsApp: exige a senha atual e um código enviado ao NOVO número; só então o número é trocado
+--     (a recuperação de senha depende dele). O envio é feito pelo backend (service_role).
+--   - Convites passam a ter perfil (student | teacher): um tutor pode convidar outro tutor.
+--   - app_set_role: tutor promove aluno a tutor ou rebaixa tutor a aluno (nunca o próprio perfil,
+--     o que garante que sempre reste ao menos um tutor).
+-- ============================================================================
+
+-- Confere a senha atual e aplica o bloqueio por tentativas. Retorna null se correta, senão a mensagem de erro.
+create function public._pw_check(p_user uuid, p_pw text)
+returns text language plpgsql security definer set search_path = public, extensions as $$
+declare u public.app_users;
+begin
+  select * into u from public.app_users where id = p_user;
+  if u.locked_until is not null and u.locked_until > now() then
+    return 'Muitas tentativas incorretas. Tente novamente em alguns minutos.';
+  end if;
+  if p_pw is null or u.password_hash <> crypt(p_pw, u.password_hash) then
+    update public.app_users
+       set failed_attempts = case when failed_attempts + 1 >= 5 then 0 else failed_attempts + 1 end,
+           locked_until = case when failed_attempts + 1 >= 5 then now() + interval '10 minutes' else null end
+     where id = u.id;
+    return 'Senha atual incorreta.';
+  end if;
+  update public.app_users set failed_attempts = 0, locked_until = null where id = u.id and failed_attempts <> 0;
+  return null;
+end;
+$$;
+revoke all on function public._pw_check(uuid, text) from public, anon, authenticated;
+
+-- ───────────── Perfil ─────────────
+create function public.app_profile_update(p_token text, p_name text, p_email text, p_password text default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_active_user(p_token);
+  v_name text := trim(coalesce(p_name, ''));
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_err text;
+begin
+  if length(v_name) < 2 or length(v_name) > 100 then raise exception 'Informe seu nome (2 a 100 caracteres).'; end if;
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then raise exception 'Informe um e-mail válido.'; end if;
+  if v_email <> u.email then
+    v_err := public._pw_check(u.id, p_password);
+    if v_err is not null then return json_build_object('error', v_err); end if;
+    if exists (select 1 from public.app_users where email = v_email) then raise exception 'Este e-mail já está em uso.'; end if;
+  end if;
+  begin
+    update public.app_users set full_name = v_name, email = v_email where id = u.id returning * into u;
+  exception when unique_violation then
+    raise exception 'Este e-mail já está em uso.';
+  end;
+  return json_build_object('user', public._app_user_json(u));
+end;
+$$;
+
+create function public.app_change_password(p_token text, p_current text, p_new text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_active_user(p_token);
+  v_err text;
+begin
+  if p_new is null or length(p_new) < 8 then return json_build_object('error', 'A nova senha deve ter pelo menos 8 caracteres.'); end if;
+  if octet_length(p_new) > 72 then return json_build_object('error', 'A nova senha deve ter no máximo 72 caracteres.'); end if;
+  v_err := public._pw_check(u.id, p_current);
+  if v_err is not null then return json_build_object('error', v_err); end if;
+  update public.app_users set password_hash = crypt(p_new, gen_salt('bf', 10)) where id = u.id;
+  delete from public.app_sessions where user_id = u.id and token_hash <> encode(digest(p_token, 'sha256'), 'hex');   -- encerra os outros dispositivos
+  return json_build_object('ok', true);
+end;
+$$;
+
+-- ───────────── Troca de WhatsApp (com verificação do novo número) ─────────────
+create table public.phone_changes (
+  user_id uuid primary key references public.app_users (id) on delete cascade,
+  new_phone text not null check (new_phone ~ '^55[0-9]{10,11}$'),
+  code_hash text not null,
+  attempts int not null default 0,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null
+);
+alter table public.phone_changes enable row level security;
+revoke all on public.phone_changes from public, anon, authenticated;
+
+-- (service_role) confere a senha e gera o código que será enviado ao NOVO número.
+create function public.app_phone_change_issue(p_token text, p_password text, p_phone text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_active_user(p_token);
+  v_phone text := public._normalize_phone(p_phone);
+  v_err text;
+  r public.phone_changes;
+  v_code text;
+begin
+  if v_phone is null then raise exception 'Informe um WhatsApp válido no formato (99) 99999-9999.'; end if;
+  if v_phone = u.phone then raise exception 'Este já é o seu WhatsApp cadastrado.'; end if;
+  v_err := public._pw_check(u.id, p_password);
+  if v_err is not null then return json_build_object('error', v_err); end if;
+  select * into r from public.phone_changes where user_id = u.id;
+  if found and r.created_at > now() - interval '60 seconds' then return json_build_object('throttled', true); end if;
+
+  v_code := public._code6();
+  insert into public.phone_changes (user_id, new_phone, code_hash, attempts, created_at, expires_at)
+  values (u.id, v_phone, public._code_hash(u.id, v_code), 0, now(), now() + interval '15 minutes')
+  on conflict (user_id) do update
+     set new_phone = excluded.new_phone, code_hash = excluded.code_hash, attempts = 0,
+         created_at = excluded.created_at, expires_at = excluded.expires_at;
+  return json_build_object('name', u.full_name, 'phone', v_phone, 'code', v_code);
+end;
+$$;
+
+-- (anon) confirma o código e troca o número.
+create function public.app_phone_change_confirm(p_token text, p_code text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_active_user(p_token);
+  r public.phone_changes;
+  v_msg constant text := 'Código inválido ou expirado. Peça um novo código.';
+begin
+  select * into r from public.phone_changes where user_id = u.id;
+  if not found or r.expires_at < now() or r.attempts >= 5 then return json_build_object('error', v_msg); end if;
+  if r.code_hash <> public._code_hash(u.id, p_code) then
+    update public.phone_changes set attempts = attempts + 1 where user_id = u.id;
+    return json_build_object('error', v_msg);
+  end if;
+  update public.app_users set phone = r.new_phone, phone_verified_at = now() where id = u.id returning * into u;
+  delete from public.phone_changes where user_id = u.id;
+  return json_build_object('ok', true, 'user', public._app_user_json(u));
+end;
+$$;
+
+-- ───────────── Troca de perfil (tutor) ─────────────
+create function public.app_set_role(p_token text, p_user_id uuid, p_role text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  me public.app_users := public._app_active_user(p_token);
+  t public.app_users;
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores alteram perfis.' using errcode = '42501'; end if;
+  if p_role not in ('student', 'teacher') then raise exception 'Perfil inválido.'; end if;
+  if p_user_id = me.id then raise exception 'Você não pode alterar o seu próprio perfil.'; end if;
+  update public.app_users set role = p_role where id = p_user_id returning * into t;
+  if not found then raise exception 'Usuário não encontrado.'; end if;
+  return public._app_user_json(t);
+end;
+$$;
+
+-- ───────────── Convites com perfil (aluno ou tutor) ─────────────
+alter table public.student_invites add column role text not null default 'student' check (role in ('student', 'teacher'));
+
+drop function public.app_invite_issue(text, text, text, text);
+create function public.app_invite_issue(p_token text, p_name text, p_email text, p_phone text, p_role text default 'student')
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  me public.app_users;
+  v_email text := lower(trim(coalesce(p_email, '')));
+  v_name text := trim(coalesce(p_name, ''));
+  v_phone text := public._normalize_phone(p_phone);
+  v_raw text := encode(gen_random_bytes(32), 'hex');
+  v_id uuid;
+begin
+  begin me := public._app_user(p_token); exception when others then
+    raise exception 'Sessão expirada. Entre novamente.' using errcode = '28000';
+  end;
+  if me.role <> 'teacher' or me.phone_verified_at is null then
+    raise exception 'Apenas tutores podem enviar convites.' using errcode = '42501';
+  end if;
+  if p_role not in ('student', 'teacher') then raise exception 'Perfil inválido.'; end if;
+  if v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' or length(v_email) > 254 then raise exception 'Informe um e-mail válido.'; end if;
+  if length(v_name) < 2 or length(v_name) > 100 then raise exception 'Informe o nome (2 a 100 caracteres).'; end if;
+  if v_phone is null then raise exception 'Informe um WhatsApp válido no formato (99) 99999-9999.'; end if;
+  if exists (select 1 from public.app_users where email = v_email) then
+    raise exception 'Este e-mail já tem conta no app.';
+  end if;
+  if (select count(*) from public.student_invites where created_by = me.id and created_at > now() - interval '1 hour') >= 30 then
+    raise exception 'Limite de 30 convites por hora atingido. Tente mais tarde.';
+  end if;
+
+  delete from public.student_invites where email = v_email and used_at is null;
+  insert into public.student_invites (token_hash, email, full_name, phone, role, created_by, expires_at)
+  values (encode(digest(v_raw, 'sha256'), 'hex'), v_email, v_name, v_phone, p_role, me.id, now() + interval '7 days')
+  returning id into v_id;
+  return json_build_object('id', v_id, 'invite', v_raw, 'name', v_name, 'phone', v_phone, 'role', p_role);
+end;
+$$;
+revoke all on function public.app_invite_issue(text, text, text, text, text) from public, anon, authenticated;
+grant execute on function public.app_invite_issue(text, text, text, text, text) to service_role;
+
+create or replace function public.app_invite_info(p_invite text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare i public.student_invites;
+begin
+  select * into i from public.student_invites where token_hash = encode(digest(coalesce(p_invite, ''), 'sha256'), 'hex');
+  if not found or i.used_at is not null or i.expires_at < now() then
+    return json_build_object('error', 'Convite inválido ou expirado. Peça um novo convite ao seu tutor.');
+  end if;
+  return json_build_object('name', i.full_name, 'email', i.email, 'phone_hint', right(i.phone, 4), 'role', i.role);
+end;
+$$;
+
+create or replace function public.app_invite_accept(p_invite text, p_password text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  i public.student_invites;
+  u public.app_users;
+begin
+  if p_password is null or length(p_password) < 8 then raise exception 'A senha deve ter pelo menos 8 caracteres.'; end if;
+  if octet_length(p_password) > 72 then raise exception 'A senha deve ter no máximo 72 caracteres.'; end if;
+  select * into i from public.student_invites
+   where token_hash = encode(digest(coalesce(p_invite, ''), 'sha256'), 'hex') for update;
+  if not found or i.used_at is not null or i.expires_at < now() then
+    raise exception 'Convite inválido ou expirado. Peça um novo convite ao seu tutor.';
+  end if;
+  if exists (select 1 from public.app_users where email = i.email) then
+    raise exception 'Este e-mail já está cadastrado. Use "Entrar".';
+  end if;
+  insert into public.app_users (email, full_name, password_hash, role, phone, phone_verified_at)
+  values (i.email, i.full_name, crypt(p_password, gen_salt('bf', 10)), i.role, i.phone, now())
+  returning * into u;
+  update public.student_invites set used_at = now(), used_by = u.id where id = i.id;
+  return json_build_object('token', public._app_new_session(u.id), 'user', public._app_user_json(u));
+end;
+$$;
+
+create or replace function public.app_invite_list(p_token text)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare me public.app_users := public._app_active_user(p_token);
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores veem os convites.' using errcode = '42501'; end if;
+  return (select coalesce(json_agg(json_build_object(
+            'id', i.id, 'full_name', i.full_name, 'email', i.email, 'phone_hint', right(i.phone, 4), 'role', i.role,
+            'created_at', i.created_at, 'expires_at', i.expires_at, 'used_at', i.used_at,
+            'status', case when i.used_at is not null then 'used' when i.expires_at < now() then 'expired' else 'pending' end)
+          order by i.created_at desc), '[]')
+          from (select * from public.student_invites order by created_at desc limit 200) i);
+end;
+$$;
+
+-- ───────────── Permissões ─────────────
+revoke all on function public.app_profile_update(text, text, text, text), public.app_change_password(text, text, text),
+  public.app_phone_change_confirm(text, text), public.app_set_role(text, uuid, text) from public;
+grant execute on function public.app_profile_update(text, text, text, text), public.app_change_password(text, text, text),
+  public.app_phone_change_confirm(text, text), public.app_set_role(text, uuid, text) to anon;
+revoke all on function public.app_phone_change_issue(text, text, text) from public, anon, authenticated;
+grant execute on function public.app_phone_change_issue(text, text, text) to service_role;
+-- ============================================================================
+-- Correção automática por IA (Gemini) + revisão do tutor + notificações ao aluno.
+--
+-- Fluxo:  aluno envia (submitted)
+--           └─ IA corrige (0–10)
+--                ├─ nota ≥ 7 (e evidência suficiente)  → approved  (aprovação automática, aluno notificado)
+--                └─ nota < 7  ou  evidência insuficiente → needs_review (fila do tutor)
+--                       └─ tutor decide: approved · revision_requested (instruções + exemplos) · rejected
+--                                         └─ todas as decisões geram notificação ao aluno
+--
+-- Segurança: as funções ai_* só são executáveis pelo papel service_role (Edge Function).
+-- O app (anon) continua acessando apenas as RPCs app_*.
+-- ============================================================================
+
+-- ───────────── Novos estados e campos ─────────────
+alter table public.submissions drop constraint if exists submissions_status_check;
+alter table public.submissions add constraint submissions_status_check
+  check (status in ('submitted', 'needs_review', 'approved', 'revision_requested', 'rejected'));
+
+alter table public.reviews drop constraint if exists reviews_verdict_check;
+alter table public.reviews add constraint reviews_verdict_check
+  check (verdict in ('approved', 'revision_requested', 'rejected'));
+alter table public.reviews alter column tutor_id drop not null;               -- null = correção automática da IA
+alter table public.reviews add column if not exists source text not null default 'tutor' check (source in ('tutor', 'ai'));
+alter table public.reviews add column if not exists instructions text check (instructions is null or length(instructions) <= 5000);
+alter table public.reviews add column if not exists examples text check (examples is null or length(examples) <= 5000);
+
+-- ───────────── Gabarito por exercício (solução esperada) ─────────────
+create table if not exists public.exercise_rubrics (
+  exercise_id text primary key references public.exercises (id) on delete cascade,
+  mode text not null check (mode in ('text', 'sql', 'file', 'mixed')),
+  expected text not null,
+  checks jsonb not null,            -- [{id,label,weight,dim}] — pesos somam 100
+  reference jsonb not null default '[]',   -- números calculados no banco de treinamento
+  grading_notes text,
+  force_tutor boolean not null default false   -- etapas presenciais: sempre vão ao tutor
+);
+comment on table public.exercise_rubrics is 'Solução esperada e critérios de cada exercício. Gerada de content/rubrics.mjs.';
+
+-- ───────────── Avaliações da IA ─────────────
+create table if not exists public.ai_evaluations (
+  submission_id uuid primary key references public.submissions (id) on delete cascade,
+  status text not null check (status in ('processing', 'done', 'error')),
+  attempts int not null default 0,
+  score numeric(3,1) check (score between 0 and 10),
+  criteria jsonb,                   -- [{id,label,weight,dim,score,comment}]
+  summary text,
+  strengths jsonb,
+  gaps jsonb,
+  suggested_instructions text,      -- rascunho para o tutor (nunca enviado ao aluno sem revisão)
+  suggested_examples text,
+  evidence_sufficient boolean,
+  confidence text check (confidence in ('low', 'medium', 'high')),
+  suspected_manipulation boolean,
+  outcome text check (outcome in ('auto_approved', 'sent_to_tutor', 'discarded')),
+  outcome_reason text,
+  model text,
+  trigger text check (trigger in ('manual', 'scheduled')),
+  run_by uuid references public.app_users (id) on delete set null,
+  error text,
+  started_at timestamptz not null default now(),
+  finished_at timestamptz
+);
+create index if not exists ai_evaluations_status_idx on public.ai_evaluations (status);
+
+-- ───────────── Notificações ao aluno ─────────────
+create table if not exists public.notifications (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.app_users (id) on delete cascade,
+  kind text not null check (kind in ('ai_approved', 'in_review', 'approved', 'revision_requested', 'rejected')),
+  title text not null,
+  body text not null,
+  submission_id uuid references public.submissions (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  read_at timestamptz
+);
+create index if not exists notifications_user_idx on public.notifications (user_id, created_at desc);
+
+do $$
+declare t text;
+begin
+  foreach t in array array['exercise_rubrics', 'ai_evaluations', 'notifications'] loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('revoke all on public.%I from anon, authenticated', t);
+  end loop;
+end $$;
+
+-- Cria a notificação (interna).
+create or replace function public._notify(p_user uuid, p_kind text, p_title text, p_body text, p_submission uuid)
+returns void language sql security definer set search_path = public as $$
+  insert into public.notifications (user_id, kind, title, body, submission_id) values (p_user, p_kind, p_title, p_body, p_submission);
+$$;
+
+-- Texto padrão "Dia X · exercício" para as mensagens.
+create or replace function public._submission_label(p_submission uuid)
+returns text language sql stable security definer set search_path = public as $$
+  select 'Dia ' || e.session_day || ' · ' || e.title
+  from public.submissions s join public.exercises e on e.id = s.exercise_id where s.id = p_submission;
+$$;
+
+-- ───────────── app_submit: bloqueia reenvio enquanto está em correção/revisão ou reprovada ─────────────
+create or replace function public.app_submit(p_token text, p_exercise_id text, p_content text, p_link text)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_active_user(p_token);
+  v_day int;
+  v_last record;
+  v_content text := nullif(trim(coalesce(p_content, '')), '');
+  v_link text := nullif(trim(coalesce(p_link, '')), '');
+  s public.submissions;
+begin
+  if u.role <> 'student' then raise exception 'Apenas alunos enviam entregas.' using errcode = '42501'; end if;
+  if v_content is null and v_link is null then raise exception 'Escreva uma resposta ou informe um link.'; end if;
+  if v_content is not null and length(v_content) > 20000 then raise exception 'Resposta muito longa (máx. 20.000 caracteres).'; end if;
+  if v_link is not null and (v_link !~* '^https?://' or length(v_link) > 2000) then
+    raise exception 'O link deve começar com http:// ou https://.';
+  end if;
+
+  select e.session_day into v_day from public.exercises e where e.id = p_exercise_id;
+  if v_day is null then raise exception 'Exercício inexistente.'; end if;
+  if not public._session_unlocked(u.id, v_day) then
+    raise exception 'Sessão bloqueada: conclua as sessões anteriores (dependências) primeiro.';
+  end if;
+
+  select x.attempt, x.status into v_last from public.submissions x
+   where x.exercise_id = p_exercise_id and x.student_id = u.id order by x.attempt desc limit 1;
+  if found and v_last.status in ('submitted', 'needs_review') then
+    raise exception 'Você já tem uma entrega aguardando avaliação neste exercício.';
+  end if;
+  if found and v_last.status = 'rejected'
+     and not exists (select 1 from public.submissions x where x.exercise_id = p_exercise_id and x.student_id = u.id and x.status = 'approved') then
+    raise exception 'Esta entrega foi reprovada pelo tutor. Fale com o tutor para reabrir o exercício.';
+  end if;
+
+  insert into public.submissions (exercise_id, student_id, attempt, content, link_url)
+  values (p_exercise_id, u.id, coalesce(v_last.attempt, 0) + 1, v_content, v_link)
+  returning * into s;
+  return row_to_json(s);
+end;
+$$;
+
+-- ───────────── app_review: decisão do tutor (aprovar · refazer · reprovar) ─────────────
+drop function if exists public.app_review(text, uuid, numeric, text, text);
+create function public.app_review(p_token text, p_submission_id uuid, p_score numeric, p_verdict text, p_feedback text,
+                                  p_instructions text default null, p_examples text default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_active_user(p_token);
+  r public.reviews;
+  v_fb text := trim(coalesce(p_feedback, ''));
+  v_ins text := nullif(trim(coalesce(p_instructions, '')), '');
+  v_ex text := nullif(trim(coalesce(p_examples, '')), '');
+  v_student uuid;
+  v_label text;
+begin
+  if u.role <> 'teacher' then raise exception 'Apenas tutores podem avaliar.' using errcode = '42501'; end if;
+  if p_score is null or p_score < 0 or p_score > 10 then raise exception 'A nota deve estar entre 0 e 10.'; end if;
+  if p_verdict not in ('approved', 'revision_requested', 'rejected') then raise exception 'Resultado inválido.'; end if;
+  if length(v_fb) = 0 or length(v_fb) > 5000 then raise exception 'Escreva um feedback (até 5.000 caracteres).'; end if;
+  if p_verdict = 'revision_requested' and (v_ins is null or v_ex is null) then
+    raise exception 'Para pedir que o aluno refaça, informe as instruções e um exemplo de como refazer.';
+  end if;
+  if p_verdict <> 'revision_requested' then v_ins := null; v_ex := null; end if;
+  select student_id into v_student from public.submissions where id = p_submission_id;
+  if v_student is null then raise exception 'Entrega inexistente.'; end if;
+
+  insert into public.reviews (submission_id, tutor_id, score, verdict, feedback, source, instructions, examples)
+  values (p_submission_id, u.id, round(p_score, 1), p_verdict, v_fb, 'tutor', v_ins, v_ex)
+  on conflict (submission_id) do update
+     set tutor_id = excluded.tutor_id, score = excluded.score, verdict = excluded.verdict, feedback = excluded.feedback,
+         source = 'tutor', instructions = excluded.instructions, examples = excluded.examples, created_at = now()
+  returning * into r;
+  update public.submissions set status = p_verdict where id = p_submission_id;
+
+  v_label := public._submission_label(p_submission_id);
+  perform public._notify(v_student, p_verdict,
+    case p_verdict when 'approved' then '✅ Entrega aprovada' when 'revision_requested' then '↩ Refaça a entrega' else '❌ Entrega reprovada' end,
+    v_label || ' — nota ' || round(p_score, 1) || '/10. ' ||
+    case p_verdict when 'approved' then 'O tutor aprovou sua entrega.'
+                   when 'revision_requested' then 'O tutor pediu ajustes: veja as instruções e o exemplo no exercício e envie uma nova versão.'
+                   else 'O tutor reprovou esta entrega. Veja o motivo no exercício.' end,
+    p_submission_id);
+  return row_to_json(r);
+end;
+$$;
+
+-- ───────────── Notificações: marcar como lidas ─────────────
+create function public.app_notifications_read(p_token text, p_ids uuid[] default null)
+returns integer language plpgsql security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_active_user(p_token); n int;
+begin
+  update public.notifications set read_at = now()
+   where user_id = u.id and read_at is null and (p_ids is null or id = any (p_ids));
+  get diagnostics n = row_count;
+  return n;
+end;
+$$;
+
+-- ───────────── app_bootstrap: inclui notificações; tutor recebe rubricas e avaliações da IA ─────────────
+create or replace function public.app_bootstrap(p_token text)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_active_user(p_token);
+begin
+  return json_build_object(
+    'levels',           (select coalesce(json_agg(x order by x.position), '[]') from public.levels x),
+    'sessions',         (select coalesce(json_agg(x order by x.day), '[]') from public.sessions x),
+    'deps',             (select coalesce(json_agg(x), '[]') from public.session_dependencies x),
+    'exercises',        (select coalesce(json_agg(x order by x.session_day, x.position), '[]') from public.exercises x),
+    'templates',        (select coalesce(json_agg(x order by x.slug), '[]') from public.templates x),
+    'resources',        (select coalesce(json_agg(x order by x.category), '[]') from public.resources x),
+    'sessionTemplates', (select coalesce(json_agg(x), '[]') from public.session_templates x),
+    'sessionResources', (select coalesce(json_agg(x), '[]') from public.session_resources x),
+    'weekly',           (select coalesce(json_agg(x order by x.week), '[]') from public.weekly_deliverables x),
+    'submissions',      (select coalesce(json_agg(x order by x.created_at), '[]') from public.submissions x
+                          where u.role = 'teacher' or x.student_id = u.id),
+    'reviews',          (select coalesce(json_agg(r order by r.created_at), '[]') from public.reviews r
+                          where u.role = 'teacher'
+                             or exists (select 1 from public.submissions s where s.id = r.submission_id and s.student_id = u.id)),
+    'profiles',         (select coalesce(json_agg(public._app_user_json(p) order by p.created_at), '[]') from public.app_users p
+                          where u.role = 'teacher' or p.id = u.id),
+    'notifications',    (select coalesce(json_agg(n order by n.created_at desc), '[]')
+                           from (select * from public.notifications where user_id = u.id order by created_at desc limit 100) n),
+    'rubrics',          (select coalesce(json_agg(x), '[]') from public.exercise_rubrics x where u.role = 'teacher'),
+    'aiEvaluations',    (select coalesce(json_agg(x), '[]') from public.ai_evaluations x where u.role = 'teacher' and x.status <> 'processing')
+  );
+end;
+$$;
+
+-- ============================================================================
+-- Funções da automação (apenas service_role — chamadas pela Edge Function)
+-- ============================================================================
+
+-- Tutor autenticado? Retorna o id (ou levanta erro). Usada no acionamento manual.
+create function public.ai_teacher_id(p_token text)
+returns uuid language plpgsql stable security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_active_user(p_token);
+begin
+  if u.role <> 'teacher' then raise exception 'Apenas tutores podem acionar a correção por IA.' using errcode = '42501'; end if;
+  return u.id;
+end;
+$$;
+
+-- Reserva entregas para corrigir (sem corrida entre execuções) e devolve tudo que a IA precisa.
+-- Pega: status 'submitted' sem avaliação, com erro (até 3 tentativas) ou presas em 'processing' há > 10 min.
+create function public.ai_claim(p_limit int default 10, p_submission_ids uuid[] default null,
+                                p_trigger text default 'scheduled', p_run_by uuid default null)
+returns json language plpgsql security definer set search_path = public as $$
+declare
+  v_ids uuid[];
+begin
+  select coalesce(array_agg(id), '{}') into v_ids from (
+    select s.id
+      from public.submissions s
+      left join public.ai_evaluations a on a.submission_id = s.id
+     where s.status = 'submitted'
+       and (p_submission_ids is null or s.id = any (p_submission_ids))
+       and (a.submission_id is null
+            or (a.status = 'error' and a.attempts < 3)
+            or (a.status = 'processing' and a.started_at < now() - interval '10 minutes'))
+     order by s.created_at
+     limit greatest(1, least(coalesce(p_limit, 10), 25))
+       for update of s skip locked) q;
+
+  insert into public.ai_evaluations (submission_id, status, attempts, trigger, run_by, started_at)
+  select id, 'processing', 0, p_trigger, p_run_by, now() from unnest(v_ids) id
+  on conflict (submission_id) do update
+     set status = 'processing', trigger = excluded.trigger, run_by = excluded.run_by, started_at = now(), error = null;
+
+  return (select coalesce(json_agg(json_build_object(
+      'submission', json_build_object('id', s.id, 'attempt', s.attempt, 'content', s.content, 'link_url', s.link_url),
+      'exercise',   json_build_object('id', e.id, 'title', e.title, 'instructions', e.instructions, 'deliverable', e.deliverable),
+      'session',    json_build_object('day', se.day, 'title', se.title, 'level', se.level_slug),
+      'rubric',     (select to_json(r) from public.exercise_rubrics r where r.exercise_id = e.id),
+      'previous',   (select coalesce(json_agg(json_build_object('attempt', p.attempt, 'status', p.status,
+                        'score', rv.score, 'feedback', rv.feedback, 'instructions', rv.instructions) order by p.attempt), '[]')
+                       from public.submissions p left join public.reviews rv on rv.submission_id = p.id
+                      where p.exercise_id = s.exercise_id and p.student_id = s.student_id and p.attempt < s.attempt)
+    ) order by s.created_at), '[]')
+    from public.submissions s
+    join public.exercises e on e.id = s.exercise_id
+    join public.sessions se on se.day = e.session_day
+   where s.id = any (v_ids));
+end;
+$$;
+
+-- Aplica o resultado da IA. A regra de aprovação automática mora aqui (fonte única de verdade):
+--   nota ≥ 7  E  evidência suficiente  E  confiança ≠ baixa  E  sem tentativa de manipulação  E  exercício não é só-tutor
+create function public.ai_apply(p_submission uuid, p_score numeric, p_criteria jsonb, p_summary text, p_strengths jsonb, p_gaps jsonb,
+                                p_sug_instructions text, p_sug_examples text, p_evidence_sufficient boolean, p_confidence text,
+                                p_manipulation boolean, p_feedback text, p_model text)
+returns json language plpgsql security definer set search_path = public as $$
+declare
+  c_pass constant numeric := 7;
+  s public.submissions;
+  v_force boolean;
+  v_outcome text;
+  v_reason text;
+  v_label text;
+begin
+  if p_score is null or p_score < 0 or p_score > 10 then raise exception 'Nota da IA fora do intervalo 0–10.'; end if;
+  select * into s from public.submissions where id = p_submission for update;
+  if not found then raise exception 'Entrega inexistente.'; end if;
+  select coalesce(r.force_tutor, false) into v_force from public.exercise_rubrics r where r.exercise_id = s.exercise_id;
+
+  if s.status <> 'submitted' then
+    -- o tutor decidiu enquanto a IA corrigia: guarda a avaliação, mas não altera nada
+    v_outcome := 'discarded'; v_reason := 'already_decided';
+  elsif p_score >= c_pass and coalesce(p_evidence_sufficient, false) and p_confidence <> 'low'
+        and not coalesce(p_manipulation, false) and not coalesce(v_force, false) then
+    v_outcome := 'auto_approved'; v_reason := 'score_at_or_above_pass';
+  else
+    v_outcome := 'sent_to_tutor';
+    v_reason := case when coalesce(p_manipulation, false) then 'suspected_manipulation'
+                     when coalesce(v_force, false) then 'tutor_only_exercise'
+                     when not coalesce(p_evidence_sufficient, false) then 'insufficient_evidence'
+                     when p_confidence = 'low' then 'low_confidence'
+                     else 'score_below_pass' end;
+  end if;
+
+  update public.ai_evaluations set
+    status = 'done', score = round(p_score, 1), criteria = p_criteria, summary = p_summary, strengths = p_strengths, gaps = p_gaps,
+    suggested_instructions = p_sug_instructions, suggested_examples = p_sug_examples, evidence_sufficient = p_evidence_sufficient,
+    confidence = p_confidence, suspected_manipulation = coalesce(p_manipulation, false), outcome = v_outcome, outcome_reason = v_reason,
+    model = p_model, error = null, finished_at = now(), attempts = attempts + 1
+  where submission_id = p_submission;
+
+  v_label := public._submission_label(p_submission);
+  if v_outcome = 'auto_approved' then
+    insert into public.reviews (submission_id, tutor_id, score, verdict, feedback, source)
+    values (p_submission, null, round(p_score, 1), 'approved', left(p_feedback, 5000), 'ai')
+    on conflict (submission_id) do nothing;
+    update public.submissions set status = 'approved' where id = p_submission;
+    perform public._notify(s.student_id, 'ai_approved', '✅ Entrega aprovada (correção automática)',
+      v_label || ' — nota ' || round(p_score, 1) || '/10. Corrigida automaticamente pela IA; veja o feedback no exercício.', p_submission);
+  elsif v_outcome = 'sent_to_tutor' then
+    update public.submissions set status = 'needs_review' where id = p_submission;
+    perform public._notify(s.student_id, 'in_review', '🔎 Entrega em revisão pelo tutor',
+      v_label || ' — sua entrega passou pela correção automática e agora será revisada pelo tutor. Você será avisado da decisão.', p_submission);
+  end if;
+  return json_build_object('outcome', v_outcome, 'reason', v_reason, 'score', round(p_score, 1));
+end;
+$$;
+
+-- Registra falha (a entrega volta a ser elegível até 3 tentativas).
+create function public.ai_fail(p_submission uuid, p_error text)
+returns void language sql security definer set search_path = public as $$
+  update public.ai_evaluations set status = 'error', error = left(p_error, 1000), attempts = attempts + 1, finished_at = now()
+   where submission_id = p_submission;
+$$;
+
+-- Quantas entregas aguardam correção (para o botão e o agendador).
+create function public.ai_pending_count()
+returns integer language sql stable security definer set search_path = public as $$
+  select count(*)::int from public.submissions s left join public.ai_evaluations a on a.submission_id = s.id
+   where s.status = 'submitted' and (a.submission_id is null or (a.status = 'error' and a.attempts < 3)
+                                     or (a.status = 'processing' and a.started_at < now() - interval '10 minutes'));
+$$;
+
+-- ───────────── Permissões ─────────────
+do $$
+declare f record;
+begin
+  for f in select p.oid::regprocedure as sig, p.proname as name from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+           where n.nspname = 'public' and (p.proname like 'ai\_%' or p.proname in ('_notify', '_submission_label')) loop
+    execute format('revoke all on function %s from public, anon, authenticated', f.sig);
+    if exists (select 1 from pg_roles where rolname = 'service_role') and f.name like 'ai\_%' then
+      execute format('grant execute on function %s to service_role', f.sig);
+    end if;
+  end loop;
+  for f in select p.oid::regprocedure as sig from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+           where n.nspname = 'public' and p.proname in ('app_submit', 'app_review', 'app_bootstrap', 'app_notifications_read') loop
+    execute format('revoke all on function %s from public', f.sig);
+    execute format('grant execute on function %s to anon', f.sig);
+  end loop;
+end $$;
+-- GERADO por scripts/build-content.mjs a partir de content/rubrics.mjs. Não edite à mão.
+begin;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d01-e1', 'text', 'Cinco pedidos vagos reescritos como perguntas SMART. Cada pergunta traz métrica, recorte (segmento/canal/região), período e a decisão que a resposta apoia. Ex.: "melhorar a logística" → "Qual transportadora teve o maior % de entregas atrasadas nos últimos 6 meses por UF, para decidir onde renegociar contrato?".', '[{"id":"c1","label":"São 5 perguntas, todas reescritas a partir de pedidos vagos","weight":30,"dim":"neg"},{"id":"c2","label":"Cada pergunta tem métrica explícita e mensurável","weight":30,"dim":"neg"},{"id":"c3","label":"Cada pergunta tem recorte e período definidos","weight":20,"dim":"neg"},{"id":"c4","label":"Cada pergunta indica a decisão/ação que a resposta apoia","weight":20,"dim":"neg"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d01-e2', 'text', 'Tabela com uma linha por aba do Excel de treinamento (dim_clientes, dim_produtos, fato_pedidos, fato_itens_pedido, fato_entregas, fato_campanhas, fato_financeiro, esporte_partidas), apoiada na aba DICIONARIO / Dicionário de dados, com a granularidade correta (ex.: fato_pedidos = 1 linha por pedido; fato_itens_pedido = 1 linha por item de pedido) e 2 perguntas possíveis por aba. Não basta copiar o dicionário: as perguntas precisam ser do próprio aluno.', '[{"id":"c1","label":"Cobre todas (ou quase todas) as abas do dataset","weight":35,"dim":"num"},{"id":"c2","label":"Granularidade correta e específica (\"1 linha = 1 …\"), coerente com o dicionário","weight":35,"dim":"num"},{"id":"c3","label":"Duas perguntas plausíveis e respondíveis com os dados da aba (não copiadas do dicionário)","weight":30,"dim":"neg"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d01-e3', 'text', 'Duas áreas com 4 KPIs cada (8 no total). Cada KPI tem fórmula clara (numerador/denominador) e fonte de dados (tabela/coluna). Ex.: Logística — % entregas no prazo = entregas com data_entrega ≤ data_envio+prazo ÷ entregas, fonte fato_entregas.', '[{"id":"c1","label":"8 KPIs (4 por área), de 2 áreas distintas","weight":30,"dim":"num"},{"id":"c2","label":"Fórmula correta e inequívoca para cada KPI","weight":30,"dim":"tec"},{"id":"c3","label":"Fonte (tabela/coluna) indicada e existente no dataset","weight":20,"dim":"rep"},{"id":"c4","label":"KPIs relevantes para a área, não duplicados","weight":20,"dim":"neg"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d02-e1', 'text', 'Diagnóstico de qualidade da aba fato_pedidos: contagem de nulos, duplicados e tipos por coluna, registrados numa tabela de achados. O dataset oficial tem 6.900 pedidos, sem IDs duplicados e sem nulos nas colunas principais; o aluno deve reportar o que de fato encontrou (e, se não há problema, dizer isso explicitamente) e como contou.', '[{"id":"c1","label":"Reporta linhas, nulos, duplicados e tipos por coluna, coerentes com a referência","weight":40,"dim":"num"},{"id":"c2","label":"Método de contagem descrito (fórmula, filtro ou tabela dinâmica)","weight":25,"dim":"rep"},{"id":"c3","label":"Achados organizados numa tabela legível","weight":20,"dim":"vis"},{"id":"c4","label":"Indica ação para cada problema (ou conclui que não há)","weight":15,"dim":"neg"}]'::jsonb, '[{"key":"d02-e1","description":"Tamanho e qualidade de fato_pedidos","sql":"SELECT count(*) AS linhas, count(*) - count(DISTINCT pedido_id) AS ids_duplicados, count(*) FILTER (WHERE status IS NULL) AS status_nulos, count(*) FILTER (WHERE canal IS NULL) AS canal_nulos, count(*) FILTER (WHERE data_pedido IS NULL) AS data_nulos FROM treinamento.fato_pedidos","rows":[{"linhas":6900,"ids_duplicados":0,"status_nulos":0,"canal_nulos":0,"data_nulos":0}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d02-e2', 'file', 'Dados convertidos em Tabela do Excel (Ctrl+T), textos padronizados (TRIM/MAIÚSCULAS/PRI.MAIÚSCULA, sem espaços extras) e coluna calculada ano_mes (ex.: =TEXTO([@data_pedido];"aaaa-mm")). O aluno descreve os passos e a fórmula usada.', '[{"id":"c1","label":"Menciona conversão para Tabela do Excel","weight":30,"dim":"tec"},{"id":"c2","label":"Padronização de texto descrita (TRIM/maiúsculas etc.) com exemplo antes/depois","weight":30,"dim":"tec"},{"id":"c3","label":"Fórmula de ano_mes correta e aplicada à coluna inteira","weight":30,"dim":"num"},{"id":"c4","label":"Link ou arquivo da planilha informado","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d03-e1', 'text', 'Receita por canal com SOMASES, excluindo cancelados, usando valor do item (quantidade × preço unitário). Referência (itens, sem cancelados): site 1.532.588,65 · app 1.081.912,01 · marketplace 705.696,63 · loja 361.967,57. Aceitar variação se o aluno documentar outra definição de receita (ex.: incluir frete).', '[{"id":"c1","label":"Valores por canal conferem com a referência (tolerância 1%) ou usam definição alternativa documentada","weight":45,"dim":"num"},{"id":"c2","label":"Cancelados excluídos (critério do SOMASES visível)","weight":25,"dim":"tec"},{"id":"c3","label":"Fórmula SOMASES apresentada","weight":15,"dim":"tec"},{"id":"c4","label":"Tabela de resultados clara, na aba Calculos","weight":15,"dim":"vis"}]'::jsonb, '[{"key":"d03-e1","description":"Receita por canal (itens, exclui cancelados)","sql":"SELECT p.canal, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status <> ''cancelado'' GROUP BY 1 ORDER BY 2 DESC","rows":[{"canal":"site","receita":"1532588.65"},{"canal":"app","receita":"1081912.01"},{"canal":"marketplace","receita":"705696.63"},{"canal":"loja","receita":"361967.57"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d03-e2', 'file', 'Coluna de margem por item via PROCX/XLOOKUP em dim_produtos trazendo categoria e custo; margem = (preço_unitário − custo) × quantidade (ou %). Conferência sugerida: margem total ≈ 36,6% sobre a receita (sem cancelados).', '[{"id":"c1","label":"PROCX/XLOOKUP correto (chave produto_id, retorno categoria e custo)","weight":35,"dim":"tec"},{"id":"c2","label":"Fórmula de margem correta (unitária ou total) com custo × quantidade","weight":35,"dim":"num"},{"id":"c3","label":"Margem total/percentual coerente com a referência","weight":20,"dim":"num"},{"id":"c4","label":"Sem erros #N/D e fórmula copiada para toda a coluna","weight":10,"dim":"rep"}]'::jsonb, '[{"key":"d03-e2","description":"Receita, custo e margem totais (exclui cancelados)","sql":"SELECT ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo),2) AS margem, ROUND(100*(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status <> ''cancelado''","rows":[{"receita":"3682164.86","custo":"2332752.72","margem":"1349412.14","margem_pct":"36.6"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d03-e3', 'text', '% de entregas com atraso por transportadora = entregas com (data_entrega − data_envio) > prazo_dias ÷ entregas entregues. Referência: CargaMais 24,1% · TransBrasil 15,7% · EntregaJá 10,7% · RápidoLog 5,4%.', '[{"id":"c1","label":"Percentuais por transportadora conferem com a referência (±0,5 p.p.)","weight":50,"dim":"num"},{"id":"c2","label":"Fórmula de atraso mostrada e correta (compara dias de entrega com prazo)","weight":25,"dim":"tec"},{"id":"c3","label":"Considera apenas entregas já realizadas (data_entrega preenchida)","weight":15,"dim":"tec"},{"id":"c4","label":"Tabela legível com a transportadora pior destacada","weight":10,"dim":"vis"}]'::jsonb, '[{"key":"d03-e3","description":"% de entregas com atraso por transportadora (data_entrega - data_envio > prazo_dias)","sql":"SELECT transportadora, count(*) AS entregas, ROUND(100.0*avg((data_entrega-data_envio>prazo_dias)::int),1) AS pct_atraso FROM treinamento.fato_entregas WHERE data_entrega IS NOT NULL GROUP BY 1 ORDER BY 1","rows":[{"transportadora":"CargaMais","entregas":1614,"pct_atraso":"24.1"},{"transportadora":"EntregaJá","entregas":1603,"pct_atraso":"10.7"},{"transportadora":"RápidoLog","entregas":1627,"pct_atraso":"5.4"},{"transportadora":"TransBrasil","entregas":1608,"pct_atraso":"15.7"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d04-e1', 'file', 'Tabela dinâmica de receita com linhas = mês, colunas = categoria, valor = soma da receita e uma segunda exibição "% do total da linha". O aluno descreve campos usados e cola/descreve o resultado.', '[{"id":"c1","label":"Campos corretos: mês nas linhas, categoria nas colunas, soma de receita","weight":30,"dim":"tec"},{"id":"c2","label":"% do total da linha configurado (Mostrar valores como)","weight":30,"dim":"tec"},{"id":"c3","label":"Resultado coerente (cada linha soma 100%; categoria líder = Eletrônicos)","weight":25,"dim":"num"},{"id":"c4","label":"Aba Dinamica identificada / arquivo informado","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d04-e2', 'text', 'Respostas: top 5 UF por receita — SP 1.165.347 · RJ 358.071 · MG 344.811 · PR 342.126 · DF 320.493; mês de pico — nov/2025 (≈287.803); canal com maior ticket médio — site (≈568,26; diferenças entre canais são pequenas). Com print/descrição da dinâmica.', '[{"id":"c1","label":"Top 5 UF corretas e na ordem","weight":40,"dim":"num"},{"id":"c2","label":"Mês de pico correto","weight":25,"dim":"num"},{"id":"c3","label":"Canal de maior ticket médio correto (ticket = receita ÷ pedidos)","weight":20,"dim":"num"},{"id":"c4","label":"Evidência da dinâmica (print ou descrição dos campos)","weight":15,"dim":"rep"}]'::jsonb, '[{"key":"d04-e2","description":"Top 5 UF por receita; mês de pico; ticket médio por canal","sql":"SELECT ''uf'' AS tipo, p.uf_entrega AS chave, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS valor FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 2 ORDER BY 3 DESC LIMIT 5","rows":[{"tipo":"uf","chave":"SP","valor":"1165347.24"},{"tipo":"uf","chave":"RJ","valor":"358071.49"},{"tipo":"uf","chave":"MG","valor":"344811.33"},{"tipo":"uf","chave":"PR","valor":"342126.13"},{"tipo":"uf","chave":"DF","valor":"320493.12"}]},{"key":"d04-e2b","description":"Mês de pico de receita","sql":"SELECT date_trunc(''month'',p.data_pedido)::date AS mes, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 2 DESC LIMIT 1","rows":[{"mes":"2025-11-01T00:00:00.000Z","receita":"287803.02"}]},{"key":"d04-e2c","description":"Ticket médio por canal (receita ÷ pedidos)","sql":"SELECT p.canal, ROUND(SUM(i.quantidade * i.preco_unitario)/count(DISTINCT p.pedido_id),2) AS ticket_medio FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 2 DESC","rows":[{"canal":"site","ticket_medio":"568.26"},{"canal":"loja","ticket_medio":"562.94"},{"canal":"marketplace","ticket_medio":"562.76"},{"canal":"app","ticket_medio":"557.69"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d05-e1', 'file', 'Painel com 4 gráficos que respondem a 3 perguntas de negócio; cada gráfico com título-conclusão (ex.: "Eletrônicos geram 46% da receita"), eixos legíveis, sem excesso de cores. O aluno lista as 3 perguntas e o título de cada gráfico.', '[{"id":"c1","label":"Quatro gráficos descritos, vinculados a 3 perguntas explícitas","weight":25,"dim":"neg"},{"id":"c2","label":"Títulos são conclusões (afirmam o insight), não rótulos","weight":30,"dim":"vis"},{"id":"c3","label":"Tipo de gráfico adequado a cada pergunta","weight":20,"dim":"vis"},{"id":"c4","label":"Insights consistentes com os dados (ex.: SP lidera, pico em nov)","weight":15,"dim":"num"},{"id":"c5","label":"Arquivo/aba Painel informado","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d05-e2', 'text', 'Relatório no modelo de entrega semanal: pergunta, método, 3 achados quantificados, recomendação acionável e limitações. Linguagem executiva, curto.', '[{"id":"c1","label":"Pergunta de negócio clara","weight":20,"dim":"neg"},{"id":"c2","label":"Método descrito de forma reproduzível","weight":20,"dim":"rep"},{"id":"c3","label":"Três achados com números","weight":30,"dim":"num"},{"id":"c4","label":"Recomendação concreta ligada aos achados","weight":20,"dim":"neg"},{"id":"c5","label":"Organização e clareza do texto","weight":10,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d06-e1', 'text', 'Tabela com cada relacionamento do ER: PK de cada tabela e FK correspondente, com cardinalidade 1:N. Ex.: dim_clientes.cliente_id (PK) 1—N fato_pedidos.cliente_id (FK); fato_pedidos 1—N fato_itens_pedido; dim_produtos 1—N fato_itens_pedido; fato_pedidos 1—1 fato_entregas.', '[{"id":"c1","label":"PKs corretas para todas as tabelas","weight":40,"dim":"num"},{"id":"c2","label":"FKs e cardinalidades corretas","weight":40,"dim":"num"},{"id":"c3","label":"Organização em tabela clara","weight":20,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d06-e2', 'text', 'Conexão feita pelo guia "conectar ao banco" (DBeaver + usuário aluno_leitura) e SELECT COUNT(*) em cada tabela com as contagens: dim_clientes 800 · dim_produtos 60 · fato_pedidos 6.900 · fato_itens_pedido 14.994 · fato_entregas 6.514 · fato_campanhas 120 · fato_financeiro 192 · esporte_partidas 760.', '[{"id":"c1","label":"Contagens conferem com a referência","weight":70,"dim":"num"},{"id":"c2","label":"Mostra a(s) query(s) usada(s) (e que conectou como aluno_leitura, sem expor a senha)","weight":15,"dim":"rep"},{"id":"c3","label":"Apresenta em tabela/print legível","weight":15,"dim":"vis"}]'::jsonb, '[{"key":"d06-e2","description":"Contagem de linhas por tabela","sql":"SELECT ''dim_clientes'' t, count(*) FROM treinamento.dim_clientes UNION ALL SELECT ''dim_produtos'', count(*) FROM treinamento.dim_produtos UNION ALL SELECT ''fato_pedidos'', count(*) FROM treinamento.fato_pedidos UNION ALL SELECT ''fato_itens_pedido'', count(*) FROM treinamento.fato_itens_pedido UNION ALL SELECT ''fato_entregas'', count(*) FROM treinamento.fato_entregas UNION ALL SELECT ''fato_campanhas'', count(*) FROM treinamento.fato_campanhas UNION ALL SELECT ''fato_financeiro'', count(*) FROM treinamento.fato_financeiro UNION ALL SELECT ''esporte_partidas'', count(*) FROM treinamento.esporte_partidas","rows":[{"t":"dim_clientes","count":800},{"t":"dim_produtos","count":60},{"t":"fato_pedidos","count":6900},{"t":"fato_itens_pedido","count":14994},{"t":"fato_entregas","count":6514},{"t":"fato_campanhas","count":120},{"t":"fato_financeiro","count":192},{"t":"esporte_partidas","count":760}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d06-e3', 'text', 'Modelo ER de uma área da empresa do aluno com 4 tabelas, PK/FK e relacionamentos coerentes (diagrama Mermaid ou imagem). Granularidade de cada tabela explicada.', '[{"id":"c1","label":"Quatro tabelas com PK definidas","weight":30,"dim":"tec"},{"id":"c2","label":"Relacionamentos e cardinalidades coerentes","weight":30,"dim":"tec"},{"id":"c3","label":"Modelo realista para a área descrita","weight":25,"dim":"neg"},{"id":"c4","label":"Diagrama legível (Mermaid/imagem)","weight":15,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d07-e1', 'sql', 'Dez consultas com WHERE/ORDER BY/LIMIT sobre pedidos, clientes e financeiro (schema treinamento), sintaticamente corretas e comentadas, cada uma respondendo a uma pergunta distinta.', '[{"id":"c1","label":"São 10 consultas distintas","weight":30,"dim":"num"},{"id":"c2","label":"Usam WHERE, ORDER BY e LIMIT corretamente","weight":30,"dim":"tec"},{"id":"c3","label":"Cobrem pedidos, clientes e financeiro","weight":20,"dim":"neg"},{"id":"c4","label":"Comentadas (o que cada uma responde)","weight":20,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d07-e2', 'text', 'Comparação de 2 resultados do SQL com a planilha, explicando diferenças com causas plausíveis (cancelados incluídos/excluídos, duplicidade, tipo de data, arredondamento).', '[{"id":"c1","label":"Dois resultados comparados lado a lado","weight":35,"dim":"num"},{"id":"c2","label":"Diferença explicada com causa técnica plausível (ou confirma igualdade)","weight":40,"dim":"tec"},{"id":"c3","label":"Conclusão sobre qual fonte confiar","weight":25,"dim":"neg"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d08-e1', 'sql', 'SELECT date_trunc(''month'', data_pedido), SUM(quantidade*preco_unitario) via JOIN itens↔pedidos, excluindo cancelados, GROUP BY mês. Totais de referência: 2024 = 1.598.604,89 · 2025 = 2.083.559,97 (24 meses). Janeiro/2024 = 60.130,40.', '[{"id":"c1","label":"Resultado por mês coerente com a referência (totais anuais ±1%)","weight":50,"dim":"num"},{"id":"c2","label":"JOIN e agregação corretos, cancelados tratados","weight":25,"dim":"tec"},{"id":"c3","label":"Ordenação por mês","weight":15,"dim":"tec"},{"id":"c4","label":"Query e resultado apresentados","weight":10,"dim":"rep"}]'::jsonb, '[{"key":"d08-e1","description":"Receita por ano (total por mês: 24+ linhas; aqui os totais anuais para conferência)","sql":"SELECT extract(year FROM p.data_pedido)::int AS ano, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, count(DISTINCT date_trunc(''month'',p.data_pedido)) AS meses FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 1","rows":[{"ano":2024,"receita":"1598604.89","meses":12},{"ano":2025,"receita":"2083559.97","meses":12}]},{"key":"d12-e1","description":"Receita mensal: primeiros 3 meses, para conferir mês anterior / var % / acumulado","sql":"SELECT date_trunc(''month'',p.data_pedido)::date AS mes, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 1 LIMIT 3","rows":[{"mes":"2024-01-01T00:00:00.000Z","receita":"60130.40"},{"mes":"2024-02-01T00:00:00.000Z","receita":"75772.48"},{"mes":"2024-03-01T00:00:00.000Z","receita":"106514.58"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d08-e2', 'sql', 'CTR = cliques ÷ impressões; CPC = investimento ÷ cliques; CPA = investimento ÷ conversões, por canal de fato_campanhas (o ROAS não faz parte do exercício: a tabela não tem receita). Referência: E-mail CTR 3,90% CPC 0,59 CPA 10,08 · Google Ads 2,97% / 0,77 / 20,22 · Meta Ads 1,47% / 1,49 / 58,49 · Afiliados 1,82% / 1,29 / 38,32 · Influenciadores 1,27% / 1,72 / 88,76.', '[{"id":"c1","label":"CTR, CPC e CPA por canal conferem com a referência","weight":55,"dim":"num"},{"id":"c2","label":"Colunas com nomes claros (alias), agregando antes de dividir (SUM/SUM, não média de razões) e divisão segura","weight":20,"dim":"tec"},{"id":"c3","label":"Leitura breve (melhor/pior canal, ex.: E-mail mais eficiente, Influenciadores mais caro por conversão)","weight":15,"dim":"neg"},{"id":"c4","label":"Query apresentada","weight":10,"dim":"rep"}]'::jsonb, '[{"key":"d08-e2","description":"CTR, CPC e CPA por canal de campanha","sql":"SELECT canal, SUM(investimento) AS investimento, SUM(impressoes) AS impressoes, SUM(cliques) AS cliques, SUM(conversoes) AS conversoes, ROUND(100.0*SUM(cliques)/SUM(impressoes),2) AS ctr_pct, ROUND(SUM(investimento)/SUM(cliques),2) AS cpc, ROUND(SUM(investimento)/SUM(conversoes),2) AS cpa FROM treinamento.fato_campanhas GROUP BY 1 ORDER BY 1","rows":[{"canal":"Afiliados","investimento":"27436.80","impressoes":1174810,"cliques":21343,"conversoes":716,"ctr_pct":"1.82","cpc":"1.29","cpa":"38.32"},{"canal":"E-mail","investimento":"10169.64","impressoes":442194,"cliques":17234,"conversoes":1009,"ctr_pct":"3.90","cpc":"0.59","cpa":"10.08"},{"canal":"Google Ads","investimento":"49679.57","impressoes":2161194,"cliques":64105,"conversoes":2457,"ctr_pct":"2.97","cpc":"0.77","cpa":"20.22"},{"canal":"Influenciadores","investimento":"37278.27","impressoes":1702586,"cliques":21703,"conversoes":420,"ctr_pct":"1.27","cpc":"1.72","cpa":"88.76"},{"canal":"Meta Ads","investimento":"46618.14","impressoes":2125705,"cliques":31279,"conversoes":797,"ctr_pct":"1.47","cpc":"1.49","cpa":"58.49"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d08-e3', 'sql', 'CASE WHEN classificando o valor total do pedido em faixas (ex.: até 200, 200–600, 600–1.200, acima de 1.200) e COUNT por faixa. A soma das faixas deve fechar 6.534 pedidos não cancelados (valor médio ≈ 563,54).', '[{"id":"c1","label":"Faixas definidas sem lacunas/sobreposições","weight":40,"dim":"tec"},{"id":"c2","label":"Soma das contagens = total de pedidos considerados (6.534 sem cancelados, ou justificativa)","weight":35,"dim":"num"},{"id":"c3","label":"Comentário interpretando a distribuição","weight":25,"dim":"neg"}]'::jsonb, '[{"key":"d08-e3","description":"Pedidos não cancelados e valor médio (para validar faixas: a soma das faixas deve fechar o total)","sql":"SELECT count(*) AS pedidos, ROUND(avg(v),2) AS valor_medio, ROUND(min(v),2) AS minimo, ROUND(max(v),2) AS maximo FROM ( SELECT p.pedido_id, SUM(i.quantidade * i.preco_unitario) AS v FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1) t","rows":[{"pedidos":6534,"valor_medio":"563.54","minimo":"16.61","maximo":"3389.73"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d09-e1', 'file', 'Power BI Desktop instalado e o Excel do Painel de vendas (Semana 1) importado. O aluno lista as tabelas/abas carregadas e confere o tipo de cada coluna (datas como Data, valores como Número decimal, textos como Texto).', '[{"id":"c1","label":"Lista as tabelas/abas do Excel carregadas no Power BI","weight":40,"dim":"num"},{"id":"c2","label":"Confere e cita os tipos das colunas (data, número, texto) e corrige o que veio errado","weight":35,"dim":"tec"},{"id":"c3","label":"Indica que a fonte é o Excel da Semana 1","weight":15,"dim":"rep"},{"id":"c4","label":"Print ou descrição do Navegador/Modelo","weight":10,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d09-e2', 'file', 'Página "Visão executiva" a partir do Excel: 4 cartões (ex.: receita, pedidos, ticket médio, margem), 1 gráfico de linha mensal, 1 de barras por categoria e 2 segmentações, e uma comparação com o painel da Semana 1 (os totais devem bater). O aluno descreve cada visual e as medidas.', '[{"id":"c1","label":"Quatro cartões + linha mensal + barras por categoria + 2 segmentações descritos","weight":35,"dim":"tec"},{"id":"c2","label":"Comparação com o painel do Excel mostrando totais iguais (ou explicando a diferença)","weight":30,"dim":"num"},{"id":"c3","label":"Layout e títulos claros","weight":20,"dim":"vis"},{"id":"c4","label":"Arquivo .pbix informado","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d10-e1', 'file', 'Fonte do relatório trocada do Excel para o Supabase (Obter dados > PostgreSQL, usuário aluno_leitura) e os cartões da página 1 continuam batendo. Entrega: totais antes (Excel) e depois (Supabase) lado a lado — ex.: receita total ≈ 3.682.164,86 e 6.534 pedidos não cancelados, ou a diferença explicada (ex.: cancelados, tipos).', '[{"id":"c1","label":"Totais antes e depois apresentados lado a lado e coerentes","weight":45,"dim":"num"},{"id":"c2","label":"Descreve a troca de fonte (PostgreSQL/Supabase) e o que precisou ajustar (tipos, nomes, relacionamentos)","weight":25,"dim":"tec"},{"id":"c3","label":"Explica qualquer diferença entre Excel e Supabase","weight":20,"dim":"neg"},{"id":"c4","label":"Print ou arquivo informado, sem expor a senha","weight":10,"dim":"rep"}]'::jsonb, '[{"key":"d03-e2","description":"Receita, custo e margem totais (exclui cancelados)","sql":"SELECT ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo),2) AS margem, ROUND(100*(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status <> ''cancelado''","rows":[{"receita":"3682164.86","custo":"2332752.72","margem":"1349412.14","margem_pct":"36.6"}]},{"key":"d08-e3","description":"Pedidos não cancelados e valor médio (para validar faixas: a soma das faixas deve fechar o total)","sql":"SELECT count(*) AS pedidos, ROUND(avg(v),2) AS valor_medio, ROUND(min(v),2) AS minimo, ROUND(max(v),2) AS maximo FROM ( SELECT p.pedido_id, SUM(i.quantidade * i.preco_unitario) AS v FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1) t","rows":[{"pedidos":6534,"valor_medio":"563.54","minimo":"16.61","maximo":"3389.73"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d10-e2', 'file', 'Segunda página (Logística ou Marketing) e checklist de qualidade aplicado nas duas páginas (c-relatorio): títulos, cores, alinhamento, rótulos, contraste. O aluno lista o que ajustou.', '[{"id":"c1","label":"Página 2 com visuais coerentes com Logística ou Marketing","weight":35,"dim":"tec"},{"id":"c2","label":"Checklist aplicado com itens ajustados listados","weight":35,"dim":"vis"},{"id":"c3","label":"Métricas corretas (ex.: atraso por transportadora, CPA por canal)","weight":20,"dim":"num"},{"id":"c4","label":".pbix informado","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d10-e3', 'sql', 'Arquivo .sql com 10 consultas comentadas e 3 totais validados contra o relatório (ex.: receita total ≈ 3.682.164,86; pedidos não cancelados 6.534; 6.900 pedidos totais).', '[{"id":"c1","label":"10 consultas comentadas e corretas","weight":30,"dim":"tec"},{"id":"c2","label":"Três totais validados contra o relatório, com valores coerentes","weight":40,"dim":"num"},{"id":"c3","label":"Organização do arquivo (cabeçalhos, comentários)","weight":20,"dim":"rep"},{"id":"c4","label":"Conclusão da validação","weight":10,"dim":"neg"}]'::jsonb, '[{"key":"d03-e2","description":"Receita, custo e margem totais (exclui cancelados)","sql":"SELECT ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo),2) AS margem, ROUND(100*(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status <> ''cancelado''","rows":[{"receita":"3682164.86","custo":"2332752.72","margem":"1349412.14","margem_pct":"36.6"}]},{"key":"d08-e3","description":"Pedidos não cancelados e valor médio (para validar faixas: a soma das faixas deve fechar o total)","sql":"SELECT count(*) AS pedidos, ROUND(avg(v),2) AS valor_medio, ROUND(min(v),2) AS minimo, ROUND(max(v),2) AS maximo FROM ( SELECT p.pedido_id, SUM(i.quantidade * i.preco_unitario) AS v FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1) t","rows":[{"pedidos":6534,"valor_medio":"563.54","minimo":"16.61","maximo":"3389.73"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d10-e4', 'text', 'Entrega semanal no modelo: pergunta, método, 3 achados quantificados, recomendação, links para .pbix e .sql.', '[{"id":"c1","label":"Modelo preenchido por completo","weight":25,"dim":"rep"},{"id":"c2","label":"Achados com números do dataset","weight":30,"dim":"num"},{"id":"c3","label":"Recomendação acionável","weight":25,"dim":"neg"},{"id":"c4","label":"Links dos artefatos","weight":20,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d11-e1', 'sql', 'JOIN itens → pedidos → produtos, sem cancelados: receita, custo (quantidade × custo) e margem % por categoria. Referência: Eletrônicos 1.687.526,93 / 1.024.802,35 / 39,3% · Esporte 664.915,35 / 448.718,28 / 32,5% · Casa 604.667,04 / 392.028,97 / 35,2% · Moda 342.766,60 / 225.133,56 / 34,3% · Beleza 250.451,69 / 156.162,23 / 37,6% · Livros 131.837,25 / 85.907,33 / 34,8%.', '[{"id":"c1","label":"Receita, custo e margem % por categoria conferem (±1%)","weight":50,"dim":"num"},{"id":"c2","label":"JOINs corretos e filtro de cancelados","weight":25,"dim":"tec"},{"id":"c3","label":"Margem % = (receita − custo) ÷ receita","weight":15,"dim":"tec"},{"id":"c4","label":"Query validada/comentada","weight":10,"dim":"rep"}]'::jsonb, '[{"key":"d11-e1","description":"Receita, custo e margem % por categoria (exclui cancelados)","sql":"SELECT pr.categoria, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(100*(SUM(i.quantidade * i.preco_unitario)-SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 2 DESC","rows":[{"categoria":"Eletrônicos","receita":"1687526.93","custo":"1024802.35","margem_pct":"39.3"},{"categoria":"Esporte","receita":"664915.35","custo":"448718.28","margem_pct":"32.5"},{"categoria":"Casa","receita":"604667.04","custo":"392028.97","margem_pct":"35.2"},{"categoria":"Moda","receita":"342766.60","custo":"225133.56","margem_pct":"34.3"},{"categoria":"Beleza","receita":"250451.69","custo":"156162.23","margem_pct":"37.6"},{"categoria":"Livros","receita":"131837.25","custo":"85907.33","margem_pct":"34.8"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d11-e2', 'sql', 'Anti-join (LEFT JOIN … IS NULL ou NOT EXISTS) listando clientes sem pedidos agrupados por canal_aquisicao. Referência: E-mail 16 · Google Ads 22 · Indicação 11 · Influenciadores 14 · Meta Ads 23 · Orgânico 14 (total 100).', '[{"id":"c1","label":"Contagens por canal conferem","weight":50,"dim":"num"},{"id":"c2","label":"Anti-join correto (não usa JOIN interno nem NOT IN com NULL)","weight":30,"dim":"tec"},{"id":"c3","label":"Query + contagem apresentados","weight":20,"dim":"rep"}]'::jsonb, '[{"key":"d11-e2","description":"Clientes sem nenhum pedido, por canal de aquisição","sql":"SELECT c.canal_aquisicao, count(*) AS clientes_sem_compra FROM treinamento.dim_clientes c WHERE NOT EXISTS (SELECT 1 FROM treinamento.fato_pedidos p WHERE p.cliente_id = c.cliente_id) GROUP BY 1 ORDER BY 1","rows":[{"canal_aquisicao":"E-mail","clientes_sem_compra":16},{"canal_aquisicao":"Google Ads","clientes_sem_compra":22},{"canal_aquisicao":"Indicação","clientes_sem_compra":11},{"canal_aquisicao":"Influenciadores","clientes_sem_compra":14},{"canal_aquisicao":"Meta Ads","clientes_sem_compra":23},{"canal_aquisicao":"Orgânico","clientes_sem_compra":14}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d11-e3', 'text', 'Demonstração de que o JOIN não duplicou linhas: COUNT antes e depois, COUNT(DISTINCT pedido_id), e explicação de que o JOIN itens→pedidos preserva a granularidade de item (14.994 itens).', '[{"id":"c1","label":"Contagens antes/depois comparadas","weight":40,"dim":"num"},{"id":"c2","label":"Explica a granularidade e por que não há duplicação (ou como detectou e corrigiu)","weight":35,"dim":"tec"},{"id":"c3","label":"Conclusão clara","weight":25,"dim":"neg"}]'::jsonb, '[{"key":"d06-e2","description":"Contagem de linhas por tabela","sql":"SELECT ''dim_clientes'' t, count(*) FROM treinamento.dim_clientes UNION ALL SELECT ''dim_produtos'', count(*) FROM treinamento.dim_produtos UNION ALL SELECT ''fato_pedidos'', count(*) FROM treinamento.fato_pedidos UNION ALL SELECT ''fato_itens_pedido'', count(*) FROM treinamento.fato_itens_pedido UNION ALL SELECT ''fato_entregas'', count(*) FROM treinamento.fato_entregas UNION ALL SELECT ''fato_campanhas'', count(*) FROM treinamento.fato_campanhas UNION ALL SELECT ''fato_financeiro'', count(*) FROM treinamento.fato_financeiro UNION ALL SELECT ''esporte_partidas'', count(*) FROM treinamento.esporte_partidas","rows":[{"t":"dim_clientes","count":800},{"t":"dim_produtos","count":60},{"t":"fato_pedidos","count":6900},{"t":"fato_itens_pedido","count":14994},{"t":"fato_entregas","count":6514},{"t":"fato_campanhas","count":120},{"t":"fato_financeiro","count":192},{"t":"esporte_partidas","count":760}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d12-e1', 'sql', 'CTE mensal + LAG(receita) para mês anterior, var % = (atual − anterior) ÷ anterior e SUM() OVER (ORDER BY mês) para acumulado. Jan/24 60.130,40 → Fev/24 75.772,48 (+26,0%) → Mar/24 106.514,58 (+40,6%).', '[{"id":"c1","label":"Valores mensais e variações conferem com a referência","weight":40,"dim":"num"},{"id":"c2","label":"LAG e SUM OVER corretos","weight":30,"dim":"tec"},{"id":"c3","label":"Primeiro mês sem anterior tratado (NULL)","weight":15,"dim":"tec"},{"id":"c4","label":"Query legível com CTE","weight":15,"dim":"rep"}]'::jsonb, '[{"key":"d12-e1","description":"Receita mensal: primeiros 3 meses, para conferir mês anterior / var % / acumulado","sql":"SELECT date_trunc(''month'',p.data_pedido)::date AS mes, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 1 LIMIT 3","rows":[{"mes":"2024-01-01T00:00:00.000Z","receita":"60130.40"},{"mes":"2024-02-01T00:00:00.000Z","receita":"75772.48"},{"mes":"2024-03-01T00:00:00.000Z","receita":"106514.58"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d12-e2', 'sql', 'RANK()/ROW_NUMBER() OVER (PARTITION BY categoria ORDER BY receita DESC) filtrando rank ≤ 3. Nº 1 por categoria: Beleza 01 · Casa 06 · Eletrônicos 02 · Esporte 02 · Livros 01 · Moda 08.', '[{"id":"c1","label":"Top 1 de cada categoria confere","weight":45,"dim":"num"},{"id":"c2","label":"PARTITION BY e filtro ≤ 3 corretos (3 por categoria)","weight":35,"dim":"tec"},{"id":"c3","label":"Query organizada","weight":20,"dim":"rep"}]'::jsonb, '[{"key":"d12-e2","description":"Produto nº 1 de cada categoria por receita","sql":"SELECT categoria, nome, receita FROM ( SELECT pr.categoria, pr.nome, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, RANK() OVER (PARTITION BY pr.categoria ORDER BY SUM(i.quantidade * i.preco_unitario) DESC) AS rk FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status<>''cancelado'' GROUP BY 1,2) t WHERE rk = 1 ORDER BY 1","rows":[{"categoria":"Beleza","nome":"Beleza 01","receita":"37519.45"},{"categoria":"Casa","nome":"Casa 06","receita":"95266.98"},{"categoria":"Eletrônicos","nome":"Eletrônicos 02","receita":"331301.98"},{"categoria":"Esporte","nome":"Esporte 02","receita":"94169.50"},{"categoria":"Livros","nome":"Livros 01","receita":"19393.35"},{"categoria":"Moda","nome":"Moda 08","receita":"63098.93"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d12-e3', 'sql', 'Classificação de uma temporada de esporte_partidas: união mandante/visitante, 3 pts vitória, 1 empate, ordenação por pontos, saldo, gols pró. Temporada 2024: 1º Cometa FC 54 pts (saldo +7, 29 GP), 2º Águias do Norte 54 pts (saldo +6), 3º Leões da Serra 50 pts; 38 jogos por time.', '[{"id":"c1","label":"Pontos, saldo e posição dos primeiros colocados conferem","weight":45,"dim":"num"},{"id":"c2","label":"Soma pontos de mandante e visitante (UNION ALL) corretamente","weight":30,"dim":"tec"},{"id":"c3","label":"Critérios de desempate explícitos","weight":15,"dim":"tec"},{"id":"c4","label":"Prints/resultado","weight":10,"dim":"rep"}]'::jsonb, '[{"key":"d12-e3","description":"Líder e último da classificação da temporada 2024 (3 pts vitória, 1 empate)","sql":"WITH j AS (SELECT mandante AS time, gols_mandante gp, gols_visitante gc FROM treinamento.esporte_partidas WHERE temporada=2024 UNION ALL SELECT visitante, gols_visitante, gols_mandante FROM treinamento.esporte_partidas WHERE temporada=2024), t AS (SELECT time, count(*) AS j, SUM(CASE WHEN gp>gc THEN 3 WHEN gp=gc THEN 1 ELSE 0 END) AS pts, SUM(gp-gc) AS saldo, SUM(gp) AS gp FROM j GROUP BY 1) SELECT time, j, pts, saldo, gp FROM t ORDER BY pts DESC, saldo DESC, gp DESC LIMIT 3","rows":[{"time":"Cometa FC","j":38,"pts":54,"saldo":7,"gp":29},{"time":"Águias do Norte","j":38,"pts":54,"saldo":6,"gp":48},{"time":"Leões da Serra","j":38,"pts":50,"saldo":4,"gp":41}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d13-e1', 'text', 'Modelo estrela: fato_itens_pedido (granularidade declarada: 1 linha por item de pedido) no centro; dimensões dim_data, dim_clientes, dim_produtos (e opcionalmente canal/transportadora); relacionamentos 1:N das dimensões para o fato.', '[{"id":"c1","label":"Fato central com granularidade declarada","weight":35,"dim":"tec"},{"id":"c2","label":"Dimensões corretas ligadas por chaves","weight":35,"dim":"tec"},{"id":"c3","label":"Sem relacionamentos fato↔fato","weight":15,"dim":"tec"},{"id":"c4","label":"Diagrama legível","weight":15,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d13-e2', 'file', 'No Power BI: tabelas importadas, dim_data criada (CALENDAR/CALENDARAUTO) e relacionamentos 1:N com direção única das dimensões para o fato, chave de data marcada. O aluno descreve o modelo.', '[{"id":"c1","label":"dim_data criada e marcada como tabela de datas","weight":35,"dim":"tec"},{"id":"c2","label":"Relacionamentos 1:N corretos, dimensões → fato","weight":35,"dim":"tec"},{"id":"c3","label":"Tabelas do modelo completas","weight":20,"dim":"num"},{"id":"c4","label":"Print ou arquivo informado","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d14-e1', 'file', 'Em fato_entregas: no_prazo (booleano: data_entrega ≤ data_envio + prazo_dias) e dias_atraso (max(0, data_entrega − data_envio − prazo_dias)), com as etapas aplicadas do Power Query documentadas na ordem.', '[{"id":"c1","label":"Lógica de no_prazo e dias_atraso correta (inclui tratamento de data_entrega nula)","weight":40,"dim":"num"},{"id":"c2","label":"Etapas aplicadas listadas e nomeadas","weight":35,"dim":"rep"},{"id":"c3","label":"Tipos de dados corretos","weight":25,"dim":"tec"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d14-e2', 'text', 'Diagrama do fluxo ETL: fonte (Supabase/Excel) → transformação (Power Query) → modelo (estrela) → relatório (Power BI), com o que acontece em cada etapa.', '[{"id":"c1","label":"As 4 etapas presentes na ordem correta","weight":40,"dim":"tec"},{"id":"c2","label":"Transformações concretas citadas (ex.: no_prazo, tipos)","weight":35,"dim":"neg"},{"id":"c3","label":"Diagrama legível","weight":25,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d15-e1', 'file', 'Oito medidas DAX: o aluno escreve Receita e % do Total (DIVIDE com ALL/ALLSELECTED); a IA (prompt p-dax) gera Custo, Margem % (DIVIDE), Pedidos (DISTINCTCOUNT), Ticket Médio (DIVIDE), CPA (investimento ÷ conversões) e CTR (cliques ÷ impressões), estas duas sobre fato_campanhas importada SEM relacionamento. Cada pedido feito à IA é registrado. Valores gerais esperados: receita ≈ 3.682.164,86; margem ≈ 36,6%; 6.534 pedidos; CPA e CTR por canal conforme a referência do dia 8.', '[{"id":"c1","label":"As 8 medidas presentes com nomes claros (CTR no lugar de ROAS)","weight":25,"dim":"num"},{"id":"c2","label":"DAX correto (DIVIDE, DISTINCTCOUNT, ALL; CPA/CTR somando fato_campanhas sem depender de relacionamento)","weight":30,"dim":"tec"},{"id":"c3","label":"Valores exibidos coerentes com a referência","weight":20,"dim":"num"},{"id":"c4","label":"Pedidos feitos à IA registrados (prompt usado e resposta/ajuste)","weight":15,"dim":"rep"},{"id":"c5","label":"Prints / arquivo","weight":10,"dim":"vis"}]'::jsonb, '[{"key":"d03-e2","description":"Receita, custo e margem totais (exclui cancelados)","sql":"SELECT ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo),2) AS margem, ROUND(100*(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status <> ''cancelado''","rows":[{"receita":"3682164.86","custo":"2332752.72","margem":"1349412.14","margem_pct":"36.6"}]},{"key":"d08-e3","description":"Pedidos não cancelados e valor médio (para validar faixas: a soma das faixas deve fechar o total)","sql":"SELECT count(*) AS pedidos, ROUND(avg(v),2) AS valor_medio, ROUND(min(v),2) AS minimo, ROUND(max(v),2) AS maximo FROM ( SELECT p.pedido_id, SUM(i.quantidade * i.preco_unitario) AS v FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1) t","rows":[{"pedidos":6534,"valor_medio":"563.54","minimo":"16.61","maximo":"3389.73"}]},{"key":"d08-e2","description":"CTR, CPC e CPA por canal de campanha","sql":"SELECT canal, SUM(investimento) AS investimento, SUM(impressoes) AS impressoes, SUM(cliques) AS cliques, SUM(conversoes) AS conversoes, ROUND(100.0*SUM(cliques)/SUM(impressoes),2) AS ctr_pct, ROUND(SUM(investimento)/SUM(cliques),2) AS cpc, ROUND(SUM(investimento)/SUM(conversoes),2) AS cpa FROM treinamento.fato_campanhas GROUP BY 1 ORDER BY 1","rows":[{"canal":"Afiliados","investimento":"27436.80","impressoes":1174810,"cliques":21343,"conversoes":716,"ctr_pct":"1.82","cpc":"1.29","cpa":"38.32"},{"canal":"E-mail","investimento":"10169.64","impressoes":442194,"cliques":17234,"conversoes":1009,"ctr_pct":"3.90","cpc":"0.59","cpa":"10.08"},{"canal":"Google Ads","investimento":"49679.57","impressoes":2161194,"cliques":64105,"conversoes":2457,"ctr_pct":"2.97","cpc":"0.77","cpa":"20.22"},{"canal":"Influenciadores","investimento":"37278.27","impressoes":1702586,"cliques":21703,"conversoes":420,"ctr_pct":"1.27","cpc":"1.72","cpa":"88.76"},{"canal":"Meta Ads","investimento":"46618.14","impressoes":2125705,"cliques":31279,"conversoes":797,"ctr_pct":"1.47","cpc":"1.49","cpa":"58.49"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d15-e2', 'text', 'Tabela de conferência provando que 3 medidas DAX batem com SQL (valor DAX, valor SQL, diferença), com a query usada, mais o checklist de revisão de IA: pelo menos 1 correção ou ponto de atenção real encontrado numa medida gerada pela IA.', '[{"id":"c1","label":"Três medidas comparadas com SQL e valores coerentes","weight":35,"dim":"num"},{"id":"c2","label":"Queries SQL mostradas","weight":20,"dim":"rep"},{"id":"c3","label":"Explica diferenças ou confirma igualdade","weight":20,"dim":"tec"},{"id":"c4","label":"Checklist de revisão com ao menos 1 correção/ponto de atenção concreto numa medida da IA","weight":25,"dim":"tec"}]'::jsonb, '[{"key":"d03-e2","description":"Receita, custo e margem totais (exclui cancelados)","sql":"SELECT ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo),2) AS margem, ROUND(100*(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status <> ''cancelado''","rows":[{"receita":"3682164.86","custo":"2332752.72","margem":"1349412.14","margem_pct":"36.6"}]},{"key":"d08-e3","description":"Pedidos não cancelados e valor médio (para validar faixas: a soma das faixas deve fechar o total)","sql":"SELECT count(*) AS pedidos, ROUND(avg(v),2) AS valor_medio, ROUND(min(v),2) AS minimo, ROUND(max(v),2) AS maximo FROM ( SELECT p.pedido_id, SUM(i.quantidade * i.preco_unitario) AS v FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1) t","rows":[{"pedidos":6534,"valor_medio":"563.54","minimo":"16.61","maximo":"3389.73"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d16-e1', 'file', 'Medidas de tempo geradas com a IA (prompt p-dax) sobre dim_data: YTD (TOTALYTD/DATESYTD), Mês anterior (DATEADD/PREVIOUSMONTH), Var % (DIVIDE) e 12M (DATESINPERIOD), aplicadas ao modelo e exibidas em gráfico de linha + cartões, com os pedidos à IA e as correções feitas registrados.', '[{"id":"c1","label":"Quatro medidas de tempo corretas","weight":40,"dim":"tec"},{"id":"c2","label":"Usa tabela de datas marcada","weight":15,"dim":"tec"},{"id":"c3","label":"Visual com linha + cartões","weight":20,"dim":"vis"},{"id":"c4","label":"Pedidos à IA e correções registrados","weight":15,"dim":"rep"},{"id":"c5","label":"Arquivo/print","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d16-e2', 'text', 'Mês escolhido com valores do DAX confirmados por SQL (ex.: receita de jan/2024 = 60.130,40, fev/2024 = 75.772,48), com a query e a diferença.', '[{"id":"c1","label":"Valores conferem com a referência para o mês escolhido","weight":50,"dim":"num"},{"id":"c2","label":"Query de validação mostrada","weight":30,"dim":"rep"},{"id":"c3","label":"Conclusão da validação","weight":20,"dim":"neg"}]'::jsonb, '[{"key":"d12-e1","description":"Receita mensal: primeiros 3 meses, para conferir mês anterior / var % / acumulado","sql":"SELECT date_trunc(''month'',p.data_pedido)::date AS mes, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 1 LIMIT 3","rows":[{"mes":"2024-01-01T00:00:00.000Z","receita":"60130.40"},{"mes":"2024-02-01T00:00:00.000Z","receita":"75772.48"},{"mes":"2024-03-01T00:00:00.000Z","receita":"106514.58"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d17-e1', 'text', 'Python instalado, venv criada e script que imprime a versão do Python e o shape do dataset (o dataset de pedidos tem 6.900 linhas). Print do terminal.', '[{"id":"c1","label":"Versão do Python ≥ 3.12 exibida","weight":35,"dim":"tec"},{"id":"c2","label":"Shape coerente com o dataset carregado (ex.: 6900 linhas)","weight":35,"dim":"num"},{"id":"c3","label":"Uso de venv evidenciado","weight":30,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d17-e2', 'sql', 'Script .py comentado que carrega o Excel e responde 5 perguntas simples com pandas (contagem, soma, groupby, top N, média), com os resultados.', '[{"id":"c1","label":"Cinco respostas corretas e plausíveis (conferir com a referência quando aplicável)","weight":40,"dim":"num"},{"id":"c2","label":"Uso adequado de pandas (read_excel, groupby, sort_values)","weight":30,"dim":"tec"},{"id":"c3","label":"Código comentado e executável","weight":30,"dim":"rep"}]'::jsonb, '[{"key":"d03-e1","description":"Receita por canal (itens, exclui cancelados)","sql":"SELECT p.canal, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status <> ''cancelado'' GROUP BY 1 ORDER BY 2 DESC","rows":[{"canal":"site","receita":"1532588.65"},{"canal":"app","receita":"1081912.01"},{"canal":"marketplace","receita":"705696.63"},{"canal":"loja","receita":"361967.57"}]},{"key":"d04-e2c","description":"Ticket médio por canal (receita ÷ pedidos)","sql":"SELECT p.canal, ROUND(SUM(i.quantidade * i.preco_unitario)/count(DISTINCT p.pedido_id),2) AS ticket_medio FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 2 DESC","rows":[{"canal":"site","ticket_medio":"568.26"},{"canal":"loja","ticket_medio":"562.94"},{"canal":"marketplace","ticket_medio":"562.76"},{"canal":"app","ticket_medio":"557.69"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d18-e1', 'text', 'Uso do prompt de limpeza, código executado e log de revisão listando 2 correções que o aluno precisou fazer no código da IA (ex.: parse de datas, chave errada).', '[{"id":"c1","label":"Código resultante apresentado","weight":30,"dim":"rep"},{"id":"c2","label":"Duas correções reais descritas (o que a IA errou, como foi corrigido)","weight":40,"dim":"tec"},{"id":"c3","label":"Validação do resultado (contagem, amostra)","weight":30,"dim":"num"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d18-e2', 'sql', 'Análise de margem por categoria em pandas e comparação com a SQL do dia 11: margem % deve bater (Eletrônicos 39,3% · Beleza 37,6% · Casa 35,2% · Livros 34,8% · Moda 34,3% · Esporte 32,5%).', '[{"id":"c1","label":"Margem por categoria confere com a referência","weight":50,"dim":"num"},{"id":"c2","label":"Comparação explícita com a SQL","weight":25,"dim":"tec"},{"id":"c3","label":"Script comentado e reproduzível","weight":25,"dim":"rep"}]'::jsonb, '[{"key":"d11-e1","description":"Receita, custo e margem % por categoria (exclui cancelados)","sql":"SELECT pr.categoria, ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(100*(SUM(i.quantidade * i.preco_unitario)-SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status<>''cancelado'' GROUP BY 1 ORDER BY 2 DESC","rows":[{"categoria":"Eletrônicos","receita":"1687526.93","custo":"1024802.35","margem_pct":"39.3"},{"categoria":"Esporte","receita":"664915.35","custo":"448718.28","margem_pct":"32.5"},{"categoria":"Casa","receita":"604667.04","custo":"392028.97","margem_pct":"35.2"},{"categoria":"Moda","receita":"342766.60","custo":"225133.56","margem_pct":"34.3"},{"categoria":"Beleza","receita":"250451.69","custo":"156162.23","margem_pct":"37.6"},{"categoria":"Livros","receita":"131837.25","custo":"85907.33","margem_pct":"34.8"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d19-e1', 'file', 'Histograma, boxplot e dispersão com título-conclusão, rótulos de eixo e script que gera os PNGs. O aluno descreve cada gráfico e o insight.', '[{"id":"c1","label":"Três gráficos adequados (distribuição, outliers, relação)","weight":30,"dim":"tec"},{"id":"c2","label":"Títulos-conclusão e rótulos","weight":30,"dim":"vis"},{"id":"c3","label":"Insights corretos e plausíveis","weight":25,"dim":"neg"},{"id":"c4","label":"Script/PNGs informados","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d19-e2', 'text', 'Outliers de frete identificados com método explícito (IQR 1,5× ou z-score) e proposta de tratamento justificada (manter, winsorizar, investigar), com contagem.', '[{"id":"c1","label":"Método de detecção correto e explícito","weight":35,"dim":"tec"},{"id":"c2","label":"Quantidade/limites de outliers reportados","weight":25,"dim":"num"},{"id":"c3","label":"Tratamento justificado pelo contexto de negócio","weight":40,"dim":"neg"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d20-e1', 'text', 'Conexão ao Supabase sem expor a senha: variáveis de ambiente/.env fora do Git (.gitignore) e .env.example sem segredos; script lê fato_pedidos (6.900 linhas). Nada de senha no código.', '[{"id":"c1","label":"Credenciais via variável de ambiente/.env, nunca no código","weight":45,"dim":"tec"},{"id":"c2","label":".env.example sem valores reais e .env no .gitignore","weight":25,"dim":"rep"},{"id":"c3","label":"Leitura de fato_pedidos funcionando (linhas coerentes)","weight":30,"dim":"num"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d20-e2', 'file', 'Notebook que consulta, limpa, analisa e gera 3 gráficos, cada um com texto de conclusão em Markdown; executa do início ao fim.', '[{"id":"c1","label":"Fluxo consulta → limpeza → análise descrito","weight":30,"dim":"tec"},{"id":"c2","label":"Três gráficos com conclusão escrita","weight":30,"dim":"vis"},{"id":"c3","label":"Resultados coerentes com o dataset","weight":25,"dim":"num"},{"id":"c4","label":"Notebook (.ipynb) informado e reproduzível","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d21-e1', 'text', 'Árvore de métricas da receita de e-commerce com 3 níveis: Receita = Pedidos × Ticket Médio; Pedidos = Visitantes × Conversão (ou por canal); Ticket = Itens/pedido × Preço médio. Cada nó é mensurável.', '[{"id":"c1","label":"Decomposição matematicamente correta em 3 níveis","weight":40,"dim":"tec"},{"id":"c2","label":"Nós mensuráveis com os dados disponíveis","weight":30,"dim":"neg"},{"id":"c3","label":"Diagrama legível e consistente","weight":30,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d21-e2', 'sql', 'Cinco KPIs da árvore calculados em SQL/DAX com resultados coerentes (ex.: receita 3.682.164,86; 6.534 pedidos; ticket ≈ 563,54; margem 36,6%).', '[{"id":"c1","label":"Cinco KPIs com valores coerentes com a referência","weight":50,"dim":"num"},{"id":"c2","label":"Fórmulas SQL/DAX corretas","weight":30,"dim":"tec"},{"id":"c3","label":"Query/medidas apresentadas","weight":20,"dim":"rep"}]'::jsonb, '[{"key":"d03-e2","description":"Receita, custo e margem totais (exclui cancelados)","sql":"SELECT ROUND(SUM(i.quantidade * i.preco_unitario),2) AS receita, ROUND(SUM(i.quantidade*pr.custo),2) AS custo, ROUND(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo),2) AS margem, ROUND(100*(SUM(i.quantidade * i.preco_unitario) - SUM(i.quantidade*pr.custo))/SUM(i.quantidade * i.preco_unitario),1) AS margem_pct FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) JOIN treinamento.dim_produtos pr USING (produto_id) WHERE p.status <> ''cancelado''","rows":[{"receita":"3682164.86","custo":"2332752.72","margem":"1349412.14","margem_pct":"36.6"}]},{"key":"d08-e3","description":"Pedidos não cancelados e valor médio (para validar faixas: a soma das faixas deve fechar o total)","sql":"SELECT count(*) AS pedidos, ROUND(avg(v),2) AS valor_medio, ROUND(min(v),2) AS minimo, ROUND(max(v),2) AS maximo FROM ( SELECT p.pedido_id, SUM(i.quantidade * i.preco_unitario) AS v FROM treinamento.fato_itens_pedido i JOIN treinamento.fato_pedidos p USING (pedido_id) WHERE p.status<>''cancelado'' GROUP BY 1) t","rows":[{"pedidos":6534,"valor_medio":"563.54","minimo":"16.61","maximo":"3389.73"}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d22-e1', 'sql', 'Query RFM do template (recência, frequência, valor; NTILE(5)) e distribuição dos segmentos (ref. 31/12/2025): Leais 144 · Hibernando 142 · Campeões 138 · Em risco 138 · Potencial 138 (800−100 clientes ativos ≈ 700). Regras dos segmentos explicadas.', '[{"id":"c1","label":"Distribuição dos segmentos coerente com a referência (±5%) ou regra alternativa documentada","weight":40,"dim":"num"},{"id":"c2","label":"Recência/frequência/valor calculados corretamente (sem cancelados)","weight":25,"dim":"tec"},{"id":"c3","label":"Regras de cada segmento explicadas","weight":25,"dim":"neg"},{"id":"c4","label":"Query apresentada","weight":10,"dim":"rep"}]'::jsonb, '[{"key":"d22-e1","description":"Distribuição dos segmentos RFM do template t-sql-rfm (ref. 2025-12-31)","sql":"WITH base AS (SELECT p.cliente_id, (DATE ''2025-12-31'' - MAX(p.data_pedido)) AS recencia_dias, COUNT(DISTINCT p.pedido_id) AS frequencia, SUM(i.quantidade*i.preco_unitario) AS valor FROM treinamento.fato_pedidos p JOIN treinamento.fato_itens_pedido i USING (pedido_id) WHERE p.status <> ''cancelado'' GROUP BY 1), score AS (SELECT *, NTILE(5) OVER (ORDER BY recencia_dias DESC) r, NTILE(5) OVER (ORDER BY frequencia) f, NTILE(5) OVER (ORDER BY valor) m FROM base) SELECT CASE WHEN r>=4 AND f>=4 THEN ''Campeões'' WHEN r>=3 AND f>=3 THEN ''Leais'' WHEN r<=2 AND f>=3 THEN ''Em risco'' WHEN r<=2 THEN ''Hibernando'' ELSE ''Potencial'' END AS segmento, count(*) AS clientes FROM score GROUP BY 1 ORDER BY 2 DESC","rows":[{"segmento":"Leais","clientes":144},{"segmento":"Hibernando","clientes":142},{"segmento":"Campeões","clientes":138},{"segmento":"Em risco","clientes":138},{"segmento":"Potencial","clientes":138}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d22-e2', 'text', 'Uma ação por segmento, cada uma com meta mensurável e custo estimado coerente com o tamanho do segmento (ex.: Em risco: cupom de reativação, meta 15% de recompra, custo = clientes × desconto).', '[{"id":"c1","label":"Uma ação específica por segmento","weight":35,"dim":"neg"},{"id":"c2","label":"Metas mensuráveis","weight":30,"dim":"neg"},{"id":"c3","label":"Custo estimado com cálculo plausível","weight":25,"dim":"num"},{"id":"c4","label":"Clareza do plano","weight":10,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d23-e1', 'sql', 'Comparação de 3 modelos (média móvel 3, sazonal ingênuo, Holt-Winters) na mesma janela de teste, com MAPE de cada um e escolha justificada. Série mensal de receita de 24 meses (pico em nov/2025).', '[{"id":"c1","label":"Três modelos avaliados na mesma janela de teste","weight":35,"dim":"tec"},{"id":"c2","label":"MAPE calculado corretamente (|erro|/real médio)","weight":30,"dim":"num"},{"id":"c3","label":"Escolha do melhor modelo justificada","weight":25,"dim":"neg"},{"id":"c4","label":"Notebook/código informado","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d23-e2', 'text', 'Previsão de 6 meses com faixa de incerteza (intervalo) e premissas (sazonalidade de fim de ano, tendência de crescimento); 5 linhas de leitura executiva.', '[{"id":"c1","label":"Seis meses previstos com intervalo","weight":35,"dim":"num"},{"id":"c2","label":"Premissas explícitas e razoáveis","weight":30,"dim":"neg"},{"id":"c3","label":"Leitura de ~5 linhas com implicações","weight":25,"dim":"neg"},{"id":"c4","label":"Gráfico descrito","weight":10,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d24-e1', 'text', 'Teste A/B analisado: hipóteses, métrica, tamanho das amostras, taxa de cada grupo, teste estatístico adequado (z de duas proporções/qui-quadrado), p-valor, intervalo de confiança e decisão. Atenção a p-hacking e amostra pequena.', '[{"id":"c1","label":"Hipótese, métrica e amostras definidas","weight":30,"dim":"tec"},{"id":"c2","label":"Teste adequado e p-valor/intervalo coerentes com os números","weight":35,"dim":"num"},{"id":"c3","label":"Decisão coerente com o resultado estatístico","weight":25,"dim":"neg"},{"id":"c4","label":"Código/notebook informado","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d24-e2', 'text', 'Recomendação executiva em ~3 linhas: o que fazer, evidência numérica resumida e o risco/limite. Linguagem para diretor, sem jargão.', '[{"id":"c1","label":"Recomendação clara e acionável","weight":40,"dim":"neg"},{"id":"c2","label":"Evidência numérica resumida","weight":30,"dim":"num"},{"id":"c3","label":"Linguagem executiva e curta (~3 linhas)","weight":20,"dim":"vis"},{"id":"c4","label":"Menciona risco/limitação","weight":10,"dim":"neg"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d25-e1', 'sql', 'DRE mensal (receitas, despesas, resultado) e caixa acumulado em SQL (SUM OVER) e Excel. Totais de referência (24 meses): receitas 3.831.073,82 · despesas 3.200.633,16 · resultado 630.440,66.', '[{"id":"c1","label":"Totais da DRE conferem com a referência","weight":50,"dim":"num"},{"id":"c2","label":"Caixa acumulado com window function correta","weight":25,"dim":"tec"},{"id":"c3","label":"Planilha e SQL consistentes entre si","weight":15,"dim":"rep"},{"id":"c4","label":"Apresentação clara","weight":10,"dim":"vis"}]'::jsonb, '[{"key":"d25-e1","description":"DRE: totais do período (receitas, despesas, resultado)","sql":"SELECT ROUND(SUM(valor) FILTER (WHERE tipo=''receita''),2) AS receitas, ROUND(SUM(valor) FILTER (WHERE tipo=''despesa''),2) AS despesas, ROUND(SUM(CASE WHEN tipo=''receita'' THEN valor ELSE -valor END),2) AS resultado, count(DISTINCT date_trunc(''month'',data)) AS meses FROM treinamento.fato_financeiro","rows":[{"receitas":"3831073.82","despesas":"3200633.16","resultado":"630440.66","meses":24}]}]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d25-e2', 'text', 'Relatório da semana 5 integrando segmentação (RFM), previsão e financeiro com recomendação por área (Comercial, Marketing, Financeiro).', '[{"id":"c1","label":"Três blocos (RFM, previsão, financeiro) presentes","weight":30,"dim":"neg"},{"id":"c2","label":"Números coerentes com os dados","weight":30,"dim":"num"},{"id":"c3","label":"Recomendação por área, acionável","weight":30,"dim":"neg"},{"id":"c4","label":"Organização","weight":10,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d26-e1', 'text', 'Dois prompts próprios para tarefas da rotina, com versões v1→v2 e o que mudou/por quê (contexto, formato de saída, restrições, exemplos). Inclui como validar a resposta da IA.', '[{"id":"c1","label":"Dois prompts reais com versões v1 e v2","weight":40,"dim":"tec"},{"id":"c2","label":"Melhorias entre versões justificadas","weight":30,"dim":"tec"},{"id":"c3","label":"Prompts específicos (contexto, formato, restrições)","weight":20,"dim":"neg"},{"id":"c4","label":"Critério de validação do resultado","weight":10,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d26-e2', 'text', 'Revisão de código com 3 erros plantados: tabela Problema | Correção, com os 3 erros encontrados, causa e correção correta, e como verificar.', '[{"id":"c1","label":"Os 3 erros identificados corretamente","weight":60,"dim":"num"},{"id":"c2","label":"Correções corretas e explicadas","weight":25,"dim":"tec"},{"id":"c3","label":"Forma de verificação","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, 'O código com erros plantados vem do tutor e não está no sistema: se o aluno não colar os erros, a confiança é baixa e a entrega vai ao tutor.', false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d27-e1', 'text', 'Script relatorio_semanal.py (gerado com IA, revisado pelo aluno) que lê dados, calcula KPIs e grava um Excel (openpyxl/pandas), com a revisão feita e a evidência da execução.', '[{"id":"c1","label":"Script funcional descrito/colado (leitura → KPIs → Excel)","weight":35,"dim":"tec"},{"id":"c2","label":"Revisão do código da IA registrada","weight":25,"dim":"tec"},{"id":"c3","label":"Excel gerado com valores coerentes","weight":25,"dim":"num"},{"id":"c4","label":"Reprodutível (dependências, como rodar)","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d27-e2', 'text', 'Passo a passo de agendamento e monitoramento: agendador (cron/Agendador de Tarefas/GitHub Actions), horário, logs, alerta de falha, credenciais seguras e como reexecutar.', '[{"id":"c1","label":"Agendamento concreto com ferramenta e frequência","weight":35,"dim":"tec"},{"id":"c2","label":"Monitoramento e alerta de falha","weight":30,"dim":"tec"},{"id":"c3","label":"Segredos fora do código","weight":20,"dim":"rep"},{"id":"c4","label":"Passos claros e ordenados","weight":15,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d28-e1', 'file', 'Dashboard v2 com drill-through, bookmark e tooltip de página; o aluno descreve cada recurso, a página de destino/os campos e como usar.', '[{"id":"c1","label":"Os 3 recursos (drill-through, bookmark, tooltip) descritos e configurados","weight":40,"dim":"tec"},{"id":"c2","label":"Uso coerente com a análise","weight":25,"dim":"neg"},{"id":"c3","label":"Design consistente","weight":20,"dim":"vis"},{"id":"c4","label":".pbix informado","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d28-e2', 'file', 'Duas funções RLS (ex.: Regional por UF e Diretoria sem filtro) com expressão DAX de filtro e testes "Exibir como" com resultados observados.', '[{"id":"c1","label":"Duas funções com filtros DAX corretos","weight":40,"dim":"tec"},{"id":"c2","label":"Testes \"Exibir como\" com resultado esperado vs observado","weight":40,"dim":"num"},{"id":"c3","label":"Prints / explicação de uso","weight":20,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d29-e1', 'file', 'Apresentação de 5 slides contando a história do projeto final (contexto, problema, análise, insight, recomendação) com títulos-conclusão e um visual por slide.', '[{"id":"c1","label":"Estrutura narrativa de 5 slides","weight":30,"dim":"neg"},{"id":"c2","label":"Títulos-conclusão e visual por slide","weight":30,"dim":"vis"},{"id":"c3","label":"Insights com números do dataset","weight":25,"dim":"num"},{"id":"c4","label":"Deck informado","weight":15,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d29-e2', 'text', 'Ensaio de 5 minutos e lista das 3 perguntas difíceis esperadas, cada uma com resposta preparada baseada em dados.', '[{"id":"c1","label":"Três perguntas realmente difíceis/relevantes","weight":35,"dim":"neg"},{"id":"c2","label":"Respostas preparadas e fundamentadas","weight":40,"dim":"neg"},{"id":"c3","label":"Evidência do ensaio (tempo, aprendizados)","weight":25,"dim":"rep"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d30-e1', 'file', 'Projeto final organizado em pasta/repositório com README (objetivo, como reproduzir), dashboard .pbix, notebook e SQL. Link público/compartilhado e descrição do conteúdo.', '[{"id":"c1","label":"Dashboard, notebook e SQL presentes e descritos","weight":30,"dim":"tec"},{"id":"c2","label":"README com objetivo e passo a passo de reprodução","weight":30,"dim":"rep"},{"id":"c3","label":"Qualidade analítica (pergunta, achados, recomendação)","weight":25,"dim":"neg"},{"id":"c4","label":"Organização da pasta","weight":15,"dim":"vis"}]'::jsonb, '[]'::jsonb, null, false) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+insert into public.exercise_rubrics (exercise_id, mode, expected, checks, reference, grading_notes, force_tutor) values ('d30-e2', 'file', 'Apresentação ao tutor em 10 minutos: slides e gravação/ata com perguntas e respostas.', '[{"id":"c1","label":"Slides ou ata com a estrutura da defesa","weight":40,"dim":"neg"},{"id":"c2","label":"Perguntas do tutor e respostas registradas","weight":35,"dim":"neg"},{"id":"c3","label":"Gravação/ata disponível","weight":25,"dim":"rep"}]'::jsonb, '[]'::jsonb, 'Esta é uma etapa presencial: preferir revisão do tutor.', true) on conflict (exercise_id) do update set mode=excluded.mode, expected=excluded.expected, checks=excluded.checks, reference=excluded.reference, grading_notes=excluded.grading_notes, force_tutor=excluded.force_tutor;
+commit;
+-- ============================================================================
+-- Correção por IA, parte 2:
+--   · job diário: ai_claim só reserva o que AINDA está 'submitted' (o que o tutor já decidiu fica de fora);
+--     p_skip_errors evita repetir, no mesmo job, o que acabou de falhar
+--   · pré-análise de arquivos (Excel, Python, DAX, Power BI, slides…): a IA lê e dá nota, mas a decisão final é SEMPRE do tutor
+-- ============================================================================
+alter table public.ai_evaluations add column if not exists requires_tutor boolean not null default false;
+alter table public.ai_evaluations add column if not exists attachments jsonb not null default '[]';   -- [{source,status,kind,detail}]
+
+drop function if exists public.ai_claim(int, uuid[], text, uuid);
+create function public.ai_claim(p_limit int default 10, p_submission_ids uuid[] default null,
+                                p_trigger text default 'scheduled', p_run_by uuid default null,
+                                p_skip_errors boolean default false)
+returns json language plpgsql security definer set search_path = public as $$
+declare
+  v_ids uuid[];
+begin
+  select coalesce(array_agg(id), '{}') into v_ids from (
+    select s.id
+      from public.submissions s
+      left join public.ai_evaluations a on a.submission_id = s.id
+     where s.status = 'submitted'
+       and (p_submission_ids is null or s.id = any (p_submission_ids))
+       and (a.submission_id is null
+            or (a.status = 'error' and a.attempts < 3 and not p_skip_errors)
+            or (a.status = 'processing' and a.started_at < now() - interval '10 minutes'))
+     order by s.created_at
+     limit greatest(1, least(coalesce(p_limit, 10), 25))
+       for update of s skip locked) q;
+
+  insert into public.ai_evaluations (submission_id, status, attempts, trigger, run_by, started_at)
+  select id, 'processing', 0, p_trigger, p_run_by, now() from unnest(v_ids) id
+  on conflict (submission_id) do update
+     set status = 'processing', trigger = excluded.trigger, run_by = excluded.run_by, started_at = now(), error = null;
+
+  return (select coalesce(json_agg(json_build_object(
+      'submission', json_build_object('id', s.id, 'attempt', s.attempt, 'content', s.content, 'link_url', s.link_url),
+      'exercise',   json_build_object('id', e.id, 'title', e.title, 'instructions', e.instructions, 'deliverable', e.deliverable),
+      'session',    json_build_object('day', se.day, 'title', se.title, 'level', se.level_slug),
+      'rubric',     (select to_json(r) from public.exercise_rubrics r where r.exercise_id = e.id),
+      'previous',   (select coalesce(json_agg(json_build_object('attempt', p.attempt, 'status', p.status,
+                        'score', rv.score, 'feedback', rv.feedback, 'instructions', rv.instructions) order by p.attempt), '[]')
+                       from public.submissions p left join public.reviews rv on rv.submission_id = p.id
+                      where p.exercise_id = s.exercise_id and p.student_id = s.student_id and p.attempt < s.attempt)
+    ) order by s.created_at), '[]')
+    from public.submissions s
+    join public.exercises e on e.id = s.exercise_id
+    join public.sessions se on se.day = e.session_day
+   where s.id = any (v_ids));
+end;
+$$;
+
+drop function if exists public.ai_apply(uuid, numeric, jsonb, text, jsonb, jsonb, text, text, boolean, text, boolean, text, text);
+create function public.ai_apply(p_submission uuid, p_score numeric, p_criteria jsonb, p_summary text, p_strengths jsonb, p_gaps jsonb,
+                                p_sug_instructions text, p_sug_examples text, p_evidence_sufficient boolean, p_confidence text,
+                                p_manipulation boolean, p_feedback text, p_model text,
+                                p_requires_tutor boolean default false, p_attachments jsonb default '[]')
+returns json language plpgsql security definer set search_path = public as $$
+declare
+  c_pass constant numeric := 7;
+  s public.submissions;
+  v_force boolean;
+  v_outcome text;
+  v_reason text;
+  v_label text;
+begin
+  if p_score is null or p_score < 0 or p_score > 10 then raise exception 'Nota da IA fora do intervalo 0–10.'; end if;
+  select * into s from public.submissions where id = p_submission for update;
+  if not found then raise exception 'Entrega inexistente.'; end if;
+  select coalesce(r.force_tutor, false) into v_force from public.exercise_rubrics r where r.exercise_id = s.exercise_id;
+
+  if s.status <> 'submitted' then
+    -- o tutor decidiu enquanto a IA corrigia: guarda a avaliação, mas não altera nada
+    v_outcome := 'discarded'; v_reason := 'already_decided';
+  elsif p_score >= c_pass and coalesce(p_evidence_sufficient, false) and p_confidence <> 'low'
+        and not coalesce(p_manipulation, false) and not coalesce(v_force, false) and not coalesce(p_requires_tutor, false) then
+    v_outcome := 'auto_approved'; v_reason := 'score_at_or_above_pass';
+  else
+    v_outcome := 'sent_to_tutor';
+    v_reason := case when coalesce(p_manipulation, false) then 'suspected_manipulation'
+                     when coalesce(v_force, false) then 'tutor_only_exercise'
+                     when not coalesce(p_evidence_sufficient, false) then 'insufficient_evidence'
+                     when p_confidence = 'low' then 'low_confidence'
+                     when coalesce(p_requires_tutor, false) and p_score >= c_pass then 'file_requires_tutor'
+                     else 'score_below_pass' end;
+  end if;
+
+  update public.ai_evaluations set
+    status = 'done', score = round(p_score, 1), criteria = p_criteria, summary = p_summary, strengths = p_strengths, gaps = p_gaps,
+    suggested_instructions = p_sug_instructions, suggested_examples = p_sug_examples, evidence_sufficient = p_evidence_sufficient,
+    confidence = p_confidence, suspected_manipulation = coalesce(p_manipulation, false), outcome = v_outcome, outcome_reason = v_reason,
+    model = p_model, requires_tutor = coalesce(p_requires_tutor, false), attachments = coalesce(p_attachments, '[]'::jsonb), error = null, finished_at = now(), attempts = attempts + 1
+  where submission_id = p_submission;
+
+  v_label := public._submission_label(p_submission);
+  if v_outcome = 'auto_approved' then
+    insert into public.reviews (submission_id, tutor_id, score, verdict, feedback, source)
+    values (p_submission, null, round(p_score, 1), 'approved', left(p_feedback, 5000), 'ai')
+    on conflict (submission_id) do nothing;
+    update public.submissions set status = 'approved' where id = p_submission;
+    perform public._notify(s.student_id, 'ai_approved', '✅ Entrega aprovada (correção automática)',
+      v_label || ' — nota ' || round(p_score, 1) || '/10. Corrigida automaticamente pela IA; veja o feedback no exercício.', p_submission);
+  elsif v_outcome = 'sent_to_tutor' then
+    update public.submissions set status = 'needs_review' where id = p_submission;
+    perform public._notify(s.student_id, 'in_review', '🔎 Entrega em revisão pelo tutor',
+      v_label || case when coalesce(p_requires_tutor, false) then ' — a IA fez uma pré-análise do seu arquivo e o tutor fará a análise final. Você será avisado da decisão.'
+                    else ' — sua entrega passou pela correção automática e agora será revisada pelo tutor. Você será avisado da decisão.' end, p_submission);
+  end if;
+  return json_build_object('outcome', v_outcome, 'reason', v_reason, 'score', round(p_score, 1));
+end;
+$$;
+
+do $$
+declare f record;
+begin
+  for f in select p.oid::regprocedure as sig from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+           where n.nspname = 'public' and p.proname in ('ai_claim', 'ai_apply') loop
+    execute format('revoke all on function %s from public, anon, authenticated', f.sig);
+    if exists (select 1 from pg_roles where rolname = 'service_role') then
+      execute format('grant execute on function %s to service_role', f.sig);
+    end if;
+  end loop;
+end $$;
+-- ============================================================================
+-- Entrega por ARQUIVO anexado ou por LINK PÚBLICO validado.
+--   · arquivos: guardados no Supabase Storage (bucket privado 'submission-files'); só a Edge Function `submission-files`
+--     (service_role) grava/lê. O app vê apenas os metadados.
+--   · links: antes de aceitar a entrega, a Edge Function baixa o link (público?) e registra o resultado em link_checks.
+--     app_submit EXIGE uma validação ok e recente (1 h) do mesmo link — não dá para burlar pelo cliente.
+-- ============================================================================
+create table if not exists public.submission_files (
+  id uuid primary key default gen_random_uuid(),
+  student_id uuid not null references public.app_users (id) on delete cascade,
+  exercise_id text not null references public.exercises (id) on delete cascade,
+  submission_id uuid references public.submissions (id) on delete cascade,   -- null = anexado, ainda não enviado
+  name text not null check (length(name) between 1 and 200),
+  mime text,
+  size_bytes int not null check (size_bytes between 1 and 8388608),
+  storage_path text not null unique,
+  created_at timestamptz not null default now()
+);
+create index if not exists submission_files_sub_idx on public.submission_files (submission_id);
+create index if not exists submission_files_pending_idx on public.submission_files (student_id, exercise_id) where submission_id is null;
+
+create table if not exists public.link_checks (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.app_users (id) on delete cascade,
+  url text not null check (length(url) <= 2000),
+  ok boolean not null,
+  kind text,
+  detail text,
+  warning text,
+  checked_at timestamptz not null default now()
+);
+create index if not exists link_checks_lookup_idx on public.link_checks (user_id, url, checked_at desc);
+
+alter table public.submissions add column if not exists link_check jsonb;
+-- a entrega pode ter só arquivos anexados: a regra "texto ou link" passa a aceitar também anexos
+alter table public.submissions add column if not exists attachment_count int not null default 0;
+alter table public.submissions drop constraint if exists submissions_check;
+alter table public.submissions drop constraint if exists submissions_evidence_check;
+alter table public.submissions add constraint submissions_evidence_check
+  check (coalesce(length(trim(content)), 0) > 0 or coalesce(length(trim(link_url)), 0) > 0 or attachment_count > 0);   -- {ok, kind, warning, checked_at} no momento do envio
+
+do $$
+declare t text;
+begin
+  foreach t in array array['submission_files', 'link_checks'] loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('revoke all on public.%I from anon, authenticated', t);
+  end loop;
+  -- bucket privado (sem policies: só o service_role acessa); ignorado fora do Supabase
+  if exists (select 1 from information_schema.tables where table_schema = 'storage' and table_name = 'buckets') then
+    insert into storage.buckets (id, name, public, file_size_limit) values ('submission-files', 'submission-files', false, 8388608)
+    on conflict (id) do nothing;
+  end if;
+end $$;
+
+-- ───────────── app_submit: arquivos e link validado ─────────────
+drop function if exists public.app_submit(text, text, text, text);
+create function public.app_submit(p_token text, p_exercise_id text, p_content text, p_link text, p_file_ids uuid[] default null)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  u public.app_users := public._app_active_user(p_token);
+  v_day int;
+  v_last record;
+  v_content text := nullif(trim(coalesce(p_content, '')), '');
+  v_link text := nullif(trim(coalesce(p_link, '')), '');
+  v_files uuid[] := coalesce(array(select distinct x from unnest(p_file_ids) x), '{}');
+  lc public.link_checks;
+  s public.submissions;
+begin
+  if u.role <> 'student' then raise exception 'Apenas alunos enviam entregas.' using errcode = '42501'; end if;
+  if v_content is null and v_link is null and cardinality(v_files) = 0 then
+    raise exception 'Escreva uma resposta, anexe arquivos ou informe um link.';
+  end if;
+  if v_content is not null and length(v_content) > 20000 then raise exception 'Resposta muito longa (máx. 20.000 caracteres).'; end if;
+  if v_link is not null and (v_link !~* '^https?://' or length(v_link) > 2000) then
+    raise exception 'O link deve começar com http:// ou https://.';
+  end if;
+  if cardinality(v_files) > 5 then raise exception 'Anexe no máximo 5 arquivos por entrega.'; end if;
+
+  select e.session_day into v_day from public.exercises e where e.id = p_exercise_id;
+  if v_day is null then raise exception 'Exercício inexistente.'; end if;
+  if not public._session_unlocked(u.id, v_day) then
+    raise exception 'Sessão bloqueada: conclua as sessões anteriores (dependências) primeiro.';
+  end if;
+
+  if cardinality(v_files) > 0 and (select count(*) from public.submission_files f
+        where f.id = any (v_files) and f.student_id = u.id and f.exercise_id = p_exercise_id and f.submission_id is null) <> cardinality(v_files) then
+    raise exception 'Algum arquivo anexado não está mais disponível. Anexe novamente.';
+  end if;
+  if v_link is not null then
+    select * into lc from public.link_checks c
+     where c.user_id = u.id and c.url = v_link and c.ok and c.checked_at > now() - interval '1 hour'
+     order by c.checked_at desc limit 1;
+    if not found then
+      raise exception 'Valide o link antes de enviar: ele precisa estar público (“qualquer pessoa com o link”) e acessível.';
+    end if;
+  end if;
+
+  select x.attempt, x.status into v_last from public.submissions x
+   where x.exercise_id = p_exercise_id and x.student_id = u.id order by x.attempt desc limit 1;
+  if found and v_last.status in ('submitted', 'needs_review') then
+    raise exception 'Você já tem uma entrega aguardando avaliação neste exercício.';
+  end if;
+  if found and v_last.status = 'rejected'
+     and not exists (select 1 from public.submissions x where x.exercise_id = p_exercise_id and x.student_id = u.id and x.status = 'approved') then
+    raise exception 'Esta entrega foi reprovada pelo tutor. Fale com o tutor para reabrir o exercício.';
+  end if;
+
+  insert into public.submissions (exercise_id, student_id, attempt, content, link_url, attachment_count, link_check)
+  values (p_exercise_id, u.id, coalesce(v_last.attempt, 0) + 1, v_content, v_link, cardinality(v_files),
+          case when v_link is null then null else jsonb_build_object('ok', true, 'kind', lc.kind, 'warning', lc.warning, 'checked_at', lc.checked_at) end)
+  returning * into s;
+  update public.submission_files set submission_id = s.id where id = any (v_files);
+  return row_to_json(s);
+end;
+$$;
+
+-- ───────────── Bootstrap com metadados dos arquivos ─────────────
+create or replace function public.app_bootstrap(p_token text)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_active_user(p_token);
+begin
+  return json_build_object(
+    'levels',           (select coalesce(json_agg(x order by x.position), '[]') from public.levels x),
+    'sessions',         (select coalesce(json_agg(x order by x.day), '[]') from public.sessions x),
+    'deps',             (select coalesce(json_agg(x), '[]') from public.session_dependencies x),
+    'exercises',        (select coalesce(json_agg(x order by x.session_day, x.position), '[]') from public.exercises x),
+    'templates',        (select coalesce(json_agg(x order by x.slug), '[]') from public.templates x),
+    'resources',        (select coalesce(json_agg(x order by x.category), '[]') from public.resources x),
+    'sessionTemplates', (select coalesce(json_agg(x), '[]') from public.session_templates x),
+    'sessionResources', (select coalesce(json_agg(x), '[]') from public.session_resources x),
+    'weekly',           (select coalesce(json_agg(x order by x.week), '[]') from public.weekly_deliverables x),
+    'submissions',      (select coalesce(json_agg(x order by x.created_at), '[]') from public.submissions x
+                          where u.role = 'teacher' or x.student_id = u.id),
+    'reviews',          (select coalesce(json_agg(r order by r.created_at), '[]') from public.reviews r
+                          where u.role = 'teacher'
+                             or exists (select 1 from public.submissions s where s.id = r.submission_id and s.student_id = u.id)),
+    'profiles',         (select coalesce(json_agg(public._app_user_json(p) order by p.created_at), '[]') from public.app_users p
+                          where u.role = 'teacher' or p.id = u.id),
+    'notifications',    (select coalesce(json_agg(n order by n.created_at desc), '[]')
+                           from (select * from public.notifications where user_id = u.id order by created_at desc limit 100) n),
+    'files',            (select coalesce(json_agg(json_build_object('id', f.id, 'student_id', f.student_id, 'exercise_id', f.exercise_id, 'submission_id', f.submission_id,
+                           'name', f.name, 'mime', f.mime, 'size_bytes', f.size_bytes, 'created_at', f.created_at) order by f.created_at), '[]')
+                          from public.submission_files f where f.submission_id is not null and (u.role = 'teacher' or f.student_id = u.id)),
+    'rubrics',          (select coalesce(json_agg(x), '[]') from public.exercise_rubrics x where u.role = 'teacher'),
+    'aiEvaluations',    (select coalesce(json_agg(x), '[]') from public.ai_evaluations x where u.role = 'teacher' and x.status <> 'processing')
+  );
+end;
+$$;
+
+create or replace function public.ai_claim(p_limit int default 10, p_submission_ids uuid[] default null,
+                                p_trigger text default 'scheduled', p_run_by uuid default null,
+                                p_skip_errors boolean default false)
+returns json language plpgsql security definer set search_path = public as $$
+declare
+  v_ids uuid[];
+begin
+  select coalesce(array_agg(id), '{}') into v_ids from (
+    select s.id
+      from public.submissions s
+      left join public.ai_evaluations a on a.submission_id = s.id
+     where s.status = 'submitted'
+       and (p_submission_ids is null or s.id = any (p_submission_ids))
+       and (a.submission_id is null
+            or (a.status = 'error' and a.attempts < 3 and not p_skip_errors)
+            or (a.status = 'processing' and a.started_at < now() - interval '10 minutes'))
+     order by s.created_at
+     limit greatest(1, least(coalesce(p_limit, 10), 25))
+       for update of s skip locked) q;
+
+  insert into public.ai_evaluations (submission_id, status, attempts, trigger, run_by, started_at)
+  select id, 'processing', 0, p_trigger, p_run_by, now() from unnest(v_ids) id
+  on conflict (submission_id) do update
+     set status = 'processing', trigger = excluded.trigger, run_by = excluded.run_by, started_at = now(), error = null;
+
+  return (select coalesce(json_agg(json_build_object(
+      'submission', json_build_object('id', s.id, 'attempt', s.attempt, 'content', s.content, 'link_url', s.link_url),
+      'exercise',   json_build_object('id', e.id, 'title', e.title, 'instructions', e.instructions, 'deliverable', e.deliverable),
+      'session',    json_build_object('day', se.day, 'title', se.title, 'level', se.level_slug),
+      'files',      (select coalesce(json_agg(json_build_object('id', f.id, 'name', f.name, 'mime', f.mime, 'size', f.size_bytes, 'path', f.storage_path) order by f.created_at), '[]')
+                       from public.submission_files f where f.submission_id = s.id),
+      'rubric',     (select to_json(r) from public.exercise_rubrics r where r.exercise_id = e.id),
+      'previous',   (select coalesce(json_agg(json_build_object('attempt', p.attempt, 'status', p.status,
+                        'score', rv.score, 'feedback', rv.feedback, 'instructions', rv.instructions) order by p.attempt), '[]')
+                       from public.submissions p left join public.reviews rv on rv.submission_id = p.id
+                      where p.exercise_id = s.exercise_id and p.student_id = s.student_id and p.attempt < s.attempt)
+    ) order by s.created_at), '[]')
+    from public.submissions s
+    join public.exercises e on e.id = s.exercise_id
+    join public.sessions se on se.day = e.session_day
+   where s.id = any (v_ids));
+end;
+$$;
+
+-- ───────────── Funções da Edge Function submission-files (apenas service_role) ─────────────
+-- Identifica quem envia; com p_exercise exige aluno, exercício existente e sessão liberada.
+create function public.file_actor(p_token text, p_exercise text default null)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_active_user(p_token); v_day int;
+begin
+  if p_exercise is not null then
+    if u.role <> 'student' then raise exception 'Apenas alunos anexam arquivos.' using errcode = '42501'; end if;
+    select e.session_day into v_day from public.exercises e where e.id = p_exercise;
+    if v_day is null then raise exception 'Exercício inexistente.'; end if;
+    if not public._session_unlocked(u.id, v_day) then raise exception 'Sessão bloqueada: conclua as sessões anteriores primeiro.'; end if;
+  end if;
+  return json_build_object('id', u.id, 'role', u.role);
+end;
+$$;
+
+create function public.file_register(p_user uuid, p_exercise text, p_name text, p_mime text, p_size int, p_path text)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare v_id uuid;
+begin
+  if (select count(*) from public.submission_files where student_id = p_user and exercise_id = p_exercise and submission_id is null) >= 5 then
+    raise exception 'Você já anexou 5 arquivos. Remova algum ou envie a entrega.';
+  end if;
+  insert into public.submission_files (student_id, exercise_id, name, mime, size_bytes, storage_path)
+  values (p_user, p_exercise, left(p_name, 200), p_mime, p_size, p_path) returning id into v_id;
+  return v_id;
+end;
+$$;
+
+-- Remove um anexo ainda não enviado; devolve o caminho no Storage (ou null).
+create function public.file_pending_delete(p_user uuid, p_id uuid)
+returns text language sql security definer set search_path = public as $$
+  delete from public.submission_files where id = p_id and student_id = p_user and submission_id is null returning storage_path;
+$$;
+
+-- Acesso a um arquivo: dono ou tutor.
+create function public.file_access(p_token text, p_id uuid)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_active_user(p_token); f public.submission_files;
+begin
+  select * into f from public.submission_files where id = p_id;
+  if not found or (u.role <> 'teacher' and f.student_id <> u.id) then raise exception 'Arquivo não encontrado.'; end if;
+  return json_build_object('path', f.storage_path, 'name', f.name, 'mime', f.mime);
+end;
+$$;
+
+-- Início de uma validação de link: só aluno, no máximo 30 por hora.
+create function public.link_check_begin(p_token text)
+returns uuid language plpgsql security definer set search_path = public, extensions as $$
+declare u public.app_users := public._app_active_user(p_token);
+begin
+  if u.role <> 'student' then raise exception 'Apenas alunos validam links de entrega.' using errcode = '42501'; end if;
+  if (select count(*) from public.link_checks where user_id = u.id and checked_at > now() - interval '1 hour') >= 30 then
+    raise exception 'Muitas validações de link. Tente novamente em alguns minutos.';
+  end if;
+  return u.id;
+end;
+$$;
+
+create function public.link_check_save(p_user uuid, p_url text, p_ok boolean, p_kind text, p_detail text, p_warning text)
+returns void language sql security definer set search_path = public as $$
+  insert into public.link_checks (user_id, url, ok, kind, detail, warning) values (p_user, left(p_url, 2000), p_ok, p_kind, left(p_detail, 500), left(p_warning, 500));
+$$;
+
+-- Limpeza: anexos não enviados há mais de p_hours e validações antigas. Devolve os caminhos para apagar no Storage.
+create function public.files_cleanup_pending(p_hours int default 24)
+returns text[] language plpgsql security definer set search_path = public as $$
+declare v text[];
+begin
+  with d as (delete from public.submission_files where submission_id is null and created_at < now() - make_interval(hours => p_hours) returning storage_path)
+  select coalesce(array_agg(storage_path), '{}') into v from d;
+  delete from public.link_checks where checked_at < now() - interval '7 days';
+  return v;
+end;
+$$;
+
+do $$
+declare f record;
+begin
+  for f in select p.oid::regprocedure as sig, p.proname as name from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+           where n.nspname = 'public' and (p.proname like 'file\_%' or p.proname like 'link\_check%' or p.proname = 'files_cleanup_pending'
+                                           or p.proname in ('ai_claim', 'app_submit', 'app_bootstrap')) loop
+    execute format('revoke all on function %s from public, anon, authenticated', f.sig);
+    if f.name in ('app_submit', 'app_bootstrap') then
+      execute format('grant execute on function %s to anon', f.sig);
+    elsif exists (select 1 from pg_roles where rolname = 'service_role') then
+      execute format('grant execute on function %s to service_role', f.sig);
+    end if;
+  end loop;
+end $$;
+-- ============================================================================
+-- Alertas de atraso da ENTREGA SEMANAL (WhatsApp + notificação no app) para alunos e tutores.
+--
+-- Atraso = o prazo (weekly_deliverables.due_date) já passou e o aluno ainda NÃO enviou alguma entrega
+-- (nenhuma tentativa, de qualquer status) de algum exercício da sessão que fecha a semana (weekly_deliverables.session_day).
+-- Quem já enviou e aguarda correção, ou precisa refazer, NÃO conta como atrasado.
+--
+-- Regras (constantes em alerts_overdue_claim):
+--   · só dias úteis (seg–sex, horário de Brasília)
+--   · só semanas com prazo DEPOIS do cadastro do aluno (quem entra no meio do programa não recebe aviso de semanas antigas)
+--   · no máximo 1 aviso a cada 3 dias por aluno, e no máximo 8 avisos por aluno
+--   · alunos com alerts_paused = true não recebem (nem entram no resumo do tutor)
+--   · tutores recebem um resumo (notificação no app + WhatsApp, se tiverem número) dos alunos avisados na rodada
+-- O envio de WhatsApp é feito pela função serverless /api/overdue-alerts (Vercel), que chama este banco com a service_role.
+-- ============================================================================
+alter table public.app_users add column if not exists alerts_paused boolean not null default false;
+
+alter table public.notifications add column if not exists link text;   -- rota do app aberta pelo botão da notificação
+alter table public.notifications drop constraint if exists notifications_kind_check;
+alter table public.notifications add constraint notifications_kind_check
+  check (kind in ('ai_approved', 'in_review', 'approved', 'revision_requested', 'rejected', 'overdue', 'overdue_tutor'));
+
+create table if not exists public.overdue_alerts (
+  id uuid primary key default gen_random_uuid(),
+  student_id uuid not null references public.app_users (id) on delete cascade,
+  weeks int[] not null,                       -- semanas em atraso informadas neste aviso
+  n int not null,                             -- nº do aviso para este aluno (1, 2, …)
+  sent_at timestamptz not null default now(),
+  whatsapp_status text not null default 'pending' check (whatsapp_status in ('pending', 'sent', 'failed', 'skipped')),
+  whatsapp_error text
+);
+create index if not exists overdue_alerts_student_idx on public.overdue_alerts (student_id, sent_at desc);
+alter table public.overdue_alerts enable row level security;
+revoke all on public.overdue_alerts from anon, authenticated;
+
+-- O perfil devolvido ao app passa a informar se os alertas do aluno estão pausados.
+create or replace function public._app_user_json(u public.app_users)
+returns json language sql immutable set search_path = public as $$
+  select json_build_object('id', u.id, 'email', u.email, 'full_name', u.full_name, 'avatar_url', null,
+                           'role', u.role, 'created_at', u.created_at,
+                           'phone_verified', u.phone_verified_at is not null,
+                           'phone_hint', case when u.phone is null then null else right(u.phone, 4) end,
+                           'alerts_paused', u.alerts_paused);
+$$;
+
+-- ───────────── Quem está em atraso (interna) ─────────────
+create or replace function public._overdue_list(p_today date, p_include_paused boolean default false)
+returns table (student_id uuid, week int, title text, due_date date, session_day int, days_late int)
+language sql stable security definer set search_path = public as $$
+  select u.id, w.week, w.title, w.due_date, w.session_day, (p_today - w.due_date)
+    from public.app_users u
+    cross join public.weekly_deliverables w
+   where u.role = 'student'
+     and u.phone_verified_at is not null
+     and (p_include_paused or not u.alerts_paused)
+     and w.due_date < p_today
+     and w.due_date >= (u.created_at at time zone 'America/Sao_Paulo')::date
+     and exists (select 1 from public.exercises e
+                  where e.session_day = w.session_day
+                    and not exists (select 1 from public.submissions s where s.exercise_id = e.id and s.student_id = u.id))
+   order by u.id, w.week;
+$$;
+
+-- ───────────── Rodada diária (service_role): registra, cria notificações e devolve o que enviar por WhatsApp ─────────────
+create or replace function public.alerts_overdue_claim(p_force boolean default false, p_today date default null, p_limit int default 40)
+returns json language plpgsql security definer set search_path = public as $$
+declare
+  c_gap constant interval := interval '3 days';
+  c_max constant int := 8;
+  v_today date := coalesce(p_today, (now() at time zone 'America/Sao_Paulo')::date);
+  r record;
+  v_n int;
+  v_id uuid;
+  v_body text;
+  v_students jsonb := '[]';
+  v_lines text;
+  v_count int := 0;
+  v_paused int;
+begin
+  if not p_force and extract(isodow from v_today) in (6, 7) then
+    return json_build_object('skipped', 'fim_de_semana');
+  end if;
+  perform pg_advisory_xact_lock(7340022);          -- duas execuções simultâneas não duplicam avisos
+
+  for r in
+    select l.student_id, u.full_name, u.phone,
+           json_agg(json_build_object('week', l.week, 'title', l.title, 'due_date', l.due_date,
+                                      'days_late', l.days_late, 'session_day', l.session_day) order by l.week) as items,
+           min(l.session_day) as first_day, max(l.days_late) as worst
+      from public._overdue_list(v_today, false) l
+      join public.app_users u on u.id = l.student_id
+     where not exists (select 1 from public.overdue_alerts a where a.student_id = l.student_id and a.sent_at > now() - c_gap)
+       and (select count(*) from public.overdue_alerts a where a.student_id = l.student_id) < c_max
+     group by l.student_id, u.full_name, u.phone
+     order by max(l.days_late) desc, u.full_name
+     limit greatest(1, least(coalesce(p_limit, 40), 100))
+  loop
+    select count(*) + 1 into v_n from public.overdue_alerts where student_id = r.student_id;
+    insert into public.overdue_alerts (student_id, weeks, n, whatsapp_status)
+    values (r.student_id, array(select (x ->> 'week')::int from json_array_elements(r.items) x), v_n,
+            case when r.phone is null then 'skipped' else 'pending' end)
+    returning id into v_id;
+
+    select string_agg('• Semana ' || (x ->> 'week') || ' — ' || (x ->> 'title') || ' (venceu em ' || to_char((x ->> 'due_date')::date, 'DD/MM')
+                      || ', ' || (x ->> 'days_late') || case when (x ->> 'days_late') = '1' then ' dia' else ' dias' end || ' de atraso)',
+                      E'\n' order by (x ->> 'week')::int)
+      into v_body from json_array_elements(r.items) x;
+    insert into public.notifications (user_id, kind, title, body, link)
+    values (r.student_id, 'overdue', '⏰ Entrega semanal em atraso',
+            v_body || E'\nEnvie assim que puder. Se precisar de mais tempo, fale com o tutor.',
+            '/sessao/' || r.first_day || '?tab=exercicios');
+
+    v_students := v_students || jsonb_build_array(jsonb_build_object(
+      'alert_id', v_id, 'student_id', r.student_id, 'name', r.full_name, 'phone', r.phone, 'n', v_n,
+      'worst_days', r.worst, 'first_day', r.first_day, 'items', r.items::jsonb));
+    v_count := v_count + 1;
+  end loop;
+
+  select count(distinct student_id)::int into v_paused from public._overdue_list(v_today, true) l
+   where exists (select 1 from public.app_users u where u.id = l.student_id and u.alerts_paused);
+
+  if v_count > 0 then
+    select string_agg(x ->> 'name' || ' (Semana ' || ((x -> 'items' -> 0) ->> 'week') || ', ' || (x ->> 'worst_days') || 'd)', '; ')
+      into v_lines from (select value as x from jsonb_array_elements(v_students) limit 15) t;
+    insert into public.notifications (user_id, kind, title, body, link)
+    select t.id, 'overdue_tutor', '📋 ' || v_count || case when v_count = 1 then ' aluno com entrega semanal em atraso' else ' alunos com entrega semanal em atraso' end,
+           'Avisados hoje: ' || v_lines || case when v_count > 15 then ' …' else '' end
+           || case when v_paused > 0 then E'\n(' || v_paused || ' com alertas pausados)' else '' end,
+           '/tutor/alunos'
+      from public.app_users t where t.role = 'teacher' and t.phone_verified_at is not null;
+  end if;
+
+  return json_build_object(
+    'run_date', v_today, 'students', v_students, 'paused_count', v_paused,
+    'tutors', (select coalesce(json_agg(json_build_object('id', t.id, 'name', t.full_name, 'phone', t.phone)), '[]')
+                 from public.app_users t where t.role = 'teacher' and t.phone_verified_at is not null and v_count > 0));
+end;
+$$;
+
+-- Resultado do envio por WhatsApp de um aviso.
+create or replace function public.alerts_overdue_result(p_alert_id uuid, p_status text, p_error text default null)
+returns void language sql security definer set search_path = public as $$
+  update public.overdue_alerts set whatsapp_status = p_status, whatsapp_error = left(p_error, 300)
+   where id = p_alert_id and p_status in ('sent', 'failed', 'skipped');
+$$;
+
+-- A chamada do agendador é autenticada pelo mesmo segredo do Vault usado pelos outros jobs (dafa_cron_secret).
+create or replace function public.cron_secret_ok(p_secret text)
+returns boolean language plpgsql stable security definer set search_path = public as $$
+declare ok boolean;
+begin
+  if p_secret is null or length(p_secret) < 16 then return false; end if;
+  execute 'select exists (select 1 from vault.decrypted_secrets where name = ''dafa_cron_secret'' and decrypted_secret = $1)' into ok using p_secret;
+  return coalesce(ok, false);
+exception when others then
+  return false;
+end;
+$$;
+
+-- ───────────── API do app (tutor) ─────────────
+-- Pausar/retomar os alertas de UM aluno.
+create or replace function public.app_set_student_alerts(p_token text, p_student_id uuid, p_paused boolean)
+returns json language plpgsql security definer set search_path = public, extensions as $$
+declare
+  me public.app_users := public._app_active_user(p_token);
+  s public.app_users;
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores podem pausar alertas.' using errcode = '42501'; end if;
+  update public.app_users set alerts_paused = coalesce(p_paused, false)
+   where id = p_student_id and role = 'student' returning * into s;
+  if not found then raise exception 'Aluno não encontrado.'; end if;
+  return public._app_user_json(s);
+end;
+$$;
+
+-- Quem está em atraso agora (inclui alunos com alertas pausados), para a tela do tutor.
+create or replace function public.app_overdue_overview(p_token text, p_today date default null)
+returns json language plpgsql stable security definer set search_path = public, extensions as $$
+declare me public.app_users := public._app_active_user(p_token);
+begin
+  if me.role <> 'teacher' then raise exception 'Apenas tutores veem os atrasos.' using errcode = '42501'; end if;
+  return (select coalesce(json_agg(x), '[]') from (
+    select l.student_id,
+           json_agg(json_build_object('week', l.week, 'title', l.title, 'due_date', l.due_date, 'days_late', l.days_late) order by l.week) as weeks
+      from public._overdue_list(coalesce(p_today, (now() at time zone 'America/Sao_Paulo')::date), true) l
+     group by l.student_id) x);
+end;
+$$;
+
+-- ───────────── Permissões ─────────────
+revoke all on function public._overdue_list(date, boolean) from public, anon, authenticated;
+revoke all on function public.alerts_overdue_claim(boolean, date, int) from public, anon, authenticated;
+revoke all on function public.alerts_overdue_result(uuid, text, text) from public, anon, authenticated;
+revoke all on function public.cron_secret_ok(text) from public, anon, authenticated;
+revoke all on function public.app_set_student_alerts(text, uuid, boolean) from public;
+revoke all on function public.app_overdue_overview(text, date) from public;
+grant execute on function public.app_set_student_alerts(text, uuid, boolean) to anon;
+grant execute on function public.app_overdue_overview(text, date) to anon;
+do $$
+begin
+  if exists (select 1 from pg_roles where rolname = 'service_role') then
+    grant execute on function public.alerts_overdue_claim(boolean, date, int) to service_role;
+    grant execute on function public.alerts_overdue_result(uuid, text, text) to service_role;
+    grant execute on function public.cron_secret_ok(text) to service_role;
+  end if;
 end $$;

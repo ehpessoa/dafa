@@ -22,6 +22,44 @@ SELECT COUNT(*) AS total_clientes FROM ${S}.dim_clientes;
 
 -- TODO (exercício): clientes do segmento 'premium' cadastrados após 2024-06-01, ordenados por data.` },
 
+  { slug: 'c-conexao-banco', kind: 'checklist', file: 'md', title: 'Guia: conectar ao banco do programa (sem conta Supabase)',
+    description: 'Passo a passo no DBeaver com o usuário aluno_leitura. Você NÃO faz login no painel do Supabase.',
+    content: `# Conectar ao banco do programa
+
+> Você **não** precisa de conta nem de e-mail no Supabase. O login do painel do Supabase é só do tutor.
+> Para consultar os dados você usa um programa de SQL e o usuário somente leitura **aluno_leitura**.
+
+## O que o tutor vai te passar
+| Campo | Valor |
+|---|---|
+| Host | (informado pelo tutor, ex.: aws-0-<região>.pooler.supabase.com) |
+| Porta | 5432 |
+| Banco | postgres |
+| Usuário | aluno_leitura.<código-do-projeto> (informado pelo tutor) |
+| Senha | (informada pelo tutor, não compartilhe nem salve em arquivos do projeto) |
+
+## Passo a passo (DBeaver Community, Windows/Mac/Linux)
+1. Instale o **DBeaver Community** (dbeaver.io/download).
+2. Menu **Banco de dados > Nova conexão** e escolha **PostgreSQL**.
+3. Na aba **Principal**, preencha Host, Porta, Banco, Usuário e Senha com os dados do tutor.
+4. Na aba **SSL**, ative SSL e use o modo **require**. Na primeira vez, o DBeaver baixa o driver PostgreSQL: aceite.
+5. Clique em **Testar conexão**. Se aparecer "Conectado", clique em **Concluir**.
+6. Clique com o botão direito na conexão > **Editor SQL > Novo script** (atalho Ctrl+]).
+7. Rode o teste:
+
+\`\`\`sql
+SELECT COUNT(*) FROM treinamento.fato_pedidos;
+\`\`\`
+
+## Se der erro
+- **Senha/usuário inválidos**: confira o usuário completo (com o ponto e o código do projeto) e peça a senha de novo ao tutor.
+- **Timeout/host não encontrado**: use o host do Session pooler informado pelo tutor (não o host "db.").
+- **Erro de certificado/SSL**: confirme o modo require e peça orientação ao tutor.
+- Você só consegue **ler** (SELECT) as tabelas do schema treinamento; comandos que alteram dados são bloqueados de propósito.
+
+## Sem acesso ao banco?
+Use o dataset em Excel (recurso "Dataset de treinamento") e faça os mesmos exercícios com tabelas dinâmicas e fórmulas; avise o tutor.` },
+
   { slug: 't-sql-agregacao', kind: 'sql', file: 'sql', title: 'Agregações (GROUP BY / HAVING)',
     description: 'Totais, médias e rankings por dimensão.',
     content: `-- Pedidos e frete médio por canal
@@ -165,6 +203,19 @@ Contexto de negócio: [DESCREVA A ÁREA E O QUE AS COLUNAS SIGNIFICAM].
 Regras: use funções pequenas, não use bibliotecas além de pandas, imprima um resumo "antes x depois".
 Depois do código, liste 3 riscos/pegadinhas de qualidade de dados que eu devo verificar manualmente.` },
 
+  { slug: 'p-dax', kind: 'prompt', file: 'md', title: 'Prompt: medida DAX com IA',
+    description: 'Peça uma medida DAX à IA com o modelo, a regra de negócio e um caso de teste para conferir.',
+    content: `Atue como especialista em Power BI e DAX e explique para um profissional administrativo, sem jargão.
+Meu modelo (tabelas, colunas e relacionamentos): [EX.: fato_itens_pedido[pedido_id, produto_id, quantidade, preco_unitario] -> dim_produtos[produto_id, custo]; dim_data[data] marcada como tabela de datas e ligada a fato_pedidos[data_pedido]].
+Regra de negócio: [EX.: "Receita = quantidade x preço unitário; pedidos cancelados ficam de fora"].
+Escreva a medida DAX chamada [NOME DA MEDIDA] que mostra [O QUE ELA DEVE MOSTRAR].
+Entregue:
+1. a medida, pronta para colar no Power BI;
+2. uma explicação em 3 linhas, em português simples, do que ela calcula e de como reage aos filtros (ex.: ano, canal, categoria);
+3. um caso de teste: como conferir o resultado com uma consulta SQL;
+4. o que pode dar errado (ex.: filtro ignorado, relacionamento inativo, tabela de datas).
+Use apenas as tabelas e colunas que informei. Se faltar informação, pergunte antes de escrever.` },
+
   { slug: 'p-pandas-analise', kind: 'prompt', file: 'md', title: 'Prompt: análise exploratória com pandas',
     description: 'Gera EDA guiada por perguntas de negócio.',
     content: `Atue como analista de dados. Tenho o DataFrame df com as colunas: [LISTA DE COLUNAS E TIPOS].
@@ -236,6 +287,7 @@ CÓDIGO: [COLE AQUI]` },
   FATO_PEDIDOS ||--o| FATO_ENTREGAS : "gera"
   DIM_CLIENTES { int cliente_id PK
     text nome
+    text cidade
     text uf
     text segmento
     text canal_aquisicao
@@ -251,7 +303,8 @@ CÓDIGO: [COLE AQUI]` },
     text status
     text canal
     text uf_entrega
-    numeric frete }
+    numeric frete
+    numeric desconto_pct }
   FATO_ITENS_PEDIDO { int item_id PK
     int pedido_id FK
     int produto_id FK
@@ -266,6 +319,7 @@ CÓDIGO: [COLE AQUI]` },
     text canal
     date mes
     numeric investimento
+    int impressoes
     int cliques
     int conversoes }
   FATO_FINANCEIRO { int lancamento_id PK
@@ -275,10 +329,13 @@ CÓDIGO: [COLE AQUI]` },
     text centro_custo
     numeric valor }
   ESPORTE_PARTIDAS { int partida_id PK
-    text temporada
+    int temporada
+    int rodada
     date data_jogo
     text mandante
     text visitante
+    int gols_mandante
+    int gols_visitante
     int publico
     numeric receita_bilheteria }` },
 
@@ -305,6 +362,9 @@ CÓDIGO: [COLE AQUI]` },
   { slug: 'x-painel-vendas', kind: 'excel', file: 'xlsx', url: '/templates/painel-vendas.xlsx', title: 'Planilha: painel de vendas (Excel)',
     description: 'Modelo com abas Dados, Fórmulas, Dinâmica e Painel, pronto para colar o dataset.',
     content: 'Abas: LEIAME · Dados (cole a aba fato_pedidos) · Calculos (SOMASES/PROCV de exemplo) · Painel (KPIs + espaço para gráficos).' },
+  { slug: 'x-dicionario', kind: 'excel', file: 'xlsx', url: '/templates/dicionario-dados.xlsx', title: 'Dicionário de dados (Excel)',
+    description: 'Guia das 8 tabelas: o que cada coluna significa, valores possíveis, como as tabelas se ligam e os cuidados de cálculo.',
+    content: 'Abas: LEIAME · DICIONARIO (cada coluna de cada tabela) · RELACOES (chaves e cardinalidade) · CUIDADOS (receita, margem, cancelados, frete, atraso, métricas de campanha...).' },
   { slug: 'x-kpis', kind: 'excel', file: 'xlsx', url: '/templates/kpis-areas.xlsx', title: 'Planilha: catálogo de KPIs por área',
     description: 'KPI, fórmula, fonte, frequência e dono para Comercial, Financeiro, Logística, E-commerce, Esporte e Marketing.',
     content: 'Abas por área com colunas: KPI, definição, fórmula, fonte (tabela/coluna), frequência, meta, dono.' },
@@ -316,7 +376,7 @@ CÓDIGO: [COLE AQUI]` },
   { slug: 'b-pbix-guia', kind: 'pbix', file: 'md', title: 'Roteiro .pbix: relatório de vendas (3 páginas)',
     description: 'Especificação para construir seu arquivo .pbix no Power BI Desktop (e modelo de correção do tutor).',
     content: `# Roteiro do arquivo vendas.pbix
-Fonte: PostgreSQL (Supabase) → schema treinamento (modo Importar).
+Fonte: no dia 9, o seu Excel do Painel de vendas (Semana 1). No dia 10, troque a fonte para PostgreSQL (Supabase) → schema treinamento (modo Importar) e confira se os totais continuam iguais.
 
 Página 1 – Visão Executiva
 - Cartões: Receita, Margem %, Pedidos, Ticket Médio
@@ -337,10 +397,13 @@ Ticket Médio = DIVIDE([Receita], [Pedidos])
 Checklist de entrega: nome de abas claro, título-conclusão, cores consistentes, sem poluição, tooltip, bookmark de reset.
 Exporte o .pbix e anexe o link (OneDrive/Drive) na submissão.` },
   { slug: 'b-dax-pack', kind: 'pbix', file: 'dax', title: 'Pacote de medidas DAX',
-    description: 'Medidas básicas e de inteligência de tempo.',
+    description: 'Medidas básicas, de campanhas (CPA e CTR) e de inteligência de tempo.',
     content: `Receita := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * fato_itens_pedido[preco_unitario])
 Custo := SUMX(fato_itens_pedido, fato_itens_pedido[quantidade] * RELATED(dim_produtos[custo]))
 Margem % := DIVIDE([Receita] - [Custo], [Receita])
+// Campanhas: fato_campanhas não tem relacionamento com as tabelas de vendas, então as medidas somam as próprias colunas
+CPA := DIVIDE(SUM(fato_campanhas[investimento]), SUM(fato_campanhas[conversoes]))
+CTR := DIVIDE(SUM(fato_campanhas[cliques]), SUM(fato_campanhas[impressoes]))
 Receita YTD := TOTALYTD([Receita], dim_data[data])
 Receita Mês Ant := CALCULATE([Receita], DATEADD(dim_data[data], -1, MONTH))
 Var % Mês := DIVIDE([Receita] - [Receita Mês Ant], [Receita Mês Ant])
@@ -348,6 +411,46 @@ Receita 12M := CALCULATE([Receita], DATESINPERIOD(dim_data[data], MAX(dim_data[d
 % Entregas no Prazo := DIVIDE(CALCULATE(COUNTROWS(fato_entregas), fato_entregas[no_prazo] = TRUE()), COUNTROWS(fato_entregas))` },
 
   // ───────────── Checklists / entregas ─────────────
+  { slug: 'c-ia-guia', kind: 'checklist', file: 'md', title: 'Guia rápido: como usar a IA para gerar Python e DAX',
+    description: 'Os 5 passos para pedir código à IA, conferir o resultado e registrar o que você fez.',
+    content: `A IA escreve rápido, mas erra com confiança. Seu papel é dirigir: dizer o que quer, conferir e registrar. Siga os 5 passos.
+
+1) ESPECIFICAR (você, antes de pedir)
+- Escreva a pergunta de negócio em uma frase (ex.: "Qual a margem por categoria?").
+- Descreva os dados: nomes das tabelas e colunas, o que cada linha representa e como as tabelas se ligam (use o Dicionário de dados).
+- Informe as regras: o que entra e o que sai (ex.: sem pedidos cancelados; o preço já vem com desconto).
+- Peça o formato: código pronto para colar, explicação em 3 linhas e como testar.
+- Use os modelos de pedido: p-pandas-limpeza e p-pandas-analise (Python) e p-dax (DAX).
+
+2) GERAR
+- Cole o pedido. Se a IA fizer perguntas, responda. Se ela inventar uma coluna que não existe, avise e peça de novo.
+
+3) REVISAR (antes de rodar ou colar)
+- Todas as tabelas e colunas existem de verdade?
+- Os filtros combinam com a regra de negócio (ex.: cancelados)?
+- Python: juntou tabelas (merge) sem duplicar linhas? Tratou campos vazios? As datas estão como data?
+- DAX: o número muda como esperado ao filtrar por ano ou canal? A divisão usa DIVIDE? A tabela de datas está marcada?
+
+4) TESTAR
+- Compare com um número que você já conhece: uma consulta SQL, a tabela dinâmica do Excel ou um total de controle.
+- Se não bater, volte ao passo 1 e conte o erro à IA (ex.: "o total deu X, o esperado é Y").
+
+5) REGISTRAR
+- Guarde o pedido (v1, v2...), o que a IA devolveu, o que você corrigiu e como validou. Isso faz parte das suas entregas.
+
+CUIDADOS
+- Nunca envie dados pessoais reais (nome, CPF, e-mail de clientes) a uma IA que a empresa não aprovou. Nos exercícios, use o dataset fictício.
+- Não use um código que você não consegue explicar em uma frase.` },
+
+  { slug: 'c-dax-revisao', kind: 'checklist', file: 'md', title: 'Checklist: revisar uma medida DAX gerada por IA',
+    description: 'Seis conferências antes de confiar em uma medida que a IA escreveu.',
+    content: `- [ ] A medida usa só tabelas e colunas que existem no meu modelo (a IA não inventou nada)?
+- [ ] Ao mudar o filtro (ano, canal, categoria), o número muda como eu espero?
+- [ ] Os filtros que deveriam valer (ex.: sem cancelados) estão sendo aplicados?
+- [ ] O total bate com a consulta SQL de referência, para pelo menos um mês?
+- [ ] Divisões usam DIVIDE (sem erro quando o denominador é zero)?
+- [ ] Sei explicar em uma frase o que a medida calcula e registrei o pedido e a correção que fiz?` },
+
   { slug: 'c-relatorio', kind: 'checklist', file: 'md', title: 'Checklist de qualidade de relatório/dashboard',
     description: 'Use antes de enviar qualquer entrega visual.',
     content: `- [ ] A pergunta de negócio está no topo da página?

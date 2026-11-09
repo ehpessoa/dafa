@@ -1,11 +1,11 @@
 // Recursos de download/acesso usados no programa. `{{SUPABASE_URL}}` é substituído em runtime pelo app.
 export const resources = [
   { slug: 'r-dataset-xlsx', category: 'Dados', title: 'Dataset de treinamento (Excel)', url: '/data/dataset_treinamento.xlsx',
-    description: 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel. Usado nos dias 2–5.' },
+    description: 'Mesmo dataset do Supabase (clientes, produtos, pedidos, itens, entregas, campanhas, financeiro, partidas) em abas de Excel, com a aba DICIONARIO explicando cada coluna. Usado nos dias 1–5.' },
   { slug: 'r-supabase-url', category: 'Dados', title: 'Supabase do programa (banco de análise)', url: '{{SUPABASE_URL}}',
     description: 'Projeto Supabase usado como banco de análise (schema "treinamento"). Host de conexão e usuário somente-leitura são informados pelo tutor.' },
-  { slug: 'r-supabase-studio', category: 'Dados', title: 'Supabase – SQL Editor', url: 'https://supabase.com/dashboard',
-    description: 'Painel do Supabase. Peça acesso ao tutor para usar o SQL Editor, ou conecte-se por qualquer cliente SQL com o usuário aluno_leitura.' },
+  { slug: 'r-dbeaver', category: 'Ferramentas', title: 'DBeaver Community (cliente SQL gratuito)', url: 'https://dbeaver.io/download/',
+    description: 'Programa para escrever SQL no banco do programa. Não precisa de conta no Supabase: conecte com o usuário aluno_leitura (host e senha informados pelo tutor). Passo a passo no template "Guia: conectar ao banco".' },
   { slug: 'r-pbi-desktop', category: 'Ferramentas', title: 'Download do Power BI Desktop', url: 'https://www.microsoft.com/en-us/download/details.aspx?id=58494',
     description: 'Instalador oficial da Microsoft (ou instale pela Microsoft Store: aka.ms/pbidesktopstore, que atualiza sozinho). Somente Windows.' },
   { slug: 'r-pbi-samples', category: 'Ferramentas', title: 'Exemplos .pbix oficiais da Microsoft', url: 'https://github.com/microsoft/powerbi-desktop-samples',

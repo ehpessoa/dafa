@@ -8,7 +8,8 @@ export default function TeacherHome() {
   const { data, progress } = useData();
   const students = data.profiles.filter((p) => p.role === 'student');
   const sums = students.map((s) => ({ s, sum: progress.summary(s.id) }));
-  const queue = data.submissions.filter((x) => x.status === 'submitted');
+  const pausedIds = new Set(students.filter((s) => s.alerts_paused).map((s) => s.id));   // alertas pausados: não contam para o tutor
+  const queue = data.submissions.filter((x) => (x.status === 'submitted' || x.status === 'needs_review') && !pausedIds.has(x.student_id));
   const avg = sums.length ? Math.round(sums.reduce((a, b) => a + b.sum.pct, 0) / sums.length) : 0;
   const reviews = data.reviews;
   const approvalRate = reviews.length ? Math.round((reviews.filter((r) => r.verdict === 'approved').length / reviews.length) * 100) : 0;
@@ -22,7 +23,7 @@ export default function TeacherHome() {
     const rs = reviews.filter((r) => ids.has(data.submissions.find((x) => x.id === r.submission_id)?.exercise_id ?? ''));
     return { dia: `D${sess.day}`, ajustes: rs.filter((r) => r.verdict === 'revision_requested').length, aprovados: rs.filter((r) => r.verdict === 'approved').length };
   }).filter((x) => x.ajustes + x.aprovados > 0);
-  const pie = [{ name: 'Aprovadas', v: reviews.filter((r) => r.verdict === 'approved').length, c: '#16a34a' }, { name: 'Ajustes', v: reviews.filter((r) => r.verdict === 'revision_requested').length, c: '#d97706' }, { name: 'Pendentes', v: queue.length, c: '#2563eb' }];
+  const pie = [{ name: 'Aprovadas', v: reviews.filter((r) => r.verdict === 'approved').length, c: '#16a34a' }, { name: 'Ajustes', v: reviews.filter((r) => r.verdict === 'revision_requested').length, c: '#d97706' }, { name: 'Reprovadas', v: reviews.filter((r) => r.verdict === 'rejected').length, c: '#dc2626' }, { name: 'Pendentes', v: queue.length, c: '#2563eb' }];
 
   return (
     <div className="stack">
@@ -44,7 +45,7 @@ export default function TeacherHome() {
       </div>
       <div className="card"><h2>Alunos que precisam de atenção</h2>
         {(() => {
-          const att = sums.filter((x) => x.sum.revisions > 0 || x.sum.pending > 0).sort((a, b) => b.sum.pending - a.sum.pending).slice(0, 6);
+          const att = sums.filter((x) => !x.s.alerts_paused).filter((x) => x.sum.revisions > 0 || x.sum.pending > 0).sort((a, b) => b.sum.pending - a.sum.pending).slice(0, 6);
           return att.length ? <table><thead><tr><th>Aluno</th><th>Progresso</th><th>Pendentes</th><th>Ajustes</th><th>Última entrega</th></tr></thead><tbody>
             {att.map(({ s, sum }) => <tr key={s.id} className="click"><td><Link to={`/tutor/alunos/${s.id}`}>{s.full_name}</Link></td><td>{sum.pct}%</td><td>{sum.pending}</td><td>{sum.revisions}</td><td>{sum.last ? fmtDate(sum.last) : '—'}</td></tr>)}
           </tbody></table> : <Empty>Nenhum aluno com pendências 🎉</Empty>;

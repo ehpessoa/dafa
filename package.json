@@ -5,9 +5,14 @@
   "scripts": {
     "build:content": "node scripts/build-content.mjs",
     "validate:sql": "node scripts/validate-sql.mjs",
-    "export:dataset": "node scripts/export-dataset.mjs"
+    "export:dataset": "node scripts/export-dataset.mjs",
+    "compute:references": "node scripts/compute-references.mjs",
+    "test:ai": "node scripts/test-ai-grading.mjs",
+    "test:auth": "node scripts/test-auth.mjs",
+    "test:overdue": "node scripts/test-overdue.mjs"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.5.15"
+    "@electric-sql/pglite": "^0.5.15",
+    "fflate": "^0.8.2"
   }
 }

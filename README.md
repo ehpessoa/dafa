@@ -86,8 +86,14 @@ O Dashboard mostra o percentual de exercícios aprovados, sessões concluídas, 
 | Ver o plano dia a dia com datas, dependências e entregáveis | [docs/02-plano-30-dias.md](docs/02-plano-30-dias.md) |
 | Conteúdo das sessões | [🌱 Iniciante](docs/toolkit-iniciante.md) · [🚀 Intermediário](docs/toolkit-intermediario.md) · [🏆 Avançado](docs/toolkit-avancado.md) |
 | Pesquisa e melhorias | [docs/03-pesquisa-e-melhorias.md](docs/03-pesquisa-e-melhorias.md) |
+| Entender as tabelas e colunas dos exercícios | [docs/dicionario-de-dados.md](docs/dicionario-de-dados.md) |
+| Entender as tabelas e colunas dos exercícios | [docs/dicionario-de-dados.md](docs/dicionario-de-dados.md) |
 | Configurar Supabase, tutores, Power BI, Python | [docs/04-setup-e-recursos.md](docs/04-setup-e-recursos.md) |
 | Arquitetura e telas do app | [docs/05-app.md](docs/05-app.md) |
+| Correção automática por IA (Gemini), gabarito dos 67 exercícios e revisão do tutor | [docs/06-correcao-ia.md](docs/06-correcao-ia.md) |
+| Alertas de atraso da entrega semanal (WhatsApp + app) e pausa por aluno | [docs/07-alertas-de-atraso.md](docs/07-alertas-de-atraso.md) |
+| Correção automática por IA (Gemini), gabarito dos 67 exercícios e revisão do tutor | [docs/06-correcao-ia.md](docs/06-correcao-ia.md) |
+| Alertas de atraso da entrega semanal (WhatsApp + app) e pausa por aluno | [docs/07-alertas-de-atraso.md](docs/07-alertas-de-atraso.md) |
 
 ## Estrutura
 
@@ -103,7 +109,7 @@ docs/         documentação com diagramas Mermaid
 ## Início rápido
 
 ```bash
-# 1) Banco: aplique as migrations em supabase/migrations (ver docs/04)
+# 1) Banco: aplique as migrations de supabase/migrations em ordem, ou cole supabase/apply_all.sql (só em banco novo; ver docs/04)
 # 2) App
 cd web && cp .env.example .env.local   # preencha URL e chave do Supabase
 npm install && npm run dev
